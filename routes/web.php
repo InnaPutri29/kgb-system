@@ -37,6 +37,13 @@ Route::middleware(['auth', 'password.changed'])->group(function () {
             Route::get('/{pegawai}/edit', [PegawaiController::class, 'edit'])->name('edit');
             Route::put('/{pegawai}', [PegawaiController::class, 'update'])->name('update');
             Route::delete('/{pegawai}', [PegawaiController::class, 'destroy'])->name('destroy');
+
+            // SKP Evaluasi (nested di bawah pegawai)
+            Route::prefix('/{pegawai}/skp')->name('skp.')->group(function () {
+                Route::post('/', [\App\Http\Controllers\Admin\SkpEvaluasiController::class, 'store'])->name('store');
+                Route::put('/{skp}', [\App\Http\Controllers\Admin\SkpEvaluasiController::class, 'update'])->name('update');
+                Route::delete('/{skp}', [\App\Http\Controllers\Admin\SkpEvaluasiController::class, 'destroy'])->name('destroy');
+            });
         });
 
         // Proses KGB

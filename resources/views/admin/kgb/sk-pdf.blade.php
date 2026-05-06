@@ -31,14 +31,9 @@
 </head>
 <body>
 
-
-
     <div class="header">
-        @if($instansi && $instansi->logo)
-            <!-- Implementasi logo opsional jika perlu, sementara fokus ke teks -->
-        @endif
         <h1>{{ $instansi->nama_instansi ?? 'NAMA INSTANSI BELUM DISET' }}</h1>
-        <p>{{ $instansi->alamat ?? 'Alamat instansi belum diset' }}</p>
+        <p>{{ $instansi->alamat ?? '' }}</p>
     </div>
 
     <div class="text-center mb-6">
@@ -47,7 +42,7 @@
     </div>
 
     <p style="text-align: justify; margin-bottom: 15px;">
-        Berdasarkan Peraturan Pemerintah Nomor 15 Tahun 2019 tentang Perubahan Kedelapan Belas Atas Peraturan Pemerintah Nomor 7 Tahun 1977 tentang Peraturan Gaji Pegawai Negeri Sipil, dengan ini diberikan Kenaikan Gaji Berkala kepada:
+        Berdasarkan Peraturan Pemerintah Nomor 5 Tahun 2024 tentang Peraturan Gaji Pegawai Negeri Sipil, dengan ini diberikan Kenaikan Gaji Berkala kepada:
     </p>
 
     <table class="mb-4">
@@ -83,17 +78,12 @@
         <tr>
             <td class="label">a. Oleh Pejabat</td>
             <td class="colon">:</td>
-            <td class="value"><strong>{{ $pejabat->nama_jabatan }}</strong></td>
+            <td class="value"><strong>{{ $pejabatTerdahulu->nama_jabatan ?? '-' }}</strong></td>
         </tr>
         <tr>
-            <td class="label">b. Nomor SK</td>
+            <td class="label">b. Gaji Pokok Lama</td>
             <td class="colon">:</td>
-            <td class="value">{{ $riwayat->nomor_sk_lama ?? '-' }}</td>
-        </tr>
-        <tr>
-            <td class="label">c. Tanggal SK</td>
-            <td class="colon">:</td>
-            <td class="value">{{ $riwayat->tanggal_sk_lama ? \Carbon\Carbon::parse($riwayat->tanggal_sk_lama)->translatedFormat('d F Y') : '-' }}</td>
+            <td class="value">Rp {{ number_format($riwayat->gaji_pokok_lama, 0, ',', '.') }}</td>
         </tr>
     </table>
 
@@ -107,7 +97,7 @@
         <tr>
             <td class="label">Terhitung Mulai Tanggal (TMT)</td>
             <td class="colon">:</td>
-            <td class="value"><strong>{{ \Carbon\Carbon::parse($riwayat->tmt_kgb_baru)->translatedFormat('d F Y') }}</strong></td>
+            <td class="value"><strong>{{ \Carbon\Carbon::parse($riwayat->tmt_baru)->translatedFormat('d F Y') }}</strong></td>
         </tr>
         <tr>
             <td class="label">Masa Kerja Golongan</td>
@@ -117,17 +107,18 @@
     </table>
 
     <p style="text-align: justify;">
-        Kenaikan Gaji Berkala berikutnya akan diberikan pada tanggal {{ \Carbon\Carbon::parse($riwayat->tmt_kgb_baru)->addYears(2)->translatedFormat('d F Y') }}, apabila memenuhi syarat yang ditentukan.
+        Kenaikan Gaji Berkala berikutnya akan diberikan pada tanggal {{ \Carbon\Carbon::parse($riwayat->tmt_yad)->translatedFormat('d F Y') }}, apabila memenuhi syarat yang ditentukan.
     </p>
     <p>Surat Keputusan ini diberikan kepada yang bersangkutan untuk diketahui dan dipergunakan sebagaimana mestinya.</p>
 
     <div class="signature-area">
         <p class="mb-2">Ditetapkan di: Cirebon</p>
-        <p style="margin-bottom: 80px;">Pada tanggal: {{ \Carbon\Carbon::parse($riwayat->tanggal_sk_baru)->translatedFormat('d F Y') }}</p>
+        <p style="margin-bottom: 80px;">Pada tanggal: {{ \Carbon\Carbon::parse($riwayat->tanggal_ditetapkan)->translatedFormat('d F Y') }}</p>
         
-        <p class="font-bold underline" style="margin-bottom: 0;">{{ $instansi->nama_direktur }}</p>
-        <p style="margin-top: 0;">{{ $instansi->pangkat_direktur }}</p>
-        <p style="margin-top: 0;">NIP. {{ $instansi->nip_direktur }}</p>
+        {{-- Snapshot nama pejabat penandatangan saat SK dicetak --}}
+        <p class="font-bold underline" style="margin-bottom: 0;">{{ $riwayat->pejabat_penetap }}</p>
+        <p style="margin-top: 0;">{{ $instansi->pangkat_direktur ?? '' }}</p>
+        <p style="margin-top: 0;">NIP. {{ $instansi->nip_direktur ?? '' }}</p>
     </div>
     
     <div class="clear"></div>

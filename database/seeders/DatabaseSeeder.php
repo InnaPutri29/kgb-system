@@ -46,7 +46,7 @@ class DatabaseSeeder extends Seeder
         );
         $dummyUser->assignRole('pegawai');
 
-        \App\Models\Pegawai::firstOrCreate(
+        $pegawai = \App\Models\Pegawai::firstOrCreate(
             ['nip' => '198001012010011001'],
             [
                 'user_id' => $dummyUser->id,
@@ -54,12 +54,22 @@ class DatabaseSeeder extends Seeder
                 'pangkat_golongan' => 'III/a',
                 'jabatan' => 'Dokter Muda',
                 'unit_kerja' => 'Poli Umum',
-                'tmt_gaji_terakhir' => now()->subYears(2)->subDays(5), // TMT 2 tahun yang lalu
+                'tmt_gaji_terakhir' => now()->subYears(2)->subDays(5),
                 'masa_kerja_tahun' => 2,
                 'masa_kerja_bulan' => 0,
                 'gaji_pokok_terakhir' => 2700000,
                 'sedang_hukuman_disiplin' => false
             ]
+        );
+
+        // Buat Dummy SKP 2 tahun terakhir
+        \App\Models\SkpEvaluasi::firstOrCreate(
+            ['pegawai_id' => $pegawai->id, 'tahun_penilaian' => now()->year - 1],
+            ['predikat' => 'Baik']
+        );
+        \App\Models\SkpEvaluasi::firstOrCreate(
+            ['pegawai_id' => $pegawai->id, 'tahun_penilaian' => now()->year - 2],
+            ['predikat' => 'Sangat Baik']
         );
 
         // Buat Dummy Master Pejabat

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\MasterGaji;
 use App\Models\MasterPejabat;
 use App\Models\Pegawai;
+use App\Models\PengaturanInstansi;
 use App\Models\RiwayatKgb;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Carbon\Carbon;
@@ -19,28 +20,24 @@ class KgbController extends Controller
      */
     public function getDataForModal(Pegawai $pegawai)
     {
-        $pejabatList = MasterPejabat::orderBy('nama_pejabat')->get();
+        $pejabatList     = MasterPejabat::orderBy('nama_jabatan')->get();
         $tmtGajiTerakhir = Carbon::parse($pegawai->tmt_gaji_terakhir);
-        $tmtKgbBaru = $tmtGajiTerakhir->copy()->addYears(2);
+        $tmtBaru         = $tmtGajiTerakhir->copy()->addYears(2);
 
-        // Hitung masa kerja baru
         $masaKerjaTahunBaru = $pegawai->masa_kerja_tahun + 2;
         $masaKerjaBulanBaru = $pegawai->masa_kerja_bulan;
 
-        // Lookup gaji baru di master_gaji
-        $gajiPokok = $this->lookupGaji($pegawai->pangkat_golongan, $masaKerjaTahunBaru);
-
-        // Validasi
-        $validasi = $this->validasiKgb($pegawai);
+        $gajiPokokBaru = $this->lookupGaji($pegawai->pangkat_golongan, $masaKerjaTahunBaru);
+        $validasi      = $this->validasiKgb($pegawai);
 
         return response()->json([
-            'pegawai'            => $pegawai,
-            'tmt_kgb_baru'       => $tmtKgbBaru->format('Y-m-d'),
+            'pegawai'               => $pegawai,
+            'tmt_kgb_baru'          => $tmtBaru->format('Y-m-d'), // key lama agar JS frontend tidak berubah
             'masa_kerja_tahun_baru' => $masaKerjaTahunBaru,
             'masa_kerja_bulan_baru' => $masaKerjaBulanBaru,
-            'gaji_pokok_baru'    => $gajiPokok,
-            'pejabat_list'       => $pejabatList,
-            'validasi'           => $validasi,
+            'gaji_pokok_baru'       => $gajiPokokBaru,
+            'pejabat_list'          => $pejabatList,
+            'validasi'              => $validasi,
         ]);
     }
 
@@ -50,15 +47,13 @@ class KgbController extends Controller
     public function proses(Request $request, Pegawai $pegawai)
     {
         $request->validate([
-            'nomor_sk_baru'    => 'required|string|max:255',
-            'tanggal_sk_baru'  => 'required|date',
-            'nomor_sk_lama'    => 'nullable|string|max:255',
-            'tanggal_sk_lama'  => 'nullable|date',
-            'pejabat_id'       => 'required|exists:master_pejabat,id',
+            'nomor_sk_baru'      => 'required|string|max:255',
+            'tanggal_ditetapkan' => 'required|date',
+            'pejabat_id'         => 'required|exists:master_pejabat,id',
         ], [
-            'nomor_sk_baru.required'   => 'Nomor SK Baru wajib diisi.',
-            'tanggal_sk_baru.required' => 'Tanggal SK Baru wajib diisi.',
-            'pejabat_id.required'      => 'Pejabat penetap SK terdahulu wajib dipilih.',
+            'nomor_sk_baru.required'      => 'Nomor SK wajib diisi.',
+            'tanggal_ditetapkan.required' => 'Tanggal penetapan SK wajib diisi.',
+            'pejabat_id.required'         => 'Pejabat penetap SK terdahulu wajib dipilih.',
         ]);
 
         // Validasi rule-based
@@ -68,58 +63,64 @@ class KgbController extends Controller
         }
 
         // Kalkulasi
-        $tmtGajiTerakhir  = Carbon::parse($pegawai->tmt_gaji_terakhir);
-        $tmtKgbBaru        = $tmtGajiTerakhir->copy()->addYears(2);
+        $tmtGajiTerakhir    = Carbon::parse($pegawai->tmt_gaji_terakhir);
+        $tmtBaru            = $tmtGajiTerakhir->copy()->addYears(2);
+        $tmtYad             = $tmtBaru->copy()->addYears(2);
         $masaKerjaTahunBaru = $pegawai->masa_kerja_tahun + 2;
         $masaKerjaBulanBaru = $pegawai->masa_kerja_bulan;
-        $gajiPokok          = $this->lookupGaji($pegawai->pangkat_golongan, $masaKerjaTahunBaru);
+        $gajiPokokBaru      = $this->lookupGaji($pegawai->pangkat_golongan, $masaKerjaTahunBaru);
+        $gajiPokokLama      = (int) $pegawai->gaji_pokok_terakhir;
 
-        // Simpan ke riwayat_kgb
+        // Snapshot pejabat penetap (Direktur saat ini)
+        $instansi       = PengaturanInstansi::first();
+        $pejabatPenetap = $instansi ? $instansi->nama_direktur : '-';
+
+        // Pejabat terdahulu (untuk referensi di PDF)
+        $pejabatTerdahulu = MasterPejabat::find($request->pejabat_id);
+
+        // Simpan ke riwayat_kgb — snapshot mati (tidak akan berubah meski data pegawai diubah)
         $riwayat = RiwayatKgb::create([
             'pegawai_id'            => $pegawai->id,
-            'nomor_sk_lama'         => $request->nomor_sk_lama,
-            'tanggal_sk_lama'       => $request->tanggal_sk_lama,
             'nomor_sk_baru'         => $request->nomor_sk_baru,
-            'tanggal_sk_baru'       => $request->tanggal_sk_baru,
-            'tmt_kgb_baru'          => $tmtKgbBaru,
+            'tanggal_ditetapkan'    => $request->tanggal_ditetapkan,
+            'tmt_baru'              => $tmtBaru,
+            'gaji_pokok_lama'       => $gajiPokokLama,
+            'gaji_pokok_baru'       => $gajiPokokBaru,
             'masa_kerja_tahun_baru' => $masaKerjaTahunBaru,
             'masa_kerja_bulan_baru' => $masaKerjaBulanBaru,
-            'gaji_pokok_baru'       => $gajiPokok,
-            'pejabat_id'            => $request->pejabat_id,
+            'tmt_yad'               => $tmtYad,
+            'pejabat_penetap'       => $pejabatPenetap,
         ]);
 
-        // Update data pegawai dengan TMT & gaji yang baru
+        // Update data live pegawai
         $pegawai->update([
-            'tmt_gaji_terakhir'   => $tmtKgbBaru,
+            'tmt_gaji_terakhir'   => $tmtBaru,
             'masa_kerja_tahun'    => $masaKerjaTahunBaru,
             'masa_kerja_bulan'    => $masaKerjaBulanBaru,
-            'gaji_pokok_terakhir' => $gajiPokok,
+            'gaji_pokok_terakhir' => $gajiPokokBaru,
         ]);
 
-        // Generate PDF SK
-        $filePath = $this->generateAndSavePdf($riwayat, $pegawai);
-        $riwayat->update(['file_sk' => $filePath]);
+        // Generate & simpan PDF
+        $filePath = $this->generateAndSavePdf($riwayat, $pegawai, $instansi, $pejabatTerdahulu);
+        $riwayat->update(['file_pdf_path' => $filePath]);
 
         return redirect()->route('admin.dashboard')
             ->with('success', "KGB {$pegawai->nama} berhasil diproses. SK siap diunduh.");
     }
 
     /**
-     * Download/generate PDF SK KGB.
+     * Download PDF SK KGB.
      */
     public function downloadPdf(RiwayatKgb $riwayat)
     {
-        $riwayat->load(['pegawai', 'pejabat']);
-        $instansi = \App\Models\PengaturanInstansi::first();
+        $riwayat->load('pegawai');
 
         $pdf = Pdf::loadView('admin.kgb.sk-pdf', [
             'riwayat' => $riwayat,
             'pegawai' => $riwayat->pegawai,
-            'pejabat' => $riwayat->pejabat,
-            'instansi' => $instansi,
         ])->setPaper('a4', 'portrait');
 
-        $filename = 'SK_KGB_' . $riwayat->pegawai->nip . '_' . now()->format('Ymd') . '.pdf';
+        $filename = 'SK_KGB_' . $riwayat->pegawai->nip . '_' . $riwayat->tmt_baru->format('Ymd') . '.pdf';
 
         return $pdf->download($filename);
     }
@@ -128,43 +129,32 @@ class KgbController extends Controller
     // PRIVATE HELPERS
     // -----------------------------------------------------------------------
 
-    /**
-     * Lookup gaji pokok berdasarkan golongan dan masa kerja.
-     * Mencari baris dengan masa_kerja <= masa_kerja_baru, ambil yang terbesar.
-     */
-    private function lookupGaji(string $golongan, int $masaKerjaTahun): float
+    private function lookupGaji(string $golongan, int $masaKerjaTahun): int
     {
         $row = MasterGaji::where('golongan', $golongan)
             ->where('masa_kerja', '<=', $masaKerjaTahun)
             ->orderBy('masa_kerja', 'desc')
             ->first();
 
-        return $row ? (float) $row->nominal_gaji : 0;
+        return $row ? (int) $row->nominal_gaji : 0;
     }
 
-    /**
-     * Validasi syarat KGB:
-     * 1. Tidak sedang hukuman disiplin
-     * 2. SKP 2 tahun terakhir minimal "Baik"
-     */
     private function validasiKgb(Pegawai $pegawai): array
     {
         $lolos  = true;
         $alasan = [];
 
-        // Cek hukuman disiplin
         if ($pegawai->sedang_hukuman_disiplin) {
             $lolos    = false;
             $alasan[] = 'Sedang menjalani hukuman disiplin';
         }
 
-        // Cek SKP 2 tahun terakhir
         $tahunSekarang = now()->year;
         $skpList = $pegawai->skpEvaluasi()
             ->whereIn('tahun_penilaian', [$tahunSekarang - 1, $tahunSekarang - 2])
             ->get();
 
-        $nilaiTidakLulus = ['Cukup', 'Kurang', 'Sangat Kurang', 'Buruk'];
+        $nilaiTidakLulus = ['Cukup', 'Kurang', 'Sangat Kurang'];
         foreach ($skpList as $skp) {
             if (in_array($skp->predikat, $nilaiTidakLulus)) {
                 $lolos    = false;
@@ -176,23 +166,21 @@ class KgbController extends Controller
         return ['lolos' => $lolos, 'alasan' => $alasan];
     }
 
-    /**
-     * Generate PDF dan simpan ke storage.
-     */
-    private function generateAndSavePdf(RiwayatKgb $riwayat, Pegawai $pegawai): string
-    {
-        $pejabat = MasterPejabat::find($riwayat->pejabat_id);
-        $instansi = \App\Models\PengaturanInstansi::first();
-
+    private function generateAndSavePdf(
+        RiwayatKgb $riwayat,
+        Pegawai $pegawai,
+        ?PengaturanInstansi $instansi,
+        ?MasterPejabat $pejabatTerdahulu
+    ): string {
         $pdf = Pdf::loadView('admin.kgb.sk-pdf', [
-            'riwayat' => $riwayat,
-            'pegawai' => $pegawai,
-            'pejabat' => $pejabat,
-            'instansi' => $instansi,
-        ])->setPaper('a4', 'portrait');
+            'riwayat'          => $riwayat,
+            'pegawai'          => $pegawai,
+            'instansi'         => $instansi,
+            'pejabatTerdahulu' => $pejabatTerdahulu,
+        ])->setPaper('f4', 'portrait');
 
         $dir      = 'sk_kgb';
-        $filename = "SK_KGB_{$pegawai->nip}_{$riwayat->tmt_kgb_baru->format('Ymd')}.pdf";
+        $filename = "SK_KGB_{$pegawai->nip}_{$riwayat->tmt_baru->format('Ymd')}.pdf";
         $fullPath = "{$dir}/{$filename}";
 
         Storage::disk('public')->put($fullPath, $pdf->output());

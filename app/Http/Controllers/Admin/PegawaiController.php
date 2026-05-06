@@ -75,7 +75,7 @@ class PegawaiController extends Controller
 
     public function show(Pegawai $pegawai)
     {
-        $pegawai->load('riwayatKgb');
+        $pegawai->load(['riwayatKgb', 'skpEvaluasi' => fn($q) => $q->orderByDesc('tahun_penilaian')]);
         return view('admin.pegawai.show', compact('pegawai'));
     }
 
