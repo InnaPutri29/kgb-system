@@ -13,11 +13,12 @@ return new class extends Migration
     {
         Schema::create('master_gaji', function (Blueprint $table) {
             $table->id();
-            $table->string('golongan');
+            $table->string('golongan', 5);
             $table->integer('masa_kerja');
-            $table->decimal('gaji_pokok', 15, 2);
-            $table->string('peraturan_referensi')->nullable();
+            $table->bigInteger('nominal_gaji');
             $table->timestamps();
+
+            $table->unique(['golongan', 'masa_kerja']);
         });
     }
 

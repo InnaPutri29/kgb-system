@@ -13,11 +13,12 @@ return new class extends Migration
     {
         Schema::create('pengaturan_instansi', function (Blueprint $table) {
             $table->id();
-            $table->string('nama_instansi');
+            $table->string('nama_instansi')->default('UOBK Rumah Sakit Paru Provinsi Jawa Barat');
             $table->string('logo')->nullable();
             $table->text('alamat');
-            $table->string('nama_kepala')->nullable();
-            $table->string('nip_kepala')->nullable();
+            $table->string('nama_direktur')->nullable();
+            $table->string('nip_direktur')->nullable();
+            $table->string('pangkat_direktur')->nullable();
             $table->timestamps();
         });
     }
