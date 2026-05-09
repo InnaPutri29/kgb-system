@@ -62,11 +62,11 @@
                         <div class="h-24 bg-gradient-to-r from-blue-600 to-indigo-700"></div>
                         <div class="px-6 pb-6 relative">
                             <div class="w-20 h-20 bg-white rounded-2xl p-1 shadow-md absolute -top-10 left-6 flex items-center justify-center text-3xl font-bold text-blue-600 border border-gray-100">
-                                {{ substr($pegawai->nama, 0, 1) }}
+                                {{ substr($pegawai->nama_lengkap, 0, 1) }}
                             </div>
                             
                             <div class="pt-14 space-y-1">
-                                <h2 class="text-xl font-bold text-gray-800 leading-tight">{{ $pegawai->nama }}</h2>
+                                <h2 class="text-xl font-bold text-gray-800 leading-tight">{{ $pegawai->nama_lengkap }}</h2>
                                 <p class="text-blue-600 font-mono text-sm">{{ $pegawai->nip }}</p>
                                 <p class="text-gray-500 text-sm mt-2">{{ $pegawai->jabatan ?? 'Jabatan belum diisi' }}</p>
                             </div>
@@ -167,10 +167,10 @@
                                             </div>
                                             <div>
                                                 <h4 class="font-bold text-gray-800 text-base mb-1">SK Nomor: {{ $riwayat->nomor_sk_baru }}</h4>
-                                                <p class="text-sm text-gray-500 mb-2">Ditetapkan pada: {{ \Carbon\Carbon::parse($riwayat->tanggal_sk_baru)->translatedFormat('d F Y') }}</p>
+                                                <p class="text-sm text-gray-500 mb-2">Ditetapkan pada: {{ \Carbon\Carbon::parse($riwayat->tanggal_ditetapkan)->translatedFormat('d F Y') }}</p>
                                                 <div class="flex flex-wrap gap-2">
                                                     <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
-                                                        TMT: {{ \Carbon\Carbon::parse($riwayat->tmt_kgb_baru)->format('d/m/Y') }}
+                                                        TMT: {{ \Carbon\Carbon::parse($riwayat->tmt_baru)->format('d/m/Y') }}
                                                     </span>
                                                     <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
                                                         Rp {{ number_format($riwayat->gaji_pokok_baru, 0, ',', '.') }}

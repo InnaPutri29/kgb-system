@@ -2,7 +2,7 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <title>SK KGB - {{ $pegawai->nama }}</title>
+    <title>SK KGB - {{ $pegawai->nama_lengkap }}</title>
     <style>
         body { font-family: 'Times New Roman', Times, serif; font-size: 11pt; line-height: 1.5; margin: 2cm; }
         .text-center { text-align: center; }
@@ -49,7 +49,7 @@
         <tr>
             <td class="label">1. Nama</td>
             <td class="colon">:</td>
-            <td class="value font-bold">{{ $pegawai->nama }}</td>
+            <td class="value font-bold">{{ $pegawai->nama_lengkap }}</td>
         </tr>
         <tr>
             <td class="label">2. NIP</td>

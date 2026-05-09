@@ -34,27 +34,23 @@ class PegawaiController extends Controller
     {
         $validated = $request->validate([
             'nip' => 'required|string|max:50|unique:pegawai,nip',
-            'nama' => 'required|string|max:255',
-            'tempat_lahir' => 'nullable|string|max:255',
+            'nama_lengkap' => 'required|string|max:255',
             'tanggal_lahir' => 'nullable|date',
             'pangkat_golongan' => 'nullable|string|max:50',
             'jabatan' => 'nullable|string|max:255',
             'unit_kerja' => 'nullable|string|max:255',
-            'pendidikan_terakhir' => 'nullable|string|max:255',
-            'tmt_cpns' => 'nullable|date',
-            'tmt_pns' => 'nullable|date',
             'tmt_pangkat_terakhir' => 'nullable|date',
             'tmt_gaji_terakhir' => 'nullable|date',
             'masa_kerja_tahun' => 'required|integer|min:0',
             'masa_kerja_bulan' => 'required|integer|min:0|max:11',
             'gaji_pokok_terakhir' => 'nullable|numeric',
-            'sedang_hukuman_disiplin' => 'boolean'
+            'is_sedang_hukuman_disiplin' => 'boolean'
         ]);
 
         DB::transaction(function () use ($validated) {
             // Create user account
             $user = User::create([
-                'name' => $validated['nama'],
+                'name' => $validated['nama_lengkap'],
                 'nip' => $validated['nip'],
                 'email' => strtolower(str_replace(' ', '', $validated['nip'])) . '@kgb.rsd-sidawangi.id',
                 'password' => Hash::make($validated['nip']),
@@ -65,7 +61,7 @@ class PegawaiController extends Controller
 
             // Create pegawai record
             $validated['user_id'] = $user->id;
-            $validated['sedang_hukuman_disiplin'] = $validated['sedang_hukuman_disiplin'] ?? false;
+            $validated['is_sedang_hukuman_disiplin'] = $validated['is_sedang_hukuman_disiplin'] ?? false;
             
             Pegawai::create($validated);
         });
@@ -88,30 +84,26 @@ class PegawaiController extends Controller
     {
         $validated = $request->validate([
             'nip' => ['required', 'string', 'max:50', Rule::unique('pegawai', 'nip')->ignore($pegawai->id)],
-            'nama' => 'required|string|max:255',
-            'tempat_lahir' => 'nullable|string|max:255',
+            'nama_lengkap' => 'required|string|max:255',
             'tanggal_lahir' => 'nullable|date',
             'pangkat_golongan' => 'nullable|string|max:50',
             'jabatan' => 'nullable|string|max:255',
             'unit_kerja' => 'nullable|string|max:255',
-            'pendidikan_terakhir' => 'nullable|string|max:255',
-            'tmt_cpns' => 'nullable|date',
-            'tmt_pns' => 'nullable|date',
             'tmt_pangkat_terakhir' => 'nullable|date',
             'tmt_gaji_terakhir' => 'nullable|date',
             'masa_kerja_tahun' => 'required|integer|min:0',
             'masa_kerja_bulan' => 'required|integer|min:0|max:11',
             'gaji_pokok_terakhir' => 'nullable|numeric',
-            'sedang_hukuman_disiplin' => 'boolean'
+            'is_sedang_hukuman_disiplin' => 'boolean'
         ]);
 
         DB::transaction(function () use ($validated, $pegawai) {
-            $validated['sedang_hukuman_disiplin'] = $validated['sedang_hukuman_disiplin'] ?? false;
+            $validated['is_sedang_hukuman_disiplin'] = $validated['is_sedang_hukuman_disiplin'] ?? false;
             $pegawai->update($validated);
 
             if ($pegawai->user) {
                 $pegawai->user->update([
-                    'name' => $validated['nama'],
+                    'name' => $validated['nama_lengkap'],
                     'nip' => $validated['nip'],
                 ]);
             }

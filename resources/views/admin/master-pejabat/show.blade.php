@@ -63,8 +63,8 @@
                     @foreach($masterPejabat->riwayatKgb->take(10) as $riwayat)
                         <tr class="hover:bg-gray-50 transition">
                             <td class="px-6 py-3 font-medium text-gray-800">{{ $riwayat->nomor_sk_baru }}</td>
-                            <td class="px-6 py-3 text-gray-600">{{ \Carbon\Carbon::parse($riwayat->tanggal_sk_baru)->format('d/m/Y') }}</td>
-                            <td class="px-6 py-3 text-gray-800 font-medium">{{ $riwayat->pegawai->nama ?? '-' }}</td>
+                            <td class="px-6 py-3 text-gray-600">{{ \Carbon\Carbon::parse($riwayat->tanggal_ditetapkan)->format('d/m/Y') }}</td>
+                            <td class="px-6 py-3 text-gray-800 font-medium">{{ $riwayat->pegawai->nama_lengkap ?? '-' }}</td>
                             <td class="px-6 py-3 text-gray-600 font-mono text-xs">{{ $riwayat->pegawai->nip ?? '-' }}</td>
                         </tr>
                     @endforeach

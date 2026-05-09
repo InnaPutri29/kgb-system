@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Pegawai;
 
 use App\Http\Controllers\Controller;
 use App\Models\RiwayatKgb;
+use App\Models\User;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -13,9 +15,13 @@ class DashboardController extends Controller
     public function index()
     {
         // Ambil data user beserta relasi pegawai dan riwayat KGB-nya
-        $user = Auth::user()->load(['pegawai.riwayatKgb' => function ($query) {
-            $query->latest('tmt_kgb_baru');
-        }]);
+        $user = User::with(['pegawai.riwayatKgb' => function ($query) {
+            $query->latest('tmt_baru');
+        }])->find(Auth::id());
+
+        if (!$user) {
+            abort(403, 'Pengguna tidak ditemukan.');
+        }
 
         $pegawai = $user->pegawai;
 
@@ -43,15 +49,15 @@ class DashboardController extends Controller
             abort(403, 'Anda tidak diizinkan mengunduh dokumen ini.');
         }
 
-        $riwayat->load(['pegawai', 'pejabat']);
+        $riwayat->load('pegawai');
 
         $pdf = Pdf::loadView('admin.kgb.sk-pdf', [
             'riwayat' => $riwayat,
             'pegawai' => $riwayat->pegawai,
-            'pejabat' => $riwayat->pejabat,
+            'pejabatTerdahulu' => null,
         ])->setPaper('a4', 'portrait');
 
-        $filename = 'SK_KGB_' . $riwayat->pegawai->nip . '_' . $riwayat->tmt_kgb_baru->format('Ymd') . '.pdf';
+        $filename = 'SK_KGB_' . $riwayat->pegawai->nip . '_' . Carbon::parse($riwayat->tmt_baru)->format('Ymd') . '.pdf';
 
         return $pdf->download($filename);
     }

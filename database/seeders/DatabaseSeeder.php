@@ -50,15 +50,15 @@ class DatabaseSeeder extends Seeder
             ['nip' => '198001012010011001'],
             [
                 'user_id' => $dummyUser->id,
-                'nama' => 'Dr. Pegawai Testing',
+                'nama_lengkap' => 'Dr. Pegawai Testing',
                 'pangkat_golongan' => 'III/a',
                 'jabatan' => 'Dokter Muda',
-                'unit_kerja' => 'Poli Umum',
+                'unit_kerja' => 'RSD Sidawangi',
                 'tmt_gaji_terakhir' => now()->subYears(2)->subDays(5),
                 'masa_kerja_tahun' => 2,
                 'masa_kerja_bulan' => 0,
                 'gaji_pokok_terakhir' => 2700000,
-                'sedang_hukuman_disiplin' => false
+                'is_sedang_hukuman_disiplin' => false
             ]
         );
 

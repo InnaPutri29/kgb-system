@@ -20,6 +20,10 @@ class KgbController extends Controller
      */
     public function getDataForModal(Pegawai $pegawai)
     {
+        $pegawai->load(['riwayatKgb' => function ($query) {
+            $query->latest('tmt_baru');
+        }]);
+
         $pejabatList     = MasterPejabat::orderBy('nama_jabatan')->get();
         $tmtGajiTerakhir = Carbon::parse($pegawai->tmt_gaji_terakhir);
         $tmtBaru         = $tmtGajiTerakhir->copy()->addYears(2);
@@ -32,13 +36,25 @@ class KgbController extends Controller
 
         return response()->json([
             'pegawai'               => $pegawai,
-            'tmt_kgb_baru'          => $tmtBaru->format('Y-m-d'), // key lama agar JS frontend tidak berubah
+            'tmt_baru'              => $tmtBaru->format('Y-m-d'),
             'masa_kerja_tahun_baru' => $masaKerjaTahunBaru,
             'masa_kerja_bulan_baru' => $masaKerjaBulanBaru,
             'gaji_pokok_baru'       => $gajiPokokBaru,
             'pejabat_list'          => $pejabatList,
             'validasi'              => $validasi,
         ]);
+    }
+
+    /**
+     * Tampilkan daftar riwayat KGB.
+     */
+    public function index()
+    {
+        $riwayatKgb = RiwayatKgb::with('pegawai')
+            ->orderByDesc('tanggal_ditetapkan')
+            ->paginate(20);
+
+        return view('admin.kgb.index', compact('riwayatKgb'));
     }
 
     /**
@@ -105,7 +121,7 @@ class KgbController extends Controller
         $riwayat->update(['file_pdf_path' => $filePath]);
 
         return redirect()->route('admin.dashboard')
-            ->with('success', "KGB {$pegawai->nama} berhasil diproses. SK siap diunduh.");
+            ->with('success', "KGB {$pegawai->nama_lengkap} berhasil diproses. SK siap diunduh.");
     }
 
     /**
@@ -120,7 +136,7 @@ class KgbController extends Controller
             'pegawai' => $riwayat->pegawai,
         ])->setPaper('a4', 'portrait');
 
-        $filename = 'SK_KGB_' . $riwayat->pegawai->nip . '_' . $riwayat->tmt_baru->format('Ymd') . '.pdf';
+        $filename = 'SK_KGB_' . $riwayat->pegawai->nip . '_' . Carbon::parse($riwayat->tmt_baru)->format('Ymd') . '.pdf';
 
         return $pdf->download($filename);
     }
@@ -144,7 +160,7 @@ class KgbController extends Controller
         $lolos  = true;
         $alasan = [];
 
-        if ($pegawai->sedang_hukuman_disiplin) {
+        if ($pegawai->is_sedang_hukuman_disiplin) {
             $lolos    = false;
             $alasan[] = 'Sedang menjalani hukuman disiplin';
         }
@@ -180,7 +196,7 @@ class KgbController extends Controller
         ])->setPaper('f4', 'portrait');
 
         $dir      = 'sk_kgb';
-        $filename = "SK_KGB_{$pegawai->nip}_{$riwayat->tmt_baru->format('Ymd')}.pdf";
+        $filename = "SK_KGB_{$pegawai->nip}_" . Carbon::parse($riwayat->tmt_baru)->format('Ymd') . ".pdf";
         $fullPath = "{$dir}/{$filename}";
 
         Storage::disk('public')->put($fullPath, $pdf->output());

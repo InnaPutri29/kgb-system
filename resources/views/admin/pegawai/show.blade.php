@@ -20,12 +20,12 @@
         <div class="h-24 bg-gradient-to-r from-blue-600 to-indigo-700"></div>
         <div class="px-6 pb-6 relative">
             <div class="w-20 h-20 bg-white rounded-2xl p-1 shadow-md absolute -top-10 left-6 flex items-center justify-center text-3xl font-bold text-blue-600 border border-gray-100">
-                {{ substr($pegawai->nama, 0, 1) }}
+                {{ substr($pegawai->nama_lengkap, 0, 1) }}
             </div>
             
             <div class="pt-14 flex flex-col md:flex-row justify-between md:items-end gap-4">
                 <div>
-                    <h3 class="text-2xl font-bold text-gray-800 leading-tight">{{ $pegawai->nama }}</h3>
+                    <h3 class="text-2xl font-bold text-gray-800 leading-tight">{{ $pegawai->nama_lengkap }}</h3>
                     <p class="text-blue-600 font-mono text-sm mt-1">{{ $pegawai->nip }}</p>
                 </div>
                 <div class="flex gap-3">
@@ -45,21 +45,13 @@
                     <table class="w-full text-sm">
                         <tbody class="divide-y divide-gray-50">
                             <tr>
-                                <td class="py-2 text-gray-500 w-1/3">Tempat Lahir</td>
-                                <td class="py-2 text-gray-800 font-medium">{{ $pegawai->tempat_lahir ?? '-' }}</td>
-                            </tr>
-                            <tr>
                                 <td class="py-2 text-gray-500">Tanggal Lahir</td>
                                 <td class="py-2 text-gray-800 font-medium">{{ $pegawai->tanggal_lahir ? $pegawai->tanggal_lahir->translatedFormat('d F Y') : '-' }}</td>
                             </tr>
                             <tr>
-                                <td class="py-2 text-gray-500">Pendidikan</td>
-                                <td class="py-2 text-gray-800 font-medium">{{ $pegawai->pendidikan_terakhir ?? '-' }}</td>
-                            </tr>
-                            <tr>
                                 <td class="py-2 text-gray-500">Hukuman Disiplin</td>
                                 <td class="py-2 text-gray-800 font-medium">
-                                    @if($pegawai->sedang_hukuman_disiplin)
+                                    @if($pegawai->is_sedang_hukuman_disiplin)
                                         <span class="text-red-600 font-semibold">Ya (Sedang Menjalani)</span>
                                     @else
                                         <span class="text-green-600">Tidak</span>
@@ -78,14 +70,6 @@
                             <tr>
                                 <td class="py-2 text-gray-500 w-1/3">Unit Kerja</td>
                                 <td class="py-2 text-gray-800 font-medium">{{ $pegawai->unit_kerja ?? '-' }}</td>
-                            </tr>
-                            <tr>
-                                <td class="py-2 text-gray-500">TMT CPNS</td>
-                                <td class="py-2 text-gray-800 font-medium">{{ $pegawai->tmt_cpns ? $pegawai->tmt_cpns->translatedFormat('d F Y') : '-' }}</td>
-                            </tr>
-                            <tr>
-                                <td class="py-2 text-gray-500">TMT PNS</td>
-                                <td class="py-2 text-gray-800 font-medium">{{ $pegawai->tmt_pns ? $pegawai->tmt_pns->translatedFormat('d F Y') : '-' }}</td>
                             </tr>
                             <tr>
                                 <td class="py-2 text-gray-500">Masa Kerja</td>

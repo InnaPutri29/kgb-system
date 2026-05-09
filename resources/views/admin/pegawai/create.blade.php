@@ -22,23 +22,15 @@
                         <x-input-error :messages="$errors->get('nip')" class="mt-2" />
                     </div>
                     <div>
-                        <x-input-label for="nama" value="Nama Lengkap *" />
-                        <x-text-input id="nama" name="nama" type="text" class="mt-1 block w-full" :value="old('nama')" required />
-                        <x-input-error :messages="$errors->get('nama')" class="mt-2" />
+                        <x-input-label for="nama_lengkap" value="Nama Lengkap *" />
+                        <x-text-input id="nama_lengkap" name="nama_lengkap" type="text" class="mt-1 block w-full" :value="old('nama_lengkap')" required />
+                        <x-input-error :messages="$errors->get('nama_lengkap')" class="mt-2" />
                     </div>
                     <div class="grid grid-cols-2 gap-4">
-                        <div>
-                            <x-input-label for="tempat_lahir" value="Tempat Lahir" />
-                            <x-text-input id="tempat_lahir" name="tempat_lahir" type="text" class="mt-1 block w-full" :value="old('tempat_lahir')" />
-                        </div>
                         <div>
                             <x-input-label for="tanggal_lahir" value="Tanggal Lahir" />
                             <x-text-input id="tanggal_lahir" name="tanggal_lahir" type="date" class="mt-1 block w-full" :value="old('tanggal_lahir')" />
                         </div>
-                    </div>
-                    <div>
-                        <x-input-label for="pendidikan_terakhir" value="Pendidikan Terakhir" />
-                        <x-text-input id="pendidikan_terakhir" name="pendidikan_terakhir" type="text" class="mt-1 block w-full" :value="old('pendidikan_terakhir')" />
                     </div>
                 </div>
 
@@ -58,16 +50,6 @@
                         <x-text-input id="unit_kerja" name="unit_kerja" type="text" class="mt-1 block w-full" :value="old('unit_kerja')" />
                     </div>
                     
-                    <div class="grid grid-cols-2 gap-4">
-                        <div>
-                            <x-input-label for="tmt_cpns" value="TMT CPNS" />
-                            <x-text-input id="tmt_cpns" name="tmt_cpns" type="date" class="mt-1 block w-full" :value="old('tmt_cpns')" />
-                        </div>
-                        <div>
-                            <x-input-label for="tmt_pns" value="TMT PNS" />
-                            <x-text-input id="tmt_pns" name="tmt_pns" type="date" class="mt-1 block w-full" :value="old('tmt_pns')" />
-                        </div>
-                    </div>
                 </div>
 
                 <!-- Gaji & KGB -->
@@ -95,8 +77,8 @@
                     </div>
                     
                     <div class="mt-4 pt-4">
-                        <label for="sedang_hukuman_disiplin" class="inline-flex items-center">
-                            <input id="sedang_hukuman_disiplin" type="checkbox" class="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500" name="sedang_hukuman_disiplin" value="1" {{ old('sedang_hukuman_disiplin') ? 'checked' : '' }}>
+                        <label for="is_sedang_hukuman_disiplin" class="inline-flex items-center">
+                            <input id="is_sedang_hukuman_disiplin" type="checkbox" class="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500" name="is_sedang_hukuman_disiplin" value="1" {{ old('is_sedang_hukuman_disiplin') ? 'checked' : '' }}>
                             <span class="ms-2 text-sm text-gray-600">Pegawai sedang dalam masa hukuman disiplin</span>
                         </label>
                     </div>

@@ -23,7 +23,7 @@
     <div class="bg-white rounded-xl border border-gray-200 p-5">
         <h3 class="font-semibold text-gray-700 mb-3">Kolom yang Diharapkan pada File Excel</h3>
         <div class="grid grid-cols-2 gap-2 text-sm">
-            @foreach(['nip','nama','email','tempat_lahir','tanggal_lahir','pangkat_golongan','jabatan','unit_kerja','pendidikan_terakhir','tmt_cpns','tmt_pns','tmt_pangkat_terakhir','tmt_gaji_terakhir','masa_kerja_tahun','masa_kerja_bulan','gaji_pokok_terakhir'] as $col)
+            @foreach(['nip','nama','email','tanggal_lahir','pangkat_golongan','jabatan','unit_kerja','tmt_pangkat_terakhir','tmt_gaji_terakhir','masa_kerja_tahun','masa_kerja_bulan','gaji_pokok_terakhir'] as $col)
                 <div class="flex items-center gap-2">
                     <span class="w-2 h-2 rounded-full bg-blue-400 shrink-0"></span>
                     <code class="text-xs bg-gray-100 px-1.5 py-0.5 rounded text-gray-700">{{ $col }}</code>

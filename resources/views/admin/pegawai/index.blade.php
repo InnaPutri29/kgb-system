@@ -45,7 +45,7 @@
                         @foreach($pegawai as $p)
                         <tr class="hover:bg-gray-50 transition">
                             <td class="px-4 py-3 font-mono text-xs text-gray-600">{{ $p->nip }}</td>
-                            <td class="px-4 py-3 font-medium text-gray-800">{{ $p->nama }}</td>
+                            <td class="px-4 py-3 font-medium text-gray-800">{{ $p->nama_lengkap }}</td>
                             <td class="px-4 py-3 text-gray-600">{{ $p->jabatan ?? '-' }}</td>
                             <td class="px-4 py-3 text-gray-600">{{ $p->pangkat_golongan ?? '-' }}</td>
                             <td class="px-4 py-3 text-gray-600">
@@ -63,7 +63,7 @@
                                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
                                     </a>
                                     <form action="{{ route('admin.pegawai.destroy', $p) }}" method="POST"
-                                          onsubmit="return confirm('Hapus data {{ $p->nama }}? User login terkait juga akan terhapus.')" class="inline-block">
+                                          onsubmit="return confirm('Hapus data {{ $p->nama_lengkap }}? User login terkait juga akan terhapus.')" class="inline-block">
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit" class="p-1.5 bg-gray-50 text-gray-600 hover:text-red-600 hover:bg-red-50 rounded-md transition" title="Hapus Pegawai">

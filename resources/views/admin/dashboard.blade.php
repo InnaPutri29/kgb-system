@@ -84,7 +84,7 @@
                             @endphp
                             <tr class="hover:bg-gray-50 transition">
                                 <td class="px-4 py-3 font-mono text-xs text-gray-600">{{ $p->nip }}</td>
-                                <td class="px-4 py-3 font-medium text-gray-800">{{ $p->nama }}</td>
+                                <td class="px-4 py-3 font-medium text-gray-800">{{ $p->nama_lengkap }}</td>
                                 <td class="px-4 py-3 text-gray-600">{{ $p->pangkat_golongan ?? '-' }}</td>
                                 <td class="px-4 py-3 text-gray-600">{{ $p->tmt_gaji_terakhir ? \Carbon\Carbon::parse($p->tmt_gaji_terakhir)->format('d/m/Y') : '-' }}</td>
                                 <td class="px-4 py-3 text-gray-600">{{ $jatuhTempo->format('d/m/Y') }}</td>
@@ -144,7 +144,7 @@
                     if(data.pegawai.riwayat_kgb && data.pegawai.riwayat_kgb.length > 0) {
                         let lastKgb = data.pegawai.riwayat_kgb[0];
                         this.form.nomor_sk_lama = lastKgb.nomor_sk_baru;
-                        this.form.tanggal_sk_lama = lastKgb.tanggal_sk_baru;
+                        this.form.tanggal_sk_lama = lastKgb.tanggal_ditetapkan;
                     }
                     this.loading = false;
                 });
@@ -173,11 +173,11 @@
                     <div class="grid grid-cols-2 gap-4 mb-4">
                         <div class="bg-gray-50 p-3 rounded-lg text-sm">
                             <p class="text-gray-500 mb-1">Nama Pegawai</p>
-                            <p class="font-semibold text-gray-800" x-text="dataModal.pegawai?.nama"></p>
+                            <p class="font-semibold text-gray-800" x-text="dataModal.pegawai?.nama_lengkap"></p>
                         </div>
                         <div class="bg-gray-50 p-3 rounded-lg text-sm">
                             <p class="text-gray-500 mb-1">TMT KGB Baru</p>
-                            <p class="font-semibold text-gray-800" x-text="dataModal.tmt_kgb_baru"></p>
+                            <p class="font-semibold text-gray-800" x-text="dataModal.tmt_baru"></p>
                         </div>
                         <div class="bg-blue-50 p-3 rounded-lg text-sm">
                             <p class="text-blue-600 mb-1">Gaji Pokok Baru</p>
@@ -207,8 +207,8 @@
                                 <x-text-input id="nomor_sk_baru" name="nomor_sk_baru" type="text" class="mt-1 block w-full text-sm" x-model="form.nomor_sk_baru" required />
                             </div>
                             <div>
-                                <x-input-label for="tanggal_sk_baru" value="Tanggal SK Baru *" />
-                                <x-text-input id="tanggal_sk_baru" name="tanggal_sk_baru" type="date" class="mt-1 block w-full text-sm" x-model="form.tanggal_sk_baru" required />
+                                <x-input-label for="tanggal_ditetapkan" value="Tanggal SK Baru *" />
+                                <x-text-input id="tanggal_ditetapkan" name="tanggal_ditetapkan" type="date" class="mt-1 block w-full text-sm" x-model="form.tanggal_sk_baru" required />
                             </div>
                         </div>
 

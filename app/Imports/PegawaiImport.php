@@ -21,10 +21,9 @@ class PegawaiImport implements ToModel, WithHeadingRow, SkipsOnError
     * Proses setiap baris dari file Excel menjadi data Pegawai + User.
     *
     * Kolom yang diharapkan dari file Excel (case-insensitive):
-    * nip, nama, email, tempat_lahir, tanggal_lahir, pangkat_golongan,
-    * jabatan, unit_kerja, pendidikan_terakhir, tmt_cpns, tmt_pns,
-    * tmt_pangkat_terakhir, tmt_gaji_terakhir, masa_kerja_tahun,
-    * masa_kerja_bulan, gaji_pokok_terakhir
+    * nip, nama, email, tanggal_lahir, pangkat_golongan,
+    * jabatan, unit_kerja, tmt_pangkat_terakhir, tmt_gaji_terakhir,
+    * masa_kerja_tahun, masa_kerja_bulan, gaji_pokok_terakhir
     *
     * @param array $row
     * @return \Illuminate\Database\Eloquent\Model|null
@@ -32,7 +31,7 @@ class PegawaiImport implements ToModel, WithHeadingRow, SkipsOnError
     public function model(array $row)
     {
         $nip = (string) ($row['nip'] ?? '');
-        $nama = $row['nama'] ?? '';
+        $nama = $row['nama_lengkap'] ?? $row['nama'] ?? '';
         $email = $row['email'] ?? (Str::slug($nip) . '@kgb.internal');
 
         if (empty($nip) || empty($nama)) {
@@ -63,21 +62,17 @@ class PegawaiImport implements ToModel, WithHeadingRow, SkipsOnError
             ['nip' => $nip],
             [
                 'user_id' => $user->id,
-                'nama' => $nama,
-                'tempat_lahir' => $row['tempat_lahir'] ?? null,
+                'nama_lengkap' => $nama,
                 'tanggal_lahir' => $this->parseDate($row['tanggal_lahir'] ?? null),
                 'pangkat_golongan' => $row['pangkat_golongan'] ?? null,
                 'jabatan' => $row['jabatan'] ?? null,
                 'unit_kerja' => $row['unit_kerja'] ?? null,
-                'pendidikan_terakhir' => $row['pendidikan_terakhir'] ?? null,
-                'tmt_cpns' => $this->parseDate($row['tmt_cpns'] ?? null),
-                'tmt_pns' => $this->parseDate($row['tmt_pns'] ?? null),
                 'tmt_pangkat_terakhir' => $this->parseDate($row['tmt_pangkat_terakhir'] ?? null),
                 'tmt_gaji_terakhir' => $this->parseDate($row['tmt_gaji_terakhir'] ?? null),
                 'masa_kerja_tahun' => (int) ($row['masa_kerja_tahun'] ?? 0),
                 'masa_kerja_bulan' => (int) ($row['masa_kerja_bulan'] ?? 0),
                 'gaji_pokok_terakhir' => (float) ($row['gaji_pokok_terakhir'] ?? 0),
-                'sedang_hukuman_disiplin' => false,
+                'is_sedang_hukuman_disiplin' => false,
             ]
         );
 
