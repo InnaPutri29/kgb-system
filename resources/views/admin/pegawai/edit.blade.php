@@ -27,28 +27,28 @@
                         <x-text-input id="nama_lengkap" name="nama_lengkap" type="text" class="mt-1 block w-full" :value="old('nama_lengkap', $pegawai->nama_lengkap)" required />
                         <x-input-error :messages="$errors->get('nama_lengkap')" class="mt-2" />
                     </div>
-                    <div class="grid grid-cols-2 gap-4">
-                        <div>
-                            <x-input-label for="tanggal_lahir" value="Tanggal Lahir" />
-                            <x-text-input id="tanggal_lahir" name="tanggal_lahir" type="date" class="mt-1 block w-full" :value="old('tanggal_lahir', $pegawai->tanggal_lahir?->format('Y-m-d'))" />
-                        </div>
-                    </div>
                 </div>
 
                 <!-- Kepegawaian -->
                 <div class="space-y-4">
                     <h3 class="font-semibold text-gray-700 border-b pb-2">Data Kepegawaian</h3>
-                    <div>
-                        <x-input-label for="pangkat_golongan" value="Pangkat / Golongan" />
-                        <x-text-input id="pangkat_golongan" name="pangkat_golongan" type="text" class="mt-1 block w-full" :value="old('pangkat_golongan', $pegawai->pangkat_golongan)" />
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <x-input-label for="pangkat" value="Pangkat" />
+                            <x-text-input id="pangkat" name="pangkat" type="text" class="mt-1 block w-full" :value="old('pangkat', $pegawai->pangkat)" placeholder="Cth: Penata Tingkat I" />
+                        </div>
+                        <div>
+                            <x-input-label for="golongan" value="Golongan" />
+                            <x-text-input id="golongan" name="golongan" type="text" class="mt-1 block w-full" :value="old('golongan', $pegawai->golongan)" placeholder="Cth: IV/b" />
+                        </div>
                     </div>
                     <div>
                         <x-input-label for="jabatan" value="Jabatan" />
                         <x-text-input id="jabatan" name="jabatan" type="text" class="mt-1 block w-full" :value="old('jabatan', $pegawai->jabatan)" />
                     </div>
                     <div>
-                        <x-input-label for="unit_kerja" value="Unit Kerja" />
-                        <x-text-input id="unit_kerja" name="unit_kerja" type="text" class="mt-1 block w-full" :value="old('unit_kerja', $pegawai->unit_kerja)" />
+                        <x-input-label for="kantor_tempat_kerja" value="Kantor Tempat Kerja" />
+                        <x-text-input id="kantor_tempat_kerja" name="kantor_tempat_kerja" type="text" class="mt-1 block w-full" :value="old('kantor_tempat_kerja', $pegawai->kantor_tempat_kerja)" />
                     </div>
                     
                 </div>

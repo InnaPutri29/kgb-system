@@ -47,7 +47,7 @@
                             <td class="px-4 py-3 font-mono text-xs text-gray-600">{{ $p->nip }}</td>
                             <td class="px-4 py-3 font-medium text-gray-800">{{ $p->nama_lengkap }}</td>
                             <td class="px-4 py-3 text-gray-600">{{ $p->jabatan ?? '-' }}</td>
-                            <td class="px-4 py-3 text-gray-600">{{ $p->pangkat_golongan ?? '-' }}</td>
+                            <td class="px-4 py-3 text-gray-600">{{ $p->golongan ?? '-' }}</td>
                             <td class="px-4 py-3 text-gray-600">
                                 {{ $p->tmt_gaji_terakhir ? \Carbon\Carbon::parse($p->tmt_gaji_terakhir)->format('d/m/Y') : '-' }}
                             </td>

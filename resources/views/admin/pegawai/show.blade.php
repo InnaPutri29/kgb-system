@@ -30,7 +30,7 @@
                 </div>
                 <div class="flex gap-3">
                     <span class="inline-flex items-center px-2.5 py-1 rounded-md text-xs font-medium bg-gray-100 text-gray-800 border border-gray-200">
-                        {{ $pegawai->pangkat_golongan ?? 'Golongan -' }}
+                        {{ ($pegawai->pangkat ?? '-') . ' (' . ($pegawai->golongan ?? '-') . ')' }}
                     </span>
                     <span class="inline-flex items-center px-2.5 py-1 rounded-md text-xs font-medium bg-indigo-50 text-indigo-700 border border-indigo-100">
                         {{ $pegawai->jabatan ?? 'Jabatan -' }}
@@ -45,8 +45,12 @@
                     <table class="w-full text-sm">
                         <tbody class="divide-y divide-gray-50">
                             <tr>
-                                <td class="py-2 text-gray-500">Tanggal Lahir</td>
-                                <td class="py-2 text-gray-800 font-medium">{{ $pegawai->tanggal_lahir ? $pegawai->tanggal_lahir->translatedFormat('d F Y') : '-' }}</td>
+                                <td class="py-2 text-gray-500">Pangkat</td>
+                                <td class="py-2 text-gray-800 font-medium">{{ $pegawai->pangkat ?? '-' }}</td>
+                            </tr>
+                            <tr>
+                                <td class="py-2 text-gray-500">Golongan</td>
+                                <td class="py-2 text-gray-800 font-medium">{{ $pegawai->golongan ?? '-' }}</td>
                             </tr>
                             <tr>
                                 <td class="py-2 text-gray-500">Hukuman Disiplin</td>
@@ -68,8 +72,8 @@
                     <table class="w-full text-sm">
                         <tbody class="divide-y divide-gray-50">
                             <tr>
-                                <td class="py-2 text-gray-500 w-1/3">Unit Kerja</td>
-                                <td class="py-2 text-gray-800 font-medium">{{ $pegawai->unit_kerja ?? '-' }}</td>
+                                <td class="py-2 text-gray-500 w-1/3">Kantor Tempat Kerja</td>
+                                <td class="py-2 text-gray-800 font-medium">{{ $pegawai->kantor_tempat_kerja ?? '-' }}</td>
                             </tr>
                             <tr>
                                 <td class="py-2 text-gray-500">Masa Kerja</td>

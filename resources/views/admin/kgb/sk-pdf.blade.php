@@ -59,7 +59,7 @@
         <tr>
             <td class="label">3. Pangkat / Gol. Ruang</td>
             <td class="colon">:</td>
-            <td class="value">{{ $pegawai->pangkat_golongan }}</td>
+            <td class="value">{{ $pegawai->pangkat }} ({{ $pegawai->golongan }})</td>
         </tr>
         <tr>
             <td class="label">4. Jabatan</td>
@@ -67,9 +67,9 @@
             <td class="value">{{ $pegawai->jabatan }}</td>
         </tr>
         <tr>
-            <td class="label">5. Unit Kerja</td>
+            <td class="label">5. Kantor Tempat Kerja</td>
             <td class="colon">:</td>
-            <td class="value">{{ $pegawai->unit_kerja }}</td>
+            <td class="value">{{ $pegawai->kantor_tempat_kerja }}</td>
         </tr>
     </table>
 

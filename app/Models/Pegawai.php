@@ -14,16 +14,14 @@ class Pegawai extends Model
     protected $table = 'pegawai';
 
     protected $fillable = [
-        'user_id', 'nip', 'nama_lengkap', 'tanggal_lahir',
-        'pangkat_golongan', 'jabatan', 'unit_kerja',
-        'tmt_pangkat_terakhir', 'tmt_gaji_terakhir',
+        'user_id', 'nip', 'nama_lengkap',
+        'pangkat', 'golongan', 'jabatan', 'kantor_tempat_kerja',
+        'tmt_gaji_terakhir',
         'masa_kerja_tahun', 'masa_kerja_bulan', 'gaji_pokok_terakhir',
         'master_pejabat_id', 'nomor_sk_terakhir', 'is_sedang_hukuman_disiplin'
     ];
 
     protected $casts = [
-        'tanggal_lahir' => 'date',
-        'tmt_pangkat_terakhir' => 'date',
         'tmt_gaji_terakhir' => 'date',
         'is_sedang_hukuman_disiplin' => 'boolean',
     ];

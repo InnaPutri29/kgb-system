@@ -76,11 +76,11 @@
                             <div class="space-y-4">
                                 <div>
                                     <p class="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-1">Pangkat / Golongan</p>
-                                    <p class="text-sm text-gray-800 font-medium">{{ $pegawai->pangkat_golongan ?? '-' }}</p>
+                                    <p class="text-sm text-gray-800 font-medium">{{ ($pegawai->pangkat ?? '-') . ' (' . ($pegawai->golongan ?? '-') . ')' }}</p>
                                 </div>
                                 <div>
-                                    <p class="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-1">Unit Kerja</p>
-                                    <p class="text-sm text-gray-800 font-medium">{{ $pegawai->unit_kerja ?? '-' }}</p>
+                                    <p class="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-1">Kantor Tempat Kerja</p>
+                                    <p class="text-sm text-gray-800 font-medium">{{ $pegawai->kantor_tempat_kerja ?? '-' }}</p>
                                 </div>
                                 <div>
                                     <p class="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-1">Masa Kerja</p>

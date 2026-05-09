@@ -21,8 +21,8 @@ class PegawaiImport implements ToModel, WithHeadingRow, SkipsOnError
     * Proses setiap baris dari file Excel menjadi data Pegawai + User.
     *
     * Kolom yang diharapkan dari file Excel (case-insensitive):
-    * nip, nama, email, tanggal_lahir, pangkat_golongan,
-    * jabatan, unit_kerja, tmt_pangkat_terakhir, tmt_gaji_terakhir,
+    * nip, nama, email, pangkat, golongan,
+    * jabatan, kantor_tempat_kerja, tmt_gaji_terakhir,
     * masa_kerja_tahun, masa_kerja_bulan, gaji_pokok_terakhir
     *
     * @param array $row
@@ -63,11 +63,10 @@ class PegawaiImport implements ToModel, WithHeadingRow, SkipsOnError
             [
                 'user_id' => $user->id,
                 'nama_lengkap' => $nama,
-                'tanggal_lahir' => $this->parseDate($row['tanggal_lahir'] ?? null),
-                'pangkat_golongan' => $row['pangkat_golongan'] ?? null,
+                'pangkat' => $row['pangkat'] ?? null,
+                'golongan' => $row['golongan'] ?? null,
                 'jabatan' => $row['jabatan'] ?? null,
-                'unit_kerja' => $row['unit_kerja'] ?? null,
-                'tmt_pangkat_terakhir' => $this->parseDate($row['tmt_pangkat_terakhir'] ?? null),
+                'kantor_tempat_kerja' => $row['kantor_tempat_kerja'] ?? null,
                 'tmt_gaji_terakhir' => $this->parseDate($row['tmt_gaji_terakhir'] ?? null),
                 'masa_kerja_tahun' => (int) ($row['masa_kerja_tahun'] ?? 0),
                 'masa_kerja_bulan' => (int) ($row['masa_kerja_bulan'] ?? 0),

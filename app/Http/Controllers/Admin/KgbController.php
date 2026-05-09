@@ -31,7 +31,7 @@ class KgbController extends Controller
         $masaKerjaTahunBaru = $pegawai->masa_kerja_tahun + 2;
         $masaKerjaBulanBaru = $pegawai->masa_kerja_bulan;
 
-        $gajiPokokBaru = $this->lookupGaji($pegawai->pangkat_golongan, $masaKerjaTahunBaru);
+        $gajiPokokBaru = $this->lookupGaji($pegawai->golongan, $masaKerjaTahunBaru);
         $validasi      = $this->validasiKgb($pegawai);
 
         return response()->json([
@@ -84,7 +84,7 @@ class KgbController extends Controller
         $tmtYad             = $tmtBaru->copy()->addYears(2);
         $masaKerjaTahunBaru = $pegawai->masa_kerja_tahun + 2;
         $masaKerjaBulanBaru = $pegawai->masa_kerja_bulan;
-        $gajiPokokBaru      = $this->lookupGaji($pegawai->pangkat_golongan, $masaKerjaTahunBaru);
+        $gajiPokokBaru      = $this->lookupGaji($pegawai->golongan, $masaKerjaTahunBaru);
         $gajiPokokLama      = (int) $pegawai->gaji_pokok_terakhir;
 
         // Snapshot pejabat penetap (Direktur saat ini)

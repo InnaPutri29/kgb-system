@@ -16,11 +16,10 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->string('nip')->unique();
             $table->string('nama_lengkap');
-            $table->date('tanggal_lahir')->nullable();
-            $table->string('pangkat_golongan')->nullable();
+            $table->string('pangkat')->nullable();
+            $table->string('golongan')->nullable();
             $table->string('jabatan')->nullable();
-            $table->string('unit_kerja')->nullable()->default('RSD SIDAWANGI');
-            $table->date('tmt_pangkat_terakhir')->nullable();
+            $table->string('kantor_tempat_kerja')->nullable()->default('RSUD SIDAWANGI');
             $table->date('tmt_gaji_terakhir')->nullable();
             $table->integer('masa_kerja_tahun')->default(0);
             $table->integer('masa_kerja_bulan')->default(0);
