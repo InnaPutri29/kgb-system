@@ -19,12 +19,12 @@ class DashboardController extends Controller
         // TMT gaji terakhir + 2 tahun harus <= hari ini + 60 hari
         $batasTanggal = $today->copy()->addDays(60);
         $daftarNominatif = Pegawai::whereNotNull('tmt_gaji_terakhir')
-            ->where('sedang_hukuman_disiplin', false)
+            ->where('is_sedang_hukuman_disiplin', false)
             ->whereRaw('DATE_ADD(tmt_gaji_terakhir, INTERVAL 2 YEAR) <= ?', [$batasTanggal])
             ->whereDoesntHave('riwayatKgb', function ($q) use ($today) {
                 // Pastikan belum diproses bulan ini
-                $q->whereYear('tmt_kgb_baru', $today->year)
-                  ->whereMonth('tmt_kgb_baru', $today->month);
+                $q->whereYear('riwayat_kgb.tmt_baru', $today->year)
+                  ->whereMonth('riwayat_kgb.tmt_baru', $today->month);
             })
             ->with('riwayatKgb')
             ->orderByRaw('DATE_ADD(tmt_gaji_terakhir, INTERVAL 2 YEAR) ASC')

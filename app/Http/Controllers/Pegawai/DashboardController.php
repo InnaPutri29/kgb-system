@@ -51,11 +51,14 @@ class DashboardController extends Controller
 
         $riwayat->load('pegawai');
 
+        $instansi = \App\Models\PengaturanInstansi::first();
+
         $pdf = Pdf::loadView('admin.kgb.sk-pdf', [
-            'riwayat' => $riwayat,
-            'pegawai' => $riwayat->pegawai,
-            'pejabatTerdahulu' => null,
-        ])->setPaper('a4', 'portrait');
+            'riwayat'          => $riwayat,
+            'pegawai'          => $riwayat->pegawai,
+            'instansi'         => $instansi,
+            'pejabatTerdahulu' => $riwayat->pegawai->masterPejabat,
+        ])->setPaper('f4', 'portrait');
 
         $filename = 'SK_KGB_' . $riwayat->pegawai->nip . '_' . Carbon::parse($riwayat->tmt_baru)->format('Ymd') . '.pdf';
 

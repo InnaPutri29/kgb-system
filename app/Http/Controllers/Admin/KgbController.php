@@ -131,10 +131,15 @@ class KgbController extends Controller
     {
         $riwayat->load('pegawai');
 
+        $instansi = PengaturanInstansi::first();
+        $pejabatTerdahulu = $riwayat->pegawai->masterPejabat;
+
         $pdf = Pdf::loadView('admin.kgb.sk-pdf', [
-            'riwayat' => $riwayat,
-            'pegawai' => $riwayat->pegawai,
-        ])->setPaper('a4', 'portrait');
+            'riwayat'          => $riwayat,
+            'pegawai'          => $riwayat->pegawai,
+            'instansi'         => $instansi,
+            'pejabatTerdahulu' => $pejabatTerdahulu,
+        ])->setPaper('f4', 'portrait');
 
         $filename = 'SK_KGB_' . $riwayat->pegawai->nip . '_' . Carbon::parse($riwayat->tmt_baru)->format('Ymd') . '.pdf';
 
@@ -145,8 +150,12 @@ class KgbController extends Controller
     // PRIVATE HELPERS
     // -----------------------------------------------------------------------
 
-    private function lookupGaji(string $golongan, int $masaKerjaTahun): int
+    private function lookupGaji(?string $golongan, int $masaKerjaTahun): int
     {
+        if (empty($golongan)) {
+            return 0;
+        }
+
         $row = MasterGaji::where('golongan', $golongan)
             ->where('masa_kerja', '<=', $masaKerjaTahun)
             ->orderBy('masa_kerja', 'desc')
