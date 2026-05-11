@@ -1,0 +1,217 @@
+@extends('layouts.admin')
+@section('title', 'Proses KGB — Daftar Nominatif')
+
+@section('content')
+<div class="space-y-6">
+
+    {{-- HEADER --}}
+    <div class="flex items-center justify-between gap-4">
+        <div>
+            <h2 class="text-2xl font-bold text-gray-800">📋 Daftar Nominatif KGB</h2>
+            <p class="text-sm text-gray-500 mt-1">Pegawai yang KGB-nya jatuh tempo dalam 60 hari ke depan</p>
+        </div>
+        <div class="flex items-center gap-3">
+            @if($jatuhTempoHariIni > 0)
+                <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold bg-red-100 text-red-700 border border-red-200">
+                    🔴 {{ $jatuhTempoHariIni }} jatuh tempo hari ini
+                </span>
+            @endif
+            <span class="inline-flex items-center px-3 py-1.5 rounded-full text-xs font-semibold bg-yellow-100 text-yellow-800 border border-yellow-200">
+                {{ $daftarNominatif->total() }} Pegawai Nominatif
+            </span>
+        </div>
+    </div>
+
+    {{-- TABEL NOMINATIF --}}
+    <div class="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
+        @if($daftarNominatif->isEmpty())
+            <div class="flex flex-col items-center justify-center py-20 text-gray-400">
+                <svg class="w-16 h-16 mb-4 text-gray-200" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                <p class="font-semibold text-gray-500 text-lg">Semua Aman! 🎉</p>
+                <p class="text-sm mt-1">Tidak ada pegawai yang KGB-nya jatuh tempo dalam 60 hari ke depan.</p>
+            </div>
+        @else
+            <div class="overflow-x-auto">
+                <table class="w-full text-sm">
+                    <thead class="bg-gray-50 text-xs text-gray-500 uppercase tracking-wider">
+                        <tr>
+                            <th class="px-5 py-3 text-left">No</th>
+                            <th class="px-5 py-3 text-left">NIP</th>
+                            <th class="px-5 py-3 text-left">Nama Pegawai</th>
+                            <th class="px-5 py-3 text-left">Pangkat</th>
+                            <th class="px-5 py-3 text-left">Gol.</th>
+                            <th class="px-5 py-3 text-left">TMT Gaji Terakhir</th>
+                            <th class="px-5 py-3 text-left">Jatuh Tempo KGB</th>
+                            <th class="px-5 py-3 text-left">Status</th>
+                            <th class="px-5 py-3 text-center">Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-100">
+                        @foreach($daftarNominatif as $index => $p)
+                            @php
+                                $jatuhTempo = \Carbon\Carbon::parse($p->tmt_gaji_terakhir)->addYears(2);
+                                $selisih = now()->diffInDays($jatuhTempo, false);
+                                $isLate = $selisih < 0;
+                                $isUrgent = $selisih <= 7 && !$isLate;
+                            @endphp
+                            <tr class="hover:bg-blue-50/50 transition">
+                                <td class="px-5 py-3.5 text-gray-400 text-xs">{{ $daftarNominatif->firstItem() + $index }}</td>
+                                <td class="px-5 py-3.5 font-mono text-xs text-gray-600">{{ $p->nip }}</td>
+                                <td class="px-5 py-3.5">
+                                    <p class="font-medium text-gray-800">{{ $p->nama_lengkap }}</p>
+                                    <p class="text-xs text-gray-400">{{ $p->jabatan ?? '-' }}</p>
+                                </td>
+                                <td class="px-5 py-3.5 text-gray-600">{{ $p->pangkat ?? '-' }}</td>
+                                <td class="px-5 py-3.5">
+                                    <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-gray-100 text-gray-700">{{ $p->golongan ?? '-' }}</span>
+                                </td>
+                                <td class="px-5 py-3.5 text-gray-600">{{ \Carbon\Carbon::parse($p->tmt_gaji_terakhir)->format('d/m/Y') }}</td>
+                                <td class="px-5 py-3.5 text-gray-600 font-medium">{{ $jatuhTempo->format('d/m/Y') }}</td>
+                                <td class="px-5 py-3.5">
+                                    @if($isLate)
+                                        <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-semibold bg-red-100 text-red-700 border border-red-200">
+                                            ⚠ Terlambat {{ abs((int)$selisih) }}h
+                                        </span>
+                                    @elseif($isUrgent)
+                                        <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-semibold bg-orange-100 text-orange-700 border border-orange-200">
+                                            🔔 H-{{ (int)$selisih }}
+                                        </span>
+                                    @else
+                                        <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-semibold bg-yellow-100 text-yellow-700 border border-yellow-200">
+                                            📅 H-{{ (int)$selisih }}
+                                        </span>
+                                    @endif
+                                </td>
+                                <td class="px-5 py-3.5 text-center">
+                                    <button x-data @click="$dispatch('open-modal-proses', {{ $p->id }})"
+                                        class="inline-flex items-center gap-1.5 text-xs bg-blue-600 hover:bg-blue-700 text-white px-3.5 py-2 rounded-lg transition font-medium shadow-sm">
+                                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                                        Proses KGB
+                                    </button>
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+            <div class="px-5 py-4 border-t border-gray-100 bg-gray-50/50">
+                {{ $daftarNominatif->links() }}
+            </div>
+        @endif
+    </div>
+
+    {{-- MODAL PROSES KGB --}}
+    <div x-cloak x-data="{
+        showModal: false,
+        loading: false,
+        pegawai: null,
+        dataModal: {},
+        form: {
+            nomor_sk_baru: '',
+            tanggal_ditetapkan: '',
+            pejabat_id: ''
+        },
+        openModal(id) {
+            this.loading = true;
+            this.pegawai = id;
+            this.form = { nomor_sk_baru: '', tanggal_ditetapkan: '', pejabat_id: '' };
+            $dispatch('open-modal', 'proses-kgb');
+            
+            fetch(`/admin/kgb/${id}/data-modal`)
+                .then(res => res.json())
+                .then(data => {
+                    this.dataModal = data;
+                    this.loading = false;
+                })
+                .catch(err => {
+                    console.error(err);
+                    this.loading = false;
+                });
+        }
+    }" @open-modal-proses.window="openModal($event.detail)">
+        <x-modal name="proses-kgb" focusable>
+            <div class="p-6">
+                <h2 class="text-lg font-medium text-gray-900 mb-4">Proses Kenaikan Gaji Berkala (KGB)</h2>
+
+                <div x-show="loading" class="flex justify-center py-8">
+                    <svg class="animate-spin h-8 w-8 text-blue-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
+                </div>
+
+                {{-- Warning jika tidak lolos --}}
+                <div x-show="!loading && dataModal.validasi && !dataModal.validasi.lolos" class="bg-red-50 p-4 rounded-lg border border-red-200 text-red-800 text-sm mb-4">
+                    <strong>⚠ Peringatan!</strong> Pegawai tidak memenuhi syarat KGB:
+                    <ul class="list-disc list-inside mt-1">
+                        <template x-for="alasan in dataModal.validasi?.alasan">
+                            <li x-text="alasan"></li>
+                        </template>
+                    </ul>
+                </div>
+
+                <form x-show="!loading" method="POST" :action="`/admin/kgb/${pegawai}/proses`">
+                    @csrf
+
+                    {{-- Info Pegawai --}}
+                    <div class="grid grid-cols-2 gap-3 mb-5">
+                        <div class="bg-gray-50 p-3 rounded-lg text-sm">
+                            <p class="text-gray-500 mb-1 text-xs">Nama Pegawai</p>
+                            <p class="font-semibold text-gray-800" x-text="dataModal.pegawai?.nama_lengkap"></p>
+                        </div>
+                        <div class="bg-gray-50 p-3 rounded-lg text-sm">
+                            <p class="text-gray-500 mb-1 text-xs">Pangkat / Golongan</p>
+                            <p class="font-semibold text-gray-800" x-text="`${dataModal.pegawai?.pangkat || '-'} (${dataModal.pegawai?.golongan || '-'})`"></p>
+                        </div>
+                        <div class="bg-gray-50 p-3 rounded-lg text-sm">
+                            <p class="text-gray-500 mb-1 text-xs">TMT KGB Baru</p>
+                            <p class="font-semibold text-gray-800" x-text="dataModal.tmt_baru"></p>
+                        </div>
+                        <div class="bg-blue-50 p-3 rounded-lg text-sm border border-blue-100">
+                            <p class="text-blue-600 mb-1 text-xs">Gaji Pokok Baru</p>
+                            <p class="font-bold text-blue-800" x-text="'Rp ' + (new Intl.NumberFormat('id-ID').format(dataModal.gaji_pokok_baru || 0))"></p>
+                        </div>
+                        <div class="bg-gray-50 p-3 rounded-lg text-sm">
+                            <p class="text-gray-500 mb-1 text-xs">Masa Kerja Baru</p>
+                            <p class="font-semibold text-gray-800" x-text="`${dataModal.masa_kerja_tahun_baru || 0} Tahun ${dataModal.masa_kerja_bulan_baru || 0} Bulan`"></p>
+                        </div>
+                        <div class="bg-gray-50 p-3 rounded-lg text-sm">
+                            <p class="text-gray-500 mb-1 text-xs">Gaji Pokok Lama</p>
+                            <p class="font-semibold text-gray-800" x-text="'Rp ' + (new Intl.NumberFormat('id-ID').format(dataModal.pegawai?.gaji_pokok_terakhir || 0))"></p>
+                        </div>
+                    </div>
+
+                    {{-- Input Fields --}}
+                    <div class="space-y-4">
+                        <div class="grid grid-cols-2 gap-4">
+                            <div>
+                                <x-input-label for="nomor_sk_baru" value="Nomor SK Baru *" />
+                                <x-text-input id="nomor_sk_baru" name="nomor_sk_baru" type="text" class="mt-1 block w-full text-sm" x-model="form.nomor_sk_baru" required />
+                            </div>
+                            <div>
+                                <x-input-label for="tanggal_ditetapkan" value="Tanggal Ditetapkan *" />
+                                <x-text-input id="tanggal_ditetapkan" name="tanggal_ditetapkan" type="date" class="mt-1 block w-full text-sm" x-model="form.tanggal_ditetapkan" required />
+                            </div>
+                        </div>
+
+                        <div>
+                            <x-input-label for="pejabat_id" value="Pejabat Penetap SK Terdahulu *" />
+                            <select id="pejabat_id" name="pejabat_id" class="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm mt-1 block w-full text-sm" x-model="form.pejabat_id" required>
+                                <option value="">-- Pilih Pejabat --</option>
+                                <template x-for="p in dataModal.pejabat_list" :key="p.id">
+                                    <option :value="p.id" x-text="`${p.nama_pejabat} (${p.nama_jabatan})`"></option>
+                                </template>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="mt-6 flex justify-end gap-3">
+                        <x-secondary-button x-on:click="$dispatch('close')">Batal</x-secondary-button>
+                        <x-primary-button x-bind:disabled="dataModal.validasi && !dataModal.validasi.lolos">
+                            Proses & Cetak SK
+                        </x-primary-button>
+                    </div>
+                </form>
+            </div>
+        </x-modal>
+    </div>
+
+</div>
+@endsection

@@ -49,6 +49,7 @@ Route::middleware(['auth', 'password.changed'])->group(function () {
         // Proses KGB
         Route::prefix('kgb')->name('kgb.')->group(function () {
             Route::get('/', [KgbController::class, 'index'])->name('index');
+            Route::get('/nominatif', [KgbController::class, 'nominatif'])->name('nominatif');
             Route::get('/{pegawai}/data-modal', [KgbController::class, 'getDataForModal'])->name('data-modal');
             Route::post('/{pegawai}/proses', [KgbController::class, 'proses'])->name('proses');
             Route::get('/riwayat/{riwayat}/pdf', [KgbController::class, 'downloadPdf'])->name('download-pdf');

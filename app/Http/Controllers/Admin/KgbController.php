@@ -58,6 +58,39 @@ class KgbController extends Controller
     }
 
     /**
+     * Tampilkan Daftar Nominatif KGB — pegawai yang KGB-nya jatuh tempo dalam 60 hari ke depan.
+     */
+    public function nominatif()
+    {
+        $today = Carbon::today();
+        $batasTanggal = $today->copy()->addDays(60);
+
+        $daftarNominatif = Pegawai::whereNotNull('tmt_gaji_terakhir')
+            ->where('is_sedang_hukuman_disiplin', false)
+            ->whereRaw('DATE_ADD(tmt_gaji_terakhir, INTERVAL 2 YEAR) <= ?', [$batasTanggal])
+            ->whereDoesntHave('riwayatKgb', function ($q) use ($today) {
+                $q->whereYear('riwayat_kgb.tmt_baru', $today->year)
+                  ->whereMonth('riwayat_kgb.tmt_baru', $today->month);
+            })
+            ->with('riwayatKgb')
+            ->orderByRaw('DATE_ADD(tmt_gaji_terakhir, INTERVAL 2 YEAR) ASC')
+            ->paginate(15);
+
+        // Hitung yang sudah jatuh tempo hari ini
+        $jatuhTempoHariIni = Pegawai::whereNotNull('tmt_gaji_terakhir')
+            ->whereRaw('DATE_ADD(tmt_gaji_terakhir, INTERVAL 2 YEAR) = ?', [$today])
+            ->count();
+
+        $pejabatList = MasterPejabat::orderBy('nama_jabatan')->get();
+
+        return view('admin.kgb.nominatif', compact(
+            'daftarNominatif',
+            'jatuhTempoHariIni',
+            'pejabatList'
+        ));
+    }
+
+    /**
      * Proses KGB: simpan ke riwayat_kgb dan generate PDF.
      */
     public function proses(Request $request, Pegawai $pegawai)

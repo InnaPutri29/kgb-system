@@ -49,16 +49,16 @@
 
                 <a href="{{ route('admin.kgb.index') }}"
                    class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition
-                          {{ request()->routeIs('admin.kgb.*') ? 'bg-white/20 text-white' : 'text-blue-100 hover:bg-white/10' }}">
+                          {{ request()->routeIs('admin.kgb.index') ? 'bg-white/20 text-white' : 'text-blue-100 hover:bg-white/10' }}">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
                     Riwayat KGB
                 </a>
 
-                <a href="{{ route('admin.dashboard') }}"
-                   class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-blue-100 hover:bg-white/10 transition">
+                <a href="{{ route('admin.kgb.nominatif') }}"
+                   class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition
+                          {{ request()->routeIs('admin.kgb.nominatif') ? 'bg-white/20 text-white' : 'text-blue-100 hover:bg-white/10' }}">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
                     Proses KGB
-                    <span class="ml-auto bg-yellow-400 text-yellow-900 text-xs px-2 py-0.5 rounded-full font-bold">Segera</span>
                 </a>
 
                 <p class="px-3 pt-4 pb-1 text-xs font-semibold text-blue-300 uppercase tracking-wider">Pengaturan</p>
