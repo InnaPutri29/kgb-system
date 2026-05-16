@@ -4,124 +4,279 @@
     <meta charset="UTF-8">
     <title>SK KGB - {{ $pegawai->nama_lengkap }}</title>
     <style>
-        body { font-family: 'Times New Roman', Times, serif; font-size: 11pt; line-height: 1.5; margin: 2cm; }
-        .text-center { text-align: center; }
-        .font-bold { font-weight: bold; }
-        .uppercase { text-transform: uppercase; }
-        .underline { text-decoration: underline; }
-        .mb-2 { margin-bottom: 0.5rem; }
-        .mb-4 { margin-bottom: 1rem; }
-        .mb-6 { margin-bottom: 1.5rem; }
-        .mt-4 { margin-top: 1rem; }
-        .mt-8 { margin-top: 2rem; }
-        table { width: 100%; border-collapse: collapse; }
-        td { vertical-align: top; padding: 2px 4px; }
-        .label { width: 40%; }
-        .colon { width: 2%; }
-        .value { width: 58%; }
+        @page {
+            size: 215.9mm 330mm;
+            margin: 2cm 2cm 2cm 3cm;
+        }
+        body { 
+            font-family: 'Times New Roman', Times, serif; 
+            font-size: 12pt; 
+            line-height: 1.15; 
+        }
+        .header {
+            width: 100%;
+            margin-bottom: 5px;
+            border-bottom: 4px double black;
+            padding-bottom: 10px;
+        }
+        .header table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .header td {
+            vertical-align: middle;
+        }
+        .header .logo {
+            width: 80px;
+            text-align: left;
+        }
+        .header .text-center {
+            text-align: center;
+        }
+        .header h1 {
+            font-size: 14pt;
+            margin: 0;
+            font-weight: normal;
+        }
+        .header h2 {
+            font-size: 16pt;
+            margin: 0;
+            font-weight: bold;
+            letter-spacing: 2px;
+        }
+        .header p {
+            font-size: 11pt;
+            margin: 0;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 12pt;
+        }
+        .align-top { vertical-align: top; }
+        .text-justify { text-align: justify; }
+        .mt-2 { margin-top: 10px; }
+        .mb-2 { margin-bottom: 10px; }
         
-        .header { text-align: center; border-bottom: 3px solid black; padding-bottom: 10px; margin-bottom: 20px; }
-        .header h1 { font-size: 14pt; margin: 0; }
-        .header h2 { font-size: 12pt; margin: 0; font-weight: normal; }
-        .header p { font-size: 10pt; margin: 0; }
-        
-        .signature-area { width: 300px; float: right; margin-top: 40px; text-align: center; }
+        .content-table td {
+            vertical-align: top;
+            padding: 2px 0;
+        }
+        .number-col {
+            width: 5%;
+            text-align: right;
+            padding-right: 10px;
+        }
+        .label-col {
+            width: 35%;
+        }
+        .colon-col {
+            width: 2%;
+        }
+        .value-col {
+            width: 58%;
+        }
+        .signature-box {
+            float: right;
+            width: 380px;
+            margin-top: 30px;
+        }
+        .signature-inner {
+            border: 1px solid black;
+            border-radius: 10px;
+            padding: 10px;
+            font-size: 11pt;
+        }
         .clear { clear: both; }
     </style>
 </head>
 <body>
 
     <div class="header">
-        <h1>{{ $instansi->nama_instansi ?? 'NAMA INSTANSI BELUM DISET' }}</h1>
-        <p>{{ $instansi->alamat ?? '' }}</p>
+        <table>
+            <tr>
+                <td class="logo">
+                    {{-- Logo Daerah di kiri --}}
+                    @if($instansi && $instansi->logo)
+                        <img src="{{ public_path('storage/' . $instansi->logo) }}" alt="Logo" style="width: 80px; max-height: 100px;">
+                    @else
+                        <!-- Logo Placeholder jika tidak ada logo -->
+                    @endif
+                </td>
+                <td class="text-center">
+                    <h1>PEMERINTAH DAERAH PROVINSI JAWA BARAT</h1>
+                    <h2>D I N A S K E S E H A T A N</h2>
+                    <h2 style="font-size: 14pt; font-weight: bold;">{{ strtoupper($instansi->nama_instansi ?? 'RUMAH SAKIT DAERAH SIDAWANGI') }}</h2>
+                    <p>{!! $instansi->alamat ? nl2br(e($instansi->alamat)) : 'Jalan Pangeran Kejaksan Sumber Telepon (0231) 8330707 <i>Fax</i> : (0231) 8330747<br><i>Website</i>: www.rsp.jabarprov.go.id <i>e-mail</i> : rsp@jabarprov.go.id<br>C I R E B O N - 4 5 6 1 1' !!}</p>
+                </td>
+            </tr>
+        </table>
     </div>
 
-    <div class="text-center mb-6">
-        <div class="font-bold uppercase underline mb-2">SURAT KEPUTUSAN KENAIKAN GAJI BERKALA</div>
-        <div>Nomor: {{ $riwayat->nomor_sk_baru }}</div>
+    <table style="width: 100%; margin-top: 15px;">
+        <tr>
+            <td style="width: 50%; vertical-align: top;">
+                <table>
+                    <tr>
+                        <td style="width: 65px;">Nomor</td>
+                        <td style="width: 10px;">:</td>
+                        <td>{{ $riwayat->nomor_sk_baru }}</td>
+                    </tr>
+                    <tr>
+                        <td>Lampiran</td>
+                        <td>:</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>Perihal</td>
+                        <td>:</td>
+                        <td><u>Kenaikan Gaji Berkala</u></td>
+                    </tr>
+                </table>
+            </td>
+            <td style="width: 50%; vertical-align: top;">
+                <div>Cirebon, {{ \Carbon\Carbon::parse($riwayat->tanggal_ditetapkan)->translatedFormat('d F Y') }}</div>
+                <div>Kepada Yth,</div>
+                <div>Kepala Badan Pengelolaan Keuangan dan Aset Daerah Provinsi Jawa Barat</div>
+                <div>di-</div>
+                <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<u>B a n d u n g</u></div>
+            </td>
+        </tr>
+    </table>
+
+    <div class="text-justify mt-2 mb-2" style="margin-top: 20px;">
+        Dengan ini kami beritahukan, bahwa berhubung dengan telah dipenuhinya masa kerja dan syarat-syarat lainnya kepada :
     </div>
 
-    <p style="text-align: justify; margin-bottom: 15px;">
-        Berdasarkan Peraturan Pemerintah Nomor 5 Tahun 2024 tentang Peraturan Gaji Pegawai Negeri Sipil, dengan ini diberikan Kenaikan Gaji Berkala kepada:
-    </p>
-
-    <table class="mb-4">
+    <table class="content-table">
         <tr>
-            <td class="label">1. Nama</td>
-            <td class="colon">:</td>
-            <td class="value font-bold">{{ $pegawai->nama_lengkap }}</td>
+            <td class="number-col">1.</td>
+            <td class="label-col">Nama</td>
+            <td class="colon-col">:</td>
+            <td class="value-col"><strong>{{ $pegawai->nama_lengkap }}</strong></td>
         </tr>
         <tr>
-            <td class="label">2. NIP</td>
-            <td class="colon">:</td>
-            <td class="value">{{ $pegawai->nip }}</td>
+            <td class="number-col">2.</td>
+            <td class="label-col">Nomor Induk Pegawai</td>
+            <td class="colon-col">:</td>
+            <td class="value-col">{{ $pegawai->nip }}</td>
         </tr>
         <tr>
-            <td class="label">3. Pangkat / Gol. Ruang</td>
-            <td class="colon">:</td>
-            <td class="value">{{ $pegawai->pangkat }} ({{ $pegawai->golongan }})</td>
+            <td class="number-col">3.</td>
+            <td class="label-col">Pangkat/Golongan</td>
+            <td class="colon-col">:</td>
+            <td class="value-col">{{ $pegawai->pangkat }}, {{ $pegawai->golongan }}</td>
         </tr>
         <tr>
-            <td class="label">4. Jabatan</td>
-            <td class="colon">:</td>
-            <td class="value">{{ $pegawai->jabatan }}</td>
+            <td class="number-col">4.</td>
+            <td class="label-col">Jabatan</td>
+            <td class="colon-col">:</td>
+            <td class="value-col">{{ $pegawai->jabatan }}</td>
         </tr>
         <tr>
-            <td class="label">5. Kantor Tempat Kerja</td>
-            <td class="colon">:</td>
-            <td class="value">{{ $pegawai->kantor_tempat_kerja }}</td>
+            <td class="number-col">5.</td>
+            <td class="label-col">Kantor tempat kerja</td>
+            <td class="colon-col">:</td>
+            <td class="value-col">{{ $pegawai->kantor_tempat_kerja }}</td>
+        </tr>
+        <tr>
+            <td class="number-col">6.</td>
+            <td class="label-col">Gaji Pokok Lama</td>
+            <td class="colon-col">:</td>
+            <td class="value-col">Rp {{ number_format($riwayat->gaji_pokok_lama, 0, ',', '.') }},-</td>
+        </tr>
+        <tr>
+            <td></td>
+            <td colspan="3">(Atas dasar SK. Terakhir tentang gaji/pangkat yang ditetapkan)</td>
+        </tr>
+        <tr>
+            <td></td>
+            <td class="label-col" style="padding-left: 15px;">a. Oleh Pejabat</td>
+            <td class="colon-col">:</td>
+            <td class="value-col">{{ $pejabatTerdahulu->nama_jabatan ?? '-' }}</td>
+        </tr>
+        <tr>
+            <td></td>
+            <td class="label-col" style="padding-left: 15px;">b. Tanggal/Nomor</td>
+            <td class="colon-col">:</td>
+            <td class="value-col">Tgl. {{ $pegawai->tanggal_sk_terakhir ? \Carbon\Carbon::parse($pegawai->tanggal_sk_terakhir)->format('d-m-Y') : '-' }}/No. {{ $pegawai->nomor_sk_terakhir }}</td>
+        </tr>
+        <tr>
+            <td></td>
+            <td class="label-col" style="padding-left: 15px;">c. Tanggal mulai berlakunya<br>&nbsp;&nbsp;&nbsp;&nbsp;gaji tersebut</td>
+            <td class="colon-col"><br>:</td>
+            <td class="value-col"><br>{{ \Carbon\Carbon::parse($riwayat->tmt_baru)->subYears(2)->format('d-m-Y') }}</td>
+        </tr>
+        <tr>
+            <td></td>
+            <td class="label-col" style="padding-left: 15px;">d. Masa kerja golongan<br>&nbsp;&nbsp;&nbsp;&nbsp;pada tanggal tersebut</td>
+            <td class="colon-col"><br>:</td>
+            <td class="value-col"><br>{{ max(0, $riwayat->masa_kerja_tahun_baru - 2) }} Tahun {{ $riwayat->masa_kerja_bulan_baru }} bulan</td>
+        </tr>
+        <tr>
+            <td colspan="4" class="font-bold">DIBERIKAN GAJI BERKALA HINGGA MEMPEROLEH:</td>
+        </tr>
+        <tr>
+            <td class="number-col">7.</td>
+            <td class="label-col">Gaji Pokok Baru</td>
+            <td class="colon-col">:</td>
+            <td class="value-col"><strong>Rp {{ number_format($riwayat->gaji_pokok_baru, 0, ',', '.') }},-</strong></td>
+        </tr>
+        <tr>
+            <td class="number-col">8.</td>
+            <td class="label-col">Berdasarkan masa kerja</td>
+            <td class="colon-col">:</td>
+            <td class="value-col">{{ $riwayat->masa_kerja_tahun_baru }} Tahun {{ $riwayat->masa_kerja_bulan_baru }} bulan</td>
+        </tr>
+        <tr>
+            <td class="number-col">9.</td>
+            <td class="label-col">Dalam Golongan</td>
+            <td class="colon-col">:</td>
+            <td class="value-col">{{ $pegawai->golongan }}</td>
+        </tr>
+        <tr>
+            <td class="number-col">10.</td>
+            <td class="label-col">Mulai Tanggal</td>
+            <td class="colon-col">:</td>
+            <td class="value-col">{{ \Carbon\Carbon::parse($riwayat->tmt_baru)->format('d-m-Y') }}</td>
+        </tr>
+        <tr>
+            <td class="number-col">11.</td>
+            <td class="label-col">Kenaikan gaji berkala Y.a.d</td>
+            <td class="colon-col">:</td>
+            <td class="value-col">{{ \Carbon\Carbon::parse($riwayat->tmt_yad)->format('d-m-Y') }}</td>
         </tr>
     </table>
 
-    <p style="margin-bottom: 10px;">(Atas dasar SK. Terakhir tentang gaji/pangkat yang ditetapkan):</p>
-    <table class="mb-4">
-        <tr>
-            <td class="label">a. Oleh Pejabat</td>
-            <td class="colon">:</td>
-            <td class="value"><strong>{{ $pejabatTerdahulu->nama_jabatan ?? '-' }}</strong></td>
-        </tr>
-        <tr>
-            <td class="label">b. Gaji Pokok Lama</td>
-            <td class="colon">:</td>
-            <td class="value">Rp {{ number_format($riwayat->gaji_pokok_lama, 0, ',', '.') }}</td>
-        </tr>
-    </table>
+    <div class="text-justify mt-2" style="margin-top: 15px;">
+        Diharap agar sesuai dengan Peraturan Pemerintah RI. No. 5 Tahun 2024 kepada Pegawai tersebut dapat dibayarkan penghasilannya berdasarkan gaji pokok yang baru.
+    </div>
 
-    <p style="margin-bottom: 10px;">Diberikan Gaji Pokok Baru sebesar:</p>
-    <table class="mb-4">
-        <tr>
-            <td class="label"><strong>Gaji Pokok Baru</strong></td>
-            <td class="colon"><strong>:</strong></td>
-            <td class="value font-bold">Rp {{ number_format($riwayat->gaji_pokok_baru, 0, ',', '.') }}</td>
-        </tr>
-        <tr>
-            <td class="label">Terhitung Mulai Tanggal (TMT)</td>
-            <td class="colon">:</td>
-            <td class="value"><strong>{{ \Carbon\Carbon::parse($riwayat->tmt_baru)->translatedFormat('d F Y') }}</strong></td>
-        </tr>
-        <tr>
-            <td class="label">Masa Kerja Golongan</td>
-            <td class="colon">:</td>
-            <td class="value">{{ $riwayat->masa_kerja_tahun_baru }} Tahun {{ $riwayat->masa_kerja_bulan_baru }} Bulan</td>
-        </tr>
-    </table>
-
-    <p style="text-align: justify;">
-        Kenaikan Gaji Berkala berikutnya akan diberikan pada tanggal {{ \Carbon\Carbon::parse($riwayat->tmt_yad)->translatedFormat('d F Y') }}, apabila memenuhi syarat yang ditentukan.
-    </p>
-    <p>Surat Keputusan ini diberikan kepada yang bersangkutan untuk diketahui dan dipergunakan sebagaimana mestinya.</p>
-
-    <div class="signature-area">
-        <p class="mb-2">Ditetapkan di: Cirebon</p>
-        <p style="margin-bottom: 80px;">Pada tanggal: {{ \Carbon\Carbon::parse($riwayat->tanggal_ditetapkan)->translatedFormat('d F Y') }}</p>
+<div class="signature-box" style="float: right; width: 450px; margin-top: 30px; font-family: 'Times New Roman', Times, serif;">
+        <div style="text-align: center; font-size: 14pt; line-height: 1.2; margin-bottom: 15px;">
+            DIREKTUR RUMAH SAKIT DAERAH SIDAWANGI<br>
+            PROVINSI JAWA BARAT,
+        </div>
         
-        {{-- Snapshot nama pejabat penandatangan saat SK dicetak --}}
-        <p class="font-bold underline" style="margin-bottom: 0;">{{ $riwayat->pejabat_penetap }}</p>
-        <p style="margin-top: 0;">{{ $instansi->pangkat_direktur ?? '' }}</p>
-        <p style="margin-top: 0;">NIP. {{ $instansi->nip_direktur ?? '' }}</p>
+        <div class="signature-inner" style="border: 2px solid black; border-radius: 25px; padding: 15px; font-family: Arial, sans-serif;">
+            <table style="width: 100%; border-collapse: collapse; border: none;">
+                <tr>
+                    <td style="width: 90px; text-align: center; vertical-align: middle; padding-right: 15px;">
+                        <img src="{{ public_path('images/tte_logo.png') }}" alt="TTE Logo" style="width: 85px;">
+                    </td>
+                    
+                    <td style="vertical-align: middle; font-size: 11pt; line-height: 1.3;">
+                        Ditandatangani secara elektronik oleh:<br>
+                        DIREKTUR RUMAH SAKIT DAERAH<br>
+                        SIDAWANGI PROVINSI JAWA BARAT,<br><br>
+                        <strong>{{ $instansi->nama_direktur ?? 'dr. YOGA PRAMADIA' }}</strong><br>
+                        {{ $instansi->pangkat_direktur ?? 'Pembina Tk.I' }}
+                    </td>
+                </tr>
+            </table>
+        </div>
     </div>
     
-    <div class="clear"></div>
-
+    <div style="clear: both;"></div>
 </body>
 </html>

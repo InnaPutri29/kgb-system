@@ -44,7 +44,7 @@ class PegawaiImport implements ToModel, WithHeadingRow, SkipsOnError
             [
                 'name' => $nama,
                 'email' => $email,
-                'password' => Hash::make($nip), // Password default = NIP
+                'password' => Hash::make(substr($nip, 0, 8)), // Password default = 8 digit awal NIP (Tanggal Lahir)
                 'is_first_login' => true,
             ]
         );

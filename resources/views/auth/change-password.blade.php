@@ -23,7 +23,7 @@
                 name="password"
                 required autocomplete="new-password" />
             <x-input-error :messages="$errors->get('password')" class="mt-2" />
-            <p class="text-xs text-gray-400 mt-1">Min. 8 karakter, harus mengandung huruf kapital, huruf kecil, dan angka.</p>
+            <p class="text-xs text-gray-400 mt-1">Minimal 8 karakter.</p>
         </div>
 
         <!-- Konfirmasi Password -->

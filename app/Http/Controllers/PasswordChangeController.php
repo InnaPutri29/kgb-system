@@ -20,13 +20,11 @@ class PasswordChangeController extends Controller
                 'required',
                 'confirmed',
                 'min:8',
-                'regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/',
             ],
         ], [
             'password.required' => 'Password baru wajib diisi.',
             'password.confirmed' => 'Konfirmasi password tidak cocok.',
             'password.min' => 'Password minimal 8 karakter.',
-            'password.regex' => 'Password harus mengandung huruf kapital, huruf kecil, dan angka.',
         ]);
 
         $user = Auth::user();

@@ -34,8 +34,11 @@ class KgbController extends Controller
         $gajiPokokBaru = $this->lookupGaji($pegawai->golongan, $masaKerjaTahunBaru);
         $validasi      = $this->validasiKgb($pegawai);
 
+        $pegawaiArray = $pegawai->toArray();
+        $pegawaiArray['tanggal_sk_terakhir'] = $pegawai->tanggal_sk_terakhir ? $pegawai->tanggal_sk_terakhir->format('Y-m-d') : null;
+
         return response()->json([
-            'pegawai'               => $pegawai,
+            'pegawai'               => $pegawaiArray,
             'tmt_baru'              => $tmtBaru->format('Y-m-d'),
             'masa_kerja_tahun_baru' => $masaKerjaTahunBaru,
             'masa_kerja_bulan_baru' => $masaKerjaBulanBaru,
@@ -51,7 +54,7 @@ class KgbController extends Controller
     public function index()
     {
         $riwayatKgb = RiwayatKgb::with('pegawai')
-            ->orderByDesc('tanggal_ditetapkan')
+            ->latest()
             ->paginate(20);
 
         return view('admin.kgb.index', compact('riwayatKgb'));
@@ -96,13 +99,17 @@ class KgbController extends Controller
     public function proses(Request $request, Pegawai $pegawai)
     {
         $request->validate([
-            'nomor_sk_baru'      => 'required|string|max:255',
-            'tanggal_ditetapkan' => 'required|date',
-            'pejabat_id'         => 'required|exists:master_pejabat,id',
+            'nomor_sk_baru'       => 'required|string|max:255',
+            'nomor_sk_terakhir'   => 'required|string|max:255',
+            'tanggal_sk_terakhir' => 'required|date',
+            'tanggal_ditetapkan'  => 'required|date',
+            'master_pejabat_id'   => 'required|exists:master_pejabat,id',
         ], [
-            'nomor_sk_baru.required'      => 'Nomor SK wajib diisi.',
-            'tanggal_ditetapkan.required' => 'Tanggal penetapan SK wajib diisi.',
-            'pejabat_id.required'         => 'Pejabat penetap SK terdahulu wajib dipilih.',
+            'nomor_sk_baru.required'       => 'Nomor SK Baru wajib diisi.',
+            'nomor_sk_terakhir.required'   => 'Nomor SK Sebelumnya wajib diisi.',
+            'tanggal_sk_terakhir.required' => 'Tanggal SK Sebelumnya wajib diisi.',
+            'tanggal_ditetapkan.required'  => 'Tanggal penetapan SK Baru wajib diisi.',
+            'master_pejabat_id.required'   => 'Pejabat penetap SK wajib dipilih.',
         ]);
 
         // Validasi rule-based
@@ -125,12 +132,14 @@ class KgbController extends Controller
         $pejabatPenetap = $instansi ? $instansi->nama_direktur : '-';
 
         // Pejabat terdahulu (untuk referensi di PDF)
-        $pejabatTerdahulu = MasterPejabat::find($request->pejabat_id);
+        $pejabatTerdahulu = MasterPejabat::find($request->master_pejabat_id);
+
+        $nomorSkBaruLengkap = $request->nomor_sk_baru . '/KPG.14/Kepegumas/RSP';
 
         // Simpan ke riwayat_kgb — snapshot mati (tidak akan berubah meski data pegawai diubah)
         $riwayat = RiwayatKgb::create([
             'pegawai_id'            => $pegawai->id,
-            'nomor_sk_baru'         => $request->nomor_sk_baru,
+            'nomor_sk_baru'         => $nomorSkBaruLengkap,
             'tanggal_ditetapkan'    => $request->tanggal_ditetapkan,
             'tmt_baru'              => $tmtBaru,
             'gaji_pokok_lama'       => $gajiPokokLama,
@@ -147,6 +156,9 @@ class KgbController extends Controller
             'masa_kerja_tahun'    => $masaKerjaTahunBaru,
             'masa_kerja_bulan'    => $masaKerjaBulanBaru,
             'gaji_pokok_terakhir' => $gajiPokokBaru,
+            'nomor_sk_terakhir'   => $request->nomor_sk_terakhir,
+            'tanggal_sk_terakhir' => $request->tanggal_sk_terakhir,
+            'master_pejabat_id'   => $request->master_pejabat_id,
         ]);
 
         // Generate & simpan PDF

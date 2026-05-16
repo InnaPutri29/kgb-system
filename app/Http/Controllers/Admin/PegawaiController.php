@@ -52,7 +52,7 @@ class PegawaiController extends Controller
                 'name' => $validated['nama_lengkap'],
                 'nip' => $validated['nip'],
                 'email' => strtolower(str_replace(' ', '', $validated['nip'])) . '@kgb.rsd-sidawangi.id',
-                'password' => Hash::make($validated['nip']),
+                'password' => Hash::make(substr($validated['nip'], 0, 8)),
                 'is_first_login' => true,
             ]);
             
@@ -70,7 +70,7 @@ class PegawaiController extends Controller
 
     public function show(Pegawai $pegawai)
     {
-        $pegawai->load(['riwayatKgb', 'skpEvaluasi' => fn($q) => $q->orderByDesc('tahun_penilaian')]);
+        $pegawai->load(['riwayatKgb' => fn($q) => $q->orderByDesc('tmt_baru'), 'skpEvaluasi' => fn($q) => $q->orderByDesc('tahun_penilaian')]);
         return view('admin.pegawai.show', compact('pegawai'));
     }
 

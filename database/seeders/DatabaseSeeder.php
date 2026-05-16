@@ -40,7 +40,7 @@ class DatabaseSeeder extends Seeder
             [
                 'name' => 'Dr. Pegawai Testing',
                 'nip' => '198001012010011001',
-                'password' => Hash::make('198001012010011001'),
+                'password' => Hash::make('19800101'),
                 'is_first_login' => true,
             ]
         );

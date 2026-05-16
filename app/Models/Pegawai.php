@@ -18,11 +18,12 @@ class Pegawai extends Model
         'pangkat', 'golongan', 'jabatan', 'kantor_tempat_kerja',
         'tmt_gaji_terakhir',
         'masa_kerja_tahun', 'masa_kerja_bulan', 'gaji_pokok_terakhir',
-        'master_pejabat_id', 'nomor_sk_terakhir', 'is_sedang_hukuman_disiplin'
+        'master_pejabat_id', 'nomor_sk_terakhir', 'tanggal_sk_terakhir', 'is_sedang_hukuman_disiplin'
     ];
 
     protected $casts = [
         'tmt_gaji_terakhir' => 'date',
+        'tanggal_sk_terakhir' => 'date',
         'is_sedang_hukuman_disiplin' => 'boolean',
     ];
 

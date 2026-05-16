@@ -108,13 +108,16 @@
         dataModal: {},
         form: {
             nomor_sk_baru: '',
+            nomor_sk_terakhir: '',
+            tanggal_sk_terakhir: '',
             tanggal_ditetapkan: '',
-            pejabat_id: ''
+            master_pejabat_id: '',
+            selectedPejabatText: ''
         },
         openModal(id) {
             this.loading = true;
             this.pegawai = id;
-            this.form = { nomor_sk_baru: '', tanggal_ditetapkan: '', pejabat_id: '' };
+            this.form = { nomor_sk_baru: '', nomor_sk_terakhir: '', tanggal_sk_terakhir: '', tanggal_ditetapkan: '', master_pejabat_id: '', selectedPejabatText: '' };
             $dispatch('open-modal', 'proses-kgb');
             
             fetch(`/admin/kgb/${id}/data-modal`)
@@ -180,25 +183,78 @@
 
                     {{-- Input Fields --}}
                     <div class="space-y-4">
-                        <div class="grid grid-cols-2 gap-4">
-                            <div>
-                                <x-input-label for="nomor_sk_baru" value="Nomor SK Baru *" />
-                                <x-text-input id="nomor_sk_baru" name="nomor_sk_baru" type="text" class="mt-1 block w-full text-sm" x-model="form.nomor_sk_baru" required />
-                            </div>
-                            <div>
-                                <x-input-label for="tanggal_ditetapkan" value="Tanggal Ditetapkan *" />
-                                <x-text-input id="tanggal_ditetapkan" name="tanggal_ditetapkan" type="date" class="mt-1 block w-full text-sm" x-model="form.tanggal_ditetapkan" required />
-                            </div>
-                        </div>
-
                         <div>
-                            <x-input-label for="pejabat_id" value="Pejabat Penetap SK Terdahulu *" />
-                            <select id="pejabat_id" name="pejabat_id" class="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm mt-1 block w-full text-sm" x-model="form.pejabat_id" required>
+                            <x-input-label for="master_pejabat_id" value="Pejabat Penetap SK Baru *" />
+                            <select id="master_pejabat_id" name="master_pejabat_id" 
+                                class="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm mt-1 block w-full text-sm" 
+                                x-model="form.master_pejabat_id" 
+                                @change="
+                                    let select = $event.target;
+                                    form.selectedPejabatText = select.options[select.selectedIndex].text;
+                                " required>
                                 <option value="">-- Pilih Pejabat --</option>
                                 <template x-for="p in dataModal.pejabat_list" :key="p.id">
                                     <option :value="p.id" x-text="`${p.nama_pejabat} (${p.nama_jabatan})`"></option>
                                 </template>
                             </select>
+                        </div>
+                        
+                        {{-- SMART HINTS --}}
+                        <div x-show="form.selectedPejabatText.toLowerCase().includes('direktur')" class="bg-blue-50 p-3 rounded-md border border-blue-200 mt-2 text-sm flex items-start justify-between" x-cloak>
+                            <div class="text-blue-800">
+                                <strong>💡 Saran:</strong> Pegawai ini memiliki data SK terakhir: <br>
+                                Tanggal: <span class="font-bold" x-text="dataModal.pegawai?.tanggal_sk_terakhir || '-'"></span> / 
+                                Nomor: <span class="font-bold font-mono" x-text="dataModal.pegawai?.nomor_sk_terakhir || '-'"></span>
+                            </div>
+                            <button type="button" @click="form.nomor_sk_terakhir = dataModal.pegawai?.nomor_sk_terakhir; form.tanggal_sk_terakhir = dataModal.pegawai?.tanggal_sk_terakhir" class="text-xs bg-blue-600 hover:bg-blue-700 text-white px-3 py-1.5 rounded transition whitespace-nowrap ml-3 shadow-sm font-medium">
+                                Gunakan Data Ini
+                            </button>
+                        </div>
+
+                        <div x-show="form.selectedPejabatText.toLowerCase().includes('gubernur')" class="bg-yellow-50 p-3 rounded-md border border-yellow-200 mt-2 text-sm text-yellow-800" x-cloak>
+                            <strong>⚠ Peringatan:</strong> Silakan ketik manual Tanggal dan Nomor SK Provinsi yang lama secara lengkap.
+                        </div>
+
+                        <div x-show="form.master_pejabat_id" class="space-y-4 pt-2" x-transition x-cloak>
+                            
+                            {{-- B. Dasar SK Sebelumnya --}}
+                            <div class="p-4 bg-gray-50 border border-gray-200 rounded-lg">
+                                <h4 class="font-semibold text-gray-700 mb-3 text-sm">Dasar SK Sebelumnya</h4>
+                                <div class="grid grid-cols-2 gap-4">
+                                    <div>
+                                        <x-input-label for="tanggal_sk_terakhir" value="Tanggal SK Sebelumnya *" />
+                                        <x-text-input id="tanggal_sk_terakhir" name="tanggal_sk_terakhir" type="date" class="mt-1 block w-full text-sm" x-model="form.tanggal_sk_terakhir" required />
+                                    </div>
+                                    <div>
+                                        <x-input-label for="nomor_sk_terakhir" value="Nomor SK Sebelumnya *" />
+                                        <x-text-input id="nomor_sk_terakhir" name="nomor_sk_terakhir" type="text" class="mt-1 block w-full text-sm" x-model="form.nomor_sk_terakhir" required />
+                                    </div>
+                                </div>
+                            </div>
+
+                            {{-- C. SK Baru --}}
+                            <div class="p-4 bg-white border border-gray-200 rounded-lg">
+                                <h4 class="font-semibold text-gray-700 mb-3 text-sm">Pembuatan SK KGB Baru</h4>
+                                <div class="grid grid-cols-2 gap-4">
+                                    <div>
+                                        <x-input-label for="nomor_sk_baru" value="Nomor SK Baru *" />
+                                        <div class="mt-1 flex rounded-md shadow-sm">
+                                            <input type="text" id="nomor_sk_baru" name="nomor_sk_baru" 
+                                                class="flex-1 block w-full rounded-none rounded-l-md sm:text-sm border-gray-300 focus:border-indigo-500 focus:ring-indigo-500" 
+                                                x-model="form.nomor_sk_baru" required>
+                                            <span class="inline-flex items-center px-3 rounded-r-md border border-l-0 border-gray-300 bg-gray-50 text-gray-500 sm:text-sm whitespace-nowrap">
+                                                /KPG.14/Kepegumas/RSP
+                                            </span>
+                                        </div>
+                                    </div>
+                                    
+                                    <div>
+                                        <x-input-label for="tanggal_ditetapkan" value="Tanggal Ditetapkan SK Baru *" />
+                                        <x-text-input id="tanggal_ditetapkan" name="tanggal_ditetapkan" type="date" class="mt-1 block w-full text-sm" x-model="form.tanggal_ditetapkan" required />
+                                    </div>
+                                </div>
+                            </div>
+
                         </div>
                     </div>
 
