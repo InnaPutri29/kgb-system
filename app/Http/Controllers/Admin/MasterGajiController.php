@@ -14,11 +14,29 @@ class MasterGajiController extends Controller
         $query = MasterGaji::query();
 
         if ($request->filled('search')) {
-            $search = $request->search;
-            $query->where(function ($q) use ($search) {
-                $q->where('golongan', 'like', "%{$search}%")
-                  ->orWhere('masa_kerja', 'like', "%{$search}%")
-                  ->orWhere('nominal_gaji', 'like', "%{$search}%");
+            $search = trim($request->search);
+            
+            // Bersihkan format Rupiah (contoh: "Rp 2.700.000" atau "2.700.000" -> "2700000")
+            $cleanSalary = preg_replace('/[^0-9]/', '', $search);
+
+            // Bersihkan format tahun (contoh: "3 tahun" atau "3 th" -> "3")
+            $cleanMasaKerja = null;
+            if (preg_match('/^(\d+)\s*(tahun|th|t)?$/i', $search, $matches)) {
+                $cleanMasaKerja = $matches[1];
+            }
+
+            $query->where(function ($q) use ($search, $cleanSalary, $cleanMasaKerja) {
+                $q->where('golongan', 'like', "%{$search}%");
+                
+                if (is_numeric($search)) {
+                    $q->orWhere('masa_kerja', $search);
+                } elseif ($cleanMasaKerja !== null) {
+                    $q->orWhere('masa_kerja', $cleanMasaKerja);
+                }
+
+                if (!empty($cleanSalary)) {
+                    $q->orWhere('nominal_gaji', 'like', "%{$cleanSalary}%");
+                }
             });
         }
 

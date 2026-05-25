@@ -59,7 +59,9 @@
                             <td class="px-5 py-4 text-gray-600">{{ $riwayat->tmt_yad?->format('d/m/Y') }}</td>
                             <td class="px-5 py-4 text-gray-600">{{ $riwayat->pejabat_penetap }}</td>
                             <td class="px-5 py-4 text-right">
-                                <a href="{{ route('admin.kgb.download-pdf', $riwayat->id) }}" class="inline-flex items-center gap-2 text-xs bg-blue-600 hover:bg-blue-700 text-white px-3 py-1.5 rounded-lg transition">
+                                <a href="{{ route('admin.kgb.download-pdf', $riwayat->id) }}" 
+                                   onclick="window.dispatchEvent(new CustomEvent('show-toast', { detail: { message: 'Dokumen SK KGB pegawai berhasil digenerate dan sedang diunduh!', type: 'success' } }))"
+                                   class="inline-flex items-center gap-2 text-xs bg-blue-600 hover:bg-blue-700 text-white px-3 py-1.5 rounded-lg transition">
                                     Unduh PDF
                                 </a>
                             </td>

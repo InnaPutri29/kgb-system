@@ -37,10 +37,10 @@
     <div class="bg-white rounded-xl border border-gray-200 p-6">
         <h2 class="font-semibold text-gray-800 mb-5">Unggah File Excel</h2>
 
-        <form action="{{ route('admin.pegawai.import.store') }}" method="POST" enctype="multipart/form-data">
+        <form action="{{ route('admin.pegawai.import.store') }}" method="POST" enctype="multipart/form-data" x-data="{ loading: false, fileName: '' }" @submit="if(fileName) { loading = true }">
             @csrf
 
-            <div x-data="{ fileName: '' }" class="mb-6">
+            <div class="mb-6">
                 <label for="file"
                     class="flex flex-col items-center justify-center w-full h-40 border-2 border-dashed rounded-xl cursor-pointer transition
                            {{ $errors->has('file') ? 'border-red-400 bg-red-50' : 'border-gray-300 bg-gray-50 hover:bg-gray-100 hover:border-blue-400' }}">
@@ -49,7 +49,7 @@
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/>
                         </svg>
                         <p x-show="!fileName" class="text-sm text-gray-500"><span class="font-medium text-blue-600">Klik untuk pilih file</span> atau drag & drop</p>
-                        <p x-show="fileName" class="text-sm font-medium text-green-700" x-text="'✅ ' + fileName"></p>
+                        <p x-show="fileName" class="text-sm font-medium text-green-700" x-cloak x-text="'✅ ' + fileName"></p>
                         <p class="text-xs text-gray-400 mt-1">.xlsx / .xls — Maks. 10 MB</p>
                     </div>
                     <input
@@ -67,12 +67,22 @@
             </div>
 
             <div class="flex items-center gap-3">
-                <button type="submit"
-                    class="flex-1 bg-blue-600 hover:bg-blue-700 text-white font-medium py-2.5 px-6 rounded-lg transition text-sm flex items-center justify-center gap-2">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M9 19l3 3m0 0l3-3m-3 3V10"/></svg>
-                    Proses Import
+                <button type="submit" :disabled="loading || !fileName"
+                    class="flex-1 bg-blue-600 hover:bg-blue-700 text-white font-medium py-2.5 px-6 rounded-lg transition text-sm flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed">
+                    <!-- Spinner Loading -->
+                    <svg x-show="loading" class="animate-spin h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" x-cloak>
+                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>
+                    
+                    <!-- Icon Biasa -->
+                    <svg x-show="!loading" class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M9 19l3 3m0 0l3-3m-3 3V10"/>
+                    </svg>
+                    
+                    <span x-text="loading ? 'Sedang memproses data...' : 'Proses Import'">Proses Import</span>
                 </button>
-                <a href="{{ route('admin.pegawai.index') }}"
+                <a href="{{ route('admin.pegawai.index') }}" :class="loading ? 'pointer-events-none opacity-50' : ''"
                    class="flex-1 text-center border border-gray-300 hover:bg-gray-50 text-gray-700 font-medium py-2.5 px-6 rounded-lg transition text-sm">
                     Batal
                 </a>

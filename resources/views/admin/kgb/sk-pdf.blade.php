@@ -211,7 +211,7 @@
             <td></td>
             <td class="label-col" style="padding-left: 15px;">d. Masa kerja golongan<br>&nbsp;&nbsp;&nbsp;&nbsp;pada tanggal tersebut</td>
             <td class="colon-col"><br>:</td>
-            <td class="value-col"><br>{{ max(0, $riwayat->masa_kerja_tahun_baru - 2) }} Tahun {{ $riwayat->masa_kerja_bulan_baru }} bulan</td>
+            <td class="value-col"><br>{{ max(0, $riwayat->masa_kerja_tahun_baru - 2) }} Tahun {{ sprintf('%02d', $riwayat->masa_kerja_bulan_baru) }} bulan</td>
         </tr>
         <tr>
             <td colspan="4" class="font-bold">DIBERIKAN GAJI BERKALA HINGGA MEMPEROLEH:</td>
@@ -226,7 +226,7 @@
             <td class="number-col">8.</td>
             <td class="label-col">Berdasarkan masa kerja</td>
             <td class="colon-col">:</td>
-            <td class="value-col">{{ $riwayat->masa_kerja_tahun_baru }} Tahun {{ $riwayat->masa_kerja_bulan_baru }} bulan</td>
+            <td class="value-col">{{ $riwayat->masa_kerja_tahun_baru }} Tahun {{ sprintf('%02d', $riwayat->masa_kerja_bulan_baru) }} bulan</td>
         </tr>
         <tr>
             <td class="number-col">9.</td>

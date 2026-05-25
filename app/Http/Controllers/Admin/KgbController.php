@@ -186,7 +186,8 @@ class KgbController extends Controller
             'pejabatTerdahulu' => $pejabatTerdahulu,
         ])->setPaper('f4', 'portrait');
 
-        $filename = 'SK_KGB_' . $riwayat->pegawai->nip . '_' . Carbon::parse($riwayat->tmt_baru)->format('Ymd') . '.pdf';
+        $namaClean = trim(preg_replace('/_+/', '_', str_replace(' ', '_', preg_replace('/[^a-zA-Z0-9\s]/', '', $riwayat->pegawai->nama_lengkap))), '_');
+        $filename = 'SK_KGB_' . $namaClean . '_' . $riwayat->pegawai->nip . '.pdf';
 
         return $pdf->download($filename);
     }
@@ -250,7 +251,8 @@ class KgbController extends Controller
         ])->setPaper('f4', 'portrait');
 
         $dir      = 'sk_kgb';
-        $filename = "SK_KGB_{$pegawai->nip}_" . Carbon::parse($riwayat->tmt_baru)->format('Ymd') . ".pdf";
+        $namaClean = trim(preg_replace('/_+/', '_', str_replace(' ', '_', preg_replace('/[^a-zA-Z0-9\s]/', '', $pegawai->nama_lengkap))), '_');
+        $filename = "SK_KGB_{$namaClean}_{$pegawai->nip}.pdf";
         $fullPath = "{$dir}/{$filename}";
 
         Storage::disk('public')->put($fullPath, $pdf->output());

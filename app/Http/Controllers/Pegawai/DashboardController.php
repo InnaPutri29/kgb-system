@@ -14,10 +14,15 @@ class DashboardController extends Controller
 {
     public function index()
     {
-        // Ambil data user beserta relasi pegawai dan riwayat KGB-nya
-        $user = User::with(['pegawai.riwayatKgb' => function ($query) {
-            $query->latest('tmt_baru');
-        }])->find(Auth::id());
+        // Ambil data user beserta relasi pegawai, riwayat KGB, dan SKP evaluasi-nya
+        $user = User::with([
+            'pegawai.riwayatKgb' => function ($query) {
+                $query->latest('tmt_baru');
+            },
+            'pegawai.skpEvaluasi' => function ($query) {
+                $query->latest('tahun_penilaian');
+            }
+        ])->find(Auth::id());
 
         if (!$user) {
             abort(403, 'Pengguna tidak ditemukan.');
@@ -30,12 +35,19 @@ class DashboardController extends Controller
             return view('pegawai.dashboard', [
                 'pegawai' => null,
                 'riwayatKgb' => collect(),
+                'skpEvaluasi' => collect(),
+                'skpPeriodeBerjalan' => null,
+                'tahunBerjalan' => now()->year,
             ]);
         }
 
         $riwayatKgb = $pegawai->riwayatKgb;
+        $skpEvaluasi = $pegawai->skpEvaluasi;
+        
+        $tahunBerjalan = now()->year;
+        $skpPeriodeBerjalan = $skpEvaluasi->where('tahun_penilaian', $tahunBerjalan)->first();
 
-        return view('pegawai.dashboard', compact('pegawai', 'riwayatKgb'));
+        return view('pegawai.dashboard', compact('pegawai', 'riwayatKgb', 'skpEvaluasi', 'skpPeriodeBerjalan', 'tahunBerjalan'));
     }
 
     /**
@@ -60,7 +72,8 @@ class DashboardController extends Controller
             'pejabatTerdahulu' => $riwayat->pegawai->masterPejabat,
         ])->setPaper('f4', 'portrait');
 
-        $filename = 'SK_KGB_' . $riwayat->pegawai->nip . '_' . Carbon::parse($riwayat->tmt_baru)->format('Ymd') . '.pdf';
+        $namaClean = trim(preg_replace('/_+/', '_', str_replace(' ', '_', preg_replace('/[^a-zA-Z0-9\s]/', '', $riwayat->pegawai->nama_lengkap))), '_');
+        $filename = 'SK_KGB_' . $namaClean . '_' . $riwayat->pegawai->nip . '.pdf';
 
         return $pdf->download($filename);
     }

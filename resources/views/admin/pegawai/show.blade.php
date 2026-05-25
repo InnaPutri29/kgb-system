@@ -130,7 +130,9 @@
                                 <td class="px-6 py-3 text-gray-600">Rp {{ number_format($riwayat->gaji_pokok_baru, 0, ',', '.') }}</td>
                                 <td class="px-6 py-3 text-gray-600 text-xs">{{ \Carbon\Carbon::parse($riwayat->tmt_yad)->format('d/m/Y') }}</td>
                                 <td class="px-6 py-3 text-right">
-                                    <a href="{{ route('admin.kgb.download-pdf', $riwayat->id) }}" class="inline-flex items-center gap-1 text-xs bg-blue-600 hover:bg-blue-700 text-white px-3 py-1.5 rounded-lg transition font-medium">
+                                    <a href="{{ route('admin.kgb.download-pdf', $riwayat->id) }}" 
+                                       onclick="window.dispatchEvent(new CustomEvent('show-toast', { detail: { message: 'Dokumen SK KGB pegawai berhasil digenerate dan sedang diunduh!', type: 'success' } }))"
+                                       class="inline-flex items-center gap-1 text-xs bg-blue-600 hover:bg-blue-700 text-white px-3 py-1.5 rounded-lg transition font-medium">
                                         <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
                                         Unduh
                                     </a>

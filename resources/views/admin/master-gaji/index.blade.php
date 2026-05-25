@@ -49,9 +49,16 @@
     <div class="bg-white rounded-xl border border-gray-200 overflow-hidden">
         @if($gaji->isEmpty())
             <div class="flex flex-col items-center justify-center py-16 text-gray-400">
-                <svg class="w-12 h-12 mb-3 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-                <p class="font-medium">Belum ada data master gaji</p>
-                <p class="text-sm">Silakan tambahkan data acuan gaji pokok terlebih dahulu.</p>
+                @if(request()->hasAny(['search', 'kategori']))
+                    <svg class="w-12 h-12 mb-3 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+                    <p class="font-medium">Data master gaji tidak ditemukan</p>
+                    <p class="text-sm">Tidak ada hasil pencarian yang cocok dengan kriteria filter Anda.</p>
+                    <a href="{{ route('admin.master-gaji.index') }}" class="mt-4 text-sm text-blue-600 hover:underline">Reset filter & pencarian →</a>
+                @else
+                    <svg class="w-12 h-12 mb-3 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                    <p class="font-medium">Belum ada data master gaji</p>
+                    <p class="text-sm">Silakan tambahkan data acuan gaji pokok terlebih dahulu.</p>
+                @endif
             </div>
         @else
             <div class="overflow-x-auto">

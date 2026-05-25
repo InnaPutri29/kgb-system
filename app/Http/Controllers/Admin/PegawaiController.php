@@ -14,9 +14,22 @@ use Maatwebsite\Excel\Facades\Excel;
 
 class PegawaiController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $pegawai = Pegawai::with('user')->latest()->paginate(15);
+        $query = Pegawai::with('user');
+
+        if ($request->filled('search')) {
+            $search = trim($request->search);
+            $query->where(function ($q) use ($search) {
+                $q->where('nama_lengkap', 'like', "%{$search}%")
+                  ->orWhere('nip', 'like', "%{$search}%")
+                  ->orWhere('jabatan', 'like', "%{$search}%")
+                  ->orWhere('golongan', 'like', "%{$search}%")
+                  ->orWhere('pangkat', 'like', "%{$search}%");
+            });
+        }
+
+        $pegawai = $query->latest()->paginate(15)->withQueryString();
         return view('admin.pegawai.index', compact('pegawai'));
     }
 
@@ -127,11 +140,33 @@ class PegawaiController extends Controller
             $errors = $import->errors();
             if ($errors->count() > 0) {
                 $errorMessages = $errors->map(fn($e) => $e->getMessage())->join(', ');
-                return back()->with('warning', "Import selesai dengan beberapa baris dilewati: {$errorMessages}");
+                return back()->with('warning', "Impor selesai dengan beberapa kesalahan: {$errorMessages}");
+            }
+
+            $stats = $import->getStats();
+            $message = "Impor selesai! Berhasil menambahkan {$stats['success']} data pegawai baru";
+            
+            $details = [];
+            if ($stats['skipped'] > 0) {
+                $details[] = "{$stats['skipped']} data dilewati karena sudah terdaftar";
+            }
+            if ($stats['invalid'] > 0) {
+                $details[] = "{$stats['invalid']} data tidak valid/kosong";
+            }
+            
+            if (count($details) > 0) {
+                $message .= " (" . implode(', ', $details) . ").";
+            } else {
+                $message .= ".";
+            }
+
+            if ($stats['success'] === 0 && count($details) > 0) {
+                return redirect()->route('admin.pegawai.index')
+                    ->with('warning', $message);
             }
 
             return redirect()->route('admin.pegawai.index')
-                ->with('success', 'Data pegawai berhasil diimport!');
+                ->with('success', $message);
         } catch (\Exception $e) {
             return back()->with('error', 'Gagal mengimport: ' . $e->getMessage());
         }

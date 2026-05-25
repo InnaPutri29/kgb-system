@@ -16,7 +16,6 @@ class MasterPejabatController extends Controller
 
     public function show(MasterPejabat $masterPejabat)
     {
-        // Load the related RiwayatKgb records if we want to show how many SKs this Pejabat has signed
         $masterPejabat->load('riwayatKgb.pegawai');
         return view('admin.master-pejabat.show', compact('masterPejabat'));
     }

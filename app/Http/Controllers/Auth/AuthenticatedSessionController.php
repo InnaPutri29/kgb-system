@@ -35,17 +35,16 @@ class AuthenticatedSessionController extends Controller
             return redirect()->route('password.change');
         }
 
-        // Redirect berdasarkan role
-        if ($user->hasRole('admin')) {
-            return redirect()->intended(route('admin.dashboard'));
-        }
+// Ganti baris return redirect bawaan dengan logika ini:
+$user = auth()->user();
 
-        if ($user->hasRole('pegawai')) {
-            return redirect()->intended(route('pegawai.dashboard'));
-        }
+if ($user->hasRole('admin')) {
+    return redirect()->intended(route('admin.dashboard'));
+} elseif ($user->hasRole('pegawai')) {
+    return redirect()->intended(route('pegawai.dashboard'));
+}
 
-        // Fallback jika tidak memiliki role yang dikenal
-        return redirect('/');
+return redirect()->intended('/');
     }
 
     /**
