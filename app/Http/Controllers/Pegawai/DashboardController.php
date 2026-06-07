@@ -12,9 +12,8 @@ use Illuminate\Support\Facades\Auth;
 
 class DashboardController extends Controller
 {
-    public function index()
+    private function getPegawaiData()
     {
-        // Ambil data user beserta relasi pegawai, riwayat KGB, dan SKP evaluasi-nya
         $user = User::with([
             'pegawai.riwayatKgb' => function ($query) {
                 $query->latest('tmt_baru');
@@ -24,30 +23,41 @@ class DashboardController extends Controller
             }
         ])->find(Auth::id());
 
-        if (!$user) {
-            abort(403, 'Pengguna tidak ditemukan.');
-        }
+        if (!$user) abort(403, 'Pengguna tidak ditemukan.');
+        return $user->pegawai;
+    }
 
-        $pegawai = $user->pegawai;
-
-        // Jika user ini entah kenapa tidak punya data pegawai yang terhubung
-        if (!$pegawai) {
-            return view('pegawai.dashboard', [
-                'pegawai' => null,
-                'riwayatKgb' => collect(),
-                'skpEvaluasi' => collect(),
-                'skpPeriodeBerjalan' => null,
-                'tahunBerjalan' => now()->year,
-            ]);
-        }
+    public function index()
+    {
+        $pegawai = $this->getPegawaiData();
+        if (!$pegawai) return view('pegawai.dashboard', ['pegawai' => null]);
 
         $riwayatKgb = $pegawai->riwayatKgb;
         $skpEvaluasi = $pegawai->skpEvaluasi;
+        $tahunBerjalan = now()->year;
         
+        return view('pegawai.dashboard', compact('pegawai', 'riwayatKgb', 'skpEvaluasi', 'tahunBerjalan'));
+    }
+
+    public function kgb()
+    {
+        $pegawai = $this->getPegawaiData();
+        if (!$pegawai) return view('pegawai.kgb', ['pegawai' => null]);
+
+        $riwayatKgb = $pegawai->riwayatKgb;
+        return view('pegawai.kgb', compact('pegawai', 'riwayatKgb'));
+    }
+
+    public function skp()
+    {
+        $pegawai = $this->getPegawaiData();
+        if (!$pegawai) return view('pegawai.skp', ['pegawai' => null]);
+
+        $skpEvaluasi = $pegawai->skpEvaluasi;
         $tahunBerjalan = now()->year;
         $skpPeriodeBerjalan = $skpEvaluasi->where('tahun_penilaian', $tahunBerjalan)->first();
 
-        return view('pegawai.dashboard', compact('pegawai', 'riwayatKgb', 'skpEvaluasi', 'skpPeriodeBerjalan', 'tahunBerjalan'));
+        return view('pegawai.skp', compact('pegawai', 'skpEvaluasi', 'skpPeriodeBerjalan', 'tahunBerjalan'));
     }
 
     /**
