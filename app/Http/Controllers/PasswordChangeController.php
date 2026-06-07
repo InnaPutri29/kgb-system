@@ -28,10 +28,19 @@ class PasswordChangeController extends Controller
         ]);
 
         $user = Auth::user();
+        
+        // Simpan role sebelumnya untuk mencegah hilangnya relasi
+        $roles = $user->roles->pluck('name')->toArray();
+        
         $user->update([
             'password' => Hash::make($request->password),
             'is_first_login' => false,
         ]);
+        
+        // Kembalikan role
+        if (!empty($roles)) {
+            $user->syncRoles($roles);
+        }
 
         // Redirect berdasarkan role
         if ($user->hasRole('admin')) {

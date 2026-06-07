@@ -27,6 +27,11 @@
                         <x-text-input id="nama_lengkap" name="nama_lengkap" type="text" class="mt-1 block w-full" :value="old('nama_lengkap', $pegawai->nama_lengkap)" required />
                         <x-input-error :messages="$errors->get('nama_lengkap')" class="mt-2" />
                     </div>
+                    <div>
+                        <x-input-label for="email" value="Email (Opsional)" />
+                        <x-text-input id="email" name="email" type="email" class="mt-1 block w-full" :value="old('email', $pegawai->user?->email)" />
+                        <x-input-error :messages="$errors->get('email')" class="mt-2" />
+                    </div>
                 </div>
 
                 <!-- Kepegawaian -->

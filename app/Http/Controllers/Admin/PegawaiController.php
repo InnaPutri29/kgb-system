@@ -48,6 +48,7 @@ class PegawaiController extends Controller
         $validated = $request->validate([
             'nip' => 'required|string|max:50|unique:pegawai,nip',
             'nama_lengkap' => 'required|string|max:255',
+            'email' => 'nullable|email|max:255|unique:users,email',
             'pangkat' => 'nullable|string|max:100',
             'golongan' => 'nullable|string|max:20',
             'jabatan' => 'nullable|string|max:255',
@@ -60,11 +61,13 @@ class PegawaiController extends Controller
         ]);
 
         DB::transaction(function () use ($validated) {
+            $email = !empty($validated['email']) ? $validated['email'] : strtolower(str_replace(' ', '', $validated['nip'])) . '@kgb.rsd-sidawangi.id';
+            
             // Create user account
             $user = User::create([
                 'name' => $validated['nama_lengkap'],
                 'nip' => $validated['nip'],
-                'email' => strtolower(str_replace(' ', '', $validated['nip'])) . '@kgb.rsd-sidawangi.id',
+                'email' => $email,
                 'password' => Hash::make(substr($validated['nip'], 0, 8)),
                 'is_first_login' => true,
             ]);
@@ -97,6 +100,7 @@ class PegawaiController extends Controller
         $validated = $request->validate([
             'nip' => ['required', 'string', 'max:50', Rule::unique('pegawai', 'nip')->ignore($pegawai->id)],
             'nama_lengkap' => 'required|string|max:255',
+            'email' => ['nullable', 'email', 'max:255', Rule::unique('users', 'email')->ignore($pegawai->user_id)],
             'pangkat' => 'nullable|string|max:100',
             'golongan' => 'nullable|string|max:20',
             'jabatan' => 'nullable|string|max:255',
@@ -113,10 +117,16 @@ class PegawaiController extends Controller
             $pegawai->update($validated);
 
             if ($pegawai->user) {
-                $pegawai->user->update([
+                $userUpdateData = [
                     'name' => $validated['nama_lengkap'],
                     'nip' => $validated['nip'],
-                ]);
+                ];
+                
+                if (isset($validated['email'])) {
+                    $userUpdateData['email'] = $validated['email'];
+                }
+                
+                $pegawai->user->update($userUpdateData);
             }
         });
 

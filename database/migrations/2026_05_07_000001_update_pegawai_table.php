@@ -34,7 +34,9 @@ return new class extends Migration
             }
         });
 
-        DB::statement("ALTER TABLE pegawai MODIFY unit_kerja VARCHAR(255) NULL DEFAULT 'RSUD SIDAWANGI'");
+        if (DB::getDriverName() !== 'sqlite' && Schema::hasColumn('pegawai', 'unit_kerja')) {
+            DB::statement("ALTER TABLE pegawai MODIFY unit_kerja VARCHAR(255) NULL DEFAULT 'RSUD SIDAWANGI'");
+        }
     }
 
     /**
@@ -63,6 +65,8 @@ return new class extends Migration
             $table->dropSoftDeletes();
         });
 
-        DB::statement('ALTER TABLE pegawai MODIFY unit_kerja VARCHAR(255) NULL');
+        if (DB::getDriverName() !== 'sqlite' && Schema::hasColumn('pegawai', 'unit_kerja')) {
+            DB::statement('ALTER TABLE pegawai MODIFY unit_kerja VARCHAR(255) NULL');
+        }
     }
 };

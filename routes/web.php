@@ -8,10 +8,19 @@ use App\Http\Controllers\PasswordChangeController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
+
+
 // Halaman utama — redirect ke login
 Route::get('/', function () {
     return redirect()->route('login');
 });
+
+Route::get('/dashboard', function () {
+    if (auth()->user()->hasRole('admin')) {
+        return redirect()->route('admin.dashboard');
+    }
+    return redirect()->route('pegawai.dashboard');
+})->middleware('auth')->name('dashboard');
 
 // -----------------------------------------------------------------------
 // ROUTES YANG BUTUH AUTH
@@ -79,6 +88,12 @@ Route::middleware(['auth', 'password.changed'])->group(function () {
         Route::get('/', [ProfileController::class, 'edit'])->name('edit');
         Route::patch('/', [ProfileController::class, 'update'])->name('update');
         Route::delete('/', [ProfileController::class, 'destroy'])->name('destroy');
+    });
+
+    // Notifikasi (diakses oleh semua user yang sudah login)
+    Route::prefix('notifications')->name('notifications.')->group(function () {
+        Route::post('/read-all', [\App\Http\Controllers\NotificationController::class, 'readAll'])->name('read-all');
+        Route::post('/{id}/read', [\App\Http\Controllers\NotificationController::class, 'read'])->name('read');
     });
 });
 

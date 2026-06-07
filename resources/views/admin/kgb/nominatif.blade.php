@@ -5,18 +5,18 @@
 <div class="space-y-6">
 
     {{-- HEADER --}}
-    <div class="flex items-center justify-between gap-4">
+    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
             <h2 class="text-2xl font-bold text-gray-800">📋 Daftar Nominatif KGB</h2>
             <p class="text-sm text-gray-500 mt-1">Pegawai yang KGB-nya jatuh tempo dalam 60 hari ke depan</p>
         </div>
-        <div class="flex items-center gap-3">
+        <div class="flex flex-wrap items-center gap-2 w-full sm:w-auto">
             @if($jatuhTempoHariIni > 0)
-                <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold bg-red-100 text-red-700 border border-red-200">
+                <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold bg-red-100 text-red-700 border border-red-200 flex-1 sm:flex-none justify-center">
                     🔴 {{ $jatuhTempoHariIni }} jatuh tempo hari ini
                 </span>
             @endif
-            <span class="inline-flex items-center px-3 py-1.5 rounded-full text-xs font-semibold bg-yellow-100 text-yellow-800 border border-yellow-200">
+            <span class="inline-flex items-center px-3 py-1.5 rounded-full text-xs font-semibold bg-yellow-100 text-yellow-800 border border-yellow-200 flex-1 sm:flex-none justify-center">
                 {{ $daftarNominatif->total() }} Pegawai Nominatif
             </span>
         </div>

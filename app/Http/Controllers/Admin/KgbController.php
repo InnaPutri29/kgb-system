@@ -165,6 +165,11 @@ class KgbController extends Controller
         $filePath = $this->generateAndSavePdf($riwayat, $pegawai, $instansi, $pejabatTerdahulu);
         $riwayat->update(['file_pdf_path' => $filePath]);
 
+        // Kirim notifikasi in-app ke Pegawai PNS
+        if ($pegawai->user) {
+            $pegawai->user->notify(new \App\Notifications\KgbDiterbitkanNotification($riwayat));
+        }
+
         return redirect()->route('admin.dashboard')
             ->with('success', "KGB {$pegawai->nama_lengkap} berhasil diproses. SK siap diunduh.");
     }
@@ -224,6 +229,11 @@ class KgbController extends Controller
         $skpList = $pegawai->skpEvaluasi()
             ->whereIn('tahun_penilaian', [$tahunSekarang - 1, $tahunSekarang - 2])
             ->get();
+
+        if ($skpList->count() < 2) {
+            $lolos    = false;
+            $alasan[] = 'Data SKP belum lengkap / belum diinput (minimal 2 tahun terakhir)';
+        }
 
         $nilaiTidakLulus = ['Cukup', 'Kurang', 'Sangat Kurang'];
         foreach ($skpList as $skp) {

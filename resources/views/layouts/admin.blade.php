@@ -12,7 +12,7 @@
 </head>
 <body class="bg-gray-100 font-sans antialiased" 
       x-data="{ 
-          sidebarOpen: true, 
+          sidebarOpen: window.innerWidth >= 1024, 
           toast: { show: false, message: '', type: 'success' }, 
           showToast(msg, type = 'success') { 
               this.toast.message = msg; 
@@ -23,11 +23,24 @@
       }" 
       @show-toast.window="showToast($event.detail.message, $event.detail.type || 'success')">
 
+    {{-- SIDEBAR OVERLAY --}}
+    <div x-show="sidebarOpen" 
+         @click="sidebarOpen = false" 
+         class="fixed inset-0 z-30 bg-black/40 lg:hidden"
+         x-transition:enter="transition ease-out duration-300"
+         x-transition:enter-start="opacity-0"
+         x-transition:enter-end="opacity-100"
+         x-transition:leave="transition ease-in duration-200"
+         x-transition:leave-start="opacity-100"
+         x-transition:leave-end="opacity-0"
+         x-cloak>
+    </div>
+
     {{-- SIDEBAR --}}
     <div class="flex h-screen overflow-hidden">
         <aside
-            class="flex flex-col w-64 bg-gradient-to-b from-blue-900 to-blue-800 text-white transition-all duration-300 shrink-0"
-            :class="sidebarOpen ? 'translate-x-0' : '-translate-x-full'"
+            class="fixed inset-y-0 left-0 z-40 flex flex-col w-64 bg-gradient-to-b from-blue-900 to-blue-800 text-white transition-all duration-300 transform lg:static lg:translate-x-0 shrink-0"
+            :class="sidebarOpen ? 'translate-x-0' : '-translate-x-full lg:-ml-64'"
         >
             {{-- Logo --}}
             <div class="flex items-center gap-3 px-5 py-5 border-b border-blue-700">
@@ -126,8 +139,79 @@
                     </button>
                     <h1 class="text-lg font-semibold text-gray-800">@yield('title', 'Dashboard')</h1>
                 </div>
-                <div class="text-sm text-gray-500">
-                    {{ now()->translatedFormat('l, d F Y') }}
+                
+                <div class="flex items-center gap-6">
+                    {{-- Notifikasi Dropdown --}}
+                    @php
+                        $unreadNotifications = auth()->user()->unreadNotifications;
+                        $unreadCount = $unreadNotifications->count();
+                    @endphp
+                    <div class="relative" x-data="{ open: false }">
+                        <button @click="open = !open" class="relative p-1.5 text-gray-400 hover:text-gray-600 transition focus:outline-none rounded-lg hover:bg-gray-50">
+                            <span class="sr-only">Notifikasi</span>
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/>
+                            </svg>
+                            @if($unreadCount > 0)
+                                <span class="absolute top-1.5 right-1.5 flex h-2.5 w-2.5">
+                                    <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
+                                    <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-red-500"></span>
+                                </span>
+                            @endif
+                        </button>
+
+                        {{-- Dropdown Menu --}}
+                        <div x-show="open" @click.outside="open = false" x-cloak
+                             x-transition:enter="transition ease-out duration-100"
+                             x-transition:enter-start="opacity-0 scale-95"
+                             x-transition:enter-end="opacity-100 scale-100"
+                             x-transition:leave="transition ease-in duration-75"
+                             x-transition:leave-start="opacity-100 scale-100"
+                             x-transition:leave-end="opacity-0 scale-95"
+                             class="absolute right-0 mt-2.5 w-80 bg-white rounded-xl shadow-xl border border-gray-100 py-2 z-50 origin-top-right">
+                            <div class="px-4 py-2 border-b border-gray-100 flex items-center justify-between bg-gray-50/50 rounded-t-xl">
+                                <span class="text-xs font-bold text-gray-700">Notifikasi ({{ $unreadCount }})</span>
+                                @if($unreadCount > 0)
+                                    <form method="POST" action="{{ route('notifications.read-all') }}">
+                                        @csrf
+                                        <button type="submit" class="text-[10px] text-blue-600 hover:text-blue-800 font-bold hover:underline">Tandai semua dibaca</button>
+                                    </form>
+                                @endif
+                            </div>
+                            <div class="max-h-64 overflow-y-auto divide-y divide-gray-50">
+                                @if(auth()->user()->notifications->isEmpty())
+                                    <div class="px-4 py-6 text-center text-gray-400 text-xs">
+                                        Tidak ada notifikasi.
+                                    </div>
+                                @else
+                                    @foreach(auth()->user()->notifications->take(10) as $notification)
+                                        <div class="p-3.5 hover:bg-gray-50 transition flex items-start justify-between gap-2.5 {{ $notification->unread() ? 'bg-blue-50/20' : '' }}">
+                                            <div class="space-y-1">
+                                                <p class="text-xs text-gray-700 leading-relaxed font-medium">
+                                                    {{ $notification->data['message'] }}
+                                                </p>
+                                                <p class="text-[10px] text-gray-400">
+                                                    {{ $notification->created_at->diffForHumans() }}
+                                                </p>
+                                            </div>
+                                            @if($notification->unread())
+                                                <form method="POST" action="{{ route('notifications.read', $notification->id) }}" class="shrink-0">
+                                                    @csrf
+                                                    <button type="submit" class="p-1 hover:bg-gray-100 text-blue-500 hover:text-blue-700 rounded-md transition focus:outline-none" title="Tandai dibaca">
+                                                        <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20"><path d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"/></svg>
+                                                    </button>
+                                                </form>
+                                            @endif
+                                        </div>
+                                    @endforeach
+                                @endif
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="text-sm text-gray-500 hidden sm:block">
+                        {{ now()->translatedFormat('l, d F Y') }}
+                    </div>
                 </div>
             </header>
 

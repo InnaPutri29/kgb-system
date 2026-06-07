@@ -57,8 +57,8 @@
                     <hr class="border-gray-100 my-4">
                     <h4 class="text-sm font-semibold text-gray-700">Informasi Kepala Instansi / Direktur</h4>
 
-                    <div class="grid grid-cols-2 gap-4">
-                        <div class="col-span-2">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div class="col-span-1 sm:col-span-2">
                             <x-input-label for="nama_direktur" value="Nama Lengkap & Gelar *" />
                             <x-text-input id="nama_direktur" name="nama_direktur" type="text" class="mt-1 block w-full" :value="old('nama_direktur', $pengaturan->nama_direktur)" required />
                             <x-input-error :messages="$errors->get('nama_direktur')" class="mt-2" />

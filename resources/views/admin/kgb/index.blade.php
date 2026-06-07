@@ -3,12 +3,12 @@
 
 @section('content')
 <div class="max-w-7xl mx-auto space-y-6">
-    <div class="flex items-center justify-between gap-4">
+    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
             <h2 class="text-2xl font-bold text-gray-800">Riwayat KGB</h2>
             <p class="text-sm text-gray-500">Daftar seluruh dokumen SK Kenaikan Gaji Berkala yang tersimpan sebagai snapshot audit trail.</p>
         </div>
-        <a href="{{ route('admin.dashboard') }}" class="inline-flex items-center gap-2 text-sm bg-white border border-gray-200 text-gray-700 hover:bg-gray-50 px-4 py-2 rounded-lg transition">
+        <a href="{{ route('admin.dashboard') }}" class="inline-flex items-center justify-center gap-2 text-sm bg-white border border-gray-200 text-gray-700 hover:bg-gray-50 px-4 py-2 rounded-lg transition w-full sm:w-auto shrink-0">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
             Kembali ke Dashboard
         </a>

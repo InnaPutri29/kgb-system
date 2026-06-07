@@ -11,9 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('riwayat_kgb', function (Blueprint $table) {
-            $table->softDeletes();
-        });
+        if (!Schema::hasColumn('riwayat_kgb', 'deleted_at')) {
+            Schema::table('riwayat_kgb', function (Blueprint $table) {
+                $table->softDeletes();
+            });
+        }
     }
 
     /**
@@ -21,8 +23,10 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('riwayat_kgb', function (Blueprint $table) {
-            $table->dropSoftDeletes();
-        });
+        if (Schema::hasColumn('riwayat_kgb', 'deleted_at')) {
+            Schema::table('riwayat_kgb', function (Blueprint $table) {
+                $table->dropSoftDeletes();
+            });
+        }
     }
 };

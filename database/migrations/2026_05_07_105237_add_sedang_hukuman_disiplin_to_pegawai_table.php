@@ -11,11 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('pegawai', function (Blueprint $table) {
-            $table->boolean('sedang_hukuman_disiplin')
-                ->default(false)
-                ->after('tmt_gaji_terakhir');
-        });
+        if (!Schema::hasColumn('pegawai', 'sedang_hukuman_disiplin') && !Schema::hasColumn('pegawai', 'is_sedang_hukuman_disiplin')) {
+            Schema::table('pegawai', function (Blueprint $table) {
+                $table->boolean('sedang_hukuman_disiplin')
+                    ->default(false)
+                    ->after('tmt_gaji_terakhir');
+            });
+        }
     }
 
     /**

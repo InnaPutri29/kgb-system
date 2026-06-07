@@ -11,7 +11,7 @@ class CheckKgbDue extends Command
     /**
      * Nama dan signature dari command.
      */
-    protected $signature = 'kgb:check-due
+    protected $signature = 'kgb:check-due-list
                             {--days=60 : Jumlah hari ke depan untuk pengecekan (default: 60)}';
 
     /**
@@ -38,11 +38,11 @@ class CheckKgbDue extends Command
         // 3. TMT gaji + 2 tahun <= batas tanggal (sudah/akan jatuh tempo)
         // 4. Belum pernah diproses KGB setelah TMT jatuh temponya
         $pegawaiJatuhTempo = Pegawai::whereNotNull('tmt_gaji_terakhir')
-            ->where('sedang_hukuman_disiplin', false)
+            ->where('is_sedang_hukuman_disiplin', false)
             ->whereRaw('DATE_ADD(tmt_gaji_terakhir, INTERVAL 2 YEAR) <= ?', [$batasTanggal])
-            ->whereDoesntHave('riwayatKgb', function ($q) use ($today) {
+            ->whereDoesntHave('riwayatKgb', function ($q) {
                 // Belum diproses KGB untuk periode ini
-                $q->whereColumn('tmt_kgb_baru', '>=', 'tmt_gaji_terakhir');
+                $q->whereColumn('riwayat_kgb.tmt_baru', '>=', 'pegawai.tmt_gaji_terakhir');
             })
             ->orderByRaw('DATE_ADD(tmt_gaji_terakhir, INTERVAL 2 YEAR) ASC')
             ->get();
@@ -65,9 +65,9 @@ class CheckKgbDue extends Command
 
             $tableData[] = [
                 $p->nip,
-                $p->nama,
-                $p->pangkat_golongan ?? '-',
-                $p->tmt_gaji_terakhir,
+                $p->nama_lengkap,
+                ($p->pangkat && $p->golongan) ? $p->pangkat . ' (' . $p->golongan . ')' : ($p->pangkat ?? $p->golongan ?? '-'),
+                $p->tmt_gaji_terakhir->format('Y-m-d'),
                 $tmtKgb->format('Y-m-d'),
                 $status,
             ];
