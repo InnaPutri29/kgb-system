@@ -62,6 +62,10 @@
                                     @endif
                                 </td>
                             </tr>
+                            <tr>
+                                <td class="py-2 text-gray-500">Email</td>
+                                <td class="py-2 text-gray-800 font-medium">{{ $pegawai->user->email ?? '-' }}</td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>
@@ -214,13 +218,15 @@
                                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
                                     </button>
                                     {{-- Hapus --}}
-                                    <form action="{{ route('admin.pegawai.skp.destroy', [$pegawai, $skp]) }}" method="POST"
-                                        onsubmit="return confirm('Hapus data SKP tahun {{ $skp->tahun_penilaian }}?')">
-                                        @csrf @method('DELETE')
-                                        <button type="submit" class="p-1.5 text-gray-500 hover:text-red-600 hover:bg-red-50 rounded-md transition" title="Hapus SKP">
-                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
-                                        </button>
-                                    </form>
+                                    <button type="button" 
+                                            @click="$dispatch('confirm-delete', {
+                                                action: '{{ route('admin.pegawai.skp.destroy', [$pegawai, $skp]) }}',
+                                                title: 'Hapus SKP',
+                                                description: 'Hapus data SKP tahun {{ $skp->tahun_penilaian }} permanen?'
+                                            })"
+                                            class="p-1.5 text-gray-500 hover:text-red-600 hover:bg-red-50 rounded-md transition" title="Hapus SKP">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+                                    </button>
                                 </div>
                             </td>
                         </tr>

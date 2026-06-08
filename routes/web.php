@@ -40,6 +40,7 @@ Route::middleware(['auth', 'password.changed'])->group(function () {
             Route::get('/', [PegawaiController::class, 'index'])->name('index');
             Route::get('/create', [PegawaiController::class, 'create'])->name('create');
             Route::post('/', [PegawaiController::class, 'store'])->name('store');
+            Route::get('/import/template', [PegawaiController::class, 'downloadTemplate'])->name('import.template');
             Route::get('/import', [PegawaiController::class, 'showImportForm'])->name('import');
             Route::post('/import', [PegawaiController::class, 'import'])->name('import.store');
             Route::get('/{pegawai}', [PegawaiController::class, 'show'])->name('show');

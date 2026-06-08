@@ -6,10 +6,16 @@
 
     {{-- Info Card --}}
     <div class="bg-blue-50 border border-blue-200 rounded-xl p-5">
-        <h3 class="font-semibold text-blue-800 mb-2 flex items-center gap-2">
-            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/></svg>
-            Petunjuk Import Excel
-        </h3>
+        <div class="flex flex-col sm:flex-row gap-3 items-start sm:items-center justify-between mb-4">
+            <h3 class="font-semibold text-blue-800 flex items-center gap-2 m-0">
+                <svg class="w-5 h-5 shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/></svg>
+                Petunjuk Import Excel
+            </h3>
+            <a href="{{ route('admin.pegawai.import.template') }}" class="inline-flex items-center gap-2 bg-white border border-blue-300 text-blue-700 hover:bg-blue-100 hover:text-blue-800 px-3 py-1.5 rounded-lg text-sm font-medium transition shadow-sm shrink-0">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+                Unduh Template Excel
+            </a>
+        </div>
         <ul class="text-sm text-blue-700 space-y-1 list-disc list-inside">
             <li>File harus berformat <strong>.xlsx</strong> atau <strong>.xls</strong></li>
             <li>Baris pertama harus berisi <strong>header kolom</strong></li>

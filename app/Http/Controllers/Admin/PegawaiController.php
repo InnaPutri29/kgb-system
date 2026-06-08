@@ -133,6 +133,11 @@ class PegawaiController extends Controller
         return redirect()->route('admin.pegawai.index')->with('success', 'Data pegawai berhasil diperbarui.');
     }
 
+    public function downloadTemplate()
+    {
+        return Excel::download(new \App\Exports\TemplatePegawaiExport, 'template_import_pegawai.xlsx');
+    }
+
     public function import(Request $request)
     {
         $request->validate([
