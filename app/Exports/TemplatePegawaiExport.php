@@ -23,7 +23,13 @@ class TemplatePegawaiExport implements FromArray, WithHeadings, ShouldAutoSize, 
             'tmt_gaji_terakhir',
             'masa_kerja_tahun',
             'masa_kerja_bulan',
-            'gaji_pokok_terakhir'
+            'gaji_pokok_terakhir',
+            'nomor_sk_terakhir',
+            'tanggal_sk_terakhir',
+            'skp_tahun_1',
+            'skp_predikat_1',
+            'skp_tahun_2',
+            'skp_predikat_2'
         ];
     }
 
@@ -41,7 +47,13 @@ class TemplatePegawaiExport implements FromArray, WithHeadings, ShouldAutoSize, 
                 "2023-01-01",
                 "5",
                 "0",
-                "2500000"
+                "2500000",
+                "821/001/PEG/2023",
+                "2023-01-05",
+                "2024",
+                "Baik",
+                "2025",
+                "Baik"
             ]
         ];
     }

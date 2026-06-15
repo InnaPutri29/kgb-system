@@ -29,14 +29,14 @@
     <div class="bg-white rounded-xl border border-gray-200 p-5">
         <h3 class="font-semibold text-gray-700 mb-3">Kolom yang Diharapkan pada File Excel</h3>
         <div class="grid grid-cols-2 gap-2 text-sm">
-            @foreach(['nip','nama','email','pangkat','golongan','jabatan','kantor_tempat_kerja','tmt_gaji_terakhir','masa_kerja_tahun','masa_kerja_bulan','gaji_pokok_terakhir'] as $col)
+            @foreach(['nip','nama','email','pangkat','golongan','jabatan','kantor_tempat_kerja','tmt_gaji_terakhir','masa_kerja_tahun','masa_kerja_bulan','gaji_pokok_terakhir','nomor_sk_terakhir','tanggal_sk_terakhir', 'skp_tahun_1', 'skp_predikat_1', 'skp_tahun_2', 'skp_predikat_2'] as $col)
                 <div class="flex items-center gap-2">
                     <span class="w-2 h-2 rounded-full bg-blue-400 shrink-0"></span>
                     <code class="text-xs bg-gray-100 px-1.5 py-0.5 rounded text-gray-700">{{ $col }}</code>
                 </div>
             @endforeach
         </div>
-        <p class="text-xs text-gray-400 mt-3">* Kolom email bersifat opsional. Kolom wajib: <code>nip</code> dan <code>nama</code>.</p>
+        <p class="text-xs text-gray-400 mt-3">* Kolom <code>email</code>, <code>nomor_sk_terakhir</code>, <code>tanggal_sk_terakhir</code>, dan ke-4 kolom <code>skp</code> bersifat opsional. Kolom wajib: <code>nip</code> dan <code>nama</code>.</p>
     </div>
 
     {{-- Form Upload --}}

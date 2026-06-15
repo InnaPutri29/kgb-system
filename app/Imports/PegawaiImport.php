@@ -4,6 +4,7 @@ namespace App\Imports;
 
 use App\Models\Pegawai;
 use App\Models\User;
+use App\Models\SkpEvaluasi;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use Maatwebsite\Excel\Concerns\ToModel;
@@ -27,7 +28,9 @@ class PegawaiImport implements ToModel, WithHeadingRow, SkipsOnError
     * Kolom yang diharapkan dari file Excel (case-insensitive):
     * nip, nama, email, pangkat, golongan,
     * jabatan, kantor_tempat_kerja, tmt_gaji_terakhir,
-    * masa_kerja_tahun, masa_kerja_bulan, gaji_pokok_terakhir
+    * masa_kerja_tahun, masa_kerja_bulan, gaji_pokok_terakhir,
+    * nomor_sk_terakhir, tanggal_sk_terakhir,
+    * skp_tahun_1, skp_predikat_1, skp_tahun_2, skp_predikat_2
     *
     * @param array $row
     * @return \Illuminate\Database\Eloquent\Model|null
@@ -75,7 +78,7 @@ class PegawaiImport implements ToModel, WithHeadingRow, SkipsOnError
         }
 
         // Create pegawai record
-        Pegawai::create([
+        $pegawai = Pegawai::create([
             'user_id' => $user->id,
             'nip' => $nip,
             'nama_lengkap' => $nama,
@@ -87,8 +90,26 @@ class PegawaiImport implements ToModel, WithHeadingRow, SkipsOnError
             'masa_kerja_tahun' => (int) ($row['masa_kerja_tahun'] ?? 0),
             'masa_kerja_bulan' => (int) ($row['masa_kerja_bulan'] ?? 0),
             'gaji_pokok_terakhir' => (float) ($row['gaji_pokok_terakhir'] ?? 0),
+            'nomor_sk_terakhir' => $row['nomor_sk_terakhir'] ?? null,
+            'tanggal_sk_terakhir' => $this->parseDate($row['tanggal_sk_terakhir'] ?? null),
             'is_sedang_hukuman_disiplin' => false,
         ]);
+
+        // Import data SKP jika ada
+        if (!empty($row['skp_tahun_1']) && !empty($row['skp_predikat_1'])) {
+            SkpEvaluasi::create([
+                'pegawai_id' => $pegawai->id,
+                'tahun_penilaian' => $row['skp_tahun_1'],
+                'predikat' => ucfirst(strtolower(trim($row['skp_predikat_1'])))
+            ]);
+        }
+        if (!empty($row['skp_tahun_2']) && !empty($row['skp_predikat_2'])) {
+            SkpEvaluasi::create([
+                'pegawai_id' => $pegawai->id,
+                'tahun_penilaian' => $row['skp_tahun_2'],
+                'predikat' => ucfirst(strtolower(trim($row['skp_predikat_2'])))
+            ]);
+        }
 
         $this->successCount++;
         return null; // Kita sudah handle insert manual di atas

@@ -150,7 +150,19 @@
                     </ul>
                 </div>
 
-                <form x-show="!loading" method="POST" :action="`/admin/kgb/${pegawai}/proses`">
+                <form x-show="!loading" method="POST" :action="`/admin/kgb/${pegawai}/proses`"
+                    @submit="
+                        if (dataModal.validasi && !dataModal.validasi.lolos) {
+                            $event.preventDefault();
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'SK Tidak Bisa Dicetak!',
+                                html: 'Proses KGB tidak dapat dilanjutkan karena pegawai belum memenuhi syarat:<br><br><ul class=\'text-left list-disc pl-5 text-sm\'><li>' + dataModal.validasi.alasan.join('</li><li>') + '</li></ul>',
+                                confirmButtonColor: '#3b82f6',
+                                confirmButtonText: 'Mengerti'
+                            });
+                        }
+                    ">
                     @csrf
 
                     {{-- Info Pegawai --}}
@@ -260,7 +272,7 @@
 
                     <div class="mt-6 flex justify-end gap-3">
                         <x-secondary-button x-on:click="$dispatch('close')">Batal</x-secondary-button>
-                        <x-primary-button x-bind:disabled="dataModal.validasi && !dataModal.validasi.lolos">
+                        <x-primary-button>
                             Proses & Cetak SK
                         </x-primary-button>
                     </div>

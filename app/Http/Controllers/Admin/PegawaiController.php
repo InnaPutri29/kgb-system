@@ -180,6 +180,9 @@ class PegawaiController extends Controller
                     ->with('warning', $message);
             }
 
+            // Jalankan deteksi otomatis agar notifikasi langsung muncul
+            \Illuminate\Support\Facades\Artisan::call('kgb:check-due');
+
             return redirect()->route('admin.pegawai.index')
                 ->with('success', $message);
         } catch (\Exception $e) {
