@@ -41,6 +41,25 @@
         </a>
     </div>
 
+    {{-- GRAFIK --}}
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-5">
+        {{-- Grafik Golongan --}}
+        <div class="bg-white rounded-xl border border-gray-200 p-5">
+            <h2 class="font-semibold text-gray-800 mb-4">Distribusi Pegawai (Golongan)</h2>
+            <div class="h-64 relative flex items-center justify-center">
+                <canvas id="chartGolongan"></canvas>
+            </div>
+        </div>
+
+        {{-- Grafik Pangkat --}}
+        <div class="bg-white rounded-xl border border-gray-200 p-5">
+            <h2 class="font-semibold text-gray-800 mb-4">Top 5 Pangkat Pegawai</h2>
+            <div class="h-64 relative flex items-center justify-center">
+                <canvas id="chartPangkat"></canvas>
+            </div>
+        </div>
+    </div>
+
     {{-- RINGKASAN NOMINATIF --}}
     <div class="bg-white rounded-xl border border-gray-200 overflow-hidden">
         <div class="px-6 py-4 border-b border-gray-100 flex items-center justify-between">
@@ -120,3 +139,60 @@
 
 </div>
 @endsection
+
+@push('scripts')
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const dataGolongan = @json($statistikGolongan);
+        const dataPangkat = @json($statistikPangkat);
+
+        // Chart Golongan (Doughnut)
+        const ctxGolongan = document.getElementById('chartGolongan').getContext('2d');
+        new Chart(ctxGolongan, {
+            type: 'doughnut',
+            data: {
+                labels: dataGolongan.map(item => item.golongan),
+                datasets: [{
+                    data: dataGolongan.map(item => item.total),
+                    backgroundColor: ['#3b82f6', '#10b981', '#f59e0b', '#ef4444', '#8b5cf6', '#ec4899', '#6366f1', '#06b6d4', '#84cc16'],
+                    borderWidth: 0,
+                    hoverOffset: 4
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { position: 'right' }
+                }
+            }
+        });
+
+        // Chart Pangkat (Bar)
+        const ctxPangkat = document.getElementById('chartPangkat').getContext('2d');
+        new Chart(ctxPangkat, {
+            type: 'bar',
+            data: {
+                labels: dataPangkat.map(item => item.pangkat.substring(0, 15) + (item.pangkat.length > 15 ? '...' : '')),
+                datasets: [{
+                    label: 'Jumlah Pegawai',
+                    data: dataPangkat.map(item => item.total),
+                    backgroundColor: '#3b82f6',
+                    borderRadius: 4
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false }
+                },
+                scales: {
+                    y: { beginAtZero: true, ticks: { stepSize: 1 } }
+                }
+            }
+        });
+    });
+</script>
+@endpush

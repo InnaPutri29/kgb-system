@@ -230,5 +230,6 @@
     </script>
 
     <x-global-delete-modal />
+    @stack('scripts')
 </body>
 </html>

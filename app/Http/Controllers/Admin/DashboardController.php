@@ -35,10 +35,28 @@ class DashboardController extends Controller
             ->whereRaw('DATE_ADD(tmt_gaji_terakhir, INTERVAL 2 YEAR) = ?', [$today])
             ->count();
 
+        // Data Grafik Golongan
+        $statistikGolongan = Pegawai::select('golongan', \Illuminate\Support\Facades\DB::raw('count(*) as total'))
+            ->whereNotNull('golongan')
+            ->where('golongan', '!=', '')
+            ->groupBy('golongan')
+            ->get();
+
+        // Data Grafik Pangkat (Top 5)
+        $statistikPangkat = Pegawai::select('pangkat', \Illuminate\Support\Facades\DB::raw('count(*) as total'))
+            ->whereNotNull('pangkat')
+            ->where('pangkat', '!=', '')
+            ->groupBy('pangkat')
+            ->orderBy('total', 'desc')
+            ->limit(5)
+            ->get();
+
         return view('admin.dashboard', compact(
             'totalPegawai',
             'daftarNominatif',
-            'jatuhTempoHariIni'
+            'jatuhTempoHariIni',
+            'statistikGolongan',
+            'statistikPangkat'
         ));
     }
 }
