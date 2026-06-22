@@ -48,10 +48,11 @@
         </div>
 
         <!-- Right Side: Login Card with Glassmorphism -->
-        <div class="w-full md:w-[50%] h-screen overflow-y-auto flex items-center justify-center p-8 lg:p-16 z-10 relative">
-            
-            <!-- Glassmorphism Card -->
-            <div class="w-full max-w-[460px] bg-white/70 backdrop-blur-2xl shadow-[0_8px_30px_rgb(0,0,0,0.12)] rounded-3xl overflow-hidden border border-white/60 transition-all duration-300 hover:shadow-[0_8px_40px_rgb(0,0,0,0.16)]">
+        <div class="w-full md:w-[50%] h-screen overflow-y-auto z-10 relative">
+            <div class="min-h-full flex flex-col justify-center items-center p-6 sm:p-8 lg:p-16">
+                
+                <!-- Glassmorphism Card -->
+                <div class="w-full max-w-md sm:max-w-[480px] lg:max-w-[500px] bg-white/70 backdrop-blur-2xl shadow-[0_8px_30px_rgb(0,0,0,0.12)] rounded-3xl overflow-hidden border border-white/60 transition-all duration-300 hover:shadow-[0_8px_40px_rgb(0,0,0,0.16)]">
                 <div class="px-8 py-8 sm:px-10 sm:py-8">
                     
                     <!-- Logo Header -->
