@@ -6,6 +6,11 @@
     <meta name="description" content="KGB System - Sistem Administrasi Kenaikan Gaji Berkala RSD Sidawangi">
     <title>@yield('title', 'Dashboard') — KGB System RSD Sidawangi</title>
     <link rel="icon" href="{{ asset('images/logo-kgb-system.png') }}" type="image/png">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.bunny.net">
+    <link href="https://fonts.bunny.net/css?family=inter:300,400,500,600,700,800&display=swap" rel="stylesheet" />
+
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <style>
         [x-cloak] { display: none !important; }
