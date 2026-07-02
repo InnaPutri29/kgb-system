@@ -5,6 +5,7 @@
 <div class="space-y-6 max-w-5xl mx-auto">
     <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
         <div>
+            <h2 class="text-2xl font-bold text-gray-800">Master Tarif Gaji</h2>
             <p class="text-sm text-gray-500">Kelola data acuan gaji pokok berdasarkan golongan dan masa kerja.</p>
         </div>
         <button x-data @click="$dispatch('open-modal', 'add-gaji')"

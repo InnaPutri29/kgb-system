@@ -6,7 +6,7 @@
     <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
             <h2 class="text-2xl font-bold text-gray-800">Riwayat KGB</h2>
-            <p class="text-sm text-gray-500">Daftar seluruh dokumen SK Kenaikan Gaji Berkala yang tersimpan sebagai snapshot audit trail.</p>
+            <p class="text-sm text-gray-500">Daftar seluruh dokumen Surat Keputusan (SK) Kenaikan Gaji Berkala pegawai yang telah diterbitkan.</p>
         </div>
         <a href="{{ route('admin.dashboard') }}" class="inline-flex items-center justify-center gap-2 text-sm bg-white border border-gray-200 text-gray-700 hover:bg-gray-50 px-4 py-2 rounded-lg transition w-full sm:w-auto shrink-0">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
@@ -28,7 +28,7 @@
                 <input type="number" name="tahun_akhir" id="tahun_akhir" value="{{ date('Y') }}" class="text-sm border-gray-300 rounded-lg shadow-sm focus:border-blue-500 focus:ring-blue-500 w-24">
             </div>
             <button type="submit" class="inline-flex items-center gap-2 text-sm bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg transition shrink-0 ml-0 sm:ml-2">
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/></svg>
                 Ekspor
             </button>
         </form>

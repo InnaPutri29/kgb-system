@@ -3,8 +3,11 @@
 
 @section('content')
 <div class="space-y-5">
-    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
-        <p class="text-sm text-gray-500">Total {{ $pegawai->total() }} data pegawai terdaftar.</p>
+    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+        <div>
+            <h2 class="text-2xl font-bold text-gray-800">Data Pegawai</h2>
+            <p class="text-sm text-gray-500">Kelola informasi seluruh pegawai negeri sipil dan riwayat kepangkatan.</p>
+        </div>
         <div class="flex flex-wrap items-center gap-2 w-full sm:w-auto">
             <a href="{{ route('admin.pegawai.create') }}"
                class="inline-flex items-center justify-center gap-1.5 text-sm bg-white border border-gray-300 hover:bg-gray-50 text-gray-700 px-4 py-2 rounded-lg transition font-medium shadow-sm flex-1 sm:flex-none">
@@ -12,7 +15,7 @@
                 Tambah Data
             </a>
             <a href="{{ route('admin.pegawai.import') }}"
-               class="inline-flex items-center justify-center gap-1.5 text-sm bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition font-medium shadow-sm flex-1 sm:flex-none">
+               class="inline-flex items-center justify-center gap-1.5 text-sm bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg transition font-medium shadow-sm flex-1 sm:flex-none">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M9 19l3 3m0 0l3-3m-3 3V10"/></svg>
                 Import Excel
             </a>

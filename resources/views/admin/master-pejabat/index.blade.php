@@ -3,8 +3,11 @@
 
 @section('content')
 <div class="space-y-6 max-w-5xl mx-auto">
-    <div class="flex justify-between items-center">
-        <p class="text-sm text-gray-500">Kelola daftar pejabat yang menetapkan Surat Keputusan KGB sebelumnya sebagai referensi.</p>
+    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+        <div>
+            <h2 class="text-2xl font-bold text-gray-800">Master Pejabat</h2>
+            <p class="text-sm text-gray-500">Kelola daftar pejabat yang menetapkan Surat Keputusan KGB sebelumnya sebagai referensi.</p>
+        </div>
         <button x-data @click="$dispatch('open-modal', 'add-pejabat')"
            class="inline-flex items-center gap-1.5 text-sm bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition font-medium">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>

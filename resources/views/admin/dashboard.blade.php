@@ -64,7 +64,7 @@
     <div class="bg-white rounded-xl border border-gray-200 overflow-hidden">
         <div class="px-6 py-4 border-b border-gray-100 flex items-center justify-between">
             <div>
-                <h2 class="font-semibold text-gray-800">📋 Nominatif KGB Terkini</h2>
+                <h2 class="font-semibold text-gray-800">Nominatif KGB Terkini</h2>
                 <p class="text-xs text-gray-500 mt-0.5">5 pegawai teratas yang KGB-nya paling mendesak</p>
             </div>
             <a href="{{ route('admin.kgb.nominatif') }}"
@@ -110,11 +110,11 @@
                                 <td class="px-4 py-3">
                                     @if($isLate)
                                         <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-semibold bg-red-100 text-red-700">
-                                            ⚠ Terlambat {{ abs((int)$selisih) }}h
+                                            Terlambat {{ abs((int)$selisih) }}h
                                         </span>
                                     @elseif($isUrgent)
                                         <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-semibold bg-orange-100 text-orange-700">
-                                            🔔 H-{{ (int)$selisih }}
+                                            H-{{ (int)$selisih }}
                                         </span>
                                     @else
                                         <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-semibold bg-yellow-100 text-yellow-700">
