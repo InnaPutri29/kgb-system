@@ -14,6 +14,26 @@
         </a>
     </div>
 
+    <!-- Export Section -->
+    <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-100 flex flex-col sm:flex-row items-center gap-4">
+        <div class="text-sm font-medium text-gray-700">Ekspor Data (Excel):</div>
+        <form action="{{ route('admin.kgb.export') }}" method="GET" class="flex flex-col sm:flex-row items-center gap-3 w-full sm:w-auto">
+            <div class="flex items-center gap-2">
+                <label for="tahun_awal" class="text-xs text-gray-500">Tahun Awal</label>
+                <input type="number" name="tahun_awal" id="tahun_awal" value="{{ date('Y') }}" class="text-sm border-gray-300 rounded-lg shadow-sm focus:border-blue-500 focus:ring-blue-500 w-24">
+            </div>
+            <span class="text-gray-400 text-sm hidden sm:block">-</span>
+            <div class="flex items-center gap-2">
+                <label for="tahun_akhir" class="text-xs text-gray-500">Tahun Akhir</label>
+                <input type="number" name="tahun_akhir" id="tahun_akhir" value="{{ date('Y') }}" class="text-sm border-gray-300 rounded-lg shadow-sm focus:border-blue-500 focus:ring-blue-500 w-24">
+            </div>
+            <button type="submit" class="inline-flex items-center gap-2 text-sm bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg transition shrink-0 ml-0 sm:ml-2">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+                Ekspor
+            </button>
+        </form>
+    </div>
+
     <div class="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
         <div class="px-6 py-4 border-b border-gray-100 bg-gray-50/80 flex items-center justify-between">
             <div>

@@ -12,6 +12,8 @@ use Barryvdh\DomPDF\Facade\Pdf;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use App\Exports\KgbExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class KgbController extends Controller
 {
@@ -195,6 +197,27 @@ class KgbController extends Controller
         $filename = 'SK_KGB_' . $namaClean . '_' . $riwayat->pegawai->nip . '.pdf';
 
         return $pdf->download($filename);
+    }
+
+    // -----------------------------------------------------------------------
+    // EXPORT EXCEL
+    // -----------------------------------------------------------------------
+    public function export(Request $request)
+    {
+        $request->validate([
+            'tahun_awal'  => 'nullable|integer|min:2000',
+            'tahun_akhir' => 'nullable|integer|gte:tahun_awal',
+        ]);
+
+        $tahunAwal  = $request->tahun_awal ?? Carbon::now()->year;
+        $tahunAkhir = $request->tahun_akhir ?? Carbon::now()->year;
+
+        $filename = "Rekap_KGB_{$tahunAwal}_sampai_{$tahunAkhir}.xlsx";
+        if ($tahunAwal == $tahunAkhir) {
+            $filename = "Rekap_KGB_Tahun_{$tahunAwal}.xlsx";
+        }
+
+        return Excel::download(new KgbExport($tahunAwal, $tahunAkhir), $filename);
     }
 
     // -----------------------------------------------------------------------
