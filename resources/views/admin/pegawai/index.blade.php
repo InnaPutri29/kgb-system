@@ -22,24 +22,54 @@
         </div>
     </div>
 
-    {{-- Pencarian --}}
+    {{-- Pencarian & Filter --}}
     <div class="bg-white p-4 rounded-xl border border-gray-200 shadow-sm">
-        <form method="GET" action="{{ route('admin.pegawai.index') }}" class="flex flex-col sm:flex-row gap-3 items-end">
+        <form method="GET" action="{{ route('admin.pegawai.index') }}" class="flex flex-col md:flex-row gap-3 items-end">
             <div class="w-full flex-1">
                 <x-input-label for="search" value="Cari Pegawai" class="mb-1" />
                 <div class="relative">
                     <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-400">
                         <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
                     </div>
-                    <x-text-input id="search" name="search" type="text" class="block w-full pl-9 text-sm focus:border-blue-500 focus:ring-blue-500" placeholder="Cari berdasarkan NIP, Nama, Jabatan, Pangkat, Golongan..." value="{{ request('search') }}" />
+                    <x-text-input id="search" name="search" type="text" class="block w-full pl-9 text-sm focus:border-blue-500 focus:ring-blue-500" placeholder="Cari NIP, Nama, Jabatan..." value="{{ request('search') }}" />
                 </div>
             </div>
             
-            <div class="flex gap-2 w-full sm:w-auto">
+            <div class="w-full md:w-40">
+                <x-input-label for="golongan" value="Golongan" class="mb-1" />
+                <select id="golongan" name="golongan" class="border-gray-300 focus:border-blue-500 focus:ring-blue-500 rounded-lg shadow-sm block w-full text-sm">
+                    <option value="">Semua</option>
+                    <option value="I" {{ request('golongan') == 'I' ? 'selected' : '' }}>Gol. I</option>
+                    <option value="II" {{ request('golongan') == 'II' ? 'selected' : '' }}>Gol. II</option>
+                    <option value="III" {{ request('golongan') == 'III' ? 'selected' : '' }}>Gol. III</option>
+                    <option value="IV" {{ request('golongan') == 'IV' ? 'selected' : '' }}>Gol. IV</option>
+                    @if(isset($golonganList))
+                        <optgroup label="Spesifik">
+                            @foreach($golonganList as $gol)
+                                <option value="{{ $gol }}" {{ request('golongan') == $gol ? 'selected' : '' }}>{{ $gol }}</option>
+                            @endforeach
+                        </optgroup>
+                    @endif
+                </select>
+            </div>
+
+            <div class="w-full md:w-32">
+                <x-input-label for="tahun_tmt" value="Tahun TMT" class="mb-1" />
+                <select id="tahun_tmt" name="tahun_tmt" class="border-gray-300 focus:border-blue-500 focus:ring-blue-500 rounded-lg shadow-sm block w-full text-sm">
+                    <option value="">Semua</option>
+                    @if(isset($tahunTmtList))
+                        @foreach($tahunTmtList as $thn)
+                            <option value="{{ $thn }}" {{ request('tahun_tmt') == $thn ? 'selected' : '' }}>{{ $thn }}</option>
+                        @endforeach
+                    @endif
+                </select>
+            </div>
+
+            <div class="flex gap-2 w-full md:w-auto">
                 <button type="submit" class="px-5 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium rounded-lg transition w-full sm:w-auto shadow-sm">
-                    Cari
+                    Filter
                 </button>
-                @if(request()->filled('search'))
+                @if(request()->filled('search') || request()->filled('golongan') || request()->filled('tahun_tmt'))
                     <a href="{{ route('admin.pegawai.index') }}" class="px-4 py-2 bg-gray-100 text-gray-600 text-sm font-medium rounded-lg hover:bg-gray-200 transition text-center w-full sm:w-auto">
                         Reset
                     </a>

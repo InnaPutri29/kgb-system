@@ -28,9 +28,30 @@ class PegawaiController extends Controller
                   ->orWhere('pangkat', 'like', "%{$search}%");
             });
         }
+        if ($request->filled('golongan')) {
+            $query->where('golongan', 'like', $request->golongan . '%');
+        }
+
+        if ($request->filled('tahun_tmt')) {
+            $query->whereYear('tmt_gaji_terakhir', $request->tahun_tmt);
+        }
+
+        // Ambil daftar tahun TMT dan golongan unik yang ada di database untuk dropdown
+        $tahunTmtList = Pegawai::whereNotNull('tmt_gaji_terakhir')
+            ->selectRaw('YEAR(tmt_gaji_terakhir) as tahun')
+            ->groupBy('tahun')
+            ->orderBy('tahun', 'desc')
+            ->pluck('tahun');
+
+        $golonganList = Pegawai::whereNotNull('golongan')
+            ->where('golongan', '!=', '')
+            ->select('golongan')
+            ->groupBy('golongan')
+            ->orderBy('golongan')
+            ->pluck('golongan');
 
         $pegawai = $query->latest()->paginate(15)->withQueryString();
-        return view('admin.pegawai.index', compact('pegawai'));
+        return view('admin.pegawai.index', compact('pegawai', 'tahunTmtList', 'golonganList'));
     }
 
     public function showImportForm()
