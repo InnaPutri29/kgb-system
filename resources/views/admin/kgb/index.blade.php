@@ -27,9 +27,9 @@
                 <label for="tahun_akhir" class="text-xs text-gray-500">Tahun Akhir</label>
                 <input type="number" name="tahun_akhir" id="tahun_akhir" value="{{ date('Y') }}" class="text-sm border-gray-300 rounded-lg shadow-sm focus:border-blue-500 focus:ring-blue-500 w-24">
             </div>
-            <button type="submit" class="inline-flex items-center gap-2 text-sm bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg transition shrink-0 ml-0 sm:ml-2">
+            <button type="submit" class="inline-flex items-center justify-center gap-1.5 text-sm bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg transition font-medium shadow-sm w-full sm:w-auto">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/></svg>
-                Ekspor
+                Ekspor Excel
             </button>
         </form>
     </div>
