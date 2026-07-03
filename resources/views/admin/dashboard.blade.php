@@ -88,9 +88,9 @@
                             <th class="px-4 py-3 text-left">NIP</th>
                             <th class="px-4 py-3 text-left">Nama Pegawai</th>
                             <th class="px-4 py-3 text-left">Gol.</th>
-                            <th class="px-4 py-3 text-left">TMT Gaji Terakhir</th>
-                            <th class="px-4 py-3 text-left">Jatuh Tempo KGB</th>
-                            <th class="px-4 py-3 text-left">Status</th>
+                            <th class="px-4 py-3 text-center">TMT Gaji Terakhir</th>
+                            <th class="px-4 py-3 text-center">Jatuh Tempo KGB</th>
+                            <th class="px-4 py-3 text-center">Status</th>
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-gray-100">
@@ -105,9 +105,9 @@
                                 <td class="px-4 py-3 font-mono text-xs text-gray-600">{{ $p->nip }}</td>
                                 <td class="px-4 py-3 font-medium text-gray-800">{{ $p->nama_lengkap }}</td>
                                 <td class="px-4 py-3 text-gray-600">{{ $p->golongan ?? '-' }}</td>
-                                <td class="px-4 py-3 text-gray-600">{{ \Carbon\Carbon::parse($p->tmt_gaji_terakhir)->format('d/m/Y') }}</td>
-                                <td class="px-4 py-3 text-gray-600">{{ $jatuhTempo->format('d/m/Y') }}</td>
-                                <td class="px-4 py-3">
+                                <td class="px-4 py-3 text-center text-gray-600">{{ \Carbon\Carbon::parse($p->tmt_gaji_terakhir)->format('d/m/Y') }}</td>
+                                <td class="px-4 py-3 text-center text-gray-600">{{ $jatuhTempo->format('d/m/Y') }}</td>
+                                <td class="px-4 py-3 text-center">
                                     @if($isLate)
                                         <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-semibold bg-red-100 text-red-700">
                                             Terlambat {{ abs((int)$selisih) }}h

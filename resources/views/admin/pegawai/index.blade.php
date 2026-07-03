@@ -102,7 +102,7 @@
                             <th class="px-4 py-3 text-left">Nama</th>
                             <th class="px-4 py-3 text-left">Jabatan</th>
                             <th class="px-4 py-3 text-left">Gol.</th>
-                            <th class="px-4 py-3 text-left">TMT Gaji Terakhir</th>
+                            <th class="px-4 py-3 text-center">TMT Gaji Terakhir</th>
                             <th class="px-4 py-3 text-center">Gaji Pokok</th>
                             <th class="px-4 py-3 text-center">Aksi</th>
                         </tr>
@@ -114,7 +114,7 @@
                             <td class="px-4 py-3 font-medium text-gray-800">{{ $p->nama_lengkap }}</td>
                             <td class="px-4 py-3 text-gray-600">{{ $p->jabatan ?? '-' }}</td>
                             <td class="px-4 py-3 text-gray-600">{{ $p->golongan ?? '-' }}</td>
-                            <td class="px-4 py-3 text-gray-600">
+                            <td class="px-4 py-3 text-center text-gray-600">
                                 {{ $p->tmt_gaji_terakhir ? \Carbon\Carbon::parse($p->tmt_gaji_terakhir)->format('d/m/Y') : '-' }}
                             </td>
                             <td class="px-4 py-3 text-gray-600">
