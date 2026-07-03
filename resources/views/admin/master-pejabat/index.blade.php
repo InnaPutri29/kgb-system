@@ -29,7 +29,7 @@
                         <tr>
                             <th class="px-4 py-3 text-left">Nama Jabatan (Sesuai SK)</th>
                             <th class="px-4 py-3 text-left">Nama Lengkap & Gelar (Opsional)</th>
-                            <th class="px-4 py-3 text-right">Aksi</th>
+                            <th class="px-4 py-3 text-center">Aksi</th>
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-gray-100">
