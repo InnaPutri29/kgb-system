@@ -50,7 +50,7 @@
                 <table class="w-full text-sm text-left">
                     <thead class="bg-gray-50 text-xs text-gray-500 uppercase tracking-wider">
                         <tr>
-                            <th class="px-5 py-3">Nomor SK</th>
+                            <th class="px-5 py-3 ">Nomor SK</th>
                             <th class="px-5 py-3">Pegawai</th>
                             <th class="px-5 py-3">Tgl Ditetapkan</th>
                             <th class="px-5 py-3">TMT Baru</th>
@@ -59,7 +59,7 @@
                             <th class="px-5 py-3">Masa Kerja</th>
                             <th class="px-5 py-3">TMT YAD</th>
                             <th class="px-5 py-3">Pejabat</th>
-                            <th class="px-5 py-3 text-right">Aksi</th>
+                            <th class="px-5 py-3 text-center">Aksi</th>
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-gray-100 bg-white">

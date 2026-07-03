@@ -103,8 +103,8 @@
                             <th class="px-4 py-3 text-left">Jabatan</th>
                             <th class="px-4 py-3 text-left">Gol.</th>
                             <th class="px-4 py-3 text-left">TMT Gaji Terakhir</th>
-                            <th class="px-4 py-3 text-left">Gaji Pokok</th>
-                            <th class="px-4 py-3 text-left">Aksi</th>
+                            <th class="px-4 py-3 text-center">Gaji Pokok</th>
+                            <th class="px-4 py-3 text-center">Aksi</th>
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-gray-100">

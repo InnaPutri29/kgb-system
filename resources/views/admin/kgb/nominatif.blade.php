@@ -35,14 +35,14 @@
                 <table class="w-full text-sm">
                     <thead class="bg-gray-50 text-xs text-gray-500 uppercase tracking-wider">
                         <tr>
-                            <th class="px-5 py-3 text-left">No</th>
+                            <th class="px-5 py-3 text-center">No</th>
                             <th class="px-5 py-3 text-left">NIP</th>
                             <th class="px-5 py-3 text-left">Nama Pegawai</th>
                             <th class="px-5 py-3 text-left">Pangkat</th>
-                            <th class="px-5 py-3 text-left">Gol.</th>
+                            <th class="px-5 py-3 text-center">Gol.</th>
                             <th class="px-5 py-3 text-left">TMT Gaji Terakhir</th>
-                            <th class="px-5 py-3 text-left">Jatuh Tempo KGB</th>
-                            <th class="px-5 py-3 text-left">Status</th>
+                            <th class="px-5 py-3 text-center">Jatuh Tempo KGB</th>
+                            <th class="px-5 py-3 text-center">Status</th>
                             <th class="px-5 py-3 text-center">Aksi</th>
                         </tr>
                     </thead>
