@@ -35,7 +35,7 @@
             </div>
 
             <div class="flex gap-2 w-full sm:w-auto">
-                <button type="submit" class="px-4 py-2 bg-gray-800 text-white text-sm font-medium rounded-lg hover:bg-gray-700 transition w-full sm:w-auto">
+                <button type="submit" class="px-5 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium rounded-lg transition w-full sm:w-auto shadow-sm">
                     Filter
                 </button>
                 @if(request()->hasAny(['search', 'kategori']))
