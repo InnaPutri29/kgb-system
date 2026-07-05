@@ -14,10 +14,9 @@ return new class extends Migration
         Schema::create('master_pejabat', function (Blueprint $table) {
             $table->id();
             $table->string('nama_jabatan');
-            $table->string('nama_pejabat');
-            $table->string('nip');
-            $table->string('pangkat_golongan');
+            $table->string('nama_pejabat')->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

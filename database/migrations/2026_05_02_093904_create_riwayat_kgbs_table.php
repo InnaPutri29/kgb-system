@@ -14,17 +14,18 @@ return new class extends Migration
         Schema::create('riwayat_kgb', function (Blueprint $table) {
             $table->id();
             $table->foreignId('pegawai_id')->constrained('pegawai')->onDelete('cascade');
-            $table->string('nomor_sk_lama')->nullable();
-            $table->date('tanggal_sk_lama')->nullable();
             $table->string('nomor_sk_baru');
-            $table->date('tanggal_sk_baru');
-            $table->date('tmt_kgb_baru');
+            $table->date('tanggal_ditetapkan');
+            $table->date('tmt_baru');
+            $table->bigInteger('gaji_pokok_lama');
+            $table->bigInteger('gaji_pokok_baru');
             $table->integer('masa_kerja_tahun_baru');
             $table->integer('masa_kerja_bulan_baru');
-            $table->decimal('gaji_pokok_baru', 15, 2);
-            $table->foreignId('pejabat_id')->nullable()->constrained('master_pejabat')->onDelete('set null');
-            $table->string('file_sk')->nullable(); // path to pdf
+            $table->date('tmt_yad');                       // tmt_baru + 2 tahun
+            $table->string('pejabat_penetap');             // snapshot nama pimpinan
+            $table->string('file_pdf_path')->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

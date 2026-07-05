@@ -28,7 +28,23 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
-        return redirect()->intended(route('dashboard', absolute: false));
+        $user = Auth::user();
+
+        // Jika first login, paksa ganti password dulu
+        if ($user->is_first_login) {
+            return redirect()->route('password.change');
+        }
+
+// Ganti baris return redirect bawaan dengan logika ini:
+$user = auth()->user();
+
+if ($user->hasRole('admin')) {
+    return redirect()->intended(route('admin.dashboard'));
+} elseif ($user->hasRole('pegawai')) {
+    return redirect()->intended(route('pegawai.dashboard'));
+}
+
+return redirect()->intended('/');
     }
 
     /**
