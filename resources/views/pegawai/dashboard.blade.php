@@ -46,19 +46,13 @@
 
             {{-- KOLOM KIRI: PROFIL PEGAWAI --}}
             <div class="bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden relative">
-                <div class="h-24 bg-gradient-to-tr from-indigo-500 to-indigo-800 relative"></div>
+                <div class="h-3 bg-gradient-to-tr from-blue-700 to-blue-900 relative"></div>
                 <div class="px-6 pb-6 relative">
-                    <div class="w-20 h-20 bg-white rounded-2xl p-1.5 shadow-lg absolute -top-10 left-6 flex items-center justify-center border border-gray-100 overflow-hidden">
-                        <div class="w-full h-full rounded-xl bg-gradient-to-tr from-indigo-50 to-indigo-100 text-indigo-600 flex items-center justify-center font-black text-3xl shadow-inner">
-                            {{ substr($pegawai->nama_lengkap, 0, 1) }}
-                        </div>
-                    </div>
-                    
-                    <div class="pt-14 space-y-1">
+                    <div class="pt-6 space-y-1">
                         <h2 class="text-xl font-bold text-gray-800 leading-tight">{{ $pegawai->nama_lengkap }}</h2>
-                        <p class="text-indigo-600 font-mono text-sm font-semibold">{{ $pegawai->nip }}</p>
+                        <p class="text-blue-700 font-mono text-sm font-semibold">{{ $pegawai->nip }}</p>
                         <div class="pt-2">
-                            <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-indigo-50 text-indigo-700 border border-indigo-100">
+                            <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-blue-50 text-blue-700 border border-blue-100">
                                 {{ $pegawai->jabatan ?? 'Jabatan Belum Diisi' }}
                             </span>
                         </div>
@@ -92,7 +86,7 @@
                             </div>
                             <div>
                                 <p class="text-[10px] font-bold text-gray-400 uppercase">Gaji Pokok Terakhir</p>
-                                <p class="text-sm text-indigo-600 font-extrabold">
+                                <p class="text-sm text-blue-700 font-extrabold">
                                     Rp {{ number_format($pegawai->gaji_pokok_terakhir, 0, ',', '.') }}
                                 </p>
                             </div>
@@ -105,7 +99,7 @@
             <div class="bg-white rounded-2xl border border-gray-200 shadow-sm p-6 space-y-5">
                 <div class="space-y-1">
                     <h3 class="text-base font-bold text-gray-800 flex items-center gap-2">
-                        <span class="text-blue-600">🛡️</span> Kriteria Kelayakan KGB
+                        <span class="text-blue-600"></span> Kriteria Kelayakan KGB
                     </h3>
                     <p class="text-xs text-gray-400">Verifikasi berkala kelayakan Kenaikan Gaji Berkala PNS.</p>
                 </div>

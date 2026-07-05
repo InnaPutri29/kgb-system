@@ -10,7 +10,6 @@
 
     <div class="flex items-center justify-between">
         <h2 class="text-xl font-bold text-gray-800">Pengaturan Profil</h2>
-        <a href="{{ auth()->user()->hasRole('admin') ? route('admin.dashboard') : route('pegawai.dashboard') }}" class="text-sm text-gray-500 hover:text-gray-700 font-medium">Kembali</a>
     </div>
 
     {{-- Alert Success from Session --}}
