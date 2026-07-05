@@ -1,58 +1,98 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Sistem Informasi Kenaikan Gaji Berkala (KGB)
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Sistem Informasi Kenaikan Gaji Berkala (KGB) adalah aplikasi berbasis web yang dirancang khusus untuk mempermudah instansi pemerintahan dalam memantau, memproses, dan menerbitkan Surat Keputusan (SK) Kenaikan Gaji Berkala untuk Pegawai Negeri Sipil (PNS).
 
-## About Laravel
+## 🚀 Fitur Utama
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+Aplikasi ini dibagi menjadi 2 hak akses utama: **Admin (Kepegawaian)** dan **Pegawai**.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+### 👨‍💼 Fitur Admin
+*   **Dashboard Utama**: Statistik jumlah pegawai aktif, jumlah SK yang telah terbit, dan pengingat (reminder) jadwal KGB yang akan segera jatuh tempo.
+*   **Manajemen Pegawai**: Tambah, edit, hapus, serta impor data pegawai secara massal.
+*   **Manajemen Master Pejabat**: Mengelola data pejabat struktural yang berwenang untuk menandatangani SK KGB.
+*   **Proses Nominatif KGB**: 
+    *   Sistem secara otomatis mendeteksi pegawai yang sudah mendekati jatuh tempo KGB (2 tahun dari TMT Gaji Terakhir).
+    *   Filter kelayakan berdasarkan evaluasi SKP tahunan (minimal Berpredikat "Baik") dan status hukuman disiplin.
+*   **Cetak SK KGB**: 
+    *   Pembuatan otomatis SK KGB ke dalam format PDF yang siap diunduh atau dicetak.
+    *   Menyimpan arsip SK KGB yang telah diterbitkan ke dalam riwayat pegawai.
+*   **Evaluasi SKP**: Rekapitulasi dokumen Sasaran Kinerja Pegawai tahunan untuk syarat pengajuan KGB.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+### 👤 Fitur Pegawai
+*   **Dashboard Pegawai**: Tampilan profil ringkas beserta notifikasi/status kelayakan KGB saat ini.
+*   **Estimasi Jadwal KGB**: Menampilkan *countdown* sisa hari menuju jatuh tempo KGB berikutnya.
+*   **Riwayat SK KGB**: Pegawai dapat melihat daftar riwayat KGB terdahulu dan mengunduh file PDF SK mereka masing-masing secara mandiri.
+*   **Evaluasi SKP**: Melacak status predikat SKP yang telah dinilai oleh atasan sebagai syarat kelayakan KGB.
+*   **Pengaturan Profil**: Mengelola data akun, alamat email, dan pembaruan kata sandi.
 
-## Learning Laravel
+## 🛠️ Stack Teknologi
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+Aplikasi ini dibangun menggunakan arsitektur modern untuk memastikan kecepatan, keamanan, dan kemudahan dalam pengembangan lebih lanjut:
+*   **Framework PHP**: Laravel (v10 / v11)
+*   **Database**: MySQL
+*   **Frontend**: Laravel Blade, Tailwind CSS, Alpine.js
+*   **PDF Generator**: DomPDF (atau sejenisnya) untuk rendering cetak SK.
 
-In addition, [Laracasts](https://laracasts.com) contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+## ⚙️ Panduan Instalasi (Development)
 
-You can also watch bite-sized lessons with real-world projects on [Laravel Learn](https://laravel.com/learn), where you will be guided through building a Laravel application from scratch while learning PHP fundamentals.
+Bagi pengembang yang ingin menjalankan proyek ini secara lokal, ikuti langkah-langkah berikut:
 
-## Agentic Development
+1. **Kloning Repositori**
+   ```bash
+   git clone <url-repositori-anda>
+   cd kgb-system
+   ```
 
-Laravel's predictable structure and conventions make it ideal for AI coding agents like Claude Code, Cursor, and GitHub Copilot. Install [Laravel Boost](https://laravel.com/docs/ai) to supercharge your AI workflow:
+2. **Instalasi Dependensi PHP (Composer)**
+   ```bash
+   composer install
+   ```
 
-```bash
-composer require laravel/boost --dev
+3. **Instalasi Dependensi Frontend (NPM)**
+   ```bash
+   npm install
+   npm run build
+   ```
 
-php artisan boost:install
-```
+4. **Konfigurasi Environment**
+   * Salin file `.env.example` dan ubah namanya menjadi `.env`.
+   * Buka file `.env` dan atur konfigurasi *database* lokal Anda.
+   ```env
+   DB_CONNECTION=mysql
+   DB_HOST=127.0.0.1
+   DB_PORT=3306
+   DB_DATABASE=kgb_system
+   DB_USERNAME=root
+   DB_PASSWORD=
+   ```
 
-Boost provides your agent 15+ tools and skills that help agents build Laravel applications while following best practices.
+5. **Generate Application Key**
+   ```bash
+   php artisan key:generate
+   ```
 
-## Contributing
+6. **Migrasi dan Seeding Database**
+   Menjalankan migrasi *database* beserta akun *default* untuk demo.
+   ```bash
+   php artisan migrate:fresh --seed
+   ```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+7. **Storage Link**
+   Menautkan direktori `storage` agar file (seperti PDF atau Foto) dapat diakses publik.
+   ```bash
+   php artisan storage:link
+   ```
 
-## Code of Conduct
+8. **Menjalankan Server**
+   Jalankan *server* Artisan dan Vite secara paralel di 2 terminal berbeda:
+   ```bash
+   php artisan serve
+   ```
+   ```bash
+   npm run dev
+   ```
+   
+Aplikasi sekarang dapat diakses melalui browser di alamat: `http://localhost:8000`.
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+---
+*Dibuat untuk mempermudah digitalisasi layanan kepegawaian pemerintahan.*
