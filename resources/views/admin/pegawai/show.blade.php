@@ -17,13 +17,9 @@
     </div>
 
     <div class="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden relative">
-        <div class="h-24 bg-gradient-to-r from-blue-600 to-indigo-700"></div>
+        <div class="h-3 bg-gradient-to-r from-blue-900 to-blue-800 relative"></div>
         <div class="px-6 pb-6 relative">
-            <div class="w-20 h-20 bg-white rounded-2xl p-1 shadow-md absolute -top-10 left-6 flex items-center justify-center text-3xl font-bold text-blue-600 border border-gray-100">
-                {{ substr($pegawai->nama_lengkap, 0, 1) }}
-            </div>
-            
-            <div class="pt-14 flex flex-col md:flex-row justify-between md:items-end gap-4">
+            <div class="pt-6 flex flex-col md:flex-row justify-between md:items-end gap-4">
                 <div>
                     <h3 class="text-2xl font-bold text-gray-800 leading-tight">{{ $pegawai->nama_lengkap }}</h3>
                     <p class="text-blue-600 font-mono text-sm mt-1">{{ $pegawai->nip }}</p>
@@ -32,7 +28,7 @@
                     <span class="inline-flex items-center px-2.5 py-1 rounded-md text-xs font-medium bg-gray-100 text-gray-800 border border-gray-200">
                         {{ ($pegawai->pangkat ?? '-') . ' (' . ($pegawai->golongan ?? '-') . ')' }}
                     </span>
-                    <span class="inline-flex items-center px-2.5 py-1 rounded-md text-xs font-medium bg-indigo-50 text-indigo-700 border border-indigo-100">
+                    <span class="inline-flex items-center px-2.5 py-1 rounded-md text-xs font-medium bg-blue-50 text-blue-700 border border-blue-100">
                         {{ $pegawai->jabatan ?? 'Jabatan -' }}
                     </span>
                 </div>
