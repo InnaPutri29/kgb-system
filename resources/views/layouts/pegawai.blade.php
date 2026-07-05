@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="KGB System - Sistem Administrasi Kenaikan Gaji Berkala RSD Sidawangi">
+    <title>@yield('title', 'Dashboard') — KGB System RSD Sidawangi</title>
+    <link rel="icon" href="{{ asset('images/logo-kgb-system.png') }}" type="image/png">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.bunny.net">
+    <link href="https://fonts.bunny.net/css?family=inter:300,400,500,600,700,800&display=swap" rel="stylesheet" />
+
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    <style>
+        [x-cloak] { display: none !important; }
+    </style>
+</head>
+<body class="bg-gray-100 font-sans antialiased" 
+      x-data="{ sidebarOpen: window.innerWidth >= 1024 }">
+
+    {{-- SIDEBAR OVERLAY (Dihapus untuk mobile bottom nav) --}}
+    
+    {{-- LAYOUT --}}
+    <div class="flex h-screen overflow-hidden">
+        {{-- SIDEBAR / BOTTOM NAV --}}
+        <aside
+            class="fixed bottom-0 inset-x-0 z-50 flex flex-row w-full h-16 bg-gradient-to-r from-blue-900 to-blue-800 text-white lg:static lg:inset-y-0 lg:flex-col lg:w-64 lg:h-auto lg:bg-gradient-to-b shrink-0 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.1)] lg:shadow-none"
+        >
+            {{-- Logo (Hanya Desktop) --}}
+            <div class="hidden lg:flex items-center gap-3 px-5 py-5 border-b border-blue-700">
+                <div class="w-10 h-10 flex items-center justify-center shrink-0">
+                    <img src="{{ asset('images/logo-kgb-system.png') }}" alt="Logo" class="w-full h-full object-contain rounded-lg">
+                </div>
+                <div>
+                    <p class="text-xs text-blue-200 leading-none">Sistem KGB</p>
+                    <p class="font-bold text-sm leading-tight">RSD Sidawangi</p>
+                </div>
+            </div>
+
+            {{-- Nav Links --}}
+            <nav class="flex-1 flex flex-row justify-around items-center px-1 py-1 lg:flex-col lg:justify-start lg:px-3 lg:py-4 lg:space-y-1 overflow-x-auto lg:overflow-y-auto w-full">
+                <a href="{{ route('pegawai.dashboard') }}"
+                   class="flex flex-col lg:flex-row items-center justify-center lg:justify-start gap-1 lg:gap-3 px-1 lg:px-3 py-2 lg:py-2.5 rounded-lg text-[10px] lg:text-sm font-medium transition flex-1 lg:flex-none text-center
+                          {{ request()->routeIs('pegawai.dashboard') ? 'bg-white/20 text-white' : 'text-blue-100 hover:bg-white/10' }}">
+                    <svg class="w-5 h-5 lg:w-4 lg:h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
+                    <span class="truncate w-full lg:w-auto">Profil</span>
+                </a>
+
+                <p class="hidden lg:block px-3 pt-4 pb-1 text-xs font-semibold text-blue-300 uppercase tracking-wider">Layanan Kepegawaian</p>
+
+                <a href="{{ route('pegawai.kgb') }}"
+                   class="flex flex-col lg:flex-row items-center justify-center lg:justify-start gap-1 lg:gap-3 px-1 lg:px-3 py-2 lg:py-2.5 rounded-lg text-[10px] lg:text-sm font-medium transition flex-1 lg:flex-none text-center
+                          {{ request()->routeIs('pegawai.kgb') ? 'bg-white/20 text-white' : 'text-blue-100 hover:bg-white/10' }}">
+                    <svg class="w-5 h-5 lg:w-4 lg:h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                    <span class="truncate w-full lg:w-auto">Riwayat KGB</span>
+                </a>
+
+                <a href="{{ route('pegawai.skp') }}"
+                   class="flex flex-col lg:flex-row items-center justify-center lg:justify-start gap-1 lg:gap-3 px-1 lg:px-3 py-2 lg:py-2.5 rounded-lg text-[10px] lg:text-sm font-medium transition flex-1 lg:flex-none text-center
+                          {{ request()->routeIs('pegawai.skp') ? 'bg-white/20 text-white' : 'text-blue-100 hover:bg-white/10' }}">
+                    <svg class="w-5 h-5 lg:w-4 lg:h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+                    <span class="truncate w-full lg:w-auto">Evaluasi SKP</span>
+                </a>
+                
+                <p class="hidden lg:block px-3 pt-4 pb-1 text-xs font-semibold text-blue-300 uppercase tracking-wider">Pengaturan</p>
+                
+                <a href="{{ route('profile.edit') }}"
+                   class="flex flex-col lg:flex-row items-center justify-center lg:justify-start gap-1 lg:gap-3 px-1 lg:px-3 py-2 lg:py-2.5 rounded-lg text-[10px] lg:text-sm font-medium transition flex-1 lg:flex-none text-center
+                          {{ request()->routeIs('profile.edit') ? 'bg-white/20 text-white' : 'text-blue-100 hover:bg-white/10' }}">
+                    <svg class="w-5 h-5 lg:w-4 lg:h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
+                    <span class="truncate w-full lg:w-auto">Akun</span>
+                </a>
+            </nav>
+
+            {{-- User info (Hanya Desktop) --}}
+            <div class="hidden lg:block p-4 border-t border-blue-700">
+                <div class="flex items-center gap-3">
+                    <div class="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center text-sm font-bold">
+                        {{ substr(auth()->user()->name, 0, 1) }}
+                    </div>
+                    <div class="flex-1 min-w-0">
+                        <p class="text-sm font-medium truncate">{{ auth()->user()->name }}</p>
+                        <p class="text-xs text-blue-300">Pegawai</p>
+                    </div>
+                    <form method="POST" action="{{ route('logout') }}">
+                        @csrf
+                        <button type="submit" title="Keluar" class="text-blue-300 hover:text-white transition">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/></svg>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </aside>
+
+        {{-- MAIN CONTENT --}}
+        <div class="flex-1 flex flex-col overflow-hidden pb-16 lg:pb-0">
+            {{-- Top Header --}}
+            <header class="bg-white border-b border-gray-200 px-6 py-4 flex items-center justify-between">
+                <div class="flex items-center gap-4">
+                    <h1 class="text-lg font-semibold text-gray-800">@yield('title', 'Dashboard')</h1>
+                </div>
+                
+                <div class="flex items-center gap-6">
+                    {{-- Notifikasi Dropdown --}}
+                    @php
+                        $unreadNotifications = auth()->user()->unreadNotifications;
+                        $unreadCount = $unreadNotifications->count();
+                    @endphp
+                    {{-- Logout Mobile --}}
+                    <form method="POST" action="{{ route('logout') }}" class="lg:hidden block">
+                        @csrf
+                        <button type="submit" class="relative p-1.5 text-red-500 hover:text-red-600 transition focus:outline-none rounded-lg hover:bg-red-50" title="Keluar">
+                            <span class="sr-only">Keluar</span>
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/></svg>
+                        </button>
+                    </form>
+
+                    <div class="relative" x-data="{ open: false }">
+                        <button @click="open = !open" class="relative p-1.5 text-gray-400 hover:text-gray-600 transition focus:outline-none rounded-lg hover:bg-gray-50">
+                            <span class="sr-only">Notifikasi</span>
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/>
+                            </svg>
+                            @if($unreadCount > 0)
+                                <span class="absolute top-1.5 right-1.5 flex h-2.5 w-2.5">
+                                    <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
+                                    <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-red-500"></span>
+                                </span>
+                            @endif
+                        </button>
+
+                        {{-- Dropdown Menu --}}
+                        <div x-show="open" @click.outside="open = false" x-cloak
+                             x-transition:enter="transition ease-out duration-100"
+                             x-transition:enter-start="opacity-0 scale-95"
+                             x-transition:enter-end="opacity-100 scale-100"
+                             x-transition:leave="transition ease-in duration-75"
+                             x-transition:leave-start="opacity-100 scale-100"
+                             x-transition:leave-end="opacity-0 scale-95"
+                             class="absolute right-0 mt-2.5 w-80 bg-white rounded-xl shadow-xl border border-gray-100 py-2 z-50 origin-top-right">
+                            <div class="px-4 py-2 border-b border-gray-100 flex items-center justify-between bg-gray-50/50 rounded-t-xl">
+                                <span class="text-xs font-bold text-gray-700">Notifikasi ({{ $unreadCount }})</span>
+                                @if($unreadCount > 0)
+                                    <form method="POST" action="{{ route('notifications.read-all') }}">
+                                        @csrf
+                                        <button type="submit" class="text-[10px] text-blue-600 hover:text-blue-800 font-bold hover:underline">Tandai semua dibaca</button>
+                                    </form>
+                                @endif
+                            </div>
+                            <div class="max-h-64 overflow-y-auto divide-y divide-gray-50">
+                                @if(auth()->user()->notifications->isEmpty())
+                                    <div class="px-4 py-6 text-center text-gray-400 text-xs">
+                                        Tidak ada notifikasi.
+                                    </div>
+                                @else
+                                    @foreach(auth()->user()->notifications->take(10) as $notification)
+                                        <div class="p-3.5 hover:bg-gray-50 transition flex items-start justify-between gap-2.5 {{ $notification->unread() ? 'bg-blue-50/20' : '' }}">
+                                            <div class="space-y-1">
+                                                <p class="text-xs text-gray-700 leading-relaxed font-medium">
+                                                    {{ $notification->data['message'] }}
+                                                </p>
+                                                <p class="text-[10px] text-gray-400">
+                                                    {{ $notification->created_at->diffForHumans() }}
+                                                </p>
+                                            </div>
+                                            @if($notification->unread())
+                                                <form method="POST" action="{{ route('notifications.read', $notification->id) }}" class="shrink-0">
+                                                    @csrf
+                                                    <button type="submit" class="p-1 hover:bg-gray-100 text-blue-500 hover:text-blue-700 rounded-md transition focus:outline-none" title="Tandai dibaca">
+                                                        <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20"><path d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"/></svg>
+                                                    </button>
+                                                </form>
+                                            @endif
+                                        </div>
+                                    @endforeach
+                                @endif
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="text-sm text-gray-500 hidden sm:block">
+                        {{ now()->translatedFormat('l, d F Y') }}
+                    </div>
+                </div>
+            </header>
+
+            {{-- Flash Messages replaced by Global Toast --}}
+
+            {{-- Page Content --}}
+            <main class="flex-1 overflow-y-auto px-6 py-4">
+                @yield('content')
+            </main>
+        </div>
+    </div>
+
+    <x-toast />
+    <script>
+        // Alpine.js sudah di-load lewat vite
+        document.addEventListener('alpine:init', () => {})
+    </script>
+
+    <x-global-delete-modal />
+</body>
+</html>

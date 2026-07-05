@@ -14,9 +14,11 @@ return new class extends Migration
         Schema::create('skp_evaluasi', function (Blueprint $table) {
             $table->id();
             $table->foreignId('pegawai_id')->constrained('pegawai')->onDelete('cascade');
-            $table->integer('tahun');
-            $table->string('nilai_kinerja'); // Baik, Sangat Baik, Kurang
+            $table->year('tahun_penilaian');
+            $table->enum('predikat', ['Sangat Baik', 'Baik', 'Cukup', 'Kurang', 'Sangat Kurang']);
+            $table->string('file_bukti_skp')->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class PengaturanInstansi extends Model
@@ -14,7 +15,8 @@ class PengaturanInstansi extends Model
         'nama_instansi',
         'logo',
         'alamat',
-        'nama_kepala',
-        'nip_kepala',
+        'nama_direktur',
+        'nip_direktur',
+        'pangkat_direktur',
     ];
 }

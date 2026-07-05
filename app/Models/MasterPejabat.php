@@ -2,19 +2,20 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class MasterPejabat extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
     
     protected $table = 'master_pejabat';
     
     protected $fillable = [
         'nama_jabatan',
         'nama_pejabat',
-        'nip',
-        'pangkat_golongan',
     ];
 
     public function riwayatKgb()
