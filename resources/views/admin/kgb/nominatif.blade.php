@@ -35,15 +35,15 @@
                 <table class="w-full text-sm">
                     <thead class="bg-gray-50 text-xs text-gray-500 uppercase tracking-wider">
                         <tr>
-                            <th class="px-5 py-3 text-center">No</th>
-                            <th class="px-5 py-3 text-left">NIP</th>
-                            <th class="px-5 py-3 text-left">Nama Pegawai</th>
-                            <th class="px-5 py-3 text-left">Pangkat</th>
-                            <th class="px-5 py-3 text-center">Gol.</th>
-                            <th class="px-5 py-3 text-left">TMT Gaji Terakhir</th>
-                            <th class="px-5 py-3 text-center">Jatuh Tempo KGB</th>
-                            <th class="px-5 py-3 text-center">Status</th>
-                            <th class="px-5 py-3 text-center">Aksi</th>
+                            <th class="px-3 py-3 text-center">No</th>
+                            <th class="px-3 py-3 text-left">NIP</th>
+                            <th class="px-3 py-3 text-left">Nama Pegawai</th>
+                            <th class="px-3 py-3 text-left">Pangkat</th>
+                            <th class="px-3 py-3 text-center">Gol.</th>
+                            <th class="px-3 py-3 text-left">TMT Gaji Terakhir</th>
+                            <th class="px-3 py-3 text-center">Jatuh Tempo KGB</th>
+                            <th class="px-3 py-3 text-center">Status</th>
+                            <th class="px-3 py-3 text-center">Aksi</th>
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-gray-100">
@@ -55,36 +55,36 @@
                                 $isUrgent = $selisih <= 7 && !$isLate;
                             @endphp
                             <tr class="hover:bg-blue-50/50 transition">
-                                <td class="px-5 py-3.5 text-gray-500 text-xs font-medium">{{ $daftarNominatif->firstItem() + $index }}</td>
-                                <td class="px-5 py-3.5 font-mono text-xs text-gray-700">{{ $p->nip }}</td>
-                                <td class="px-5 py-3.5">
+                                <td class="px-3 py-3 text-gray-500 text-xs font-medium">{{ $daftarNominatif->firstItem() + $index }}</td>
+                                <td class="px-3 py-3 font-mono text-xs text-gray-700">{{ $p->nip }}</td>
+                                <td class="px-3 py-3">
                                     <p class="font-medium text-gray-900">{{ $p->nama_lengkap }}</p>
                                     <p class="text-xs text-gray-600 mt-0.5">{{ $p->jabatan ?? '-' }}</p>
                                 </td>
-                                <td class="px-5 py-3.5 text-gray-700">{{ $p->pangkat ?? '-' }}</td>
-                                <td class="px-5 py-3.5">
+                                <td class="px-3 py-3 text-gray-700">{{ $p->pangkat ?? '-' }}</td>
+                                <td class="px-3 py-3">
                                     <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-gray-200 text-gray-800">{{ $p->golongan ?? '-' }}</span>
                                 </td>
-                                <td class="px-5 py-3.5 text-gray-700">{{ \Carbon\Carbon::parse($p->tmt_gaji_terakhir)->format('d/m/Y') }}</td>
-                                <td class="px-5 py-3.5 text-gray-700 font-medium">{{ $jatuhTempo->format('d/m/Y') }}</td>
-                                <td class="px-5 py-3.5">
+                                <td class="px-3 py-3 text-gray-700">{{ \Carbon\Carbon::parse($p->tmt_gaji_terakhir)->format('d/m/Y') }}</td>
+                                <td class="px-3 py-3 text-gray-700 font-medium">{{ $jatuhTempo->format('d/m/Y') }}</td>
+                                <td class="px-3 py-3">
                                     @if($isLate)
-                                        <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-semibold bg-red-100 text-red-700 border border-red-200">
+                                        <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-semibold bg-red-100 text-red-700 border border-red-200 whitespace-nowrap">
                                             Terlambat {{ abs((int)$selisih) }}h
                                         </span>
                                     @elseif($isUrgent)
-                                        <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-semibold bg-orange-100 text-orange-700 border border-orange-200">
+                                        <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-semibold bg-orange-100 text-orange-700 border border-orange-200 whitespace-nowrap">
                                             H-{{ (int)$selisih }}
                                         </span>
                                     @else
-                                        <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-semibold bg-yellow-100 text-yellow-700 border border-yellow-200">
+                                        <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-semibold bg-yellow-100 text-yellow-700 border border-yellow-200 whitespace-nowrap">
                                             H-{{ (int)$selisih }}
                                         </span>
                                     @endif
                                 </td>
-                                <td class="px-5 py-3.5 text-center">
+                                <td class="px-3 py-3 text-center">
                                     <button x-data @click="$dispatch('open-modal-proses', {{ $p->id }})"
-                                        class="inline-flex items-center gap-1.5 text-xs bg-blue-600 hover:bg-blue-700 text-white px-3.5 py-2 rounded-lg transition font-medium shadow-sm">
+                                        class="inline-flex justify-center items-center gap-1.5 text-xs font-medium bg-blue-600 hover:bg-blue-700 text-white px-3 py-1.5 rounded-md transition shadow-sm whitespace-nowrap">
                                         <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
                                         Proses KGB
                                     </button>

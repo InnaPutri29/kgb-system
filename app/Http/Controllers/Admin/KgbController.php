@@ -63,6 +63,15 @@ class KgbController extends Controller
     }
 
     /**
+     * Tampilkan detail riwayat KGB.
+     */
+    public function show(RiwayatKgb $riwayat)
+    {
+        $riwayat->load('pegawai');
+        return view('admin.kgb.show', compact('riwayat'));
+    }
+
+    /**
      * Tampilkan Daftar Nominatif KGB — pegawai yang KGB-nya jatuh tempo dalam 60 hari ke depan.
      */
     public function nominatif()

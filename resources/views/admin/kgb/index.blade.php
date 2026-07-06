@@ -52,13 +52,9 @@
                         <tr>
                             <th class="px-5 py-3 ">Nomor SK</th>
                             <th class="px-5 py-3">Pegawai</th>
-                            <th class="px-5 py-3">Tgl Ditetapkan</th>
-                            <th class="px-5 py-3">TMT Baru</th>
-                            <th class="px-5 py-3">Gaji Lama</th>
-                            <th class="px-5 py-3">Gaji Baru</th>
-                            <th class="px-5 py-3">Masa Kerja</th>
-                            <th class="px-5 py-3">TMT YAD</th>
-                            <th class="px-5 py-3">Pejabat</th>
+                            <th class="px-5 py-3 text-center">TMT Baru</th>
+                            <th class="px-5 py-3 text-center">Gaji Baru</th>
+                            <th class="px-5 py-3 text-center">Jatuh Tempo YAD</th>
                             <th class="px-5 py-3 text-center">Aksi</th>
                         </tr>
                     </thead>
@@ -67,19 +63,20 @@
                         <tr class="hover:bg-gray-50 transition">
                             <td class="px-5 py-4 font-medium text-gray-800">{{ $riwayat->nomor_sk_baru }}</td>
                             <td class="px-5 py-4 text-gray-600">{{ $riwayat->pegawai->nama_lengkap ?? '-' }}<br><span class="text-xs text-gray-400">{{ $riwayat->pegawai->nip ?? '-' }}</span></td>
-                            <td class="px-5 py-4 text-gray-600">{{ $riwayat->tanggal_ditetapkan?->format('d/m/Y') }}</td>
-                            <td class="px-5 py-4 text-gray-600">{{ $riwayat->tmt_baru?->format('d/m/Y') }}</td>
-                            <td class="px-5 py-4 text-gray-600">Rp {{ number_format($riwayat->gaji_pokok_lama, 0, ',', '.') }}</td>
-                            <td class="px-5 py-4 text-gray-600">Rp {{ number_format($riwayat->gaji_pokok_baru, 0, ',', '.') }}</td>
-                            <td class="px-5 py-4 text-gray-600">{{ $riwayat->masa_kerja_tahun_baru }} Thn, {{ $riwayat->masa_kerja_bulan_baru }} Bln</td>
-                            <td class="px-5 py-4 text-gray-600">{{ $riwayat->tmt_yad?->format('d/m/Y') }}</td>
-                            <td class="px-5 py-4 text-gray-600">{{ $riwayat->pejabat_penetap }}</td>
-                            <td class="px-5 py-4 text-right">
-                                <a href="{{ route('admin.kgb.download-pdf', $riwayat->id) }}" 
-                                   onclick="window.dispatchEvent(new CustomEvent('show-toast', { detail: { message: 'Dokumen SK KGB pegawai berhasil digenerate dan sedang diunduh!', type: 'success' } }))"
-                                   class="inline-flex items-center gap-2 text-xs bg-blue-600 hover:bg-blue-700 text-white px-3 py-1.5 rounded-lg transition">
-                                    Unduh PDF
-                                </a>
+                            <td class="px-5 py-4 text-gray-600 text-center">{{ $riwayat->tmt_baru?->format('d/m/Y') }}</td>
+                            <td class="px-5 py-4 text-gray-600 text-center whitespace-nowrap">Rp {{ number_format($riwayat->gaji_pokok_baru, 0, ',', '.') }}</td>
+                            <td class="px-5 py-4 text-gray-600 text-center">{{ $riwayat->tmt_yad?->format('d/m/Y') }}</td>
+                            <td class="px-5 py-4 text-center">
+                                <div class="flex items-center justify-center gap-2">
+                                    <a href="{{ route('admin.kgb.show', $riwayat->id) }}" class="inline-flex justify-center items-center p-1.5 bg-gray-50 text-gray-600 hover:text-blue-600 hover:bg-blue-50 rounded-md transition" title="Detail Riwayat KGB">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>
+                                    </a>
+                                    <a href="{{ route('admin.kgb.download-pdf', $riwayat->id) }}" 
+                                       onclick="window.dispatchEvent(new CustomEvent('show-toast', { detail: { message: 'Dokumen SK KGB pegawai berhasil digenerate dan sedang diunduh!', type: 'success' } }))"
+                                       class="inline-flex justify-center items-center gap-1.5 text-xs font-medium bg-blue-600 hover:bg-blue-700 text-white px-3 py-1.5 rounded-md transition whitespace-nowrap">
+                                        Unduh PDF
+                                    </a>
+                                </div>
                             </td>
                         </tr>
                         @endforeach
@@ -92,5 +89,7 @@
             </div>
         @endif
     </div>
+
+
 </div>
 @endsection
