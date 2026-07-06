@@ -10,7 +10,7 @@
         </div>
         <div class="flex flex-wrap items-center gap-2 w-full sm:w-auto">
             <a href="{{ route('admin.pegawai.create') }}"
-               class="inline-flex items-center justify-center gap-1.5 text-sm bg-white border border-gray-300 hover:bg-gray-50 text-gray-700 px-4 py-2 rounded-lg transition font-medium shadow-sm flex-1 sm:flex-none">
+               class="inline-flex items-center justify-center gap-1.5 text-sm bg-blue-600 border border-transparent hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition font-medium shadow-sm flex-1 sm:flex-none">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
                 Tambah Data
             </a>
