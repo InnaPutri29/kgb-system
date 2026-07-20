@@ -19,7 +19,7 @@
                     <h3 class="font-semibold text-gray-700 border-b pb-2">Data Pribadi</h3>
                     <div>
                         <x-input-label for="nip" value="NIP *" />
-                        <x-text-input id="nip" name="nip" type="text" class="mt-1 block w-full bg-gray-50" :value="old('nip', $pegawai->nip)" required readonly title="NIP tidak dapat diubah dari sini. Hapus dan buat baru jika salah." />
+                        <x-text-input id="nip" name="nip" type="text" class="mt-1 block w-full" :value="old('nip', $pegawai->nip)" required minlength="18" maxlength="18" pattern="[0-9]{18}" title="NIP harus tepat 18 digit angka" />
                         <x-input-error :messages="$errors->get('nip')" class="mt-2" />
                     </div>
                     <div>

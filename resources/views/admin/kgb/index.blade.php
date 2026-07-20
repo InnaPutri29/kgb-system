@@ -50,7 +50,8 @@
                 <table class="w-full text-sm text-left">
                     <thead class="bg-gray-50 text-xs text-gray-500 uppercase tracking-wider">
                         <tr>
-                            <th class="px-5 py-3 ">Nomor SK</th>
+                            <th class="px-5 py-3 w-16 text-center">No</th>
+                            <th class="px-5 py-3">Nomor SK</th>
                             <th class="px-5 py-3">Pegawai</th>
                             <th class="px-5 py-3 text-center">TMT Baru</th>
                             <th class="px-5 py-3 text-center">Gaji Baru</th>
@@ -59,8 +60,9 @@
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-gray-100 bg-white">
-                        @foreach($riwayatKgb as $riwayat)
+                        @foreach($riwayatKgb as $index => $riwayat)
                         <tr class="hover:bg-gray-50 transition">
+                            <td class="px-5 py-4 text-center text-gray-500 font-medium">{{ $riwayatKgb->firstItem() + $index }}</td>
                             <td class="px-5 py-4 font-medium text-gray-800">{{ $riwayat->nomor_sk_baru }}</td>
                             <td class="px-5 py-4 text-gray-600">{{ $riwayat->pegawai->nama_lengkap ?? '-' }}<br><span class="text-xs text-gray-400">{{ $riwayat->pegawai->nip ?? '-' }}</span></td>
                             <td class="px-5 py-4 text-gray-600 text-center">{{ $riwayat->tmt_baru?->format('d/m/Y') }}</td>

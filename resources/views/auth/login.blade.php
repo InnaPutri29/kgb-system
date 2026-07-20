@@ -62,10 +62,6 @@
             </button>
         </div>
         
-        @if (Route::has('register'))
-            <div class="text-center mt-5">
-                <p class="text-[13px] text-slate-500 font-medium">Belum punya akun? <a href="{{ route('register') }}" class="font-bold text-blue-600 hover:text-blue-700 transition-colors">Daftar di sini</a></p>
-            </div>
-        @endif
+
     </form>
 </x-guest-layout>

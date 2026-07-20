@@ -40,7 +40,7 @@
                             <th class="px-3 py-3 text-left">Nama Pegawai</th>
                             <th class="px-3 py-3 text-left">Pangkat</th>
                             <th class="px-3 py-3 text-center">Gol.</th>
-                            <th class="px-3 py-3 text-left">TMT Gaji Terakhir</th>
+                            <th class="px-3 py-3 text-center">TMT Gaji Terakhir</th>
                             <th class="px-3 py-3 text-center">Jatuh Tempo KGB</th>
                             <th class="px-3 py-3 text-center">Status</th>
                             <th class="px-3 py-3 text-center">Aksi</th>
@@ -65,8 +65,8 @@
                                 <td class="px-3 py-3">
                                     <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-gray-200 text-gray-800">{{ $p->golongan ?? '-' }}</span>
                                 </td>
-                                <td class="px-3 py-3 text-gray-700">{{ \Carbon\Carbon::parse($p->tmt_gaji_terakhir)->format('d/m/Y') }}</td>
-                                <td class="px-3 py-3 text-gray-700 font-medium">{{ $jatuhTempo->format('d/m/Y') }}</td>
+                                <td class="px-3 py-3 text-gray-700 text-center">{{ \Carbon\Carbon::parse($p->tmt_gaji_terakhir)->format('d/m/Y') }}</td>
+                                <td class="px-3 py-3 text-gray-700 font-medium text-center">{{ $jatuhTempo->format('d/m/Y') }}</td>
                                 <td class="px-3 py-3">
                                     @if($isLate)
                                         <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-semibold bg-red-100 text-red-700 border border-red-200 whitespace-nowrap">

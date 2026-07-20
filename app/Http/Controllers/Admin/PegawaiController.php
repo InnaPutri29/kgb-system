@@ -67,7 +67,7 @@ class PegawaiController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'nip' => 'required|string|max:50|unique:pegawai,nip',
+            'nip' => 'required|string|digits:18|unique:pegawai,nip',
             'nama_lengkap' => 'required|string|max:255',
             'email' => 'nullable|email|max:255|unique:users,email',
             'pangkat' => 'nullable|string|max:100',
@@ -119,7 +119,7 @@ class PegawaiController extends Controller
     public function update(Request $request, Pegawai $pegawai)
     {
         $validated = $request->validate([
-            'nip' => ['required', 'string', 'max:50', Rule::unique('pegawai', 'nip')->ignore($pegawai->id)],
+            'nip' => ['required', 'string', 'digits:18', Rule::unique('pegawai', 'nip')->ignore($pegawai->id)],
             'nama_lengkap' => 'required|string|max:255',
             'email' => ['nullable', 'email', 'max:255', Rule::unique('users', 'email')->ignore($pegawai->user_id)],
             'pangkat' => 'nullable|string|max:100',
