@@ -48,36 +48,48 @@
         </div>
 
         <!-- Right Side: Login Card with Glassmorphism -->
-        <div class="w-full md:w-[50%] h-screen overflow-y-auto z-10 relative">
-            <div class="min-h-full flex flex-col justify-center items-center p-6 sm:p-8 lg:p-16">
+        <div class="w-full md:w-[50%] h-screen overflow-y-auto z-10 relative flex justify-center items-center">
+            
+            <!-- Aesthetic Blobs behind the card -->
+            <div class="absolute top-1/4 left-[15%] w-64 h-64 bg-blue-500/40 rounded-full mix-blend-multiply filter blur-3xl opacity-70 animate-pulse" style="animation-duration: 4s;"></div>
+            <div class="absolute bottom-1/4 right-[15%] w-72 h-72 bg-purple-500/40 rounded-full mix-blend-multiply filter blur-3xl opacity-70 animate-pulse" style="animation-duration: 5s; animation-delay: 1s;"></div>
+            <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-80 h-80 bg-cyan-400/30 rounded-full mix-blend-multiply filter blur-3xl opacity-70 animate-pulse" style="animation-duration: 6s; animation-delay: 2s;"></div>
+
+            <div class="min-h-full w-full flex flex-col justify-center items-center p-6 sm:p-8 lg:p-16 relative z-10">
                 
-                <!-- Glassmorphism Card -->
-                <div class="w-full max-w-md sm:max-w-[480px] lg:max-w-[500px] bg-white/70 backdrop-blur-2xl shadow-[0_8px_30px_rgb(0,0,0,0.12)] rounded-3xl overflow-hidden border border-white/60 transition-all duration-300 hover:shadow-[0_8px_40px_rgb(0,0,0,0.16)]">
-                <div class="px-8 py-8 sm:px-10 sm:py-8">
+                <!-- Liquid Glassmorphism Card -->
+                <div class="w-full max-w-md sm:max-w-[480px] lg:max-w-[500px] bg-white/30 backdrop-blur-3xl shadow-[0_8px_32px_0_rgba(31,38,135,0.15)] rounded-[2.5rem] overflow-hidden border border-white/60 border-t-white/90 border-l-white/90 transition-all duration-500 hover:shadow-[0_8px_40px_0_rgba(31,38,135,0.25)] relative group">
                     
-                    <!-- Logo Header -->
-                    <div class="flex justify-center mb-6">
-                        <a href="/" class="flex items-center gap-3 group">
-                            <div class="w-14 h-14 flex items-center justify-center group-hover:scale-105 transition-transform duration-300">
-                                <img src="{{ asset('images/logo-kgb-system.png') }}" alt="Logo KGB System" class="w-full h-full object-contain rounded-xl shadow-sm border border-blue-100 bg-white p-1">
-                            </div>
-                            <div>
-                                <h1 class="text-2xl font-bold text-slate-800 tracking-tight">Sistem <span class="text-blue-600">KGB</span></h1>
-                                <p class="text-[11px] text-slate-500 font-bold uppercase tracking-wider">RSD Sidawangi</p>
-                            </div>
-                        </a>
+                    <!-- Inner Shine Effect -->
+                    <div class="absolute inset-0 bg-gradient-to-br from-white/40 to-white/0 pointer-events-none opacity-50"></div>
+                    <div class="absolute -inset-1 bg-gradient-to-b from-white/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none blur-md rounded-[2.5rem]"></div>
+
+                    <div class="px-8 py-10 sm:px-12 sm:py-10 relative z-10">
+                        
+                        <!-- Logo Header -->
+                        <div class="flex justify-center mb-6">
+                            <a href="/" class="flex items-center gap-3 group">
+                                <div class="w-14 h-14 flex items-center justify-center group-hover:scale-105 transition-transform duration-300">
+                                    <img src="{{ asset('images/logo-kgb-system.png') }}" alt="Logo KGB System" class="w-full h-full object-contain rounded-xl shadow-sm border border-blue-100 bg-white p-1">
+                                </div>
+                                <div>
+                                    <h1 class="text-2xl font-bold text-slate-800 tracking-tight">Sistem <span class="text-blue-600">KGB</span></h1>
+                                    <p class="text-[11px] text-slate-500 font-bold uppercase tracking-wider">RSD Sidawangi</p>
+                                </div>
+                            </a>
+                        </div>
+
+                        <!-- Injected Form (login.blade.php) -->
+                        {{ $slot }}
+
                     </div>
-
-                    <!-- Injected Form (login.blade.php) -->
-                    {{ $slot }}
-
-                </div>
-                
-                <!-- Footer -->
-                <div class="bg-white/40 px-8 py-4 sm:px-10 border-t border-white/50 text-center backdrop-blur-md">
-                    <p class="text-[11px] text-slate-600 font-medium">
-                        &copy; {{ date('Y') }} RSD Sidawangi.<br>Sistem Informasi Kenaikan Gaji Berkala.
-                    </p>
+                    
+                    <!-- Footer -->
+                    <div class="bg-white/20 px-8 py-5 sm:px-12 border-t border-white/40 text-center backdrop-blur-md relative z-10">
+                        <p class="text-[12px] text-slate-700 font-semibold drop-shadow-sm">
+                            &copy; {{ date('Y') }} RSD Sidawangi.<br>Sistem Informasi Kenaikan Gaji Berkala.
+                        </p>
+                    </div>
                 </div>
             </div>
         </div>
