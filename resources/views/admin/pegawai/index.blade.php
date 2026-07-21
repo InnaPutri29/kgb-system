@@ -23,7 +23,7 @@
     </div>
 
     {{-- Pencarian & Filter --}}
-    <div class="bg-white p-4 rounded-xl border border-gray-200 shadow-sm">
+    <div class="bg-white/40 backdrop-blur-xl p-4 rounded-xl border border-white/50 shadow-sm">
         <form method="GET" action="{{ route('admin.pegawai.index') }}" class="flex flex-col md:flex-row gap-3 items-end">
             <div class="w-full flex-1">
                 <x-input-label for="search" value="Cari Pegawai" class="mb-1" />
@@ -78,7 +78,7 @@
         </form>
     </div>
 
-    <div class="bg-white rounded-xl border border-gray-200 overflow-hidden">
+    <div class="bg-white/40 backdrop-blur-xl rounded-xl border border-white/50 overflow-hidden">
         @if($pegawai->isEmpty())
             <div class="flex flex-col items-center justify-center py-20 text-gray-400">
                 @if(request()->filled('search'))
@@ -96,7 +96,7 @@
         @else
             <div class="overflow-x-auto">
                 <table class="w-full text-sm">
-                    <thead class="bg-gray-50 text-xs text-gray-500 uppercase tracking-wider">
+                    <thead class="bg-white/20 text-xs text-gray-500 uppercase tracking-wider">
                         <tr>
                             <th class="px-3 py-2.5 w-16 text-center">No</th>
                             <th class="px-3 py-2.5 text-left">NIP</th>
@@ -110,7 +110,7 @@
                     </thead>
                     <tbody class="divide-y divide-gray-100">
                         @foreach($pegawai as $index => $p)
-                        <tr class="hover:bg-gray-50 transition">
+                        <tr class="hover:bg-white/20 transition">
                             <td class="px-3 py-2.5 text-center text-gray-500 font-medium">{{ $pegawai->firstItem() + $index }}</td>
                             <td class="px-3 py-2.5 font-mono text-xs text-gray-600">{{ $p->nip }}</td>
                             <td class="px-3 py-2.5 font-medium text-gray-800">{{ $p->nama_lengkap }}</td>
@@ -124,10 +124,10 @@
                             </td>
                             <td class="px-3 py-2.5 text-center">
                                 <div class="flex items-center gap-2">
-                                    <a href="{{ route('admin.pegawai.show', $p) }}" class="p-1.5 bg-gray-50 text-gray-600 hover:text-blue-600 hover:bg-blue-50 rounded-md transition" title="Detail Pegawai">
+                                    <a href="{{ route('admin.pegawai.show', $p) }}" class="p-1.5 bg-white/20 text-gray-600 hover:text-blue-600 hover:bg-blue-50 rounded-md transition" title="Detail Pegawai">
                                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>
                                     </a>
-                                    <a href="{{ route('admin.pegawai.edit', $p) }}" class="p-1.5 bg-gray-50 text-gray-600 hover:text-green-600 hover:bg-green-50 rounded-md transition" title="Edit Pegawai">
+                                    <a href="{{ route('admin.pegawai.edit', $p) }}" class="p-1.5 bg-white/20 text-gray-600 hover:text-green-600 hover:bg-green-50 rounded-md transition" title="Edit Pegawai">
                                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
                                     </a>
                                     <button type="button" 
@@ -136,7 +136,7 @@
                                                 title: 'Hapus Pegawai',
                                                 description: 'Hapus data {{ $p->nama_lengkap }}? Akun login terkait juga akan ikut terhapus permanen.'
                                             })"
-                                            class="p-1.5 bg-gray-50 text-gray-600 hover:text-red-600 hover:bg-red-50 rounded-md transition" title="Hapus Pegawai">
+                                            class="p-1.5 bg-white/20 text-gray-600 hover:text-red-600 hover:bg-red-50 rounded-md transition" title="Hapus Pegawai">
                                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
                                     </button>
                                 </div>

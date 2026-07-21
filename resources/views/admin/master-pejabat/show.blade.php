@@ -30,7 +30,7 @@
 
             <div class="mt-8 border-t border-gray-100 pt-6">
                 <h4 class="text-sm font-bold text-gray-400 uppercase tracking-wider mb-4">Statistik Penandatanganan SK</h4>
-                <div class="bg-gray-50 p-5 rounded-xl border border-gray-200 flex items-center justify-between">
+                <div class="bg-white/20 p-5 rounded-xl border border-white/50 flex items-center justify-between">
                     <div>
                         <p class="text-sm text-gray-500 mb-1">Total SK KGB yang Telah Ditandatangani</p>
                         <p class="text-3xl font-bold text-gray-800">{{ $masterPejabat->riwayatKgb->count() }} <span class="text-lg font-medium text-gray-500">Dokumen SK</span></p>
@@ -46,12 +46,12 @@
     <!-- Riwayat Dokumen -->
     @if($masterPejabat->riwayatKgb->isNotEmpty())
     <div class="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
-        <div class="px-6 py-4 border-b border-gray-100 bg-gray-50/50">
+        <div class="px-6 py-4 border-b border-gray-100 bg-white/20/50">
             <h3 class="text-lg font-bold text-gray-800">Daftar Pegawai (SK Terakhir)</h3>
         </div>
         <div class="overflow-x-auto">
             <table class="w-full text-sm">
-                <thead class="bg-gray-50 text-xs text-gray-500 uppercase tracking-wider">
+                <thead class="bg-white/20 text-xs text-gray-500 uppercase tracking-wider">
                     <tr>
                         <th class="px-6 py-3 text-left">Nomor SK Baru</th>
                         <th class="px-6 py-3 text-left">Tanggal SK</th>
@@ -61,7 +61,7 @@
                 </thead>
                 <tbody class="divide-y divide-gray-100">
                     @foreach($masterPejabat->riwayatKgb->take(10) as $riwayat)
-                        <tr class="hover:bg-gray-50 transition">
+                        <tr class="hover:bg-white/20 transition">
                             <td class="px-6 py-3 font-medium text-gray-800">{{ $riwayat->nomor_sk_baru }}</td>
                             <td class="px-6 py-3 text-gray-600">{{ \Carbon\Carbon::parse($riwayat->tanggal_ditetapkan)->format('d/m/Y') }}</td>
                             <td class="px-6 py-3 text-gray-800 font-medium">{{ $riwayat->pegawai->nama_lengkap ?? '-' }}</td>

@@ -25,7 +25,7 @@
                     <p class="text-blue-600 font-mono text-sm mt-1">{{ $pegawai->nip }}</p>
                 </div>
                 <div class="flex gap-3">
-                    <span class="inline-flex items-center px-2.5 py-1 rounded-md text-xs font-medium bg-gray-100 text-gray-800 border border-gray-200">
+                    <span class="inline-flex items-center px-2.5 py-1 rounded-md text-xs font-medium bg-gray-100 text-gray-800 border border-white/50">
                         {{ ($pegawai->pangkat ?? '-') . ' (' . ($pegawai->golongan ?? '-') . ')' }}
                     </span>
                     <span class="inline-flex items-center px-2.5 py-1 rounded-md text-xs font-medium bg-blue-50 text-blue-700 border border-blue-100">
@@ -96,7 +96,7 @@
 
     <!-- Riwayat SK KGB -->
     <div class="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
-        <div class="px-6 py-4 border-b border-gray-100 bg-gray-50/50 flex justify-between items-center">
+        <div class="px-6 py-4 border-b border-gray-100 bg-white/20/50 flex justify-between items-center">
             <h3 class="text-lg font-bold text-gray-800">Riwayat KGB Pegawai</h3>
             <span class="bg-blue-100 text-blue-800 text-xs font-semibold px-2.5 py-0.5 rounded-full">{{ $pegawai->riwayatKgb->count() }} Dokumen</span>
         </div>
@@ -109,7 +109,7 @@
         @else
             <div class="overflow-x-auto">
                 <table class="w-full text-sm">
-                    <thead class="bg-gray-50 text-xs text-gray-500 uppercase tracking-wider">
+                    <thead class="bg-white/20 text-xs text-gray-500 uppercase tracking-wider">
                         <tr>
                             <th class="px-6 py-3 text-left">Nomor SK</th>
                             <th class="px-6 py-3 text-left">Tgl Ditetapkan</th>
@@ -122,7 +122,7 @@
                     </thead>
                     <tbody class="divide-y divide-gray-100">
                         @foreach($pegawai->riwayatKgb as $riwayat)
-                            <tr class="hover:bg-gray-50 transition">
+                            <tr class="hover:bg-white/20 transition">
                                 <td class="px-6 py-3 font-medium text-gray-800">{{ $riwayat->nomor_sk_baru }}</td>
                                 <td class="px-6 py-3 text-gray-600">{{ \Carbon\Carbon::parse($riwayat->tanggal_ditetapkan)->format('d/m/Y') }}</td>
                                 <td class="px-6 py-3 text-gray-600 font-medium">{{ \Carbon\Carbon::parse($riwayat->tmt_baru)->format('d/m/Y') }}</td>
@@ -147,7 +147,7 @@
 
     {{-- SKP Evaluasi --}}
     <div class="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden" x-data="{ openEdit: false, editSkp: {} }">
-        <div class="px-6 py-4 border-b border-gray-100 bg-gray-50/50 flex justify-between items-center">
+        <div class="px-6 py-4 border-b border-gray-100 bg-white/20/50 flex justify-between items-center">
             <div>
                 <h3 class="text-lg font-bold text-gray-800">Rekap SKP (Penilaian Kinerja)</h3>
                 <p class="text-xs text-gray-400 mt-0.5">Syarat KGB: predikat minimal <strong>Baik</strong> selama 2 tahun berturut-turut.</p>
@@ -168,7 +168,7 @@
         @else
             <div class="overflow-x-auto">
                 <table class="w-full text-sm">
-                    <thead class="bg-gray-50 text-xs text-gray-500 uppercase tracking-wider border-b border-gray-100">
+                    <thead class="bg-white/20 text-xs text-gray-500 uppercase tracking-wider border-b border-gray-100">
                         <tr>
                             <th class="px-6 py-3 text-left">Tahun Penilaian</th>
                             <th class="px-6 py-3 text-left">Predikat</th>
@@ -178,7 +178,7 @@
                     </thead>
                     <tbody class="divide-y divide-gray-100">
                         @foreach($pegawai->skpEvaluasi as $skp)
-                        <tr class="hover:bg-gray-50 transition">
+                        <tr class="hover:bg-white/20 transition">
                             <td class="px-6 py-3 font-bold text-gray-800">{{ $skp->tahun_penilaian }}</td>
                             <td class="px-6 py-3">
                                 @php

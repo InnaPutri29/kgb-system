@@ -17,7 +17,7 @@
         <p class="text-sm text-blue-700">Data ini akan digunakan sebagai <strong>Kop Surat</strong> dan informasi pada dokumen cetak seperti SK Kenaikan Gaji Berkala (KGB).</p>
     </div>
 
-    <div class="bg-white rounded-xl border border-gray-200 overflow-hidden shadow-sm">
+    <div class="bg-white/50 backdrop-blur-3xl rounded-[2rem] border border-white/80 border-t-white shadow-[0_8px_32px_0_rgba(31,38,135,0.07)] overflow-hidden">
         <form action="{{ route('admin.pengaturan-instansi.update') }}" method="POST" enctype="multipart/form-data" class="p-6">
             @csrf
             
@@ -27,7 +27,7 @@
                 <div class="col-span-1 flex flex-col items-center space-y-4">
                     <p class="text-sm font-semibold text-gray-700 text-center w-full">Logo Instansi</p>
                     
-                    <div class="w-40 h-40 rounded-2xl border-2 border-dashed border-gray-300 flex items-center justify-center bg-gray-50 overflow-hidden relative group">
+                    <div class="w-40 h-40 rounded-2xl border-2 border-dashed border-gray-300 flex items-center justify-center bg-white/20 overflow-hidden relative group">
                         @if($pengaturan->logo)
                             <img src="{{ asset('storage/' . $pengaturan->logo) }}" alt="Logo Instansi" class="w-full h-full object-contain p-2">
                         @else

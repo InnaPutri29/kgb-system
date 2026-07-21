@@ -23,7 +23,7 @@
     </div>
 
     {{-- TABEL NOMINATIF --}}
-    <div class="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
+    <div class="bg-white/40 backdrop-blur-xl rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
         @if($daftarNominatif->isEmpty())
             <div class="flex flex-col items-center justify-center py-20 text-gray-400">
                 <svg class="w-16 h-16 mb-4 text-gray-200" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
@@ -33,7 +33,7 @@
         @else
             <div class="overflow-x-auto">
                 <table class="w-full text-sm">
-                    <thead class="bg-gray-50 text-xs text-gray-500 uppercase tracking-wider">
+                    <thead class="bg-white/20 text-xs text-gray-500 uppercase tracking-wider">
                         <tr>
                             <th class="px-3 py-3 text-center">No</th>
                             <th class="px-3 py-3 text-left">NIP</th>
@@ -94,7 +94,7 @@
                     </tbody>
                 </table>
             </div>
-            <div class="px-5 py-4 border-t border-gray-100 bg-gray-50/50">
+            <div class="px-5 py-4 border-t border-gray-100 bg-white/20/50">
                 {{ $daftarNominatif->links() }}
             </div>
         @endif
@@ -167,15 +167,15 @@
 
                     {{-- Info Pegawai --}}
                     <div class="grid grid-cols-2 gap-3 mb-5">
-                        <div class="bg-gray-50 p-3 rounded-lg text-sm">
+                        <div class="bg-white/20 p-3 rounded-lg text-sm">
                             <p class="text-gray-500 mb-1 text-xs">Nama Pegawai</p>
                             <p class="font-semibold text-gray-800" x-text="dataModal.pegawai?.nama_lengkap"></p>
                         </div>
-                        <div class="bg-gray-50 p-3 rounded-lg text-sm">
+                        <div class="bg-white/20 p-3 rounded-lg text-sm">
                             <p class="text-gray-500 mb-1 text-xs">Pangkat / Golongan</p>
                             <p class="font-semibold text-gray-800" x-text="`${dataModal.pegawai?.pangkat || '-'} (${dataModal.pegawai?.golongan || '-'})`"></p>
                         </div>
-                        <div class="bg-gray-50 p-3 rounded-lg text-sm">
+                        <div class="bg-white/20 p-3 rounded-lg text-sm">
                             <p class="text-gray-500 mb-1 text-xs">TMT KGB Baru</p>
                             <p class="font-semibold text-gray-800" x-text="dataModal.tmt_baru"></p>
                         </div>
@@ -183,11 +183,11 @@
                             <p class="text-blue-600 mb-1 text-xs">Gaji Pokok Baru</p>
                             <p class="font-bold text-blue-800" x-text="'Rp ' + (new Intl.NumberFormat('id-ID').format(dataModal.gaji_pokok_baru || 0))"></p>
                         </div>
-                        <div class="bg-gray-50 p-3 rounded-lg text-sm">
+                        <div class="bg-white/20 p-3 rounded-lg text-sm">
                             <p class="text-gray-500 mb-1 text-xs">Masa Kerja Baru</p>
                             <p class="font-semibold text-gray-800" x-text="`${dataModal.masa_kerja_tahun_baru || 0} Tahun ${dataModal.masa_kerja_bulan_baru || 0} Bulan`"></p>
                         </div>
-                        <div class="bg-gray-50 p-3 rounded-lg text-sm">
+                        <div class="bg-white/20 p-3 rounded-lg text-sm">
                             <p class="text-gray-500 mb-1 text-xs">Gaji Pokok Lama</p>
                             <p class="font-semibold text-gray-800" x-text="'Rp ' + (new Intl.NumberFormat('id-ID').format(dataModal.pegawai?.gaji_pokok_terakhir || 0))"></p>
                         </div>
@@ -230,7 +230,7 @@
                         <div x-show="form.master_pejabat_id" class="space-y-4 pt-2" x-transition x-cloak>
                             
                             {{-- B. Dasar SK Sebelumnya --}}
-                            <div class="p-4 bg-gray-50 border border-gray-200 rounded-lg">
+                            <div class="p-4 bg-white/20 border border-white/50 rounded-lg">
                                 <h4 class="font-semibold text-gray-700 mb-3 text-sm">Dasar SK Sebelumnya</h4>
                                 <div class="grid grid-cols-2 gap-4">
                                     <div>
@@ -245,7 +245,7 @@
                             </div>
 
                             {{-- C. SK Baru --}}
-                            <div class="p-4 bg-white border border-gray-200 rounded-lg">
+                            <div class="p-4 bg-white/40 backdrop-blur-xl border border-white/50 rounded-lg">
                                 <h4 class="font-semibold text-gray-700 mb-3 text-sm">Pembuatan SK KGB Baru</h4>
                                 <div class="grid grid-cols-2 gap-4">
                                     <div>
@@ -254,7 +254,7 @@
                                             <input type="text" id="nomor_sk_baru" name="nomor_sk_baru" 
                                                 class="flex-1 block w-full rounded-none rounded-l-md sm:text-sm border-gray-300 focus:border-indigo-500 focus:ring-indigo-500" 
                                                 x-model="form.nomor_sk_baru" required>
-                                            <span class="inline-flex items-center px-3 rounded-r-md border border-l-0 border-gray-300 bg-gray-50 text-gray-500 sm:text-sm whitespace-nowrap">
+                                            <span class="inline-flex items-center px-3 rounded-r-md border border-l-0 border-gray-300 bg-white/20 text-gray-500 sm:text-sm whitespace-nowrap">
                                                 /KPG.14/Kepegumas/RSP
                                             </span>
                                         </div>

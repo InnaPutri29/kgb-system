@@ -11,7 +11,7 @@
                 <svg class="w-5 h-5 shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/></svg>
                 Petunjuk Import Excel
             </h3>
-            <a href="{{ route('admin.pegawai.import.template') }}" class="inline-flex items-center gap-2 bg-white border border-blue-300 text-blue-700 hover:bg-blue-100 hover:text-blue-800 px-3 py-1.5 rounded-lg text-sm font-medium transition shadow-sm shrink-0">
+            <a href="{{ route('admin.pegawai.import.template') }}" class="inline-flex items-center gap-2 bg-white/40 backdrop-blur-xl border border-blue-300 text-blue-700 hover:bg-blue-100 hover:text-blue-800 px-3 py-1.5 rounded-lg text-sm font-medium transition shadow-sm shrink-0">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
                 Unduh Template Excel
             </a>
@@ -26,7 +26,7 @@
     </div>
 
     {{-- Kolom yang Diharapkan --}}
-    <div class="bg-white rounded-xl border border-gray-200 p-5">
+    <div class="bg-white/40 backdrop-blur-xl rounded-xl border border-white/50 p-5">
         <h3 class="font-semibold text-gray-700 mb-3">Kolom yang Diharapkan pada File Excel</h3>
         <div class="grid grid-cols-2 gap-2 text-sm">
             @foreach(['nip','nama','email','pangkat','golongan','jabatan','kantor_tempat_kerja','tmt_gaji_terakhir','masa_kerja_tahun','masa_kerja_bulan','gaji_pokok_terakhir','nomor_sk_terakhir','tanggal_sk_terakhir', 'skp_tahun_1', 'skp_predikat_1', 'skp_tahun_2', 'skp_predikat_2'] as $col)
@@ -40,7 +40,7 @@
     </div>
 
     {{-- Form Upload --}}
-    <div class="bg-white rounded-xl border border-gray-200 p-6">
+    <div class="bg-white/40 backdrop-blur-xl rounded-xl border border-white/50 p-6">
         <h2 class="font-semibold text-gray-800 mb-5">Unggah File Excel</h2>
 
         <form action="{{ route('admin.pegawai.import.store') }}" method="POST" enctype="multipart/form-data" x-data="{ loading: false, fileName: '' }" @submit="if(fileName) { loading = true }">
@@ -49,7 +49,7 @@
             <div class="mb-6">
                 <label for="file"
                     class="flex flex-col items-center justify-center w-full h-40 border-2 border-dashed rounded-xl cursor-pointer transition
-                           {{ $errors->has('file') ? 'border-red-400 bg-red-50' : 'border-gray-300 bg-gray-50 hover:bg-gray-100 hover:border-blue-400' }}">
+                           {{ $errors->has('file') ? 'border-red-400 bg-red-50' : 'border-gray-300 bg-white/20 hover:bg-gray-100 hover:border-blue-400' }}">
                     <div class="flex flex-col items-center justify-center">
                         <svg class="w-10 h-10 mb-2 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/>
@@ -89,7 +89,7 @@
                     <span x-text="loading ? 'Sedang memproses data...' : 'Proses Import'">Proses Import</span>
                 </button>
                 <a href="{{ route('admin.pegawai.index') }}" :class="loading ? 'pointer-events-none opacity-50' : ''"
-                   class="flex-1 text-center border border-gray-300 hover:bg-gray-50 text-gray-700 font-medium py-2.5 px-6 rounded-lg transition text-sm">
+                   class="flex-1 text-center border border-gray-300 hover:bg-white/20 text-gray-700 font-medium py-2.5 px-6 rounded-lg transition text-sm">
                     Batal
                 </a>
             </div>

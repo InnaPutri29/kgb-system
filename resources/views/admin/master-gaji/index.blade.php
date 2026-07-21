@@ -16,7 +16,7 @@
     </div>
 
     {{-- Filter & Pencarian --}}
-    <div class="bg-white p-4 rounded-xl border border-gray-200">
+    <div class="bg-white/40 backdrop-blur-xl p-4 rounded-xl border border-white/50">
         <form method="GET" action="{{ route('admin.master-gaji.index') }}" class="flex flex-col sm:flex-row gap-3 items-end">
             <div class="w-full sm:w-auto flex-1">
                 <x-input-label for="search" value="Cari Data" class="mb-1" />
@@ -47,7 +47,7 @@
         </form>
     </div>
 
-    <div class="bg-white rounded-xl border border-gray-200 overflow-hidden">
+    <div class="bg-white/40 backdrop-blur-xl rounded-xl border border-white/50 overflow-hidden">
         @if($gaji->isEmpty())
             <div class="flex flex-col items-center justify-center py-16 text-gray-400">
                 @if(request()->hasAny(['search', 'kategori']))
@@ -64,7 +64,7 @@
         @else
             <div class="overflow-x-auto">
                 <table class="w-full text-sm">
-                    <thead class="bg-gray-50 text-xs text-gray-500 uppercase tracking-wider border-b border-gray-200">
+                    <thead class="bg-white/20 text-xs text-gray-500 uppercase tracking-wider border-b border-white/50">
                         <tr>
                             <th class="px-6 py-4 text-left font-medium">Golongan Ruang</th>
                             <th class="px-6 py-4 text-center font-medium">Masa Kerja Golongan (MKG)</th>
@@ -74,13 +74,13 @@
                     </thead>
                     <tbody class="divide-y divide-gray-100">
                         @foreach($gaji as $g)
-                        <tr class="hover:bg-gray-50 transition">
+                        <tr class="hover:bg-white/20 transition">
                             <td class="px-6 py-3 font-semibold text-indigo-700 bg-indigo-50/30">{{ $g->golongan }}</td>
                             <td class="px-6 py-3 text-center text-gray-600 font-medium">{{ $g->masa_kerja }} Tahun</td>
                             <td class="px-6 py-3 text-right text-gray-800 font-mono font-medium">{{ number_format($g->nominal_gaji, 0, ',', '.') }}</td>
                             <td class="px-6 py-3">
                                 <div class="flex items-center justify-center gap-2">
-                                    <button x-data @click="$dispatch('open-modal-edit', {{ $g->toJson() }})" class="p-1.5 bg-gray-50 text-gray-600 hover:text-green-600 hover:bg-green-50 rounded-md transition" title="Edit Gaji">
+                                    <button x-data @click="$dispatch('open-modal-edit', {{ $g->toJson() }})" class="p-1.5 bg-white/20 text-gray-600 hover:text-green-600 hover:bg-green-50 rounded-md transition" title="Edit Gaji">
                                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
                                     </button>
                                     <button type="button" 
@@ -89,7 +89,7 @@
                                                 title: 'Hapus Gaji Pokok',
                                                 description: 'Hapus acuan gaji Golongan {{ $g->golongan }} MKG {{ $g->masa_kerja }} Tahun?'
                                             })"
-                                            class="p-1.5 bg-gray-50 text-gray-600 hover:text-red-600 hover:bg-red-50 rounded-md transition" title="Hapus Gaji">
+                                            class="p-1.5 bg-white/20 text-gray-600 hover:text-red-600 hover:bg-red-50 rounded-md transition" title="Hapus Gaji">
                                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
                                     </button>
                                 </div>
@@ -153,11 +153,11 @@
                     <div class="grid grid-cols-2 gap-4">
                         <div>
                             <x-input-label for="edit_golongan" value="Golongan Ruang *" />
-                            <x-text-input id="edit_golongan" name="golongan" type="text" class="mt-1 block w-full bg-gray-50" x-model="gaji.golongan" required maxlength="5" />
+                            <x-text-input id="edit_golongan" name="golongan" type="text" class="mt-1 block w-full bg-white/20" x-model="gaji.golongan" required maxlength="5" />
                         </div>
                         <div>
                             <x-input-label for="edit_masa_kerja" value="Masa Kerja (Tahun) *" />
-                            <x-text-input id="edit_masa_kerja" name="masa_kerja" type="number" min="0" class="mt-1 block w-full bg-gray-50" x-model="gaji.masa_kerja" required />
+                            <x-text-input id="edit_masa_kerja" name="masa_kerja" type="number" min="0" class="mt-1 block w-full bg-white/20" x-model="gaji.masa_kerja" required />
                         </div>
                     </div>
                     <div>
