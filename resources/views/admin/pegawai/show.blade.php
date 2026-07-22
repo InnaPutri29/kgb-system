@@ -245,14 +245,43 @@
                                 <x-input-label for="edit_tahun" value="Tahun Penilaian *" />
                                 <x-text-input id="edit_tahun" name="tahun_penilaian" type="number" min="2000" :max="date('Y')" class="mt-1 block w-full" x-model="editSkp.tahun_penilaian" required />
                             </div>
-                            <div>
-                                <x-input-label for="edit_predikat" value="Predikat SKP *" />
-                                <select id="edit_predikat" name="predikat" class="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm mt-1 block w-full text-sm" x-model="editSkp.predikat" required>
-                                    <option value="">-- Pilih Predikat --</option>
+                            <div class="relative" x-data="{ open: false }">
+                                <x-input-label value="Predikat SKP *" />
+                                
+                                <select id="edit_predikat" name="predikat" x-model="editSkp.predikat" class="opacity-0 absolute inset-0 w-full h-full pointer-events-none" required>
+                                    <option value=""></option>
                                     @foreach(['Sangat Baik','Baik','Cukup','Kurang','Sangat Kurang'] as $p)
-                                        <option value="{{ $p }}">{{ $p }}</option>
+                                        <option value="{{ $p }}"></option>
                                     @endforeach
                                 </select>
+                                
+                                <button type="button" @click="open = !open" @click.away="open = false" 
+                                    class="mt-1 w-full flex items-center justify-between text-left px-3 py-2 border border-gray-300 rounded-md shadow-sm bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 text-sm transition-all">
+                                    <span x-text="editSkp.predikat || '-- Pilih Predikat --'" :class="!editSkp.predikat ? 'text-gray-500' : 'text-gray-900'" class="truncate pr-4"></span>
+                                    <svg class="w-4 h-4 text-gray-400 transition-transform shrink-0" :class="open ? 'rotate-180' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                                </button>
+                                
+                                <div x-show="open" 
+                                    x-transition:enter="transition ease-out duration-100"
+                                    x-transition:enter-start="opacity-0 scale-95"
+                                    x-transition:enter-end="opacity-100 scale-100"
+                                    x-transition:leave="transition ease-in duration-75"
+                                    x-transition:leave-start="opacity-100 scale-100"
+                                    x-transition:leave-end="opacity-0 scale-95"
+                                    class="absolute z-50 mt-1 w-full bg-white border border-gray-200 rounded-lg shadow-xl overflow-hidden" x-cloak>
+                                    <ul class="py-1">
+                                        <li @click="editSkp.predikat = ''; open = false" class="px-4 py-2 text-sm text-gray-500 hover:bg-gray-100 cursor-pointer">
+                                            -- Batal Pilih --
+                                        </li>
+                                        @foreach(['Sangat Baik','Baik','Cukup','Kurang','Sangat Kurang'] as $p)
+                                            <li @click="editSkp.predikat = '{{ $p }}'; open = false" 
+                                                class="px-4 py-2 text-sm hover:bg-indigo-50 cursor-pointer border-l-2 transition-colors"
+                                                :class="editSkp.predikat === '{{ $p }}' ? 'bg-indigo-50 border-indigo-500 font-medium text-indigo-900' : 'border-transparent text-gray-700'">
+                                                {{ $p }}
+                                            </li>
+                                        @endforeach
+                                    </ul>
+                                </div>
                             </div>
                             <div>
                                 <x-input-label for="edit_file_skp" value="Ganti File Bukti SKP (Opsional)" />
@@ -282,16 +311,44 @@
                     <x-text-input id="tahun_penilaian" name="tahun_penilaian" type="number" min="2000" max="{{ date('Y') }}" class="mt-1 block w-full" :value="old('tahun_penilaian', date('Y') - 1)" required />
                     <x-input-error :messages="$errors->get('tahun_penilaian')" class="mt-2" />
                 </div>
-                <div>
-                    <x-input-label for="predikat" value="Predikat SKP *" />
-                    <select id="predikat" name="predikat" class="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm mt-1 block w-full text-sm" required>
-                        <option value="">-- Pilih Predikat --</option>
-                        @foreach(['Sangat Baik','Baik','Cukup','Kurang','Sangat Kurang'] as $p)
-                            <option value="{{ $p }}" {{ old('predikat') == $p ? 'selected' : '' }}>{{ $p }}</option>
-                        @endforeach
-                    </select>
-                    <x-input-error :messages="$errors->get('predikat')" class="mt-2" />
-                </div>
+                    <div x-data="{ open: false, selected: '{{ old('predikat') }}' }" class="relative">
+                        <x-input-label value="Predikat SKP *" />
+                        
+                        <select id="predikat" name="predikat" x-model="selected" class="opacity-0 absolute inset-0 w-full h-full pointer-events-none" required>
+                            <option value=""></option>
+                            @foreach(['Sangat Baik','Baik','Cukup','Kurang','Sangat Kurang'] as $p)
+                                <option value="{{ $p }}"></option>
+                            @endforeach
+                        </select>
+                        
+                        <button type="button" @click="open = !open" @click.away="open = false" 
+                            class="mt-1 w-full flex items-center justify-between text-left px-3 py-2 border border-gray-300 rounded-md shadow-sm bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 text-sm transition-all">
+                            <span x-text="selected || '-- Pilih Predikat --'" :class="!selected ? 'text-gray-500' : 'text-gray-900'" class="truncate pr-4"></span>
+                            <svg class="w-4 h-4 text-gray-400 transition-transform shrink-0" :class="open ? 'rotate-180' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                        </button>
+                        
+                        <div x-show="open" 
+                            x-transition:enter="transition ease-out duration-100"
+                            x-transition:enter-start="opacity-0 scale-95"
+                            x-transition:enter-end="opacity-100 scale-100"
+                            x-transition:leave="transition ease-in duration-75"
+                            x-transition:leave-start="opacity-100 scale-100"
+                            x-transition:leave-end="opacity-0 scale-95"
+                            class="absolute z-50 mt-1 w-full bg-white border border-gray-200 rounded-lg shadow-xl overflow-hidden" x-cloak>
+                            <ul class="py-1">
+                                <li @click="selected = ''; open = false" class="px-4 py-2 text-sm text-gray-500 hover:bg-gray-100 cursor-pointer">
+                                    -- Batal Pilih --
+                                </li>
+                                @foreach(['Sangat Baik','Baik','Cukup','Kurang','Sangat Kurang'] as $p)
+                                    <li @click="selected = '{{ $p }}'; open = false" 
+                                        class="px-4 py-2 text-sm hover:bg-indigo-50 cursor-pointer border-l-2 transition-colors"
+                                        :class="selected === '{{ $p }}' ? 'bg-indigo-50 border-indigo-500 font-medium text-indigo-900' : 'border-transparent text-gray-700'">
+                                        {{ $p }}
+                                    </li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    </div>
                 <div>
                     <x-input-label for="file_bukti_skp" value="File Bukti SKP (Opsional)" />
                     <input id="file_bukti_skp" name="file_bukti_skp" type="file" accept=".pdf,.jpg,.jpeg,.png"
