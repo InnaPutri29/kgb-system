@@ -55,7 +55,7 @@
 
                     <div>
                         <x-input-label for="alamat" value="Alamat Lengkap" />
-                        <textarea id="alamat" name="alamat" rows="3" class="mt-1 block w-full border-white/40 bg-white/20 focus:bg-white/50 focus:border-white/60 focus:ring-white/30 rounded-md shadow-sm transition-all text-gray-800 placeholder-gray-400" required>{{ old('alamat', $pengaturan->alamat) }}</textarea>
+                        <textarea id="alamat" name="alamat" rows="3" class="mt-1 block w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm" required>{{ old('alamat', $pengaturan->alamat) }}</textarea>
                         <x-input-error :messages="$errors->get('alamat')" class="mt-2" />
                     </div>
 
