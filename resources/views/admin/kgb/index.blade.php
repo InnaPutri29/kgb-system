@@ -36,7 +36,7 @@
                 <h3 class="text-lg font-semibold text-gray-800">Tabel Riwayat SK KGB</h3>
                 <p class="text-sm text-gray-500">Menampilkan data terakhir berdasarkan tanggal penetapan SK.</p>
             </div>
-            <span class="inline-flex items-center px-3 py-1.5 rounded-full text-xs font-semibold bg-blue-100 text-blue-800">Total {{ $riwayatKgb->total() }} Dokumen</span>
+            <span class="inline-flex items-center px-3 py-1.5 rounded-full text-xs font-semibold bg-blue-100 border border-blue-200 text-blue-800">Total {{ $riwayatKgb->total() }} Dokumen</span>
         </div>
 
         @if($riwayatKgb->isEmpty())

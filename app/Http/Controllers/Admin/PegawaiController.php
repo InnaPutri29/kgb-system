@@ -24,12 +24,17 @@ class PegawaiController extends Controller
                 $q->where('nama_lengkap', 'like', "%{$search}%")
                   ->orWhere('nip', 'like', "%{$search}%")
                   ->orWhere('jabatan', 'like', "%{$search}%")
-                  ->orWhere('golongan', 'like', "%{$search}%")
+                  ->orWhere('golongan', 'like', "{$search}%")
                   ->orWhere('pangkat', 'like', "%{$search}%");
             });
         }
         if ($request->filled('golongan')) {
-            $query->where('golongan', 'like', $request->golongan . '%');
+            $golongan = $request->golongan;
+            if (str_contains($golongan, '/')) {
+                $query->where('golongan', $golongan);
+            } else {
+                $query->where('golongan', 'like', $golongan . '/%');
+            }
         }
 
         if ($request->filled('tahun_tmt')) {

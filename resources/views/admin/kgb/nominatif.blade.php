@@ -16,7 +16,7 @@
                     🔴 {{ $jatuhTempoHariIni }} jatuh tempo hari ini
                 </span>
             @endif
-            <span class="inline-flex items-center px-3 py-1.5 rounded-full text-xs font-semibold bg-yellow-100 text-yellow-800 border border-yellow-200 flex-1 sm:flex-none justify-center">
+            <span class="inline-flex items-center px-3 py-1.5 rounded-full text-xs font-semibold bg-blue-100 text-blue-800 border border-blue-200 flex-1 sm:flex-none justify-center">
                 {{ $daftarNominatif->total() }} Pegawai Nominatif
             </span>
         </div>
