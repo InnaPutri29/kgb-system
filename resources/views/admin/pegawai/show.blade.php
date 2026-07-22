@@ -128,7 +128,7 @@
                                 <td class="px-6 py-3 text-gray-600 font-medium">{{ \Carbon\Carbon::parse($riwayat->tmt_baru)->format('d/m/Y') }}</td>
                                 <td class="px-6 py-3 text-gray-600">{{ $riwayat->masa_kerja_tahun_baru }} Thn, {{ $riwayat->masa_kerja_bulan_baru }} Bln</td>
                                 <td class="px-6 py-3 text-gray-600">Rp {{ number_format($riwayat->gaji_pokok_baru, 0, ',', '.') }}</td>
-                                <td class="px-6 py-3 text-gray-600 text-xs">{{ \Carbon\Carbon::parse($riwayat->tmt_yad)->format('d/m/Y') }}</td>
+                                <td class="px-6 py-3 text-gray-600">{{ \Carbon\Carbon::parse($riwayat->tmt_yad)->format('d/m/Y') }}</td>
                                 <td class="px-6 py-3 text-right">
                                     <a href="{{ route('admin.kgb.download-pdf', $riwayat->id) }}" 
                                        onclick="window.dispatchEvent(new CustomEvent('show-toast', { detail: { message: 'Dokumen SK KGB pegawai berhasil digenerate dan sedang diunduh!', type: 'success' } }))"

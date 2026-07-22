@@ -5,69 +5,21 @@
 <div class="space-y-6">
 
     @if(!$pegawai)
-        <div class="bg-amber-50 border border-amber-200 text-amber-900 rounded-2xl p-6 shadow-sm flex items-start gap-4">
-            <div class="w-10 h-10 rounded-xl bg-amber-100 flex items-center justify-center shrink-0 text-xl text-amber-600"></div>
+        <div class="bg-amber-50/50 backdrop-blur-3xl border border-amber-200/80 border-t-amber-100 text-amber-900 rounded-[1.5rem] p-6 shadow-[0_8px_32px_0_rgba(31,38,135,0.07)] flex items-start gap-4">
+            <div class="w-10 h-10 rounded-xl bg-amber-100/80 shadow-sm flex items-center justify-center shrink-0 text-xl text-amber-600">⚠️</div>
             <div>
                 <h3 class="font-bold text-lg">Data Pegawai Tidak Ditemukan</h3>
-                <p class="text-sm">Akun Anda belum terhubung dengan data PNS. Silakan hubungi admin kepegawaian.</p>
+                <p class="text-sm text-amber-800/80">Akun Anda belum terhubung dengan data PNS. Silakan hubungi admin kepegawaian.</p>
             </div>
         </div>
     @else
 
-    {{-- CARD SKP PERIODE BERJALAN --}}
-    <div class="bg-white rounded-2xl border border-gray-200 shadow-sm p-6 max-w-lg">
-        <h3 class="font-bold text-gray-800 flex items-center gap-2 mb-4">
-            <span class="text-emerald-600"></span> SKP Periode Berjalan (Tahun {{ $tahunBerjalan }})
-        </h3>
-        
-        @if(!$skpPeriodeBerjalan)
-            <div class="space-y-2">
-                <div class="flex items-center gap-2">
-                    <div class="w-2 h-2 rounded-full bg-yellow-400"></div>
-                    <span class="text-sm font-semibold text-gray-600">Proses penilaian oleh Atasan</span>
-                </div>
-                <p class="text-xs text-gray-500">Penilaian biasanya diterbitkan di akhir tahun penilaian berjalan.</p>
-            </div>
-        @else
-            <div class="space-y-3">
-                @php
-                    $colors = [
-                        'Sangat Baik' => 'bg-emerald-100 text-emerald-800 border-emerald-200',
-                        'Baik'        => 'bg-blue-100 text-blue-800 border-blue-200',
-                        'Cukup'       => 'bg-yellow-100 text-yellow-800 border-yellow-200',
-                        'Kurang'      => 'bg-orange-100 text-orange-800 border-orange-200',
-                        'Sangat Kurang' => 'bg-red-100 text-red-800 border-red-200',
-                    ];
-                    $colorClass = $colors[$skpPeriodeBerjalan->predikat] ?? 'bg-gray-100 text-gray-800';
-                @endphp
-                <p class="text-xs font-bold text-gray-400 uppercase">Predikat SKP</p>
-                <span class="inline-flex items-center px-4 py-1.5 rounded-lg font-black border {{ $colorClass }}">
-                    ★ {{ $skpPeriodeBerjalan->predikat }}
-                </span>
-                
-                <div class="pt-3 border-t border-gray-100 flex items-center justify-between">
-                    <span class="text-xs font-bold text-gray-500">Dokumen Bukti:</span>
-                    @if($skpPeriodeBerjalan->file_bukti_skp)
-                        <a href="{{ Storage::url($skpPeriodeBerjalan->file_bukti_skp) }}" target="_blank"
-                           class="text-sm font-bold text-emerald-600 hover:text-emerald-800 transition">
-                            Lihat File
-                        </a>
-                    @else
-                        <span class="text-xs text-gray-400 italic">Belum diunggah</span>
-                    @endif
-                </div>
-            </div>
-        @endif
-    </div>
 
     {{-- RIWAYAT PENILAIAN SKP --}}
-    <div class="bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden">
-        <div class="px-6 py-5 border-b border-gray-100 bg-gray-50/50 flex flex-col sm:flex-row gap-3 justify-between items-start sm:items-center">
-            <div>
-                <h3 class="font-bold text-gray-800">Rekapitulasi Evaluasi SKP</h3>
-                <p class="text-xs text-gray-500">Daftar nilai predikat Sasaran Kinerja Pegawai tahun sebelumnya.</p>
-            </div>
-            <span class="bg-gray-200 text-gray-700 text-xs font-bold px-2.5 py-1 rounded-full">{{ $skpEvaluasi->count() }} Data</span>
+    <div class="bg-white/50 backdrop-blur-3xl rounded-[1.5rem] border border-white/80 border-t-white shadow-[0_8px_32px_0_rgba(31,38,135,0.07)] overflow-hidden">
+        <div class="px-6 py-4 border-b border-gray-100 bg-white/20/50 flex justify-between items-center">
+            <h3 class="text-lg font-bold text-gray-800">Rekapitulasi Evaluasi SKP</h3>
+            <span class="bg-gray-200 text-gray-700 text-xs font-semibold px-2.5 py-0.5 rounded-full">{{ $skpEvaluasi->count() }} Data</span>
         </div>
 
         @if($skpEvaluasi->isEmpty())
@@ -79,7 +31,7 @@
         @else
             <div class="overflow-x-auto">
                 <table class="w-full text-sm text-left">
-                    <thead class="bg-gray-50 text-xs text-gray-500 uppercase tracking-wider">
+                    <thead class="bg-blue-200/60 text-xs text-blue-900 uppercase tracking-wider border-b border-gray-100">
                         <tr>
                             <th class="px-4 lg:px-6 py-3 whitespace-nowrap">Tahun</th>
                             <th class="px-4 lg:px-6 py-3 whitespace-nowrap">Predikat</th>
@@ -89,7 +41,7 @@
                     </thead>
                     <tbody class="divide-y divide-gray-100">
                         @foreach($skpEvaluasi as $skp)
-                            <tr class="hover:bg-gray-50 transition">
+                            <tr class="hover:bg-white/40 transition">
                                 <td class="px-4 lg:px-6 py-3 lg:py-4 font-bold text-gray-800 whitespace-nowrap">
                                     {{ $skp->tahun_penilaian }}
                                     @if($skp->tahun_penilaian == $tahunBerjalan)
@@ -111,10 +63,13 @@
                                         <span class="text-red-600 text-xs font-bold">✗ Di bawah syarat</span>
                                     @endif
                                 </td>
-                                <td class="px-4 lg:px-6 py-3 lg:py-4 text-right whitespace-nowrap">
+                                <td class="px-6 py-3 text-right whitespace-nowrap">
                                     @if($skp->file_bukti_skp)
                                         <a href="{{ Storage::url($skp->file_bukti_skp) }}" target="_blank"
-                                           class="text-xs font-bold text-indigo-600 hover:text-indigo-800 transition">Lihat Berkas</a>
+                                           class="inline-flex items-center gap-1 text-xs bg-blue-600 hover:bg-blue-700 text-white px-3 py-1.5 rounded-lg transition font-medium">
+                                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>
+                                            Lihat
+                                        </a>
                                     @else
                                         <span class="text-xs text-gray-400 italic">Tidak ada</span>
                                     @endif
