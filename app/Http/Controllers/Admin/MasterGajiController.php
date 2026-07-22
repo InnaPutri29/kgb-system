@@ -42,7 +42,11 @@ class MasterGajiController extends Controller
 
         if ($request->filled('kategori')) {
             $kategori = $request->kategori;
-            $query->where('golongan', 'like', "{$kategori}/%");
+            if (str_contains($kategori, '/')) {
+                $query->where('golongan', $kategori);
+            } else {
+                $query->where('golongan', 'like', "{$kategori}/%");
+            }
         }
 
         $gaji = $query->orderBy('golongan')->orderBy('masa_kerja')->paginate(20)->withQueryString();

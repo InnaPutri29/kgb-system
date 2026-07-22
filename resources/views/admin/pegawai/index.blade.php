@@ -70,7 +70,7 @@
                     Filter
                 </button>
                 @if(request()->filled('search') || request()->filled('golongan') || request()->filled('tahun_tmt'))
-                    <a href="{{ route('admin.pegawai.index') }}" class="px-4 py-2 bg-gray-100 text-gray-600 text-sm font-medium rounded-lg hover:bg-gray-200 transition text-center w-full sm:w-auto">
+                    <a href="{{ route('admin.pegawai.index') }}" class="px-4 py-2 bg-white text-gray-700 hover:bg-gray-50 text-sm font-medium rounded-lg border border-gray-300 shadow-sm transition text-center w-full sm:w-auto">
                         Reset
                     </a>
                 @endif

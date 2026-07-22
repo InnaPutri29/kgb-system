@@ -27,10 +27,17 @@
                 <x-input-label for="kategori" value="Kategori Golongan" class="mb-1" />
                 <select id="kategori" name="kategori" class="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm block w-full text-sm">
                     <option value="">Semua Golongan</option>
-                    <option value="I" {{ request('kategori') == 'I' ? 'selected' : '' }}>Golongan I</option>
-                    <option value="II" {{ request('kategori') == 'II' ? 'selected' : '' }}>Golongan II</option>
-                    <option value="III" {{ request('kategori') == 'III' ? 'selected' : '' }}>Golongan III</option>
-                    <option value="IV" {{ request('kategori') == 'IV' ? 'selected' : '' }}>Golongan IV</option>
+                    <optgroup label="Kategori Utama">
+                        <option value="I" {{ request('kategori') == 'I' ? 'selected' : '' }}>Golongan I</option>
+                        <option value="II" {{ request('kategori') == 'II' ? 'selected' : '' }}>Golongan II</option>
+                        <option value="III" {{ request('kategori') == 'III' ? 'selected' : '' }}>Golongan III</option>
+                        <option value="IV" {{ request('kategori') == 'IV' ? 'selected' : '' }}>Golongan IV</option>
+                    </optgroup>
+                    <optgroup label="Spesifik">
+                        @foreach(['I/a','I/b','I/c','I/d','II/a','II/b','II/c','II/d','III/a','III/b','III/c','III/d','IV/a','IV/b','IV/c','IV/d','IV/e'] as $gol)
+                            <option value="{{ $gol }}" {{ request('kategori') == $gol ? 'selected' : '' }}>Golongan {{ $gol }}</option>
+                        @endforeach
+                    </optgroup>
                 </select>
             </div>
 
@@ -39,7 +46,7 @@
                     Filter
                 </button>
                 @if(request()->hasAny(['search', 'kategori']))
-                    <a href="{{ route('admin.master-gaji.index') }}" class="px-4 py-2 bg-gray-100 text-gray-600 text-sm font-medium rounded-lg hover:bg-gray-200 transition text-center w-full sm:w-auto">
+                    <a href="{{ route('admin.master-gaji.index') }}" class="px-4 py-2 bg-white text-gray-700 hover:bg-gray-50 text-sm font-medium rounded-lg border border-gray-300 shadow-sm transition text-center w-full sm:w-auto">
                         Reset
                     </a>
                 @endif
