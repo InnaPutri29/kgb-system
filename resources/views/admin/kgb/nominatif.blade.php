@@ -160,30 +160,47 @@
                     @csrf
 
                     {{-- Info Pegawai --}}
-                    <div class="grid grid-cols-2 gap-3 mb-5">
-                        <div class="bg-white/20 p-3 rounded-lg text-sm">
-                            <p class="text-gray-500 mb-1 text-xs">Nama Pegawai</p>
-                            <p class="font-semibold text-gray-800" x-text="dataModal.pegawai?.nama_lengkap"></p>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-5">
+                        <div class="col-span-1 md:col-span-2">
+                            <x-input-label value="Nama Pegawai" />
+                            <div class="mt-1 w-full px-3 py-2 bg-white/50 backdrop-blur-md border border-white/80 rounded-lg text-sm text-gray-900 shadow-[inset_0_2px_4px_rgba(255,255,255,0.6)] flex items-center min-h-[38px]">
+                                <span x-text="dataModal.pegawai?.nama_lengkap"></span>
+                            </div>
                         </div>
-                        <div class="bg-white/20 p-3 rounded-lg text-sm">
-                            <p class="text-gray-500 mb-1 text-xs">Pangkat / Golongan</p>
-                            <p class="font-semibold text-gray-800" x-text="`${dataModal.pegawai?.pangkat || '-'} (${dataModal.pegawai?.golongan || '-'})`"></p>
+                        
+                        <div>
+                            <x-input-label value="Pangkat / Golongan" />
+                            <div class="mt-1 w-full px-3 py-2 bg-white/50 backdrop-blur-md border border-white/80 rounded-lg text-sm text-gray-900 shadow-[inset_0_2px_4px_rgba(255,255,255,0.6)] flex items-center min-h-[38px]">
+                                <span x-text="`${dataModal.pegawai?.pangkat || '-'} (${dataModal.pegawai?.golongan || '-'})`"></span>
+                            </div>
                         </div>
-                        <div class="bg-white/20 p-3 rounded-lg text-sm">
-                            <p class="text-gray-500 mb-1 text-xs">TMT KGB Baru</p>
-                            <p class="font-semibold text-gray-800" x-text="dataModal.tmt_baru"></p>
+                        
+                        <div>
+                            <x-input-label value="Masa Kerja Baru" />
+                            <div class="mt-1 w-full px-3 py-2 bg-white/50 backdrop-blur-md border border-white/80 rounded-lg text-sm text-gray-900 shadow-[inset_0_2px_4px_rgba(255,255,255,0.6)] flex items-center min-h-[38px]">
+                                <span x-text="`${dataModal.masa_kerja_tahun_baru || 0} Tahun ${dataModal.masa_kerja_bulan_baru || 0} Bulan`"></span>
+                            </div>
                         </div>
-                        <div class="bg-blue-50 p-3 rounded-lg text-sm border border-blue-100">
-                            <p class="text-blue-600 mb-1 text-xs">Gaji Pokok Baru</p>
-                            <p class="font-bold text-blue-800" x-text="'Rp ' + (new Intl.NumberFormat('id-ID').format(dataModal.gaji_pokok_baru || 0))"></p>
+                        
+                        <div>
+                            <x-input-label value="TMT KGB Baru" />
+                            <div class="mt-1 w-full px-3 py-2 bg-white/50 backdrop-blur-md border border-white/80 rounded-lg text-sm text-gray-900 shadow-[inset_0_2px_4px_rgba(255,255,255,0.6)] flex items-center min-h-[38px]">
+                                <span x-text="dataModal.tmt_baru"></span>
+                            </div>
                         </div>
-                        <div class="bg-white/20 p-3 rounded-lg text-sm">
-                            <p class="text-gray-500 mb-1 text-xs">Masa Kerja Baru</p>
-                            <p class="font-semibold text-gray-800" x-text="`${dataModal.masa_kerja_tahun_baru || 0} Tahun ${dataModal.masa_kerja_bulan_baru || 0} Bulan`"></p>
+                        
+                        <div>
+                            <x-input-label value="Gaji Pokok Lama" />
+                            <div class="mt-1 w-full px-3 py-2 bg-white/50 backdrop-blur-md border border-white/80 rounded-lg text-sm text-gray-900 shadow-[inset_0_2px_4px_rgba(255,255,255,0.6)] flex items-center min-h-[38px]">
+                                <span x-text="'Rp ' + (new Intl.NumberFormat('id-ID').format(dataModal.pegawai?.gaji_pokok_terakhir || 0))"></span>
+                            </div>
                         </div>
-                        <div class="bg-white/20 p-3 rounded-lg text-sm">
-                            <p class="text-gray-500 mb-1 text-xs">Gaji Pokok Lama</p>
-                            <p class="font-semibold text-gray-800" x-text="'Rp ' + (new Intl.NumberFormat('id-ID').format(dataModal.pegawai?.gaji_pokok_terakhir || 0))"></p>
+
+                        <div class="col-span-1 md:col-span-2">
+                            <x-input-label value="Gaji Pokok Baru" class="!text-blue-700" />
+                            <div class="mt-1 w-full px-3 py-2 bg-blue-100/50 backdrop-blur-md border border-blue-200 rounded-lg text-sm font-semibold text-blue-800 shadow-[inset_0_2px_4px_rgba(255,255,255,0.8)] flex items-center min-h-[38px]">
+                                <span x-text="'Rp ' + (new Intl.NumberFormat('id-ID').format(dataModal.gaji_pokok_baru || 0))"></span>
+                            </div>
                         </div>
                     </div>
 
@@ -266,7 +283,7 @@
                         <div x-show="form.master_pejabat_id" class="space-y-4 pt-2" x-transition x-cloak>
                             
                             {{-- B. Dasar SK Sebelumnya --}}
-                            <div class="p-4 bg-white/20 border border-white/50 rounded-lg">
+                            <div class="p-4 bg-white/60 backdrop-blur-md border border-white/80 rounded-lg shadow-[inset_0_2px_4px_rgba(255,255,255,0.6)]">
                                 <h4 class="font-semibold text-gray-700 mb-3 text-sm">Dasar SK Sebelumnya</h4>
                                 <div class="grid grid-cols-2 gap-4">
                                     <div>
@@ -281,7 +298,7 @@
                             </div>
 
                             {{-- C. SK Baru --}}
-                            <div class="p-4 bg-gray-50 border border-gray-200 rounded-lg">
+                            <div class="p-4 bg-white/60 backdrop-blur-md border border-white/80 rounded-lg shadow-[inset_0_2px_4px_rgba(255,255,255,0.6)]">
                                 <h4 class="font-semibold text-gray-700 mb-3 text-sm">Pembuatan SK KGB Baru</h4>
                                 <div class="grid grid-cols-2 gap-4">
                                     <div>
