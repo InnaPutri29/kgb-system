@@ -195,20 +195,62 @@
 
                     {{-- Input Fields --}}
                     <div class="space-y-4">
-                        <div>
-                            <x-input-label for="master_pejabat_id" value="Pejabat Penetap SK Baru *" />
+                        <div x-data="{ open: false, search: '' }" class="relative">
+                            <x-input-label value="Pejabat Penetap SK Baru *" />
+                            
+                            {{-- Native select hidden for form submission and validation --}}
                             <select id="master_pejabat_id" name="master_pejabat_id" 
-                                class="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm mt-1 block w-full text-sm" 
                                 x-model="form.master_pejabat_id" 
-                                @change="
-                                    let select = $event.target;
-                                    form.selectedPejabatText = select.options[select.selectedIndex].text;
-                                " required>
-                                <option value="">-- Pilih Pejabat --</option>
+                                class="opacity-0 absolute inset-0 w-full h-full pointer-events-none" required>
+                                <option value=""></option>
                                 <template x-for="p in dataModal.pejabat_list" :key="p.id">
-                                    <option :value="p.id" x-text="`${p.nama_pejabat} (${p.nama_jabatan})`"></option>
+                                    <option :value="p.id"></option>
                                 </template>
                             </select>
+
+                            {{-- Custom Dropdown Trigger --}}
+                            <button type="button" @click="open = !open" @click.away="open = false" 
+                                class="mt-1 w-full flex items-center justify-between text-left px-3 py-2 border border-gray-300 rounded-md shadow-sm bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 text-sm transition-all">
+                                <span x-text="form.selectedPejabatText || '-- Pilih Pejabat --'" :class="!form.master_pejabat_id ? 'text-gray-500' : 'text-gray-900'" class="truncate pr-4"></span>
+                                <svg class="w-4 h-4 text-gray-400 transition-transform shrink-0" :class="open ? 'rotate-180' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                            </button>
+
+                            {{-- Dropdown Menu --}}
+                            <div x-show="open" 
+                                x-transition:enter="transition ease-out duration-100"
+                                x-transition:enter-start="opacity-0 scale-95"
+                                x-transition:enter-end="opacity-100 scale-100"
+                                x-transition:leave="transition ease-in duration-75"
+                                x-transition:leave-start="opacity-100 scale-100"
+                                x-transition:leave-end="opacity-0 scale-95"
+                                class="absolute z-50 mt-1 w-full bg-white border border-gray-200 rounded-lg shadow-xl overflow-hidden" x-cloak>
+                                
+                                {{-- Search Input --}}
+                                <div class="p-2 bg-gray-50 border-b border-gray-100">
+                                    <div class="relative">
+                                        <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                                            <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+                                        </div>
+                                        <input type="text" x-model="search" class="w-full pl-9 pr-3 py-1.5 text-sm border-gray-200 rounded-md focus:ring-indigo-500 focus:border-indigo-500" placeholder="Cari nama atau jabatan...">
+                                    </div>
+                                </div>
+                                
+                                {{-- Options List --}}
+                                <ul class="max-h-60 overflow-y-auto py-1">
+                                    <li @click="form.master_pejabat_id = ''; form.selectedPejabatText = '-- Pilih Pejabat --'; open = false" 
+                                        class="px-4 py-2 text-sm text-gray-500 hover:bg-gray-100 cursor-pointer">
+                                        -- Batal Pilih --
+                                    </li>
+                                    <template x-for="p in dataModal.pejabat_list.filter(i => (i.nama_pejabat || '').toLowerCase().includes(search.toLowerCase()) || (i.nama_jabatan || '').toLowerCase().includes(search.toLowerCase()))" :key="p.id">
+                                        <li @click="form.master_pejabat_id = p.id; form.selectedPejabatText = `${p.nama_pejabat} (${p.nama_jabatan})`; open = false" 
+                                            class="px-4 py-2 text-sm hover:bg-indigo-50 cursor-pointer flex flex-col gap-0.5 border-l-2 transition-colors"
+                                            :class="form.master_pejabat_id == p.id ? 'bg-indigo-50 border-indigo-500' : 'border-transparent'">
+                                            <span class="font-semibold text-gray-800" x-text="p.nama_pejabat"></span>
+                                            <span class="text-xs text-gray-500" x-text="p.nama_jabatan"></span>
+                                        </li>
+                                    </template>
+                                </ul>
+                            </div>
                         </div>
                         
                         {{-- SMART HINTS --}}
