@@ -4,6 +4,12 @@
 @section('content')
 <div class="space-y-6">
 
+    {{-- PAGE HEADER --}}
+    <div>
+        <h2 class="text-2xl font-bold text-gray-800">Evaluasi SKP</h2>
+        <p class="text-sm text-gray-500">Rekapitulasi penilaian Sasaran Kinerja Pegawai (SKP) Anda dari tahun ke tahun.</p>
+    </div>
+
     @if(!$pegawai)
         <div class="bg-amber-50/50 backdrop-blur-3xl border border-amber-200/80 border-t-amber-100 text-amber-900 rounded-[1.5rem] p-6 shadow-[0_8px_32px_0_rgba(31,38,135,0.07)] flex items-start gap-4">
             <div class="w-10 h-10 rounded-xl bg-amber-100/80 shadow-sm flex items-center justify-center shrink-0 text-xl text-amber-600">⚠️</div>

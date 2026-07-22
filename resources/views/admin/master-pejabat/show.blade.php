@@ -3,8 +3,11 @@
 
 @section('content')
 <div class="space-y-6">
-    <div class="flex items-center justify-between">
-        <h2 class="text-xl font-bold text-gray-800">Detail Master Pejabat</h2>
+    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+        <div>
+            <h2 class="text-2xl font-bold text-gray-800">Detail Master Pejabat</h2>
+            <p class="text-sm text-gray-500">Profil pejabat penetap dan riwayat dokumen SK yang pernah ditandatangani.</p>
+        </div>
         <a href="{{ route('admin.master-pejabat.index') }}" class="inline-flex items-center gap-1 text-sm bg-white text-gray-700 hover:bg-gray-50 px-3 py-1.5 rounded-lg transition font-medium border border-gray-300">
             Kembali
         </a>

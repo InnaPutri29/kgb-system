@@ -4,6 +4,12 @@
 @section('content')
 <div class="space-y-6">
 
+    {{-- HEADER --}}
+    <div>
+        <h2 class="text-2xl font-bold text-gray-800">Dashboard Admin</h2>
+        <p class="text-sm text-gray-500">Selamat datang! Berikut ringkasan data kepegawaian dan KGB terkini.</p>
+    </div>
+
     {{-- STAT CARDS --}}
     <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
         {{-- Total Pegawai --}}

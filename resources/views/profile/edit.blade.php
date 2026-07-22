@@ -9,7 +9,10 @@
 <div class="space-y-6">
 
     <div class="flex items-center justify-between">
-        <h2 class="text-xl font-bold text-gray-800">Pengaturan Profil</h2>
+        <div>
+            <h2 class="text-2xl font-bold text-gray-800">Pengaturan Profil</h2>
+            <p class="text-sm text-gray-500">Kelola nama, email, dan kata sandi akun Anda.</p>
+        </div>
     </div>
 
     {{-- Alert Success from Session --}}
