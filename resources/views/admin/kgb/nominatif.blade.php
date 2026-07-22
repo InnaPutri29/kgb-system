@@ -53,7 +53,7 @@
                                 $isUrgent = $selisih <= 7 && !$isLate;
                             @endphp
                             <tr class="hover:bg-white/40 transition">
-                                <td class="px-3 py-3 text-gray-500 text-xs font-medium">{{ $daftarNominatif->firstItem() + $index }}</td>
+                                <td class="px-3 py-3 text-gray-500 text-xs font-medium text-center">{{ $daftarNominatif->firstItem() + $index }}</td>
                                 <td class="px-3 py-3 font-mono text-xs text-gray-700">{{ $p->nip }}</td>
                                 <td class="px-3 py-3">
                                     <p class="font-medium text-gray-900">{{ $p->nama_lengkap }}</p>
@@ -61,7 +61,7 @@
                                 </td>
                                 <td class="px-3 py-3 text-gray-700 text-center">{{ \Carbon\Carbon::parse($p->tmt_gaji_terakhir)->format('d/m/Y') }}</td>
                                 <td class="px-3 py-3 text-gray-700 font-medium text-center">{{ $jatuhTempo->format('d/m/Y') }}</td>
-                                <td class="px-3 py-3">
+                                <td class="px-3 py-3 text-center">
                                     @if($isLate)
                                         <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-semibold bg-red-100 text-red-700 border border-red-200 whitespace-nowrap">
                                             Terlambat {{ abs((int)$selisih) }}h
