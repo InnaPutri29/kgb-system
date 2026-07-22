@@ -6,7 +6,7 @@
 @section('title', 'Pengaturan Profil')
 
 @section('content')
-<div class="max-w-4xl mx-auto space-y-6">
+<div class="space-y-6">
 
     <div class="flex items-center justify-between">
         <h2 class="text-xl font-bold text-gray-800">Pengaturan Profil</h2>

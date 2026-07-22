@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="KGB System - Sistem Administrasi Kenaikan Gaji Berkala RSD Sidawangi">
-    <title>@yield('title', 'Dashboard') — KGB System RSD Sidawangi</title>
+    <title>@yield('title', 'Dashboard') - KGB System RSD Sidawangi</title>
     <link rel="icon" href="{{ asset('images/logo-kgb-system.png') }}" type="image/png">
     
     <!-- Fonts -->

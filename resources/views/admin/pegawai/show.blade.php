@@ -17,7 +17,7 @@
     </div>
 
     <div class="bg-white/50 backdrop-blur-3xl rounded-[1.5rem] border border-white/80 border-t-white shadow-[0_8px_32px_0_rgba(31,38,135,0.07)] overflow-hidden relative mt-4">
-        <div class="h-3 bg-gradient-to-r from-blue-900 to-blue-800 relative"></div>
+        <div class="h-3 bg-gradient-to-r from-[#0B3E6A] to-[#234A9F] relative"></div>
         <div class="px-6 pb-6 relative">
             <div class="pt-6 flex flex-col md:flex-row justify-between md:items-end gap-4">
                 <div>
@@ -153,7 +153,7 @@
                 <p class="text-xs text-gray-400 mt-0.5">Syarat KGB: predikat minimal <strong>Baik</strong> selama 2 tahun berturut-turut.</p>
             </div>
             <button x-data @click="$dispatch('open-modal', 'add-skp')"
-                class="inline-flex items-center gap-1.5 text-sm bg-green-600 hover:bg-green-700 text-white px-3 py-1.5 rounded-lg transition font-medium">
+                class="inline-flex items-center gap-1.5 text-sm bg-blue-600 hover:bg-blue-700 text-white px-3 py-1.5 rounded-lg transition font-medium">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
                 Tambah SKP
             </button>

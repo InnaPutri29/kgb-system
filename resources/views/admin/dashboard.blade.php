@@ -28,7 +28,7 @@
             </div>
         </div>
 
-        {{-- Nominatif (60 hari) — Clickable --}}
+        {{-- Nominatif (60 hari) - Clickable --}}
         <a href="{{ route('admin.kgb.nominatif') }}" class="bg-white/50 backdrop-blur-3xl rounded-[1.5rem] border border-white/80 border-t-white shadow-[0_8px_32px_0_rgba(31,38,135,0.07)] p-5 flex items-center gap-4 hover:border-yellow-400 hover:shadow-[0_8px_40px_0_rgba(31,38,135,0.12)] transition-all duration-300 group">
             <div class="w-12 h-12 rounded-xl bg-yellow-100 flex items-center justify-center text-yellow-600 shrink-0">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>

@@ -56,7 +56,7 @@
                         </svg>
                         <p x-show="!fileName" class="text-sm text-gray-500"><span class="font-medium text-blue-600">Klik untuk pilih file</span> atau drag & drop</p>
                         <p x-show="fileName" class="text-sm font-medium text-green-700" x-cloak x-text="'✅ ' + fileName"></p>
-                        <p class="text-xs text-gray-400 mt-1">.xlsx / .xls — Maks. 10 MB</p>
+                        <p class="text-xs text-gray-400 mt-1">.xlsx / .xls - Maks. 10 MB</p>
                     </div>
                     <input
                         id="file"
