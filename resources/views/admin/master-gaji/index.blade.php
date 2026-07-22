@@ -2,7 +2,7 @@
 @section('title', 'Master Gaji (PP No. 5 Tahun 2024)')
 
 @section('content')
-<div class="space-y-6 max-w-5xl mx-auto">
+<div class="space-y-6">
     <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
         <div>
             <h2 class="text-2xl font-bold text-gray-800">Master Tarif Gaji</h2>
@@ -16,7 +16,7 @@
     </div>
 
     {{-- Filter & Pencarian --}}
-    <div class="bg-white/40 backdrop-blur-xl p-4 rounded-xl border border-white/50">
+    <div class="bg-white/50 backdrop-blur-3xl rounded-[1.5rem] p-5 border border-white/80 border-t-white shadow-[0_8px_32px_0_rgba(31,38,135,0.07)]">
         <form method="GET" action="{{ route('admin.master-gaji.index') }}" class="flex flex-col sm:flex-row gap-3 items-end">
             <div class="w-full sm:w-auto flex-1">
                 <x-input-label for="search" value="Cari Data" class="mb-1" />
@@ -47,7 +47,7 @@
         </form>
     </div>
 
-    <div class="bg-white/40 backdrop-blur-xl rounded-xl border border-white/50 overflow-hidden">
+    <div class="bg-white/50 backdrop-blur-3xl rounded-[1.5rem] border border-white/80 border-t-white shadow-[0_8px_32px_0_rgba(31,38,135,0.07)] overflow-hidden">
         @if($gaji->isEmpty())
             <div class="flex flex-col items-center justify-center py-16 text-gray-400">
                 @if(request()->hasAny(['search', 'kategori']))
@@ -64,7 +64,7 @@
         @else
             <div class="overflow-x-auto">
                 <table class="w-full text-sm">
-                    <thead class="bg-white/20 text-xs text-gray-500 uppercase tracking-wider border-b border-white/50">
+                    <thead class="bg-blue-200/60 text-xs text-blue-900 uppercase tracking-wider border-b border-white/30">
                         <tr>
                             <th class="px-6 py-4 text-left font-medium">Golongan Ruang</th>
                             <th class="px-6 py-4 text-center font-medium">Masa Kerja Golongan (MKG)</th>
@@ -74,7 +74,7 @@
                     </thead>
                     <tbody class="divide-y divide-gray-100">
                         @foreach($gaji as $g)
-                        <tr class="hover:bg-white/20 transition">
+                        <tr class="hover:bg-white/40 transition">
                             <td class="px-6 py-3 font-semibold text-indigo-700 bg-indigo-50/30">{{ $g->golongan }}</td>
                             <td class="px-6 py-3 text-center text-gray-600 font-medium">{{ $g->masa_kerja }} Tahun</td>
                             <td class="px-6 py-3 text-right text-gray-800 font-mono font-medium">{{ number_format($g->nominal_gaji, 0, ',', '.') }}</td>

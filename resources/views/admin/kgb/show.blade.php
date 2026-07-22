@@ -2,7 +2,7 @@
 @section('title', 'Detail Riwayat KGB')
 
 @section('content')
-<div class="max-w-4xl mx-auto space-y-6">
+<div class="space-y-6">
     <div class="flex items-center justify-between">
         <h2 class="text-xl font-bold text-gray-800">Detail Riwayat KGB</h2>
         <div class="flex gap-2">
@@ -17,7 +17,7 @@
         </div>
     </div>
 
-    <div class="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden p-6">
+    <div class="bg-white/50 backdrop-blur-3xl rounded-[1.5rem] border border-white/80 border-t-white shadow-[0_8px_32px_0_rgba(31,38,135,0.07)] overflow-hidden p-6 md:p-8">
         <h3 class="text-lg font-bold text-gray-800 mb-4 border-b pb-2">Informasi SK KGB</h3>
         
         <div class="grid grid-cols-1 md:grid-cols-2 gap-y-4 gap-x-8 text-sm">

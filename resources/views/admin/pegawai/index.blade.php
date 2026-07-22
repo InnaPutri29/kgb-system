@@ -23,7 +23,7 @@
     </div>
 
     {{-- Pencarian & Filter --}}
-    <div class="bg-white/40 backdrop-blur-xl p-4 rounded-xl border border-white/50 shadow-sm">
+    <div class="bg-white/50 backdrop-blur-3xl rounded-[1.5rem] p-5 border border-white/80 border-t-white shadow-[0_8px_32px_0_rgba(31,38,135,0.07)]">
         <form method="GET" action="{{ route('admin.pegawai.index') }}" class="flex flex-col md:flex-row gap-3 items-end">
             <div class="w-full flex-1">
                 <x-input-label for="search" value="Cari Pegawai" class="mb-1" />
@@ -78,7 +78,7 @@
         </form>
     </div>
 
-    <div class="bg-white/40 backdrop-blur-xl rounded-xl border border-white/50 overflow-hidden">
+    <div class="bg-white/50 backdrop-blur-3xl rounded-[1.5rem] border border-white/80 border-t-white shadow-[0_8px_32px_0_rgba(31,38,135,0.07)] overflow-hidden">
         @if($pegawai->isEmpty())
             <div class="flex flex-col items-center justify-center py-20 text-gray-400">
                 @if(request()->filled('search'))
@@ -96,34 +96,37 @@
         @else
             <div class="overflow-x-auto">
                 <table class="w-full text-sm">
-                    <thead class="bg-white/20 text-xs text-gray-500 uppercase tracking-wider">
+                    <thead class="bg-blue-200/60 text-xs text-blue-900 uppercase tracking-wider border-b border-white/30">
                         <tr>
-                            <th class="px-3 py-2.5 w-16 text-center">No</th>
-                            <th class="px-3 py-2.5 text-left">NIP</th>
-                            <th class="px-3 py-2.5 text-left">Nama</th>
-                            <th class="px-3 py-2.5 text-left">Jabatan</th>
-                            <th class="px-3 py-2.5 text-left">Gol.</th>
-                            <th class="px-3 py-2.5 text-center">TMT Gaji Terakhir</th>
-                            <th class="px-3 py-2.5 text-center">Gaji Pokok</th>
-                            <th class="px-3 py-2.5 text-center">Aksi</th>
+                            <th class="px-3 py-3 text-center">No</th>
+                            <th class="px-3 py-3 text-left">NIP</th>
+                            <th class="px-3 py-3 text-left">Nama Pegawai</th>
+                            <th class="px-3 py-3 text-center">Gol.</th>
+                            <th class="px-3 py-3 text-center">TMT Gaji Terakhir</th>
+                            <th class="px-3 py-3 text-center">Gaji Pokok</th>
+                            <th class="px-3 py-3 text-center">Aksi</th>
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-gray-100">
                         @foreach($pegawai as $index => $p)
-                        <tr class="hover:bg-white/20 transition">
-                            <td class="px-3 py-2.5 text-center text-gray-500 font-medium">{{ $pegawai->firstItem() + $index }}</td>
-                            <td class="px-3 py-2.5 font-mono text-xs text-gray-600">{{ $p->nip }}</td>
-                            <td class="px-3 py-2.5 font-medium text-gray-800">{{ $p->nama_lengkap }}</td>
-                            <td class="px-3 py-2.5 text-gray-600">{{ $p->jabatan ?? '-' }}</td>
-                            <td class="px-3 py-2.5 text-gray-600">{{ $p->golongan ?? '-' }}</td>
-                            <td class="px-3 py-2.5 text-center text-gray-600">
+                        <tr class="hover:bg-white/40 transition">
+                            <td class="px-3 py-3 text-center text-gray-500 font-medium text-xs">{{ $pegawai->firstItem() + $index }}</td>
+                            <td class="px-3 py-3 font-mono text-xs text-gray-700">{{ $p->nip }}</td>
+                            <td class="px-3 py-3">
+                                <p class="font-medium text-gray-900">{{ $p->nama_lengkap }}</p>
+                                <p class="text-xs text-gray-600 mt-0.5">{{ $p->jabatan ?? '-' }}</p>
+                            </td>
+                            <td class="px-3 py-3 text-center">
+                                <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-gray-200 text-gray-800">{{ $p->golongan ?? '-' }}</span>
+                            </td>
+                            <td class="px-3 py-3 text-center text-gray-700">
                                 {{ $p->tmt_gaji_terakhir ? \Carbon\Carbon::parse($p->tmt_gaji_terakhir)->format('d/m/Y') : '-' }}
                             </td>
-                            <td class="px-3 py-2.5 text-gray-600 text-center whitespace-nowrap">
+                            <td class="px-3 py-3 text-gray-700 font-medium text-center whitespace-nowrap">
                                 {{ $p->gaji_pokok_terakhir ? 'Rp ' . number_format($p->gaji_pokok_terakhir, 0, ',', '.') : '-' }}
                             </td>
-                            <td class="px-3 py-2.5 text-center">
-                                <div class="flex items-center gap-2">
+                            <td class="px-3 py-3 text-center">
+                                <div class="flex items-center justify-center gap-2">
                                     <a href="{{ route('admin.pegawai.show', $p) }}" class="p-1.5 bg-white/20 text-gray-600 hover:text-blue-600 hover:bg-blue-50 rounded-md transition" title="Detail Pegawai">
                                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>
                                     </a>
@@ -146,7 +149,7 @@
                     </tbody>
                 </table>
             </div>
-            <div class="px-4 py-3 border-t border-gray-100">
+            <div class="px-4 py-3 border-t border-gray-200">
                 {{ $pegawai->links() }}
             </div>
         @endif

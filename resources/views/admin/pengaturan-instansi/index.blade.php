@@ -2,7 +2,7 @@
 @section('title', 'Pengaturan Instansi')
 
 @section('content')
-<div class="max-w-4xl mx-auto space-y-6">
+<div class="space-y-6">
     <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
             <h2 class="text-2xl font-bold text-gray-800">Pengaturan Instansi</h2>
@@ -17,7 +17,7 @@
         <p class="text-sm text-blue-700">Data ini akan digunakan sebagai <strong>Kop Surat</strong> dan informasi pada dokumen cetak seperti SK Kenaikan Gaji Berkala (KGB).</p>
     </div>
 
-    <div class="bg-white/50 backdrop-blur-3xl rounded-[2rem] border border-white/80 border-t-white shadow-[0_8px_32px_0_rgba(31,38,135,0.07)] overflow-hidden">
+    <div class="bg-white/50 backdrop-blur-3xl rounded-[1.5rem] border border-white/80 border-t-white shadow-[0_8px_32px_0_rgba(31,38,135,0.07)] overflow-hidden">
         <form action="{{ route('admin.pengaturan-instansi.update') }}" method="POST" enctype="multipart/form-data" class="p-6">
             @csrf
             
@@ -55,7 +55,7 @@
 
                     <div>
                         <x-input-label for="alamat" value="Alamat Lengkap" />
-                        <textarea id="alamat" name="alamat" rows="3" class="mt-1 block w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm" required>{{ old('alamat', $pengaturan->alamat) }}</textarea>
+                        <textarea id="alamat" name="alamat" rows="3" class="mt-1 block w-full border-white/40 bg-white/20 focus:bg-white/50 focus:border-white/60 focus:ring-white/30 rounded-md shadow-sm transition-all text-gray-800 placeholder-gray-400" required>{{ old('alamat', $pengaturan->alamat) }}</textarea>
                         <x-input-error :messages="$errors->get('alamat')" class="mt-2" />
                     </div>
 

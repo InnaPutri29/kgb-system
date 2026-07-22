@@ -44,7 +44,7 @@
     {{-- GRAFIK --}}
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-5">
         {{-- Grafik Golongan --}}
-        <div class="bg-white/50 backdrop-blur-3xl rounded-[2rem] border border-white/80 border-t-white shadow-[0_8px_32px_0_rgba(31,38,135,0.07)] p-6">
+        <div class="bg-white/50 backdrop-blur-3xl rounded-[1.5rem] border border-white/80 border-t-white shadow-[0_8px_32px_0_rgba(31,38,135,0.07)] p-6">
             <h2 class="font-semibold text-gray-800 mb-4">Distribusi Pegawai (Golongan)</h2>
             <div class="h-64 relative flex items-center justify-center">
                 <canvas id="chartGolongan"></canvas>
@@ -52,7 +52,7 @@
         </div>
 
         {{-- Grafik Pangkat --}}
-        <div class="bg-white/50 backdrop-blur-3xl rounded-[2rem] border border-white/80 border-t-white shadow-[0_8px_32px_0_rgba(31,38,135,0.07)] p-6">
+        <div class="bg-white/50 backdrop-blur-3xl rounded-[1.5rem] border border-white/80 border-t-white shadow-[0_8px_32px_0_rgba(31,38,135,0.07)] p-6">
             <h2 class="font-semibold text-gray-800 mb-4">Top 5 Pangkat Pegawai</h2>
             <div class="h-64 relative flex items-center justify-center">
                 <canvas id="chartPangkat"></canvas>
@@ -60,7 +60,7 @@
         </div>
     </div>
 
-    <div class="bg-white/50 backdrop-blur-3xl rounded-[2rem] border border-white/80 border-t-white shadow-[0_8px_32px_0_rgba(31,38,135,0.07)] overflow-hidden">
+    <div class="bg-white/50 backdrop-blur-3xl rounded-[1.5rem] border border-white/80 border-t-white shadow-[0_8px_32px_0_rgba(31,38,135,0.07)] overflow-hidden">
         <div class="px-6 py-4 border-b border-gray-100 flex items-center justify-between">
             <div>
                 <h2 class="font-semibold text-gray-800">Nominatif KGB Terkini</h2>
@@ -82,7 +82,7 @@
         @else
             <div class="overflow-x-auto">
                 <table class="w-full text-sm">
-                    <thead class="bg-white/20 text-xs text-gray-500 uppercase tracking-wider">
+                    <thead class="bg-blue-200/60 text-xs text-blue-900 uppercase tracking-wider border-b border-white/30">
                         <tr>
                             <th class="px-4 py-3 text-left">NIP</th>
                             <th class="px-4 py-3 text-left">Nama Pegawai</th>
@@ -100,7 +100,7 @@
                                 $isLate = $selisih < 0;
                                 $isUrgent = $selisih <= 7 && !$isLate;
                             @endphp
-                            <tr class="hover:bg-white/20 transition">
+                            <tr class="hover:bg-white/40 transition">
                                 <td class="px-4 py-3 font-mono text-xs text-gray-600">{{ $p->nip }}</td>
                                 <td class="px-4 py-3 font-medium text-gray-800">{{ $p->nama_lengkap }}</td>
                                 <td class="px-4 py-3 text-gray-600">{{ $p->golongan ?? '-' }}</td>

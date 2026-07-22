@@ -2,7 +2,7 @@
 @section('title', 'Master Pejabat Penetap SK Terdahulu')
 
 @section('content')
-<div class="space-y-6 max-w-5xl mx-auto">
+<div class="space-y-6">
     <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
             <h2 class="text-2xl font-bold text-gray-800">Master Pejabat</h2>
@@ -15,7 +15,7 @@
         </button>
     </div>
 
-    <div class="bg-white/40 backdrop-blur-xl rounded-xl border border-white/50 overflow-hidden">
+    <div class="bg-white/50 backdrop-blur-3xl rounded-[1.5rem] border border-white/80 border-t-white shadow-[0_8px_32px_0_rgba(31,38,135,0.07)] overflow-hidden">
         @if($pejabat->isEmpty())
             <div class="flex flex-col items-center justify-center py-16 text-gray-400">
                 <svg class="w-12 h-12 mb-3 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
@@ -25,7 +25,7 @@
         @else
             <div class="overflow-x-auto">
                 <table class="w-full text-sm">
-                    <thead class="bg-white/20 text-xs text-gray-500 uppercase tracking-wider">
+                    <thead class="bg-blue-200/60 text-xs text-blue-900 uppercase tracking-wider border-b border-white/30">
                         <tr>
                             <th class="px-4 py-3 text-left">Nama Jabatan (Sesuai SK)</th>
                             <th class="px-4 py-3 text-left">Nama Lengkap & Gelar (Opsional)</th>
@@ -34,7 +34,7 @@
                     </thead>
                     <tbody class="divide-y divide-gray-100">
                         @foreach($pejabat as $p)
-                        <tr class="hover:bg-white/20 transition">
+                        <tr class="hover:bg-white/40 transition">
                             <td class="px-4 py-3 font-medium text-gray-800">{{ $p->nama_jabatan }}</td>
                             <td class="px-4 py-3 text-gray-600">{{ $p->nama_pejabat ?? '-' }}</td>
                             <td class="px-4 py-3">

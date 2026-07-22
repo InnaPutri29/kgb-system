@@ -21,12 +21,12 @@
         </div>
     @endif
 
-    <div class="bg-white rounded-xl border border-gray-200 shadow-sm p-6">
+    <div class="bg-white/50 backdrop-blur-3xl rounded-[1.5rem] border border-white/80 border-t-white shadow-[0_8px_32px_0_rgba(31,38,135,0.07)] p-6 md:p-8">
         <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
             
             {{-- INFORMASI PROFIL --}}
             <div class="space-y-4">
-                <h3 class="font-semibold text-gray-700 border-b pb-2">Data Pribadi</h3>
+                <h3 class="font-semibold text-gray-700 border-b border-white/30 pb-2">Data Pribadi</h3>
                 
                 <form id="send-verification" method="post" action="{{ route('verification.send') }}">
                     @csrf
@@ -72,7 +72,7 @@
 
             {{-- UBAH KATA SANDI --}}
             <div class="space-y-4">
-                <h3 class="font-semibold text-gray-700 border-b pb-2">Ubah Kata Sandi</h3>
+                <h3 class="font-semibold text-gray-700 border-b border-white/30 pb-2">Ubah Kata Sandi</h3>
 
                 <form method="post" action="{{ route('password.update') }}" class="space-y-4">
                     @csrf

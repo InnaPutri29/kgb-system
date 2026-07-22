@@ -23,7 +23,7 @@
     </div>
 
     {{-- TABEL NOMINATIF --}}
-    <div class="bg-white/40 backdrop-blur-xl rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
+    <div class="bg-white/50 backdrop-blur-3xl rounded-[1.5rem] border border-white/80 border-t-white shadow-[0_8px_32px_0_rgba(31,38,135,0.07)] overflow-hidden">
         @if($daftarNominatif->isEmpty())
             <div class="flex flex-col items-center justify-center py-20 text-gray-400">
                 <svg class="w-16 h-16 mb-4 text-gray-200" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
@@ -33,7 +33,7 @@
         @else
             <div class="overflow-x-auto">
                 <table class="w-full text-sm">
-                    <thead class="bg-white/20 text-xs text-gray-500 uppercase tracking-wider">
+                    <thead class="bg-blue-200/60 text-xs text-blue-900 uppercase tracking-wider border-b border-white/30">
                         <tr>
                             <th class="px-3 py-3 text-center">No</th>
                             <th class="px-3 py-3 text-left">NIP</th>
@@ -54,7 +54,7 @@
                                 $isLate = $selisih < 0;
                                 $isUrgent = $selisih <= 7 && !$isLate;
                             @endphp
-                            <tr class="hover:bg-blue-50/50 transition">
+                            <tr class="hover:bg-white/40 transition">
                                 <td class="px-3 py-3 text-gray-500 text-xs font-medium">{{ $daftarNominatif->firstItem() + $index }}</td>
                                 <td class="px-3 py-3 font-mono text-xs text-gray-700">{{ $p->nip }}</td>
                                 <td class="px-3 py-3">
@@ -245,7 +245,7 @@
                             </div>
 
                             {{-- C. SK Baru --}}
-                            <div class="p-4 bg-white/40 backdrop-blur-xl border border-white/50 rounded-lg">
+                            <div class="p-4 bg-gray-50 border border-gray-200 rounded-lg">
                                 <h4 class="font-semibold text-gray-700 mb-3 text-sm">Pembuatan SK KGB Baru</h4>
                                 <div class="grid grid-cols-2 gap-4">
                                     <div>

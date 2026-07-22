@@ -25,21 +25,22 @@
             <!-- Gambar RS Sidawangi. Pastikan gambar di-rename menjadi bg-rs.jpg dan diletakkan di public/images/ -->
             <img src="{{ asset('images/bg-rs.jpg') }}" alt="RS Paru Sidawangi" class="w-full h-full object-cover blur-[3px] scale-[1.02]" onerror="this.src='https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?q=80&w=2053&auto=format&fit=crop'"/>
             
-            <!-- Overlay putih semi-transparan di sebelah kiri agar teks biru mudah dibaca -->
-            <div class="absolute inset-0 bg-gradient-to-r from-white/80 via-white/40 to-transparent"></div>
+            <!-- Overlay gradasi biru -->
+            <div class="absolute inset-0 bg-gradient-to-br from-[#0B3E6A]/90 via-[#163375]/80 to-[#234A9F]/70 mix-blend-multiply"></div>
+            <div class="absolute inset-0 bg-blue-900/30"></div>
         </div>
 
         <!-- Left Side: Welcome Text (Desktop Only) -->
         <div class="hidden md:flex flex-col justify-center items-center w-full md:w-[50%] p-8 lg:p-12 xl:p-16 z-10 relative h-full">
 
             <div class="max-w-[700px] w-full text-center flex flex-col items-center lg:ml-8 xl:ml-12">
-                <h1 class="text-6xl lg:text-[4rem] xl:text-7xl font-extrabold tracking-tight mb-6 leading-tight drop-shadow-sm text-blue-700 flex flex-col gap-5 items-center">
+                <h1 class="text-6xl lg:text-[4rem] xl:text-7xl font-extrabold tracking-tight mb-6 leading-tight drop-shadow-lg text-white flex flex-col gap-5 items-center">
                     <span>Selamat Datang</span>
-                    <span>di Sistem KGB</span>
+                    <span class="text-blue-200">di Sistem KGB</span>
                     <span>RSD Sidawangi</span>
                 </h1>
                 
-                <p class="text-lg xl:text-xl text-slate-800 font-medium leading-[1.8]">
+                <p class="text-lg xl:text-xl text-blue-50 font-medium leading-[1.8] drop-shadow-md">
                     Website untuk mempercepat, memantau, dan <br class="hidden xl:block">
                     mengelola administrasi Kenaikan Gaji Berkala secara efisien.
                 </p>
@@ -50,19 +51,10 @@
         <!-- Right Side: Login Card with Glassmorphism -->
         <div class="w-full md:w-[50%] h-screen overflow-y-auto z-10 relative flex justify-center items-center">
             
-            <!-- Aesthetic Blobs behind the card -->
-            <div class="absolute top-1/4 left-[15%] w-64 h-64 bg-blue-500/40 rounded-full mix-blend-multiply filter blur-3xl opacity-70 animate-pulse" style="animation-duration: 4s;"></div>
-            <div class="absolute bottom-1/4 right-[15%] w-72 h-72 bg-purple-500/40 rounded-full mix-blend-multiply filter blur-3xl opacity-70 animate-pulse" style="animation-duration: 5s; animation-delay: 1s;"></div>
-            <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-80 h-80 bg-cyan-400/30 rounded-full mix-blend-multiply filter blur-3xl opacity-70 animate-pulse" style="animation-duration: 6s; animation-delay: 2s;"></div>
-
             <div class="min-h-full w-full flex flex-col justify-center items-center p-6 sm:p-8 lg:p-16 relative z-10">
                 
-                <!-- Liquid Glassmorphism Card -->
-                <div class="w-full max-w-md sm:max-w-[480px] lg:max-w-[500px] bg-white/30 backdrop-blur-3xl shadow-[0_8px_32px_0_rgba(31,38,135,0.15)] rounded-[2.5rem] overflow-hidden border border-white/60 border-t-white/90 border-l-white/90 transition-all duration-500 hover:shadow-[0_8px_40px_0_rgba(31,38,135,0.25)] relative group">
-                    
-                    <!-- Inner Shine Effect -->
-                    <div class="absolute inset-0 bg-gradient-to-br from-white/40 to-white/0 pointer-events-none opacity-50"></div>
-                    <div class="absolute -inset-1 bg-gradient-to-b from-white/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none blur-md rounded-[2.5rem]"></div>
+                <!-- Frosted White Card -->
+                <div class="w-full max-w-md sm:max-w-[480px] lg:max-w-[500px] bg-white/85 backdrop-blur-xl shadow-2xl rounded-[2.5rem] overflow-hidden border border-white/50 transition-all duration-300 hover:shadow-xl relative">
 
                     <div class="px-8 py-10 sm:px-12 sm:py-10 relative z-10">
                         
@@ -85,7 +77,7 @@
                     </div>
                     
                     <!-- Footer -->
-                    <div class="bg-white/20 px-8 py-5 sm:px-12 border-t border-white/40 text-center backdrop-blur-md relative z-10">
+                    <div class="bg-white px-8 py-5 sm:px-12 border-t border-white/60 text-center relative z-10">
                         <p class="text-[12px] text-slate-700 font-semibold drop-shadow-sm">
                             &copy; {{ date('Y') }} RSD Sidawangi.<br>Sistem Informasi Kenaikan Gaji Berkala.
                         </p>
