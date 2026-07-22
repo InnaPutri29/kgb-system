@@ -20,11 +20,11 @@ class DatabaseSeeder extends Seeder
 
         // Buat akun Admin default
         $admin = User::firstOrCreate(
-            ['email' => 'admin@kgb.rsd-sidawangi.id'],
+            ['email' => 'admin@kgb.com'],
             [
                 'name' => 'Administrator',
                 'nip' => '000000000000000000',
-                'password' => Hash::make('Admin@1234'),
+                'password' => Hash::make('123qwe123'),
                 'is_first_login' => false,
             ]
         );
@@ -36,7 +36,7 @@ class DatabaseSeeder extends Seeder
 
         // Buat Dummy Pegawai yang masuk nominatif KGB (Jatuh tempo hari ini / terlewat)
         $dummyUser = User::firstOrCreate(
-            ['email' => 'pegawai@kgb.rsd-sidawangi.id'],
+            ['email' => 'pegawai@kgb.com'],
             [
                 'name' => 'Dr. Pegawai Testing',
                 'nip' => '198001012010011001',
@@ -54,7 +54,7 @@ class DatabaseSeeder extends Seeder
                 'pangkat' => 'Penata Muda',
                 'golongan' => 'III/a',
                 'jabatan' => 'Dokter Muda',
-                'kantor_tempat_kerja' => 'RSD Sidawangi',
+                'kantor_tempat_kerja' => 'Rumah Sakit Daerah Sidawangi',
                 'tmt_gaji_terakhir' => now()->subYears(2)->subDays(5),
                 'masa_kerja_tahun' => 2,
                 'masa_kerja_bulan' => 0,
@@ -76,7 +76,7 @@ class DatabaseSeeder extends Seeder
         // Buat Dummy Master Pejabat
         \App\Models\MasterPejabat::firstOrCreate([
             'nama_jabatan' => 'Gubernur Jawa Barat',
-            'nama_pejabat' => 'H. Mochamad Ridwan Kamil, S.T., M.U.D.'
+            'nama_pejabat' => 'H. Dedi Mulyadi, S.H., M.M.'
         ]);
     }
 }
