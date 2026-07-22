@@ -110,18 +110,18 @@
                 <table class="w-full text-sm">
                     <thead class="bg-blue-200/60 text-xs text-blue-900 uppercase tracking-wider border-b border-white/30">
                         <tr>
-                            <th class="px-6 py-4 text-left font-medium">Golongan Ruang</th>
+                            <th class="px-6 py-4 text-center font-medium">Golongan Ruang</th>
                             <th class="px-6 py-4 text-center font-medium">Masa Kerja Golongan (MKG)</th>
-                            <th class="px-6 py-4 text-right font-medium">Nominal Gaji Pokok (Rp)</th>
+                            <th class="px-6 py-4 text-center font-medium">Nominal Gaji Pokok (Rp)</th>
                             <th class="px-6 py-4 text-center font-medium">Aksi</th>
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-gray-100">
                         @foreach($gaji as $g)
                         <tr class="hover:bg-white/40 transition">
-                            <td class="px-6 py-3 font-semibold text-indigo-700 bg-indigo-50/30">{{ $g->golongan }}</td>
+                            <td class="px-6 py-3 font-semibold text-center text-indigo-700 bg-indigo-50/30">{{ $g->golongan }}</td>
                             <td class="px-6 py-3 text-center text-gray-600 font-medium">{{ $g->masa_kerja }} Tahun</td>
-                            <td class="px-6 py-3 text-right text-gray-800 font-mono font-medium">{{ number_format($g->nominal_gaji, 0, ',', '.') }}</td>
+                            <td class="px-6 py-3 text-center text-gray-800 font-mono font-medium">{{ number_format($g->nominal_gaji, 0, ',', '.') }}</td>
                             <td class="px-6 py-3">
                                 <div class="flex items-center justify-center gap-2">
                                     <button x-data @click="$dispatch('open-modal-edit', {{ $g->toJson() }})" class="p-1.5 bg-emerald-500/10 text-emerald-600 hover:bg-emerald-600 hover:text-white rounded-md transition" title="Edit Gaji">

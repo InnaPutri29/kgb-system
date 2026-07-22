@@ -38,8 +38,6 @@
                             <th class="px-3 py-3 text-center">No</th>
                             <th class="px-3 py-3 text-left">NIP</th>
                             <th class="px-3 py-3 text-left">Nama Pegawai</th>
-                            <th class="px-3 py-3 text-left">Pangkat</th>
-                            <th class="px-3 py-3 text-center">Gol.</th>
                             <th class="px-3 py-3 text-center">TMT Gaji Terakhir</th>
                             <th class="px-3 py-3 text-center">Jatuh Tempo KGB</th>
                             <th class="px-3 py-3 text-center">Status</th>
@@ -60,10 +58,6 @@
                                 <td class="px-3 py-3">
                                     <p class="font-medium text-gray-900">{{ $p->nama_lengkap }}</p>
                                     <p class="text-xs text-gray-600 mt-0.5">{{ $p->jabatan ?? '-' }}</p>
-                                </td>
-                                <td class="px-3 py-3 text-gray-700">{{ $p->pangkat ?? '-' }}</td>
-                                <td class="px-3 py-3">
-                                    <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-gray-200 text-gray-800">{{ $p->golongan ?? '-' }}</span>
                                 </td>
                                 <td class="px-3 py-3 text-gray-700 text-center">{{ \Carbon\Carbon::parse($p->tmt_gaji_terakhir)->format('d/m/Y') }}</td>
                                 <td class="px-3 py-3 text-gray-700 font-medium text-center">{{ $jatuhTempo->format('d/m/Y') }}</td>
