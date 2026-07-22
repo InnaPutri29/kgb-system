@@ -19,7 +19,7 @@
     <div class="bg-white/50 backdrop-blur-3xl rounded-[1.5rem] border border-white/80 border-t-white shadow-[0_8px_32px_0_rgba(31,38,135,0.07)] overflow-hidden">
         <div class="px-6 py-4 border-b border-gray-100 bg-white/20/50 flex justify-between items-center">
             <h3 class="text-lg font-bold text-gray-800">Rekapitulasi Evaluasi SKP</h3>
-            <span class="bg-gray-200 text-gray-700 text-xs font-semibold px-2.5 py-0.5 rounded-full">{{ $skpEvaluasi->count() }} Data</span>
+            <span class="bg-blue-100 text-blue-800 text-xs font-semibold px-2.5 py-0.5 rounded-full">{{ $skpEvaluasi->count() }} Data</span>
         </div>
 
         @if($skpEvaluasi->isEmpty())
@@ -36,7 +36,7 @@
                             <th class="px-4 lg:px-6 py-3 whitespace-nowrap">Tahun</th>
                             <th class="px-4 lg:px-6 py-3 whitespace-nowrap">Predikat</th>
                             <th class="px-4 lg:px-6 py-3 whitespace-nowrap">Status Kelayakan KGB</th>
-                            <th class="px-4 lg:px-6 py-3 text-right whitespace-nowrap">Berkas SKP</th>
+                            <th class="px-4 lg:px-6 py-3 text-center whitespace-nowrap">Berkas SKP</th>
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-gray-100">
@@ -63,7 +63,7 @@
                                         <span class="text-red-600 text-xs font-bold">✗ Di bawah syarat</span>
                                     @endif
                                 </td>
-                                <td class="px-6 py-3 text-right whitespace-nowrap">
+                                <td class="px-6 py-3 text-center whitespace-nowrap">
                                     @if($skp->file_bukti_skp)
                                         <a href="{{ Storage::url($skp->file_bukti_skp) }}" target="_blank"
                                            class="inline-flex items-center gap-1 text-xs bg-blue-600 hover:bg-blue-700 text-white px-3 py-1.5 rounded-lg transition font-medium">
