@@ -16,29 +16,66 @@
     </div>
 
     {{-- Filter & Pencarian --}}
-    <div class="bg-white/50 backdrop-blur-3xl rounded-[1.5rem] p-5 border border-white/80 border-t-white shadow-[0_8px_32px_0_rgba(31,38,135,0.07)]">
+    <div class="relative z-20 bg-white/50 backdrop-blur-3xl rounded-[1.5rem] p-5 border border-white/80 border-t-white shadow-[0_8px_32px_0_rgba(31,38,135,0.07)]">
         <form method="GET" action="{{ route('admin.master-gaji.index') }}" class="flex flex-col sm:flex-row gap-3 items-end">
             <div class="w-full sm:w-auto flex-1">
                 <x-input-label for="search" value="Cari Data" class="mb-1" />
                 <x-text-input id="search" name="search" type="text" class="block w-full text-sm" placeholder="Cari Golongan / MKG / Nominal..." value="{{ request('search') }}" />
             </div>
             
-            <div class="w-full sm:w-48">
-                <x-input-label for="kategori" value="Kategori Golongan" class="mb-1" />
-                <select id="kategori" name="kategori" class="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm block w-full text-sm">
-                    <option value="">Semua Golongan</option>
-                    <optgroup label="Kategori Utama">
-                        <option value="I" {{ request('kategori') == 'I' ? 'selected' : '' }}>Golongan I</option>
-                        <option value="II" {{ request('kategori') == 'II' ? 'selected' : '' }}>Golongan II</option>
-                        <option value="III" {{ request('kategori') == 'III' ? 'selected' : '' }}>Golongan III</option>
-                        <option value="IV" {{ request('kategori') == 'IV' ? 'selected' : '' }}>Golongan IV</option>
-                    </optgroup>
-                    <optgroup label="Spesifik">
-                        @foreach(['I/a','I/b','I/c','I/d','II/a','II/b','II/c','II/d','III/a','III/b','III/c','III/d','IV/a','IV/b','IV/c','IV/d','IV/e'] as $gol)
-                            <option value="{{ $gol }}" {{ request('kategori') == $gol ? 'selected' : '' }}>Golongan {{ $gol }}</option>
-                        @endforeach
-                    </optgroup>
+            <div class="w-full sm:w-48 relative" x-data="{ open: false, selected: '{{ request('kategori') }}', label: '{{ request('kategori') ? 'Golongan ' . request('kategori') : '' }}' }">
+                <x-input-label value="Kategori Golongan" class="mb-1" />
+                
+                {{-- Native select hidden for form submission --}}
+                <select id="kategori" name="kategori" x-model="selected" class="opacity-0 absolute inset-0 w-full h-full pointer-events-none">
+                    <option value=""></option>
+                    <option value="I"></option>
+                    <option value="II"></option>
+                    <option value="III"></option>
+                    <option value="IV"></option>
+                    @foreach(['I/a','I/b','I/c','I/d','II/a','II/b','II/c','II/d','III/a','III/b','III/c','III/d','IV/a','IV/b','IV/c','IV/d','IV/e'] as $gol)
+                        <option value="{{ $gol }}"></option>
+                    @endforeach
                 </select>
+
+                <button type="button" @click="open = !open" @click.away="open = false" 
+                    class="w-full flex items-center justify-between text-left px-3 py-2 border border-gray-300 rounded-md shadow-sm bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 text-sm transition-all h-[38px]">
+                    <span x-text="label || 'Semua Golongan'" :class="!selected ? 'text-gray-500' : 'text-gray-900'" class="truncate pr-4"></span>
+                    <svg class="w-4 h-4 text-gray-400 transition-transform shrink-0" :class="open ? 'rotate-180' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                </button>
+
+                <div x-show="open" 
+                    x-transition:enter="transition ease-out duration-100"
+                    x-transition:enter-start="opacity-0 scale-95"
+                    x-transition:enter-end="opacity-100 scale-100"
+                    x-transition:leave="transition ease-in duration-75"
+                    x-transition:leave-start="opacity-100 scale-100"
+                    x-transition:leave-end="opacity-0 scale-95"
+                    class="absolute z-50 mt-1 w-full bg-white border border-gray-200 rounded-lg shadow-xl overflow-hidden" x-cloak>
+                    <ul class="max-h-60 overflow-y-auto py-1">
+                        <li @click="selected = ''; label = 'Semua Golongan'; open = false" class="px-4 py-2 text-sm text-gray-500 hover:bg-gray-100 cursor-pointer">
+                            Semua Golongan
+                        </li>
+                        
+                        <li class="px-4 py-1 mt-1 text-xs font-bold text-gray-400 uppercase tracking-wider bg-gray-50">Kategori Utama</li>
+                        @foreach(['I', 'II', 'III', 'IV'] as $g)
+                            <li @click="selected = '{{ $g }}'; label = 'Golongan {{ $g }}'; open = false" 
+                                class="px-4 py-2 text-sm hover:bg-indigo-50 cursor-pointer border-l-2 transition-colors"
+                                :class="selected === '{{ $g }}' ? 'bg-indigo-50 border-indigo-500 font-medium text-indigo-900' : 'border-transparent text-gray-700'">
+                                Golongan {{ $g }}
+                            </li>
+                        @endforeach
+                        
+                        <li class="px-4 py-1 mt-1 text-xs font-bold text-gray-400 uppercase tracking-wider bg-gray-50">Spesifik</li>
+                        @foreach(['I/a','I/b','I/c','I/d','II/a','II/b','II/c','II/d','III/a','III/b','III/c','III/d','IV/a','IV/b','IV/c','IV/d','IV/e'] as $gol)
+                            <li @click="selected = '{{ $gol }}'; label = 'Golongan {{ $gol }}'; open = false" 
+                                class="px-4 py-2 text-sm hover:bg-indigo-50 cursor-pointer border-l-2 transition-colors"
+                                :class="selected === '{{ $gol }}' ? 'bg-indigo-50 border-indigo-500 font-medium text-indigo-900' : 'border-transparent text-gray-700'">
+                                Golongan {{ $gol }}
+                            </li>
+                        @endforeach
+                    </ul>
+                </div>
             </div>
 
             <div class="flex gap-2 w-full sm:w-auto">

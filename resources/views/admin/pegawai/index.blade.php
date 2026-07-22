@@ -23,7 +23,7 @@
     </div>
 
     {{-- Pencarian & Filter --}}
-    <div class="bg-white/50 backdrop-blur-3xl rounded-[1.5rem] p-5 border border-white/80 border-t-white shadow-[0_8px_32px_0_rgba(31,38,135,0.07)]">
+    <div class="relative z-20 bg-white/50 backdrop-blur-3xl rounded-[1.5rem] p-5 border border-white/80 border-t-white shadow-[0_8px_32px_0_rgba(31,38,135,0.07)]">
         <form method="GET" action="{{ route('admin.pegawai.index') }}" class="flex flex-col md:flex-row gap-3 items-end">
             <div class="w-full flex-1">
                 <x-input-label for="search" value="Cari Pegawai" class="mb-1" />
@@ -35,34 +35,104 @@
                 </div>
             </div>
             
-            <div class="w-full md:w-40">
-                <x-input-label for="golongan" value="Golongan" class="mb-1" />
-                <select id="golongan" name="golongan" class="border-gray-300 focus:border-blue-500 focus:ring-blue-500 rounded-lg shadow-sm block w-full text-sm">
-                    <option value="">Semua</option>
-                    <option value="I" {{ request('golongan') == 'I' ? 'selected' : '' }}>Gol. I</option>
-                    <option value="II" {{ request('golongan') == 'II' ? 'selected' : '' }}>Gol. II</option>
-                    <option value="III" {{ request('golongan') == 'III' ? 'selected' : '' }}>Gol. III</option>
-                    <option value="IV" {{ request('golongan') == 'IV' ? 'selected' : '' }}>Gol. IV</option>
+            <div class="w-full md:w-40 relative" x-data="{ open: false, selected: '{{ request('golongan') }}', label: '{{ request('golongan') ? (in_array(request('golongan'), ['I','II','III','IV']) ? 'Gol. ' . request('golongan') : request('golongan')) : '' }}' }">
+                <x-input-label value="Golongan" class="mb-1" />
+                
+                {{-- Native select hidden for form submission --}}
+                <select id="golongan" name="golongan" x-model="selected" class="opacity-0 absolute inset-0 w-full h-full pointer-events-none">
+                    <option value=""></option>
+                    <option value="I"></option>
+                    <option value="II"></option>
+                    <option value="III"></option>
+                    <option value="IV"></option>
                     @if(isset($golonganList))
-                        <optgroup label="Spesifik">
-                            @foreach($golonganList as $gol)
-                                <option value="{{ $gol }}" {{ request('golongan') == $gol ? 'selected' : '' }}>{{ $gol }}</option>
-                            @endforeach
-                        </optgroup>
-                    @endif
-                </select>
-            </div>
-
-            <div class="w-full md:w-32">
-                <x-input-label for="tahun_tmt" value="Tahun TMT" class="mb-1" />
-                <select id="tahun_tmt" name="tahun_tmt" class="border-gray-300 focus:border-blue-500 focus:ring-blue-500 rounded-lg shadow-sm block w-full text-sm">
-                    <option value="">Semua</option>
-                    @if(isset($tahunTmtList))
-                        @foreach($tahunTmtList as $thn)
-                            <option value="{{ $thn }}" {{ request('tahun_tmt') == $thn ? 'selected' : '' }}>{{ $thn }}</option>
+                        @foreach($golonganList as $gol)
+                            <option value="{{ $gol }}"></option>
                         @endforeach
                     @endif
                 </select>
+
+                <button type="button" @click="open = !open" @click.away="open = false" 
+                    class="w-full flex items-center justify-between text-left px-3 py-2 border border-gray-300 rounded-lg shadow-sm bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm transition-all h-[38px]">
+                    <span x-text="label || 'Semua'" :class="!selected ? 'text-gray-500' : 'text-gray-900'" class="truncate pr-4"></span>
+                    <svg class="w-4 h-4 text-gray-400 transition-transform shrink-0" :class="open ? 'rotate-180' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                </button>
+
+                <div x-show="open" 
+                    x-transition:enter="transition ease-out duration-100"
+                    x-transition:enter-start="opacity-0 scale-95"
+                    x-transition:enter-end="opacity-100 scale-100"
+                    x-transition:leave="transition ease-in duration-75"
+                    x-transition:leave-start="opacity-100 scale-100"
+                    x-transition:leave-end="opacity-0 scale-95"
+                    class="absolute z-50 mt-1 w-full bg-white border border-gray-200 rounded-lg shadow-xl overflow-hidden" x-cloak>
+                    <ul class="max-h-60 overflow-y-auto py-1">
+                        <li @click="selected = ''; label = 'Semua'; open = false" class="px-4 py-2 text-sm text-gray-500 hover:bg-gray-100 cursor-pointer">
+                            Semua
+                        </li>
+                        @foreach(['I', 'II', 'III', 'IV'] as $g)
+                            <li @click="selected = '{{ $g }}'; label = 'Gol. {{ $g }}'; open = false" 
+                                class="px-4 py-2 text-sm hover:bg-blue-50 cursor-pointer border-l-2 transition-colors"
+                                :class="selected === '{{ $g }}' ? 'bg-blue-50 border-blue-500 font-medium text-blue-900' : 'border-transparent text-gray-700'">
+                                Gol. {{ $g }}
+                            </li>
+                        @endforeach
+                        @if(isset($golonganList))
+                            <li class="px-4 py-1 mt-1 text-xs font-bold text-gray-400 uppercase tracking-wider bg-gray-50">Spesifik</li>
+                            @foreach($golonganList as $gol)
+                                <li @click="selected = '{{ $gol }}'; label = '{{ $gol }}'; open = false" 
+                                    class="px-4 py-2 text-sm hover:bg-blue-50 cursor-pointer border-l-2 transition-colors"
+                                    :class="selected === '{{ $gol }}' ? 'bg-blue-50 border-blue-500 font-medium text-blue-900' : 'border-transparent text-gray-700'">
+                                    {{ $gol }}
+                                </li>
+                            @endforeach
+                        @endif
+                    </ul>
+                </div>
+            </div>
+
+            <div class="w-full md:w-32 relative" x-data="{ open: false, selected: '{{ request('tahun_tmt') }}' }">
+                <x-input-label value="Tahun TMT" class="mb-1" />
+                
+                {{-- Native select hidden for form submission --}}
+                <select id="tahun_tmt" name="tahun_tmt" x-model="selected" class="opacity-0 absolute inset-0 w-full h-full pointer-events-none">
+                    <option value=""></option>
+                    @if(isset($tahunTmtList))
+                        @foreach($tahunTmtList as $thn)
+                            <option value="{{ $thn }}"></option>
+                        @endforeach
+                    @endif
+                </select>
+
+                <button type="button" @click="open = !open" @click.away="open = false" 
+                    class="w-full flex items-center justify-between text-left px-3 py-2 border border-gray-300 rounded-lg shadow-sm bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm transition-all h-[38px]">
+                    <span x-text="selected || 'Semua'" :class="!selected ? 'text-gray-500' : 'text-gray-900'" class="truncate pr-4"></span>
+                    <svg class="w-4 h-4 text-gray-400 transition-transform shrink-0" :class="open ? 'rotate-180' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                </button>
+
+                <div x-show="open" 
+                    x-transition:enter="transition ease-out duration-100"
+                    x-transition:enter-start="opacity-0 scale-95"
+                    x-transition:enter-end="opacity-100 scale-100"
+                    x-transition:leave="transition ease-in duration-75"
+                    x-transition:leave-start="opacity-100 scale-100"
+                    x-transition:leave-end="opacity-0 scale-95"
+                    class="absolute z-50 mt-1 w-full bg-white border border-gray-200 rounded-lg shadow-xl overflow-hidden" x-cloak>
+                    <ul class="max-h-60 overflow-y-auto py-1">
+                        <li @click="selected = ''; open = false" class="px-4 py-2 text-sm text-gray-500 hover:bg-gray-100 cursor-pointer">
+                            Semua
+                        </li>
+                        @if(isset($tahunTmtList))
+                            @foreach($tahunTmtList as $thn)
+                                <li @click="selected = '{{ $thn }}'; open = false" 
+                                    class="px-4 py-2 text-sm hover:bg-blue-50 cursor-pointer border-l-2 transition-colors"
+                                    :class="selected === '{{ $thn }}' ? 'bg-blue-50 border-blue-500 font-medium text-blue-900' : 'border-transparent text-gray-700'">
+                                    {{ $thn }}
+                                </li>
+                            @endforeach
+                        @endif
+                    </ul>
+                </div>
             </div>
 
             <div class="flex gap-2 w-full md:w-auto">
