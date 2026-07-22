@@ -3,11 +3,18 @@
 
 @section('content')
 <div class="space-y-6">
-
-    {{-- PAGE HEADER --}}
-    <div>
-        <h2 class="text-2xl font-bold text-gray-800">Evaluasi SKP</h2>
-        <p class="text-sm text-gray-500">Rekapitulasi penilaian Sasaran Kinerja Pegawai (SKP) Anda dari tahun ke tahun.</p>
+    
+    {{-- HEADER --}}
+    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+        <div>
+            <h2 class="text-2xl font-bold text-gray-800">Evaluasi SKP</h2>
+            <p class="text-sm text-gray-500 mt-1">Rekapitulasi penilaian Sasaran Kinerja Pegawai (SKP) Anda dari tahun ke tahun.</p>
+        </div>
+        <div class="flex flex-wrap items-center gap-2 w-full sm:w-auto">
+            <span class="inline-flex items-center px-3 py-1.5 rounded-full text-xs font-semibold bg-blue-100 text-blue-800 border border-blue-200 flex-1 sm:flex-none justify-center">
+                {{ $skpEvaluasi->count() }} Data
+            </span>
+        </div>
     </div>
 
     @if(!$pegawai)
@@ -23,11 +30,6 @@
 
     {{-- RIWAYAT PENILAIAN SKP --}}
     <div class="bg-white/50 backdrop-blur-3xl rounded-[1.5rem] border border-white/80 border-t-white shadow-[0_8px_32px_0_rgba(31,38,135,0.07)] overflow-hidden">
-        <div class="px-6 py-4 border-b border-gray-100 bg-white/20/50 flex justify-between items-center">
-            <h3 class="text-lg font-bold text-gray-800">Rekapitulasi Evaluasi SKP</h3>
-            <span class="bg-blue-100 text-blue-800 text-xs font-semibold px-2.5 py-0.5 rounded-full">{{ $skpEvaluasi->count() }} Data</span>
-        </div>
-
         @if($skpEvaluasi->isEmpty())
             <div class="p-10 text-center text-gray-400 space-y-2">
                 <div class="text-3xl mb-2">📊</div>

@@ -17,7 +17,7 @@
                 </span>
             @endif
             <span class="inline-flex items-center px-3 py-1.5 rounded-full text-xs font-semibold bg-blue-100 text-blue-800 border border-blue-200 flex-1 sm:flex-none justify-center">
-                {{ $daftarNominatif->total() }} Pegawai Nominatif
+                {{ $daftarNominatif->total() }} Pegawai Nominatif 
             </span>
         </div>
     </div>
