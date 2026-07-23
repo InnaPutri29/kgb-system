@@ -41,22 +41,22 @@
                 <table class="w-full text-sm text-left">
                     <thead class="bg-blue-200/60 text-xs text-blue-900 uppercase tracking-wider border-b border-gray-100">
                         <tr>
-                            <th class="px-4 lg:px-6 py-3 whitespace-nowrap">Tahun</th>
-                            <th class="px-4 lg:px-6 py-3 whitespace-nowrap">Predikat</th>
-                            <th class="px-4 lg:px-6 py-3 whitespace-nowrap">Status Kelayakan KGB</th>
+                            <th class="px-4 lg:px-6 py-3 text-center whitespace-nowrap">Tahun</th>
+                            <th class="px-4 lg:px-6 py-3 text-center whitespace-nowrap">Predikat</th>
+                            <th class="px-4 lg:px-6 py-3 text-center whitespace-nowrap">Status Kelayakan KGB</th>
                             <th class="px-4 lg:px-6 py-3 text-center whitespace-nowrap">Berkas SKP</th>
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-gray-100">
                         @foreach($skpEvaluasi as $skp)
                             <tr class="hover:bg-white/40 transition">
-                                <td class="px-4 lg:px-6 py-3 lg:py-4 font-bold text-gray-800 whitespace-nowrap">
+                                <td class="px-4 lg:px-6 py-3 lg:py-4 font-bold text-gray-800 text-center whitespace-nowrap">
                                     {{ $skp->tahun_penilaian }}
                                     @if($skp->tahun_penilaian == $tahunBerjalan)
                                         <span class="ml-2 px-2 py-0.5 text-[9px] bg-indigo-100 text-indigo-700 rounded-md">Aktif</span>
                                     @endif
                                 </td>
-                                <td class="px-4 lg:px-6 py-3 lg:py-4 whitespace-nowrap">
+                                <td class="px-4 lg:px-6 py-3 lg:py-4 text-center whitespace-nowrap">
                                     @php
                                         $badgeColor = $colors[$skp->predikat] ?? 'bg-gray-100 text-gray-800';
                                     @endphp
@@ -64,7 +64,7 @@
                                         {{ $skp->predikat }}
                                     </span>
                                 </td>
-                                <td class="px-4 lg:px-6 py-3 lg:py-4 whitespace-nowrap">
+                                <td class="px-4 lg:px-6 py-3 lg:py-4 text-center whitespace-nowrap">
                                     @if(in_array($skp->predikat, ['Baik', 'Sangat Baik']))
                                         <span class="text-emerald-600 text-xs font-bold">✓ Memenuhi</span>
                                     @else
