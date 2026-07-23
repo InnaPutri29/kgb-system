@@ -142,76 +142,80 @@
             </div>
         </div>
 
-        <!-- TABEL DATA PEGAWAI (Struktur Rapi) -->
+        <!-- TABEL DATA PEGAWAI -->
         <div class="bg-white/50 backdrop-blur-3xl rounded-[1.5rem] border border-white/80 border-t-white shadow-[0_8px_32px_0_rgba(31,38,135,0.07)] overflow-hidden mt-2 relative">
             <div class="h-3 bg-gradient-to-r from-[#0B3E6A] to-[#234A9F] relative"></div>
-            <div class="p-6 sm:p-8">
-                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8 pb-6 border-b border-gray-100">
+            <div class="px-6 pb-6 relative">
+                <div class="pt-6 flex flex-col md:flex-row justify-between md:items-end gap-4">
                     <div>
-                        <h2 class="text-xl font-bold text-gray-900">{{ $pegawai->nama_lengkap }}</h2>
-                        <p class="text-blue-600 font-mono text-sm mt-0.5 font-semibold">{{ $pegawai->nip }}</p>
+                        <h3 class="text-2xl font-bold text-gray-800 leading-tight">{{ $pegawai->nama_lengkap }}</h3>
+                        <p class="text-blue-600 font-mono text-sm mt-1">{{ $pegawai->nip }}</p>
                     </div>
-                    <div class="flex flex-wrap gap-2">
-                        <span class="px-3 py-1.5 bg-gray-100/80 text-gray-700 font-medium text-xs rounded-lg border border-gray-200">
-                            {{ $pegawai->pangkat ?? '-' }} ({{ $pegawai->golongan ?? '-' }})
+                    <div class="flex gap-3">
+                        <span class="inline-flex items-center px-2.5 py-1 rounded-md text-xs font-medium bg-gray-100 text-gray-800 border border-white/50">
+                            {{ ($pegawai->pangkat ?? '-') . ' (' . ($pegawai->golongan ?? '-') . ')' }}
                         </span>
-                        <span class="px-3 py-1.5 bg-blue-50/80 text-blue-700 font-medium text-xs rounded-lg border border-blue-100">
-                            {{ $pegawai->jabatan ?? '-' }}
+                        <span class="inline-flex items-center px-2.5 py-1 rounded-md text-xs font-medium bg-blue-50 text-blue-700 border border-blue-100">
+                            {{ $pegawai->jabatan ?? 'Jabatan -' }}
                         </span>
                     </div>
                 </div>
 
-                <div class="grid grid-cols-1 lg:grid-cols-2 gap-x-12 gap-y-10">
-                    <!-- INFORMASI PRIBADI -->
+                <div class="mt-8 grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
+                    <!-- Data Pribadi -->
                     <div>
-                        <h3 class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-5 flex items-center gap-2">
-                            <span class="w-1.5 h-1.5 rounded-full bg-gray-400"></span> Informasi Pribadi
-                        </h3>
-                        <div class="space-y-4">
-                            <div class="grid grid-cols-3 gap-2 border-b border-gray-100/50 pb-3">
-                                <div class="text-sm text-gray-500">Pangkat</div>
-                                <div class="col-span-2 text-sm font-semibold text-gray-900">{{ $pegawai->pangkat ?? '-' }}</div>
-                            </div>
-                            <div class="grid grid-cols-3 gap-2 border-b border-gray-100/50 pb-3">
-                                <div class="text-sm text-gray-500">Golongan</div>
-                                <div class="col-span-2 text-sm font-semibold text-gray-900">{{ $pegawai->golongan ?? '-' }}</div>
-                            </div>
-                            <div class="grid grid-cols-3 gap-2 border-b border-gray-100/50 pb-3">
-                                <div class="text-sm text-gray-500">Hukuman Disiplin</div>
-                                <div class="col-span-2 text-sm font-bold {{ $pegawai->is_sedang_hukuman_disiplin ? 'text-red-600' : 'text-emerald-600' }}">
-                                    {{ $pegawai->is_sedang_hukuman_disiplin ? 'Ya (Sedang Hukuman)' : 'Tidak' }}
-                                </div>
-                            </div>
-                            <div class="grid grid-cols-3 gap-2 border-b border-gray-100/50 pb-3">
-                                <div class="text-sm text-gray-500">Email Login</div>
-                                <div class="col-span-2 text-sm font-medium text-gray-900">{{ $pegawai->user->email ?? '-' }}</div>
-                            </div>
-                        </div>
+                        <h4 class="text-sm font-bold text-gray-400 uppercase tracking-wider mb-3">Informasi Pribadi</h4>
+                        <table class="w-full text-sm">
+                            <tbody class="divide-y divide-gray-50">
+                                <tr>
+                                    <td class="py-2 text-gray-500">Pangkat</td>
+                                    <td class="py-2 text-gray-800 font-medium">{{ $pegawai->pangkat ?? '-' }}</td>
+                                </tr>
+                                <tr>
+                                    <td class="py-2 text-gray-500">Golongan</td>
+                                    <td class="py-2 text-gray-800 font-medium">{{ $pegawai->golongan ?? '-' }}</td>
+                                </tr>
+                                <tr>
+                                    <td class="py-2 text-gray-500">Hukuman Disiplin</td>
+                                    <td class="py-2 text-gray-800 font-medium">
+                                        @if($pegawai->is_sedang_hukuman_disiplin)
+                                            <span class="text-red-600 font-semibold">Ya (Sedang Menjalani)</span>
+                                        @else
+                                            <span class="text-green-600">Tidak</span>
+                                        @endif
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="py-2 text-gray-500">Email</td>
+                                    <td class="py-2 text-gray-800 font-medium">{{ $pegawai->user->email ?? '-' }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
 
-                    <!-- KEPEGAWAIAN & GAJI -->
+                    <!-- Kepegawaian & Gaji -->
                     <div>
-                        <h3 class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-5 flex items-center gap-2">
-                            <span class="w-1.5 h-1.5 rounded-full bg-gray-400"></span> Kepegawaian & Gaji
-                        </h3>
-                        <div class="space-y-4">
-                            <div class="grid grid-cols-3 gap-2 border-b border-gray-100/50 pb-3">
-                                <div class="text-sm text-gray-500">Kantor Kerja</div>
-                                <div class="col-span-2 text-sm font-semibold text-gray-900">{{ $pegawai->kantor_tempat_kerja ?? '-' }}</div>
-                            </div>
-                            <div class="grid grid-cols-3 gap-2 border-b border-gray-100/50 pb-3">
-                                <div class="text-sm text-gray-500">Masa Kerja (Gol)</div>
-                                <div class="col-span-2 text-sm font-semibold text-gray-900">{{ $pegawai->masa_kerja_tahun }} Tahun, {{ $pegawai->masa_kerja_bulan }} Bulan</div>
-                            </div>
-                            <div class="grid grid-cols-3 gap-2 border-b border-gray-100/50 pb-3">
-                                <div class="text-sm text-gray-500">Gaji Pokok</div>
-                                <div class="col-span-2 text-sm font-bold text-gray-900">Rp {{ number_format($pegawai->gaji_pokok_terakhir, 0, ',', '.') }}</div>
-                            </div>
-                            <div class="grid grid-cols-3 gap-2 border-b border-gray-100/50 pb-3">
-                                <div class="text-sm text-gray-500">TMT Gaji</div>
-                                <div class="col-span-2 text-sm font-semibold text-gray-900">{{ $tmtGajiTerakhir ? $tmtGajiTerakhir->translatedFormat('d F Y') : '-' }}</div>
-                            </div>
-                        </div>
+                        <h4 class="text-sm font-bold text-gray-400 uppercase tracking-wider mb-3">Kepegawaian & Gaji</h4>
+                        <table class="w-full text-sm">
+                            <tbody class="divide-y divide-gray-50">
+                                <tr>
+                                    <td class="py-2 text-gray-500 w-1/3">Kantor Tempat Kerja</td>
+                                    <td class="py-2 text-gray-800 font-medium">{{ $pegawai->kantor_tempat_kerja ?? '-' }}</td>
+                                </tr>
+                                <tr>
+                                    <td class="py-2 text-gray-500">Masa Kerja</td>
+                                    <td class="py-2 text-gray-800 font-medium">{{ $pegawai->masa_kerja_tahun }} Tahun, {{ $pegawai->masa_kerja_bulan }} Bulan</td>
+                                </tr>
+                                <tr>
+                                    <td class="py-2 text-gray-500">Gaji Pokok Terakhir</td>
+                                    <td class="py-2 text-gray-800 font-medium">Rp {{ number_format($pegawai->gaji_pokok_terakhir, 0, ',', '.') }}</td>
+                                </tr>
+                                <tr>
+                                    <td class="py-2 text-gray-500">TMT Gaji Terakhir</td>
+                                    <td class="py-2 text-gray-800 font-medium">{{ $tmtGajiTerakhir ? $tmtGajiTerakhir->translatedFormat('d F Y') : '-' }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
