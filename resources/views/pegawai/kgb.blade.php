@@ -46,7 +46,6 @@
                             <th class="px-6 py-3 text-left whitespace-nowrap">TMT Baru</th>
                             <th class="px-6 py-3 text-left whitespace-nowrap">Masa Kerja</th>
                             <th class="px-6 py-3 text-left whitespace-nowrap">Gaji Pokok Baru</th>
-                            <th class="px-6 py-3 text-left whitespace-nowrap">Jatuh Tempo YAD</th>
                             <th class="px-6 py-3 text-center whitespace-nowrap">Aksi</th>
                         </tr>
                     </thead>
@@ -63,7 +62,6 @@
                                 <td class="px-6 py-3 text-gray-600 whitespace-nowrap">{{ \Carbon\Carbon::parse($riwayat->tmt_baru)->format('d/m/Y') }}</td>
                                 <td class="px-6 py-3 text-gray-600 whitespace-nowrap">{{ $riwayat->masa_kerja_tahun_baru }} Thn, {{ $riwayat->masa_kerja_bulan_baru }} Bln</td>
                                 <td class="px-6 py-3 text-gray-600 whitespace-nowrap">Rp {{ number_format($riwayat->gaji_pokok_baru, 0, ',', '.') }}</td>
-                                <td class="px-6 py-3 text-gray-600 whitespace-nowrap">{{ \Carbon\Carbon::parse($riwayat->tmt_yad)->format('d/m/Y') }}</td>
                                 <td class="px-6 py-3 text-center whitespace-nowrap">
                                     <a href="{{ route('pegawai.sk.download', $riwayat->id) }}" 
                                        class="inline-flex items-center gap-1 text-xs bg-blue-600 hover:bg-blue-700 text-white px-3 py-1.5 rounded-lg transition font-medium">
