@@ -23,7 +23,7 @@
     </div>
 
     {{-- TABEL NOMINATIF --}}
-    <div class="bg-white/50 backdrop-blur-3xl rounded-[1.5rem] border border-white/80 border-t-white shadow-[0_8px_32px_0_rgba(31,38,135,0.07)] overflow-hidden">
+    <div class="bg-white/50 backdrop-blur-3xl rounded-[1.5rem] border border-blue-100 shadow-xl shadow-blue-500/10 overflow-hidden transition hover:shadow-2xl hover:shadow-blue-500/20">
         @if($daftarNominatif->isEmpty())
             <div class="flex flex-col items-center justify-center py-20 text-gray-400">
                 <svg class="w-16 h-16 mb-4 text-gray-200" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>

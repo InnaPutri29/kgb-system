@@ -13,7 +13,7 @@
     {{-- STAT CARDS --}}
     <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
         {{-- Total Pegawai --}}
-        <div class="bg-white/50 backdrop-blur-3xl rounded-[1.5rem] border border-white/80 border-t-white shadow-[0_8px_32px_0_rgba(31,38,135,0.07)] p-5 flex items-center gap-4 hover:shadow-[0_8px_40px_0_rgba(31,38,135,0.12)] transition-all duration-300">
+        <div class="bg-white/50 backdrop-blur-3xl rounded-[1.5rem] border border-blue-100 shadow-xl shadow-blue-500/10 p-5 flex items-center gap-4 transition hover:shadow-2xl hover:shadow-blue-500/20">
             <div class="w-12 h-12 rounded-xl bg-blue-100 flex items-center justify-center text-blue-600 shrink-0">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
             </div>
@@ -24,7 +24,7 @@
         </div>
 
         {{-- Jatuh Tempo Hari Ini --}}
-        <div class="bg-white/50 backdrop-blur-3xl rounded-[1.5rem] border border-white/80 border-t-white shadow-[0_8px_32px_0_rgba(31,38,135,0.07)] p-5 flex items-center gap-4 hover:shadow-[0_8px_40px_0_rgba(31,38,135,0.12)] transition-all duration-300">
+        <div class="bg-white/50 backdrop-blur-3xl rounded-[1.5rem] border border-blue-100 shadow-xl shadow-blue-500/10 p-5 flex items-center gap-4 transition hover:shadow-2xl hover:shadow-blue-500/20">
             <div class="w-12 h-12 rounded-xl bg-red-100 flex items-center justify-center text-red-600 shrink-0">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
             </div>
@@ -35,7 +35,7 @@
         </div>
 
         {{-- Nominatif (60 hari) - Clickable --}}
-        <a href="{{ route('admin.kgb.nominatif') }}" class="bg-white/50 backdrop-blur-3xl rounded-[1.5rem] border border-white/80 border-t-white shadow-[0_8px_32px_0_rgba(31,38,135,0.07)] p-5 flex items-center gap-4 hover:border-yellow-400 hover:shadow-[0_8px_40px_0_rgba(31,38,135,0.12)] transition-all duration-300 group">
+        <a href="{{ route('admin.kgb.nominatif') }}" class="bg-white/50 backdrop-blur-3xl rounded-[1.5rem] border border-blue-100 shadow-xl shadow-blue-500/10 p-5 flex items-center gap-4 transition hover:shadow-2xl hover:shadow-blue-500/20 group hover:border-yellow-200">
             <div class="w-12 h-12 rounded-xl bg-yellow-100 flex items-center justify-center text-yellow-600 shrink-0">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>
             </div>
@@ -50,7 +50,7 @@
     {{-- GRAFIK --}}
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-5">
         {{-- Grafik Golongan --}}
-        <div class="bg-white/50 backdrop-blur-3xl rounded-[1.5rem] border border-white/80 border-t-white shadow-[0_8px_32px_0_rgba(31,38,135,0.07)] p-6">
+        <div class="bg-white/50 backdrop-blur-3xl rounded-[1.5rem] border border-blue-100 shadow-xl shadow-blue-500/10 p-6 transition hover:shadow-2xl hover:shadow-blue-500/20">
             <h2 class="font-semibold text-gray-800 mb-4">Distribusi Pegawai (Golongan)</h2>
             <div class="h-64 relative flex items-center justify-center">
                 <canvas id="chartGolongan"></canvas>
@@ -58,7 +58,7 @@
         </div>
 
         {{-- Grafik Pangkat --}}
-        <div class="bg-white/50 backdrop-blur-3xl rounded-[1.5rem] border border-white/80 border-t-white shadow-[0_8px_32px_0_rgba(31,38,135,0.07)] p-6">
+        <div class="bg-white/50 backdrop-blur-3xl rounded-[1.5rem] border border-blue-100 shadow-xl shadow-blue-500/10 p-6 transition hover:shadow-2xl hover:shadow-blue-500/20">
             <h2 class="font-semibold text-gray-800 mb-4">Top 5 Pangkat Pegawai</h2>
             <div class="h-64 relative flex items-center justify-center">
                 <canvas id="chartPangkat"></canvas>
@@ -66,7 +66,7 @@
         </div>
     </div>
 
-    <div class="bg-white/50 backdrop-blur-3xl rounded-[1.5rem] border border-white/80 border-t-white shadow-[0_8px_32px_0_rgba(31,38,135,0.07)] overflow-hidden">
+    <div class="bg-white/50 backdrop-blur-3xl rounded-[1.5rem] border border-blue-100 shadow-xl shadow-blue-500/10 overflow-hidden transition hover:shadow-2xl hover:shadow-blue-500/20">
         <div class="px-4 sm:px-6 py-4 border-b border-gray-100 flex flex-wrap items-center justify-between gap-2">
             <div>
                 <h2 class="font-semibold text-gray-800">Nominatif KGB Terkini</h2>

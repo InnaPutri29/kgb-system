@@ -19,10 +19,10 @@
 <body class="bg-slate-50 font-sans antialiased relative min-h-screen overflow-hidden" 
       x-data="{ sidebarOpen: window.innerWidth >= 1024 }">
       
-    <!-- Pastel Blobs for Light Glassmorphism -->
-    <div class="fixed top-[-10%] left-[-10%] w-[600px] h-[600px] bg-blue-200/60 rounded-full mix-blend-multiply filter blur-[100px] animate-pulse" style="animation-duration: 8s; z-index: 0;"></div>
-    <div class="fixed bottom-[-10%] right-[-10%] w-[600px] h-[600px] bg-indigo-200/60 rounded-full mix-blend-multiply filter blur-[100px] animate-pulse" style="animation-duration: 10s; animation-delay: 2s; z-index: 0;"></div>
-    <div class="fixed top-[20%] left-[40%] w-[800px] h-[800px] bg-sky-200/50 rounded-full mix-blend-multiply filter blur-[120px] animate-pulse" style="animation-duration: 12s; animation-delay: 4s; z-index: 0;"></div>
+    <!-- Pastel Blobs for Light Glassmorphism (Hidden on mobile) -->
+    <div class="hidden lg:block fixed top-[-10%] left-[-10%] w-[600px] h-[600px] bg-blue-200/60 rounded-full mix-blend-multiply filter blur-[100px] animate-pulse" style="animation-duration: 8s; z-index: 0;"></div>
+    <div class="hidden lg:block fixed bottom-[-10%] right-[-10%] w-[600px] h-[600px] bg-indigo-200/60 rounded-full mix-blend-multiply filter blur-[100px] animate-pulse" style="animation-duration: 10s; animation-delay: 2s; z-index: 0;"></div>
+    <div class="hidden lg:block fixed top-[20%] left-[40%] w-[800px] h-[800px] bg-sky-200/50 rounded-full mix-blend-multiply filter blur-[120px] animate-pulse" style="animation-duration: 12s; animation-delay: 4s; z-index: 0;"></div>
 
 
     {{-- SIDEBAR & LAYOUT --}}
@@ -141,7 +141,7 @@
         {{-- MAIN CONTENT --}}
         <div class="flex-1 flex flex-col overflow-hidden relative z-10">
             {{-- Top Header --}}
-            <header class="relative z-50 bg-white/70 backdrop-blur-2xl border-b border-white/80 px-6 py-4 flex items-center justify-between shadow-[0_4px_24px_rgba(0,0,0,0.02)]">
+            <header class="relative z-50 bg-white/70 backdrop-blur-2xl border-b border-white/80 px-6 py-4 flex items-center justify-between shadow-[0_4px_20px_rgba(11,62,106,0.08)]">
                 <div class="flex items-center gap-3 min-w-0">
                     <button @click="sidebarOpen = !sidebarOpen" class="text-slate-500 hover:text-slate-800 transition shrink-0">
                         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>

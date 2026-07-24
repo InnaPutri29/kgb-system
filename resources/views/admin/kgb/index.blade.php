@@ -11,7 +11,7 @@
     </div>
 
     <!-- Export Section -->
-    <div class="bg-white/50 backdrop-blur-3xl rounded-[1.5rem] p-4 border border-white/80 border-t-white shadow-[0_8px_32px_0_rgba(31,38,135,0.07)] flex flex-col sm:flex-row items-center gap-4">
+    <div class="bg-white/50 backdrop-blur-3xl rounded-[1.5rem] p-4 border border-blue-100 shadow-xl shadow-blue-500/10 flex flex-col sm:flex-row items-center gap-4 transition hover:shadow-2xl hover:shadow-blue-500/20">
         <div class="text-sm font-medium text-gray-700">Ekspor Data (Excel):</div>
         <form action="{{ route('admin.kgb.export') }}" method="GET" class="flex flex-col sm:flex-row items-center gap-3 w-full sm:w-auto">
             <div class="flex items-center gap-2">
@@ -30,7 +30,7 @@
         </form>
     </div>
 
-    <div class="bg-white/50 backdrop-blur-3xl rounded-[1.5rem] border border-white/80 border-t-white shadow-[0_8px_32px_0_rgba(31,38,135,0.07)] overflow-hidden">
+    <div class="bg-white/50 backdrop-blur-3xl rounded-[1.5rem] border border-blue-100 shadow-xl shadow-blue-500/10 overflow-hidden transition hover:shadow-2xl hover:shadow-blue-500/20">
         <div class="px-4 sm:px-6 py-4 border-b border-white/30 flex flex-wrap items-center justify-between gap-2">
             <div>
                 <h3 class="text-base sm:text-lg font-semibold text-gray-800">Tabel Riwayat SK KGB</h3>

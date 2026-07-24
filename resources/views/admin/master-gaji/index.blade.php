@@ -16,7 +16,7 @@
     </div>
 
     {{-- Filter & Pencarian --}}
-    <div class="relative z-20 bg-white/50 backdrop-blur-3xl rounded-[1.5rem] p-5 border border-white/80 border-t-white shadow-[0_8px_32px_0_rgba(31,38,135,0.07)]">
+    <div class="relative z-20 bg-white/50 backdrop-blur-3xl rounded-[1.5rem] p-5 border border-blue-100 shadow-xl shadow-blue-500/10 transition hover:shadow-2xl hover:shadow-blue-500/20">
         <form method="GET" action="{{ route('admin.master-gaji.index') }}" class="flex flex-col sm:flex-row gap-3 items-end">
             <div class="w-full sm:w-auto flex-1">
                 <x-input-label for="search" value="Cari Data" class="mb-1" />
@@ -91,7 +91,7 @@
         </form>
     </div>
 
-    <div class="bg-white/50 backdrop-blur-3xl rounded-[1.5rem] border border-white/80 border-t-white shadow-[0_8px_32px_0_rgba(31,38,135,0.07)] overflow-hidden">
+    <div class="bg-white/50 backdrop-blur-3xl rounded-[1.5rem] border border-blue-100 shadow-xl shadow-blue-500/10 overflow-hidden transition hover:shadow-2xl hover:shadow-blue-500/20">
         @if($gaji->isEmpty())
             <div class="flex flex-col items-center justify-center py-16 text-gray-400">
                 @if(request()->hasAny(['search', 'kategori']))
