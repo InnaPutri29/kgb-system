@@ -67,7 +67,7 @@
     </div>
 
     <div class="bg-white/50 backdrop-blur-3xl rounded-[1.5rem] border border-white/80 border-t-white shadow-[0_8px_32px_0_rgba(31,38,135,0.07)] overflow-hidden">
-        <div class="px-6 py-4 border-b border-gray-100 flex items-center justify-between">
+        <div class="px-4 sm:px-6 py-4 border-b border-gray-100 flex flex-wrap items-center justify-between gap-2">
             <div>
                 <h2 class="font-semibold text-gray-800">Nominatif KGB Terkini</h2>
                 <p class="text-xs text-gray-500 mt-0.5">5 pegawai teratas yang KGB-nya paling mendesak</p>

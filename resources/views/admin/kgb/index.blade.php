@@ -31,9 +31,9 @@
     </div>
 
     <div class="bg-white/50 backdrop-blur-3xl rounded-[1.5rem] border border-white/80 border-t-white shadow-[0_8px_32px_0_rgba(31,38,135,0.07)] overflow-hidden">
-        <div class="px-6 py-4 border-b border-white/30 flex items-center justify-between">
+        <div class="px-4 sm:px-6 py-4 border-b border-white/30 flex flex-wrap items-center justify-between gap-2">
             <div>
-                <h3 class="text-lg font-semibold text-gray-800">Tabel Riwayat SK KGB</h3>
+                <h3 class="text-base sm:text-lg font-semibold text-gray-800">Tabel Riwayat SK KGB</h3>
                 <p class="text-sm text-gray-500">Menampilkan data terakhir berdasarkan tanggal penetapan SK.</p>
             </div>
             <span class="inline-flex items-center px-3 py-1.5 rounded-full text-xs font-semibold bg-blue-100 border border-blue-200 text-blue-800">Total {{ $riwayatKgb->total() }} Dokumen</span>

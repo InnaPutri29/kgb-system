@@ -142,11 +142,11 @@
         <div class="flex-1 flex flex-col overflow-hidden relative z-10">
             {{-- Top Header --}}
             <header class="relative z-50 bg-white/70 backdrop-blur-2xl border-b border-white/80 px-6 py-4 flex items-center justify-between shadow-[0_4px_24px_rgba(0,0,0,0.02)]">
-                <div class="flex items-center gap-4">
-                    <button @click="sidebarOpen = !sidebarOpen" class="text-slate-500 hover:text-slate-800 transition">
+                <div class="flex items-center gap-3 min-w-0">
+                    <button @click="sidebarOpen = !sidebarOpen" class="text-slate-500 hover:text-slate-800 transition shrink-0">
                         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
                     </button>
-                    <h1 class="text-lg font-bold text-slate-800 drop-shadow-sm">@yield('title', 'Dashboard')</h1>
+                    <h1 class="text-base sm:text-lg font-bold text-slate-800 drop-shadow-sm truncate">@yield('title', 'Dashboard')</h1>
                 </div>
                 
                 <div class="flex items-center gap-6">
@@ -218,7 +218,7 @@
                         </div>
                     </div>
 
-                    <div class="text-sm text-gray-500 hidden sm:block">
+                    <div class="text-xs sm:text-sm text-gray-500 hidden sm:block">
                         {{ now()->translatedFormat('l, d F Y') }}
                     </div>
                 </div>
@@ -227,7 +227,7 @@
             {{-- Flash Messages replaced by Global Toast --}}
 
             {{-- Page Content --}}
-            <main class="flex-1 overflow-y-auto px-6 py-4">
+            <main class="flex-1 overflow-y-auto px-3 sm:px-6 py-4 sm:py-6">
                 @yield('content')
             </main>
         </div>
