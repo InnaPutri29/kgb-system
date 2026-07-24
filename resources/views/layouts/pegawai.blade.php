@@ -168,6 +168,38 @@
                     <div class="text-xs sm:text-sm text-gray-500 hidden sm:block">
                         {{ now()->translatedFormat('l, d F Y') }}
                     </div>
+
+                    {{-- User Dropdown (Mobile Only) --}}
+                    <div class="relative lg:hidden ml-1 sm:ml-2" x-data="{ userOpen: false }">
+                        <button @click="userOpen = !userOpen" class="flex items-center focus:outline-none">
+                            <div class="w-8 h-8 rounded-full bg-gradient-to-br from-blue-100 to-blue-200 flex items-center justify-center text-sm font-bold text-blue-800 shadow-sm border border-blue-300 transition hover:shadow-md">
+                                {{ substr(auth()->user()->name, 0, 1) }}
+                            </div>
+                        </button>
+
+                        <div x-show="userOpen" @click.outside="userOpen = false" x-cloak
+                             x-transition:enter="transition ease-out duration-100"
+                             x-transition:enter-start="opacity-0 scale-95"
+                             x-transition:enter-end="opacity-100 scale-100"
+                             x-transition:leave="transition ease-in duration-75"
+                             x-transition:leave-start="opacity-100 scale-100"
+                             x-transition:leave-end="opacity-0 scale-95"
+                             class="absolute right-0 mt-2.5 w-48 bg-white rounded-xl shadow-xl border border-gray-100 py-1 z-50 origin-top-right">
+                             
+                             <div class="px-4 py-3 border-b border-gray-100 bg-gray-50/50 rounded-t-xl">
+                                 <p class="text-sm font-bold text-gray-800 truncate">{{ auth()->user()->name }}</p>
+                                 <p class="text-[11px] text-gray-500 truncate mt-0.5">Pegawai</p>
+                             </div>
+                             
+                             <form method="POST" action="{{ route('logout') }}">
+                                 @csrf
+                                 <button type="submit" class="w-full flex items-center gap-2 text-left px-4 py-2.5 text-sm text-red-600 hover:bg-red-50 transition font-medium">
+                                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/></svg>
+                                     Keluar
+                                 </button>
+                             </form>
+                        </div>
+                    </div>
                 </div>
             </header>
 
