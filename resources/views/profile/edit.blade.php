@@ -24,7 +24,7 @@
         </div>
     @endif
 
-    <div class="bg-white/50 backdrop-blur-3xl rounded-[1.5rem] border border-white/80 border-t-white shadow-[0_8px_32px_0_rgba(31,38,135,0.07)] p-6 md:p-8">
+    <div class="bg-white/50 backdrop-blur-3xl rounded-[1.5rem] border border-blue-100 shadow-xl shadow-blue-500/10 p-6 md:p-8 transition hover:shadow-2xl hover:shadow-blue-500/20">
         <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
             
             {{-- INFORMASI PROFIL --}}

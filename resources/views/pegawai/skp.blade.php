@@ -29,7 +29,7 @@
 
 
     {{-- RIWAYAT PENILAIAN SKP --}}
-    <div class="bg-white/50 backdrop-blur-3xl rounded-[1.5rem] border border-white/80 border-t-white shadow-[0_8px_32px_0_rgba(31,38,135,0.07)] overflow-hidden">
+    <div class="bg-white/50 backdrop-blur-3xl rounded-[1.5rem] border border-blue-100 shadow-xl shadow-blue-500/10 overflow-hidden transition hover:shadow-2xl hover:shadow-blue-500/20">
         @if($skpEvaluasi->isEmpty())
             <div class="p-10 text-center text-gray-400 space-y-2">
                 <div class="text-3xl mb-2">📊</div>

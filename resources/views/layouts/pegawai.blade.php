@@ -19,10 +19,10 @@
 <body class="bg-slate-50 font-sans antialiased relative min-h-screen overflow-hidden"
       x-data="{ sidebarOpen: false }">
 
-    <!-- Pastel Blobs -->
-    <div class="fixed top-[-10%] left-[-10%] w-[600px] h-[600px] bg-blue-200/60 rounded-full mix-blend-multiply filter blur-[100px] animate-pulse" style="animation-duration:8s;z-index:0;"></div>
-    <div class="fixed bottom-[-10%] right-[-10%] w-[600px] h-[600px] bg-indigo-200/60 rounded-full mix-blend-multiply filter blur-[100px] animate-pulse" style="animation-duration:10s;animation-delay:2s;z-index:0;"></div>
-    <div class="fixed top-[20%] left-[40%] w-[800px] h-[800px] bg-sky-200/50 rounded-full mix-blend-multiply filter blur-[120px] animate-pulse" style="animation-duration:12s;animation-delay:4s;z-index:0;"></div>
+    <!-- Pastel Blobs (Hidden on mobile for plain background) -->
+    <div class="hidden lg:block fixed top-[-10%] left-[-10%] w-[600px] h-[600px] bg-blue-200/60 rounded-full mix-blend-multiply filter blur-[100px] animate-pulse" style="animation-duration:8s;z-index:0;"></div>
+    <div class="hidden lg:block fixed bottom-[-10%] right-[-10%] w-[600px] h-[600px] bg-indigo-200/60 rounded-full mix-blend-multiply filter blur-[100px] animate-pulse" style="animation-duration:10s;animation-delay:2s;z-index:0;"></div>
+    <div class="hidden lg:block fixed top-[20%] left-[40%] w-[800px] h-[800px] bg-sky-200/50 rounded-full mix-blend-multiply filter blur-[120px] animate-pulse" style="animation-duration:12s;animation-delay:4s;z-index:0;"></div>
 
     <div class="flex h-screen overflow-hidden relative z-10">
 
@@ -94,7 +94,7 @@
         <div class="flex-1 flex flex-col overflow-hidden relative z-10">
 
             {{-- Top Header --}}
-            <header class="relative z-50 bg-white/70 backdrop-blur-2xl border-b border-white/80 px-4 sm:px-6 py-3.5 flex items-center justify-between shadow-[0_4px_24px_rgba(0,0,0,0.02)]">
+            <header class="relative z-50 bg-white/70 backdrop-blur-2xl border-b border-white/80 px-4 sm:px-6 py-3.5 flex items-center justify-between shadow-[0_4px_20px_rgba(11,62,106,0.08)]">
                 <div class="flex items-center gap-3 min-w-0">
                     {{-- Logo kecil hanya di mobile --}}
                     <a href="{{ route('pegawai.dashboard') }}" class="flex items-center gap-2 lg:hidden hover:opacity-80 transition-opacity">
