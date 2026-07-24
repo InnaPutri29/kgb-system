@@ -98,7 +98,7 @@
                 <div class="flex items-center gap-3 min-w-0">
                     {{-- Logo kecil hanya di mobile --}}
                     <div class="flex items-center gap-2 lg:hidden">
-                        <img src="{{ asset('images/logo-kgb-system.png') }}" alt="Logo" class="w-7 h-7 object-contain rounded-lg bg-white p-0.5 shadow-sm border border-gray-100">
+                        <img src="{{ asset('images/logo-kgb-system.png') }}" alt="Logo" class="w-7 h-7 object-contain rounded-lg bg-white p-1 shadow-md border border-gray-200/60 ring-1 ring-black/5">
                     </div>
                     <h1 class="text-base font-bold text-slate-800 truncate lg:text-lg">@yield('title', 'Dashboard')</h1>
                 </div>
