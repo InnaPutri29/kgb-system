@@ -97,9 +97,9 @@
             <header class="relative z-50 bg-white/70 backdrop-blur-2xl border-b border-white/80 px-4 sm:px-6 py-3.5 flex items-center justify-between shadow-[0_4px_24px_rgba(0,0,0,0.02)]">
                 <div class="flex items-center gap-3 min-w-0">
                     {{-- Logo kecil hanya di mobile --}}
-                    <div class="flex items-center gap-2 lg:hidden">
+                    <a href="{{ route('pegawai.dashboard') }}" class="flex items-center gap-2 lg:hidden hover:opacity-80 transition-opacity">
                         <img src="{{ asset('images/logo-kgb-system.png') }}" alt="Logo" class="w-7 h-7 object-contain rounded-lg bg-white p-1 shadow-md border border-gray-200/60 ring-1 ring-black/5">
-                    </div>
+                    </a>
                     <h1 class="text-base font-bold text-slate-800 truncate lg:text-lg">@yield('title', 'Dashboard')</h1>
                 </div>
 
