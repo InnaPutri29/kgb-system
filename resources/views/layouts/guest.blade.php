@@ -62,7 +62,7 @@
                         <div class="flex justify-center mb-6">
                             <a href="/" class="flex items-center gap-3 group">
                                 <div class="w-14 h-14 flex items-center justify-center group-hover:scale-105 transition-transform duration-300">
-                                    <img src="{{ asset('images/logo-kgb-system.png') }}" alt="Logo KGB System" class="w-full h-full object-contain rounded-xl shadow-sm border border-blue-100 bg-white p-1">
+                                    <img src="{{ asset('images/logo-kgb-system.png') }}" alt="Logo KGB System" class="w-full h-full object-contain rounded-xl shadow-sm border border-blue-100 lg:border-slate-100 bg-white p-1">
                                 </div>
                                 <div>
                                     <h1 class="text-2xl font-bold text-slate-800 tracking-tight">Sistem <span class="text-blue-600">KGB</span></h1>

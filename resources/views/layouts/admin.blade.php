@@ -19,10 +19,10 @@
 <body class="bg-slate-50 font-sans antialiased relative min-h-screen overflow-hidden" 
       x-data="{ sidebarOpen: window.innerWidth >= 1024 }">
       
-    <!-- Pastel Blobs for Light Glassmorphism (Hidden on mobile) -->
-    <div class="hidden lg:block fixed top-[-10%] left-[-10%] w-[600px] h-[600px] bg-blue-200/60 rounded-full mix-blend-multiply filter blur-[100px] animate-pulse" style="animation-duration: 8s; z-index: 0;"></div>
-    <div class="hidden lg:block fixed bottom-[-10%] right-[-10%] w-[600px] h-[600px] bg-indigo-200/60 rounded-full mix-blend-multiply filter blur-[100px] animate-pulse" style="animation-duration: 10s; animation-delay: 2s; z-index: 0;"></div>
-    <div class="hidden lg:block fixed top-[20%] left-[40%] w-[800px] h-[800px] bg-sky-200/50 rounded-full mix-blend-multiply filter blur-[120px] animate-pulse" style="animation-duration: 12s; animation-delay: 4s; z-index: 0;"></div>
+    <!-- Pastel Blobs for Light Glassmorphism -->
+    <div class="fixed top-[-10%] left-[-10%] w-[600px] h-[600px] bg-blue-200/60 rounded-full mix-blend-multiply filter blur-[100px] animate-pulse" style="animation-duration: 8s; z-index: 0;"></div>
+    <div class="fixed bottom-[-10%] right-[-10%] w-[600px] h-[600px] bg-indigo-200/60 rounded-full mix-blend-multiply filter blur-[100px] animate-pulse" style="animation-duration: 10s; animation-delay: 2s; z-index: 0;"></div>
+    <div class="fixed top-[20%] left-[40%] w-[800px] h-[800px] bg-sky-200/50 rounded-full mix-blend-multiply filter blur-[120px] animate-pulse" style="animation-duration: 12s; animation-delay: 4s; z-index: 0;"></div>
 
 
     {{-- SIDEBAR & LAYOUT --}}
@@ -42,7 +42,7 @@
         </div>
 
         <aside
-            class="fixed inset-y-0 left-0 z-40 flex flex-col w-64 bg-gradient-to-b from-[#0B3E6A]/95 to-[#234A9F]/95 backdrop-blur-2xl border-r border-white/10 shadow-[4px_0_24px_rgba(35,74,159,0.4)] text-blue-50 transition-all duration-300 transform lg:static lg:translate-x-0 shrink-0"
+            class="fixed inset-y-0 left-0 z-40 flex flex-col w-64 bg-gradient-to-b from-[#0B3E6A]/95 to-[#234A9F]/95 backdrop-blur-2xl border-r border-white/10 shadow-[4px_0_24px_rgba(35,74,159,0.4)] lg:shadow-none text-blue-50 transition-all duration-300 transform lg:static lg:translate-x-0 shrink-0"
             :class="sidebarOpen ? 'translate-x-0' : '-translate-x-full lg:-ml-64'"
         >
             {{-- Logo --}}
@@ -86,6 +86,13 @@
                           {{ request()->routeIs('admin.kgb.nominatif') ? 'bg-white/20 shadow-sm text-white border border-white/30' : 'text-white/70 hover:bg-white/10 hover:text-white' }}">
                     <svg class="w-5 h-5 {{ request()->routeIs('admin.kgb.nominatif') ? 'text-white' : 'text-white/70' }}" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
                     Proses KGB
+                </a>
+
+                <a href="{{ route('admin.users.index') }}"
+                   class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-semibold transition-all duration-200
+                          {{ request()->routeIs('admin.users.*') ? 'bg-white/20 shadow-sm text-white border border-white/30' : 'text-white/70 hover:bg-white/10 hover:text-white' }}">
+                    <svg class="w-5 h-5 {{ request()->routeIs('admin.users.*') ? 'text-white' : 'text-white/70' }}" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
+                    Pengguna
                 </a>
 
                 <p class="px-3 pt-4 pb-1 text-[11px] font-bold text-white/70 uppercase tracking-widest">Pengaturan</p>
@@ -141,7 +148,7 @@
         {{-- MAIN CONTENT --}}
         <div class="flex-1 flex flex-col overflow-hidden relative z-10">
             {{-- Top Header --}}
-            <header class="relative z-50 bg-white/70 backdrop-blur-2xl border-b border-white/80 px-6 py-4 flex items-center justify-between shadow-[0_4px_20px_rgba(11,62,106,0.08)]">
+            <header class="relative z-50 bg-white/70 backdrop-blur-2xl border-b border-white/80 px-6 py-4 flex items-center justify-between shadow-[0_4px_20px_rgba(11,62,106,0.08)] lg:shadow-sm lg:shadow-black/5">
                 <div class="flex items-center gap-3 min-w-0">
                     <button @click="sidebarOpen = !sidebarOpen" class="text-slate-500 hover:text-slate-800 transition shrink-0">
                         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>

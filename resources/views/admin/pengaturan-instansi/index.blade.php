@@ -17,7 +17,7 @@
         <p class="text-sm text-blue-700">Data ini akan digunakan sebagai <strong>Kop Surat</strong> dan informasi pada dokumen cetak seperti SK Kenaikan Gaji Berkala (KGB).</p>
     </div>
 
-    <div class="bg-white/50 backdrop-blur-3xl rounded-[1.5rem] border border-blue-100 shadow-xl shadow-blue-500/10 overflow-hidden transition hover:shadow-2xl hover:shadow-blue-500/20">
+    <div class="bg-white/50 backdrop-blur-3xl lg:bg-white lg:backdrop-blur-none rounded-[1.5rem] border border-blue-100 lg:border-slate-100 shadow-xl shadow-blue-500/10 lg:shadow-sm lg:shadow-black/5 overflow-hidden transition hover:shadow-2xl hover:shadow-blue-500/20 lg:hover:shadow-md lg:hover:shadow-black/10">
         <form action="{{ route('admin.pengaturan-instansi.update') }}" method="POST" enctype="multipart/form-data" class="p-6">
             @csrf
             

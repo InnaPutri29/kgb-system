@@ -20,7 +20,7 @@
         </div>
     </div>
 
-    <div class="bg-white/50 backdrop-blur-3xl rounded-[1.5rem] border border-white/80 border-t-white shadow-[0_8px_32px_0_rgba(31,38,135,0.07)] overflow-hidden p-6 md:p-8">
+    <div class="bg-white/50 backdrop-blur-3xl lg:bg-white lg:backdrop-blur-none rounded-[1.5rem] border border-white/80 border-t-white shadow-[0_8px_32px_0_rgba(31,38,135,0.07)] overflow-hidden p-6 md:p-8">
         <h3 class="text-lg font-bold text-gray-800 mb-4 border-b pb-2">Informasi SK KGB</h3>
         
         <div class="grid grid-cols-1 md:grid-cols-2 gap-y-4 gap-x-8 text-sm">

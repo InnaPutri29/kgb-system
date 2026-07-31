@@ -19,7 +19,7 @@
         </div>
     </div>
 
-    <div class="bg-white/50 backdrop-blur-3xl rounded-[1.5rem] border border-white/80 border-t-white shadow-[0_8px_32px_0_rgba(31,38,135,0.07)] overflow-hidden relative mt-4">
+    <div class="bg-white/50 backdrop-blur-3xl lg:bg-white lg:backdrop-blur-none rounded-[1.5rem] border border-white/80 border-t-white shadow-[0_8px_32px_0_rgba(31,38,135,0.07)] overflow-hidden relative mt-4">
         <div class="h-3 bg-gradient-to-r from-[#0B3E6A] to-[#234A9F] relative"></div>
         <div class="px-6 pb-6 relative">
             <div class="pt-6 flex flex-col md:flex-row justify-between md:items-end gap-4">
@@ -31,7 +31,7 @@
                     <span class="inline-flex items-center px-2.5 py-1 rounded-md text-xs font-medium bg-gray-100 text-gray-800 border border-white/50">
                         {{ ($pegawai->pangkat ?? '-') . ' (' . ($pegawai->golongan ?? '-') . ')' }}
                     </span>
-                    <span class="inline-flex items-center px-2.5 py-1 rounded-md text-xs font-medium bg-blue-50 text-blue-700 border border-blue-100">
+                    <span class="inline-flex items-center px-2.5 py-1 rounded-md text-xs font-medium bg-blue-50 text-blue-700 border border-blue-100 lg:border-slate-100">
                         {{ $pegawai->jabatan ?? 'Jabatan -' }}
                     </span>
                 </div>
@@ -98,7 +98,7 @@
     </div>
 
     <!-- Riwayat SK KGB -->
-    <div class="bg-white/50 backdrop-blur-3xl rounded-[1.5rem] border border-white/80 border-t-white shadow-[0_8px_32px_0_rgba(31,38,135,0.07)] overflow-hidden">
+    <div class="bg-white/50 backdrop-blur-3xl lg:bg-white lg:backdrop-blur-none rounded-[1.5rem] border border-white/80 border-t-white shadow-[0_8px_32px_0_rgba(31,38,135,0.07)] overflow-hidden">
         <div class="px-6 py-4 border-b border-gray-100 bg-white/20/50 flex justify-between items-center">
             <h3 class="text-lg font-bold text-gray-800">Riwayat KGB Pegawai</h3>
             <span class="bg-blue-100 text-blue-800 text-xs font-semibold px-2.5 py-0.5 rounded-full">{{ $pegawai->riwayatKgb->count() }} Dokumen</span>
@@ -149,7 +149,7 @@
     </div>
 
     {{-- SKP Evaluasi --}}
-    <div class="bg-white/50 backdrop-blur-3xl rounded-[1.5rem] border border-white/80 border-t-white shadow-[0_8px_32px_0_rgba(31,38,135,0.07)] overflow-hidden" x-data="{ openEdit: false, editSkp: {} }">
+    <div class="bg-white/50 backdrop-blur-3xl lg:bg-white lg:backdrop-blur-none rounded-[1.5rem] border border-white/80 border-t-white shadow-[0_8px_32px_0_rgba(31,38,135,0.07)] overflow-hidden" x-data="{ openEdit: false, editSkp: {} }">
         <div class="px-6 py-4 border-b border-gray-100 bg-white/20/50 flex justify-between items-center">
             <div>
                 <h3 class="text-lg font-bold text-gray-800">Rekap SKP (Penilaian Kinerja)</h3>

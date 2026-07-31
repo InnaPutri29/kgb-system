@@ -13,7 +13,7 @@
         </a>
     </div>
 
-    <div class="bg-white/50 backdrop-blur-3xl rounded-[1.5rem] border border-white/80 border-t-white shadow-[0_8px_32px_0_rgba(31,38,135,0.07)] overflow-hidden relative mt-10">
+    <div class="bg-white/50 backdrop-blur-3xl lg:bg-white lg:backdrop-blur-none rounded-[1.5rem] border border-white/80 border-t-white shadow-[0_8px_32px_0_rgba(31,38,135,0.07)] overflow-hidden relative mt-10">
         <div class="h-24 bg-gradient-to-r from-blue-600 to-indigo-700"></div>
         <div class="px-6 pb-6 relative">
             <div class="w-20 h-20 bg-white rounded-2xl p-1 shadow-md absolute -top-10 left-6 flex items-center justify-center text-3xl font-bold text-blue-600 border border-gray-100">
@@ -48,7 +48,7 @@
 
     <!-- Riwayat Dokumen -->
     @if($masterPejabat->riwayatKgb->isNotEmpty())
-    <div class="bg-white/50 backdrop-blur-3xl rounded-[1.5rem] border border-white/80 border-t-white shadow-[0_8px_32px_0_rgba(31,38,135,0.07)] overflow-hidden">
+    <div class="bg-white/50 backdrop-blur-3xl lg:bg-white lg:backdrop-blur-none rounded-[1.5rem] border border-white/80 border-t-white shadow-[0_8px_32px_0_rgba(31,38,135,0.07)] overflow-hidden">
         <div class="px-6 py-4 border-b border-gray-100 bg-white/20/50">
             <h3 class="text-lg font-bold text-gray-800">Daftar Pegawai (SK Terakhir)</h3>
         </div>

@@ -76,6 +76,9 @@ Route::middleware(['auth', 'password.changed'])->group(function () {
         // Pengaturan Instansi
         Route::get('/pengaturan-instansi', [\App\Http\Controllers\Admin\PengaturanInstansiController::class, 'index'])->name('pengaturan-instansi.index');
         Route::post('/pengaturan-instansi', [\App\Http\Controllers\Admin\PengaturanInstansiController::class, 'update'])->name('pengaturan-instansi.update');
+        
+        // Manajemen Pengguna
+        Route::resource('pengguna', \App\Http\Controllers\Admin\UserController::class)->names('users');
     });
 
     // -----------------------------------------------------------------------

@@ -19,15 +19,15 @@
 <body class="bg-slate-50 font-sans antialiased relative min-h-screen overflow-hidden"
       x-data="{ sidebarOpen: false }">
 
-    <!-- Pastel Blobs (Hidden on mobile for plain background) -->
-    <div class="hidden lg:block fixed top-[-10%] left-[-10%] w-[600px] h-[600px] bg-blue-200/60 rounded-full mix-blend-multiply filter blur-[100px] animate-pulse" style="animation-duration:8s;z-index:0;"></div>
-    <div class="hidden lg:block fixed bottom-[-10%] right-[-10%] w-[600px] h-[600px] bg-indigo-200/60 rounded-full mix-blend-multiply filter blur-[100px] animate-pulse" style="animation-duration:10s;animation-delay:2s;z-index:0;"></div>
-    <div class="hidden lg:block fixed top-[20%] left-[40%] w-[800px] h-[800px] bg-sky-200/50 rounded-full mix-blend-multiply filter blur-[120px] animate-pulse" style="animation-duration:12s;animation-delay:4s;z-index:0;"></div>
+    <!-- Pastel Blobs -->
+    <div class="fixed top-[-10%] left-[-10%] w-[600px] h-[600px] bg-blue-200/60 rounded-full mix-blend-multiply filter blur-[100px] animate-pulse" style="animation-duration:8s;z-index:0;"></div>
+    <div class="fixed bottom-[-10%] right-[-10%] w-[600px] h-[600px] bg-indigo-200/60 rounded-full mix-blend-multiply filter blur-[100px] animate-pulse" style="animation-duration:10s;animation-delay:2s;z-index:0;"></div>
+    <div class="fixed top-[20%] left-[40%] w-[800px] h-[800px] bg-sky-200/50 rounded-full mix-blend-multiply filter blur-[120px] animate-pulse" style="animation-duration:12s;animation-delay:4s;z-index:0;"></div>
 
     <div class="flex h-screen overflow-hidden relative z-10">
 
         {{-- SIDEBAR (desktop lg+ only) --}}
-        <aside class="hidden lg:flex flex-col w-64 bg-gradient-to-b from-[#0B3E6A]/95 to-[#234A9F]/95 backdrop-blur-2xl border-r border-white/10 shadow-[4px_0_24px_rgba(35,74,159,0.4)] text-blue-50 shrink-0">
+        <aside class="hidden lg:flex flex-col w-64 bg-gradient-to-b from-[#0B3E6A]/95 to-[#234A9F]/95 backdrop-blur-2xl border-r border-white/10 shadow-[4px_0_24px_rgba(35,74,159,0.4)] lg:shadow-none text-blue-50 shrink-0">
             {{-- Logo --}}
             <div class="flex items-center gap-3 px-5 py-5 border-b border-white/10 bg-[#072C4C]/40">
                 <div class="w-10 h-10 flex items-center justify-center shrink-0">
@@ -94,7 +94,7 @@
         <div class="flex-1 flex flex-col overflow-hidden relative z-10">
 
             {{-- Top Header --}}
-            <header class="relative z-50 bg-white/70 backdrop-blur-2xl border-b border-white/80 px-4 sm:px-6 py-3.5 flex items-center justify-between shadow-[0_4px_20px_rgba(11,62,106,0.08)]">
+            <header class="relative z-50 bg-white/70 backdrop-blur-2xl border-b border-white/80 px-4 sm:px-6 py-3.5 flex items-center justify-between shadow-[0_4px_20px_rgba(11,62,106,0.08)] lg:shadow-sm lg:shadow-black/5">
                 <div class="flex items-center gap-3 min-w-0">
                     {{-- Logo kecil hanya di mobile --}}
                     <a href="{{ route('pegawai.dashboard') }}" class="flex items-center gap-2 lg:hidden hover:opacity-80 transition-opacity">
