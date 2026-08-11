@@ -17,7 +17,7 @@
                 </span>
             @endif
             <span class="inline-flex items-center px-3 py-1.5 rounded-full text-xs font-semibold bg-blue-100 text-blue-800 border border-blue-200 flex-1 sm:flex-none justify-center">
-                {{ $daftarNominatif->total() }} Pegawai Nominatif 
+                {{ $daftarNominatif->count() }} Pegawai Nominatif 
             </span>
         </div>
     </div>
@@ -53,7 +53,7 @@
                                 $isUrgent = $selisih <= 7 && !$isLate;
                             @endphp
                             <tr class="hover:bg-white/40 transition">
-                                <td class="px-3 py-3 text-gray-500 text-xs font-medium text-center">{{ $daftarNominatif->firstItem() + $index }}</td>
+                                <td class="px-3 py-3 text-gray-500 text-xs font-medium text-center">{{ $index + 1 }}</td>
                                 <td class="px-3 py-3 font-mono text-xs text-gray-700">{{ $p->nip }}</td>
                                 <td class="px-3 py-3">
                                     <p class="font-medium text-gray-900">{{ $p->nama_lengkap }}</p>
@@ -88,9 +88,7 @@
                     </tbody>
                 </table>
             </div>
-            <div class="px-5 py-4 border-t border-gray-100 bg-white/20/50">
-                {{ $daftarNominatif->links() }}
-            </div>
+
         @endif
     </div>
 

@@ -88,7 +88,7 @@ class KgbController extends Controller
             })
             ->with('riwayatKgb')
             ->orderByRaw('DATE_ADD(tmt_gaji_terakhir, INTERVAL 2 YEAR) ASC')
-            ->paginate(request('per_page', 15))->withQueryString();
+            ->get();
 
         // Hitung yang sudah jatuh tempo hari ini
         $jatuhTempoHariIni = Pegawai::whereNotNull('tmt_gaji_terakhir')
