@@ -49,7 +49,7 @@ class MasterGajiController extends Controller
             }
         }
 
-        $gaji = $query->orderBy('golongan')->orderBy('masa_kerja')->paginate(20)->withQueryString();
+        $gaji = $query->orderBy('golongan')->orderBy('masa_kerja')->paginate(request('per_page', 20))->withQueryString();
         
         return view('admin.master-gaji.index', compact('gaji'));
     }

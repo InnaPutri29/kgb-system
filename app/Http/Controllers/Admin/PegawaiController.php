@@ -55,7 +55,7 @@ class PegawaiController extends Controller
             ->orderBy('golongan')
             ->pluck('golongan');
 
-        $pegawai = $query->latest()->paginate(15)->withQueryString();
+        $pegawai = $query->latest()->paginate(request('per_page', 20))->withQueryString();
         return view('admin.pegawai.index', compact('pegawai', 'tahunTmtList', 'golonganList'));
     }
 
