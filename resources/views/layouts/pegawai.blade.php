@@ -14,10 +14,24 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <style>
         [x-cloak] { display: none !important; }
+        html.sidebar-is-collapsed #pegawaiSidebar { width: 4rem !important; } /* 4rem = w-16 */
+        html:not(.sidebar-is-collapsed) #pegawaiSidebar { width: 16rem !important; } /* 16rem = w-64 */
     </style>
+    <script>
+        if (localStorage.getItem('sidebarExpanded') === 'false') {
+            document.documentElement.classList.add('sidebar-is-collapsed');
+        }
+    </script>
 </head>
 <body class="bg-slate-50 font-sans antialiased relative min-h-screen overflow-hidden"
-      x-data="{ sidebarExpanded: true }">
+      x-data="{ 
+          sidebarExpanded: localStorage.getItem('sidebarExpanded') === null ? true : localStorage.getItem('sidebarExpanded') === 'true',
+          mounted: false,
+          init() {
+              this.$watch('sidebarExpanded', val => localStorage.setItem('sidebarExpanded', val));
+              setTimeout(() => this.mounted = true, 100);
+          }
+      }">
 
     <!-- Pastel Blobs -->
     <div class="fixed top-[-10%] left-[-10%] w-[600px] h-[600px] bg-blue-200/60 rounded-full mix-blend-multiply filter blur-[100px] animate-pulse" style="animation-duration:8s;z-index:0;"></div>
@@ -27,11 +41,12 @@
     <div class="flex h-screen overflow-hidden relative z-10">
 
         {{-- SIDEBAR (desktop lg+ only) --}}
-        <aside class="hidden lg:flex flex-col bg-gradient-to-b from-[#0B3E6A]/95 to-[#234A9F]/95 backdrop-blur-2xl border-r border-white/10 shadow-[4px_0_24px_rgba(35,74,159,0.4)] lg:shadow-none text-blue-50 shrink-0 transition-all duration-300 overflow-hidden"
-               :class="sidebarExpanded ? 'w-64' : 'w-16'">
+        <aside id="pegawaiSidebar" class="hidden lg:flex flex-col bg-gradient-to-b from-[#0B3E6A]/95 to-[#234A9F]/95 backdrop-blur-2xl border-r border-white/10 shadow-[4px_0_24px_rgba(35,74,159,0.4)] lg:shadow-none text-blue-50 shrink-0 overflow-hidden"
+               :class="[sidebarExpanded ? 'w-64' : 'w-16', mounted ? 'transition-all duration-300' : '']"
+               :style="mounted ? '' : 'width: ' + (sidebarExpanded ? '16rem' : '4rem') + ' !important'">
             {{-- Logo --}}
-            <div class="flex items-center gap-3 py-5 border-b border-white/10 bg-[#072C4C]/40 px-4 transition-all"
-                 :class="sidebarExpanded ? 'justify-start' : 'justify-center px-0'">
+            <div class="flex items-center gap-3 py-5 border-b border-white/10 bg-[#072C4C]/40 px-4"
+                 :class="[sidebarExpanded ? 'justify-start' : 'justify-center px-0', mounted ? 'transition-all duration-300' : '']">
                 <div class="w-10 h-10 flex items-center justify-center shrink-0">
                     <img src="{{ asset('images/logo-kgb-system.png') }}" alt="Logo" class="w-full h-full object-contain rounded-xl shadow-sm bg-white p-1">
                 </div>
