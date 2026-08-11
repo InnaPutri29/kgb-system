@@ -46,13 +46,19 @@
 
         <aside
             class="fixed inset-y-0 left-0 z-40 flex flex-col bg-gradient-to-b from-[#0B3E6A]/95 to-[#234A9F]/95 backdrop-blur-2xl border-r border-white/10 shadow-[4px_0_24px_rgba(35,74,159,0.4)] lg:shadow-none text-blue-50 transition-all duration-300 shrink-0 overflow-hidden w-64 -translate-x-full lg:translate-x-0"
-            :class="isDesktop
-                ? (sidebarExpanded ? 'translate-x-0 w-64' : 'translate-x-0 w-16')
-                : (sidebarOpen ? 'translate-x-0 w-64' : '-translate-x-full w-64')"
+            :class="{
+                'w-64': !isDesktop || sidebarExpanded,
+                'w-16': isDesktop && !sidebarExpanded,
+                'translate-x-0': isDesktop || sidebarOpen,
+                '-translate-x-full': !isDesktop && !sidebarOpen
+            }"
         >
             {{-- Logo --}}
             <div class="flex items-center gap-3 py-5 border-b border-white/10 bg-[#072C4C]/40 px-4 justify-start"
-                 :class="(sidebarExpanded || !isDesktop) ? 'px-4 justify-start' : 'px-0 justify-center'">
+                 :class="{
+                     'px-4 justify-start': !isDesktop || sidebarExpanded,
+                     'px-0 justify-center': isDesktop && !sidebarExpanded
+                 }">
                 <div class="w-10 h-10 flex items-center justify-center shrink-0">
                     <img src="{{ asset('images/logo-kgb-system.png') }}" alt="Logo" class="w-full h-full object-contain rounded-xl shadow-sm bg-white p-1">
                 </div>
@@ -153,7 +159,10 @@
 
         {{-- MAIN CONTENT --}}
         <div class="flex-1 flex flex-col overflow-hidden relative z-10 transition-all duration-300 lg:ml-64"
-             :class="isDesktop ? (sidebarExpanded ? 'lg:ml-64' : 'lg:ml-16') : ''">
+             :class="{
+                 'lg:ml-64': !isDesktop || sidebarExpanded,
+                 'lg:ml-16': isDesktop && !sidebarExpanded
+             }">
             {{-- Top Header --}}
             <header class="relative z-50 bg-white/70 backdrop-blur-2xl border-b border-white/80 px-6 py-4 flex items-center justify-between shadow-[0_4px_20px_rgba(11,62,106,0.08)] lg:shadow-sm lg:shadow-black/5">
                 <div class="flex items-center gap-3 min-w-0">
