@@ -15,9 +15,14 @@
         }
         .header {
             width: 100%;
-            margin-bottom: 5px;
-            border-bottom: 4px double black;
-            padding-bottom: 10px;
+        }
+        .garis-kop {
+            border-top: 3px solid black;
+            border-bottom: 1px solid black;
+            height: 2px;
+            margin-top: 10px;
+            margin-bottom: 10px;
+            width: 100%;
         }
         .header table {
             width: 100%;
@@ -112,6 +117,7 @@
             </tr>
         </table>
     </div>
+    <div class="garis-kop"></div>
 
     <table style="width: 100%; margin-top: 15px;">
         <tr>
