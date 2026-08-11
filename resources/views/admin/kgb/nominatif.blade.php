@@ -47,10 +47,12 @@
                     <tbody class="divide-y divide-gray-100">
                         @foreach($daftarNominatif as $index => $p)
                             @php
-                                $jatuhTempo = \Carbon\Carbon::parse($p->tmt_gaji_terakhir)->addYears(2);
-                                $selisih = now()->diffInDays($jatuhTempo, false);
+                                $jatuhTempo = \Carbon\Carbon::parse($p->tmt_gaji_terakhir)->addYears(2)->startOfDay();
+                                $hariIni = \Carbon\Carbon::today();
+                                $selisih = $hariIni->diffInDays($jatuhTempo, false);
+                                $isHariIni = $selisih == 0;
                                 $isLate = $selisih < 0;
-                                $isUrgent = $selisih <= 7 && !$isLate;
+                                $isUrgent = $selisih > 0 && $selisih <= 7;
                             @endphp
                             <tr class="hover:bg-white/40 transition">
                                 <td class="px-3 py-3 text-gray-500 text-xs font-medium text-center">{{ $index + 1 }}</td>
@@ -65,6 +67,10 @@
                                     @if($isLate)
                                         <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-semibold bg-red-100 text-red-700 border border-red-200 whitespace-nowrap">
                                             Terlambat {{ abs((int)$selisih) }}h
+                                        </span>
+                                    @elseif($isHariIni)
+                                        <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-bold bg-red-100 text-red-700 border border-red-200 whitespace-nowrap">
+                                            Hari Ini
                                         </span>
                                     @elseif($isUrgent)
                                         <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-semibold bg-orange-100 text-orange-700 border border-orange-200 whitespace-nowrap">
