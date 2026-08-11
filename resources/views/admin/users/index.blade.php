@@ -23,7 +23,7 @@
                         <th class="px-3 py-3 text-left">Nama</th>
                         <th class="px-3 py-3 text-left">Email</th>
                         <th class="px-3 py-3 text-center">Role</th>
-                        <th class="px-3 py-3 text-center">Login Terakhir</th>
+
                         <th class="px-3 py-3 text-center">Aksi</th>
                     </tr>
                 </thead>
@@ -46,9 +46,7 @@
                                     </span>
                                 @endforeach
                             </td>
-                            <td class="px-3 py-3 text-center text-gray-700">
-                                -
-                            </td>
+
                             <td class="px-3 py-3 text-center">
                                 <div class="flex items-center justify-center gap-2">
                                     <a href="{{ route('admin.users.edit', ['pengguna' => $user->id]) }}" 
@@ -71,7 +69,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="5" class="py-8 text-center text-slate-500">
+                            <td colspan="4" class="py-8 text-center text-slate-500">
                                 Tidak ada data pengguna.
                             </td>
                         </tr>
