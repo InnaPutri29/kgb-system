@@ -51,7 +51,8 @@
                 : (sidebarOpen ? 'translate-x-0 w-64' : '-translate-x-full w-64')"
         >
             {{-- Logo --}}
-            <div class="flex items-center gap-3 px-4 py-5 border-b border-white/10 bg-[#072C4C]/40">
+            <div class="flex items-center gap-3 py-5 border-b border-white/10 bg-[#072C4C]/40"
+                 :class="(sidebarExpanded || !isDesktop) ? 'px-4 justify-start' : 'px-0 justify-center'">
                 <div class="w-10 h-10 flex items-center justify-center shrink-0">
                     <img src="{{ asset('images/logo-kgb-system.png') }}" alt="Logo" class="w-full h-full object-contain rounded-xl shadow-sm bg-white p-1">
                 </div>

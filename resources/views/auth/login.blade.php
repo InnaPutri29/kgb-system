@@ -2,12 +2,12 @@
     <!-- Session Status -->
     <x-auth-session-status class="mb-4" :status="session('status')" />
 
-    <div class="mb-6 text-center">
+    <div class="mb-5 text-center">
         <h2 class="text-2xl font-bold text-slate-800">Masuk ke Akun</h2>
         <p class="text-sm text-slate-500 mt-1 font-medium">Silakan masukkan NIP dan Password Anda.</p>
     </div>
 
-    <form method="POST" action="{{ route('login') }}" class="space-y-5">
+    <form method="POST" action="{{ route('login') }}" class="space-y-4">
         @csrf
 
         <!-- Email Address / NIP -->

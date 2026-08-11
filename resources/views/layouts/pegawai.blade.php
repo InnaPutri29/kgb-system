@@ -29,7 +29,7 @@
         {{-- SIDEBAR (desktop lg+ only) --}}
         <aside class="hidden lg:flex flex-col w-64 bg-gradient-to-b from-[#0B3E6A]/95 to-[#234A9F]/95 backdrop-blur-2xl border-r border-white/10 shadow-[4px_0_24px_rgba(35,74,159,0.4)] lg:shadow-none text-blue-50 shrink-0">
             {{-- Logo --}}
-            <div class="flex items-center gap-3 px-5 py-5 border-b border-white/10 bg-[#072C4C]/40">
+            <div class="flex items-center justify-center gap-3 px-5 py-5 border-b border-white/10 bg-[#072C4C]/40">
                 <div class="w-10 h-10 flex items-center justify-center shrink-0">
                     <img src="{{ asset('images/logo-kgb-system.png') }}" alt="Logo" class="w-full h-full object-contain rounded-xl shadow-sm bg-white p-1">
                 </div>
@@ -38,6 +38,7 @@
                     <p class="font-bold text-sm text-white leading-tight">RSD Sidawangi</p>
                 </div>
             </div>
+
 
             {{-- Nav Links --}}
             <nav class="flex-1 px-3 py-4 space-y-1 overflow-y-auto">

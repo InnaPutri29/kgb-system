@@ -15,10 +15,10 @@
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
-<body class="font-sans text-gray-900 antialiased bg-slate-50 selection:bg-blue-500 selection:text-white">
+<body class="font-sans text-gray-900 antialiased bg-slate-50 selection:bg-blue-500 selection:text-white overflow-hidden h-screen">
     
     <!-- Full Screen Container -->
-    <div class="min-h-screen md:h-screen md:overflow-hidden flex flex-col md:flex-row relative">
+    <div class="h-screen overflow-hidden flex flex-col md:flex-row relative">
         
         <!-- Background Image -->
         <div class="absolute inset-0 z-0 overflow-hidden">
@@ -49,22 +49,22 @@
         </div>
 
         <!-- Right Side: Login Card with Glassmorphism -->
-        <div class="w-full md:w-[50%] h-screen overflow-y-auto z-10 relative flex justify-center items-center">
+        <div class="w-full md:w-[50%] h-screen overflow-hidden z-10 relative flex justify-center items-center">
             
-            <div class="min-h-full w-full flex flex-col justify-center items-center p-6 sm:p-8 lg:p-16 relative z-10">
+            <div class="w-full flex flex-col justify-center items-center p-4 sm:p-6 lg:p-10 relative z-10">
                 
                 <!-- Frosted White Card -->
-                <div class="w-full max-w-md sm:max-w-[480px] lg:max-w-[500px] bg-white/85 backdrop-blur-xl shadow-2xl rounded-[2.5rem] overflow-hidden border border-white/50 transition-all duration-300 hover:shadow-xl relative">
+                <div class="w-full max-w-md sm:max-w-[480px] lg:max-w-[500px] max-h-[95vh] overflow-y-auto scrollbar-hide bg-white/85 backdrop-blur-xl shadow-2xl rounded-[2.5rem] border border-white/50 transition-all duration-300 hover:shadow-xl relative">
 
-                    <div class="px-8 py-10 sm:px-12 sm:py-10 relative z-10">
+                    <div class="px-8 py-6 sm:px-10 sm:py-8 relative z-10">
                         
                         <!-- Logo Header -->
-                        <div class="flex justify-center mb-6">
-                            <a href="/" class="flex items-center gap-3 group">
+                        <div class="flex justify-center mb-5">
+                            <a href="/" class="flex flex-col items-center gap-2 group">
                                 <div class="w-14 h-14 flex items-center justify-center group-hover:scale-105 transition-transform duration-300">
                                     <img src="{{ asset('images/logo-kgb-system.png') }}" alt="Logo KGB System" class="w-full h-full object-contain rounded-xl shadow-sm border border-blue-100 lg:border-slate-100 bg-white p-1">
                                 </div>
-                                <div>
+                                <div class="text-center">
                                     <h1 class="text-2xl font-bold text-slate-800 tracking-tight">Sistem <span class="text-blue-600">KGB</span></h1>
                                     <p class="text-[11px] text-slate-500 font-bold uppercase tracking-wider">RSD Sidawangi</p>
                                 </div>
