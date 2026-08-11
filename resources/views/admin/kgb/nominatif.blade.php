@@ -142,6 +142,12 @@
                             <li x-text="alasan"></li>
                         </template>
                     </ul>
+                    <div class="mt-3">
+                        <a :href="`/admin/pegawai/${pegawai}`" target="_blank" class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-red-100 hover:bg-red-200 text-red-700 text-xs font-semibold rounded-md transition-colors border border-red-200 shadow-sm">
+                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+                            Buka Profil / Input SKP Pegawai
+                        </a>
+                    </div>
                 </div>
 
                 <form x-show="!loading" method="POST" :action="`/admin/kgb/${pegawai}/proses`"
