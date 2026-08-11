@@ -20,45 +20,71 @@
         </div>
     </div>
 
-    <div class="bg-white/50 backdrop-blur-3xl lg:bg-white lg:backdrop-blur-none rounded-[1.5rem] border border-white/80 border-t-white shadow-[0_8px_32px_0_rgba(31,38,135,0.07)] overflow-hidden p-6 md:p-8">
-        <h3 class="text-lg font-bold text-gray-800 mb-4 border-b pb-2">Informasi SK KGB</h3>
-        
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-y-4 gap-x-8 text-sm">
-            <div>
-                <p class="text-gray-500 mb-1">Nomor SK</p>
-                <p class="font-medium text-gray-800">{{ $riwayat->nomor_sk_baru }}</p>
+    <div class="bg-white/50 backdrop-blur-3xl lg:bg-white lg:backdrop-blur-none rounded-[1.5rem] border border-white/80 border-t-white shadow-[0_8px_32px_0_rgba(31,38,135,0.07)] overflow-hidden relative mt-4">
+        <div class="h-3 bg-gradient-to-r from-[#0B3E6A] to-[#234A9F] relative"></div>
+        <div class="px-6 pb-6 relative">
+            <div class="pt-6 flex flex-col md:flex-row justify-between md:items-end gap-4">
+                <div>
+                    <h3 class="text-2xl font-bold text-gray-800 leading-tight">SK KGB: {{ $riwayat->nomor_sk_baru }}</h3>
+                    <p class="text-blue-600 font-medium mt-1">{{ $riwayat->pegawai->nama_lengkap ?? '-' }} <span class="font-mono text-sm ml-1">({{ $riwayat->pegawai->nip ?? '-' }})</span></p>
+                </div>
+                <div class="flex gap-3">
+                    <span class="inline-flex items-center px-2.5 py-1 rounded-md text-xs font-medium bg-green-50 text-green-700 border border-green-100 lg:border-slate-100">
+                        Selesai Diproses
+                    </span>
+                </div>
             </div>
-            <div>
-                <p class="text-gray-500 mb-1">Pegawai</p>
-                <p class="font-medium text-gray-800">{{ $riwayat->pegawai->nama_lengkap ?? '-' }} <br><span class="text-gray-400 text-xs">{{ $riwayat->pegawai->nip ?? '-' }}</span></p>
-            </div>
-            <div>
-                <p class="text-gray-500 mb-1">Tgl Ditetapkan</p>
-                <p class="font-medium text-gray-800">{{ $riwayat->tanggal_ditetapkan?->format('d/m/Y') }}</p>
-            </div>
-            <div>
-                <p class="text-gray-500 mb-1">TMT Baru</p>
-                <p class="font-medium text-gray-800">{{ $riwayat->tmt_baru?->format('d/m/Y') }}</p>
-            </div>
-            <div>
-                <p class="text-gray-500 mb-1">Gaji Pokok Lama</p>
-                <p class="font-medium text-gray-800">Rp {{ number_format($riwayat->gaji_pokok_lama, 0, ',', '.') }}</p>
-            </div>
-            <div>
-                <p class="text-gray-500 mb-1">Gaji Pokok Baru</p>
-                <p class="font-bold text-blue-600">Rp {{ number_format($riwayat->gaji_pokok_baru, 0, ',', '.') }}</p>
-            </div>
-            <div>
-                <p class="text-gray-500 mb-1">Masa Kerja Golongan</p>
-                <p class="font-medium text-gray-800">{{ $riwayat->masa_kerja_tahun_baru }} Tahun, {{ $riwayat->masa_kerja_bulan_baru }} Bulan</p>
-            </div>
-            <div>
-                <p class="text-gray-500 mb-1">Jatuh Tempo YAD</p>
-                <p class="font-medium text-gray-800">{{ $riwayat->tmt_yad?->format('d/m/Y') }}</p>
-            </div>
-            <div class="col-span-1 md:col-span-2">
-                <p class="text-gray-500 mb-1">Pejabat Penetap SK</p>
-                <p class="font-medium text-gray-800">{{ $riwayat->pejabat_penetap ?? '-' }}</p>
+
+            <div class="mt-8 grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
+                <!-- KGB Baru -->
+                <div>
+                    <h4 class="text-sm font-bold text-gray-400 uppercase tracking-wider mb-3">Penetapan KGB Baru</h4>
+                    <table class="w-full text-sm">
+                        <tbody class="divide-y divide-gray-50">
+                            <tr>
+                                <td class="py-2 text-gray-500 w-1/3">Nomor SK</td>
+                                <td class="py-2 text-gray-800 font-medium">{{ $riwayat->nomor_sk_baru }}</td>
+                            </tr>
+                            <tr>
+                                <td class="py-2 text-gray-500">Tgl Ditetapkan</td>
+                                <td class="py-2 text-gray-800 font-medium">{{ $riwayat->tanggal_ditetapkan?->format('d/m/Y') ?? '-' }}</td>
+                            </tr>
+                            <tr>
+                                <td class="py-2 text-gray-500">TMT Baru</td>
+                                <td class="py-2 text-gray-800 font-medium">{{ $riwayat->tmt_baru?->format('d/m/Y') ?? '-' }}</td>
+                            </tr>
+                            <tr>
+                                <td class="py-2 text-gray-500">Masa Kerja Golongan</td>
+                                <td class="py-2 text-gray-800 font-medium">{{ $riwayat->masa_kerja_tahun_baru }} Tahun, {{ $riwayat->masa_kerja_bulan_baru }} Bulan</td>
+                            </tr>
+                            <tr>
+                                <td class="py-2 text-gray-500">Jatuh Tempo YAD</td>
+                                <td class="py-2 text-gray-800 font-medium">{{ $riwayat->tmt_yad?->format('d/m/Y') ?? '-' }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Dasar KGB & Keuangan -->
+                <div>
+                    <h4 class="text-sm font-bold text-gray-400 uppercase tracking-wider mb-3">Keuangan & Dasar SK</h4>
+                    <table class="w-full text-sm">
+                        <tbody class="divide-y divide-gray-50">
+                            <tr>
+                                <td class="py-2 text-gray-500 w-1/3">Gaji Pokok Lama</td>
+                                <td class="py-2 text-gray-800 font-medium">Rp {{ number_format($riwayat->gaji_pokok_lama, 0, ',', '.') }}</td>
+                            </tr>
+                            <tr>
+                                <td class="py-2 text-gray-500">Gaji Pokok Baru</td>
+                                <td class="py-2 text-blue-600 font-bold text-base">Rp {{ number_format($riwayat->gaji_pokok_baru, 0, ',', '.') }}</td>
+                            </tr>
+                            <tr>
+                                <td class="py-2 text-gray-500">Pejabat Penetap SK</td>
+                                <td class="py-2 text-gray-800 font-medium">{{ $riwayat->pejabat_penetap ?? '-' }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>

@@ -17,7 +17,7 @@
     </style>
 </head>
 <body class="bg-slate-50 font-sans antialiased relative min-h-screen overflow-hidden"
-      x-data="{ sidebarOpen: false }">
+      x-data="{ sidebarExpanded: true }">
 
     <!-- Pastel Blobs -->
     <div class="fixed top-[-10%] left-[-10%] w-[600px] h-[600px] bg-blue-200/60 rounded-full mix-blend-multiply filter blur-[100px] animate-pulse" style="animation-duration:8s;z-index:0;"></div>
@@ -27,13 +27,15 @@
     <div class="flex h-screen overflow-hidden relative z-10">
 
         {{-- SIDEBAR (desktop lg+ only) --}}
-        <aside class="hidden lg:flex flex-col w-64 bg-gradient-to-b from-[#0B3E6A]/95 to-[#234A9F]/95 backdrop-blur-2xl border-r border-white/10 shadow-[4px_0_24px_rgba(35,74,159,0.4)] lg:shadow-none text-blue-50 shrink-0">
+        <aside class="hidden lg:flex flex-col bg-gradient-to-b from-[#0B3E6A]/95 to-[#234A9F]/95 backdrop-blur-2xl border-r border-white/10 shadow-[4px_0_24px_rgba(35,74,159,0.4)] lg:shadow-none text-blue-50 shrink-0 transition-all duration-300 overflow-hidden"
+               :class="sidebarExpanded ? 'w-64' : 'w-16'">
             {{-- Logo --}}
-            <div class="flex items-center justify-center gap-3 px-5 py-5 border-b border-white/10 bg-[#072C4C]/40">
+            <div class="flex items-center gap-3 py-5 border-b border-white/10 bg-[#072C4C]/40 px-4 transition-all"
+                 :class="sidebarExpanded ? 'justify-start' : 'justify-center px-0'">
                 <div class="w-10 h-10 flex items-center justify-center shrink-0">
                     <img src="{{ asset('images/logo-kgb-system.png') }}" alt="Logo" class="w-full h-full object-contain rounded-xl shadow-sm bg-white p-1">
                 </div>
-                <div>
+                <div x-show="sidebarExpanded">
                     <p class="text-xs font-bold text-white leading-none tracking-wider">Sistem <span class="text-white">KGB</span></p>
                     <p class="font-bold text-sm text-white leading-tight">RSD Sidawangi</p>
                 </div>
@@ -41,47 +43,47 @@
 
 
             {{-- Nav Links --}}
-            <nav class="flex-1 px-3 py-4 space-y-1 overflow-y-auto">
-                <a href="{{ route('pegawai.dashboard') }}"
-                   class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-semibold transition-all duration-200 {{ request()->routeIs('pegawai.dashboard') ? 'bg-white/20 shadow-sm text-white border border-white/30' : 'text-white/70 hover:bg-white/10 hover:text-white' }}">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
-                    Dashboard
+            <nav class="flex-1 px-3 py-4 space-y-1 overflow-y-auto scrollbar-hide">
+                <a href="{{ route('pegawai.dashboard') }}" title="Dashboard"
+                   class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-semibold transition-all duration-200 group {{ request()->routeIs('pegawai.dashboard') ? 'bg-white/20 shadow-sm text-white border border-white/30' : 'text-white/70 hover:bg-white/10 hover:text-white' }}">
+                    <svg class="w-5 h-5 {{ request()->routeIs('pegawai.dashboard') ? 'text-white' : 'text-white/70' }}" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
+                    <span x-show="sidebarExpanded">Dashboard</span>
                 </a>
 
-                <p class="px-3 pt-4 pb-1 text-[11px] font-bold text-white/70 uppercase tracking-widest">Layanan Kepegawaian</p>
+                <p x-show="sidebarExpanded" class="px-3 pt-4 pb-1 text-[11px] font-bold text-white/70 uppercase tracking-widest">Layanan Kepegawaian</p>
 
-                <a href="{{ route('pegawai.kgb') }}"
-                   class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-semibold transition-all duration-200 {{ request()->routeIs('pegawai.kgb') ? 'bg-white/20 shadow-sm text-white border border-white/30' : 'text-white/70 hover:bg-white/10 hover:text-white' }}">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-                    Riwayat KGB
+                <a href="{{ route('pegawai.kgb') }}" title="Riwayat KGB"
+                   class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-semibold transition-all duration-200 group {{ request()->routeIs('pegawai.kgb') ? 'bg-white/20 shadow-sm text-white border border-white/30' : 'text-white/70 hover:bg-white/10 hover:text-white' }}">
+                    <svg class="w-5 h-5 {{ request()->routeIs('pegawai.kgb') ? 'text-white' : 'text-white/70' }}" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                    <span x-show="sidebarExpanded">Riwayat KGB</span>
                 </a>
 
-                <a href="{{ route('pegawai.skp') }}"
-                   class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-semibold transition-all duration-200 {{ request()->routeIs('pegawai.skp') ? 'bg-white/20 shadow-sm text-white border border-white/30' : 'text-white/70 hover:bg-white/10 hover:text-white' }}">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
-                    Evaluasi SKP
+                <a href="{{ route('pegawai.skp') }}" title="Evaluasi SKP"
+                   class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-semibold transition-all duration-200 group {{ request()->routeIs('pegawai.skp') ? 'bg-white/20 shadow-sm text-white border border-white/30' : 'text-white/70 hover:bg-white/10 hover:text-white' }}">
+                    <svg class="w-5 h-5 {{ request()->routeIs('pegawai.skp') ? 'text-white' : 'text-white/70' }}" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+                    <span x-show="sidebarExpanded">Evaluasi SKP</span>
                 </a>
 
-                <p class="px-3 pt-4 pb-1 text-[11px] font-bold text-white/70 uppercase tracking-widest">Pengaturan</p>
+                <p x-show="sidebarExpanded" class="px-3 pt-4 pb-1 text-[11px] font-bold text-white/70 uppercase tracking-widest">Pengaturan</p>
 
-                <a href="{{ route('profile.edit') }}"
-                   class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-semibold transition-all duration-200 {{ request()->routeIs('profile.edit') ? 'bg-white/20 shadow-sm text-white border border-white/30' : 'text-white/70 hover:bg-white/10 hover:text-white' }}">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
-                    Profil Saya
+                <a href="{{ route('profile.edit') }}" title="Profil Saya"
+                   class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-semibold transition-all duration-200 group {{ request()->routeIs('profile.edit') ? 'bg-white/20 shadow-sm text-white border border-white/30' : 'text-white/70 hover:bg-white/10 hover:text-white' }}">
+                    <svg class="w-5 h-5 {{ request()->routeIs('profile.edit') ? 'text-white' : 'text-white/70' }}" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
+                    <span x-show="sidebarExpanded">Profil Saya</span>
                 </a>
             </nav>
 
             {{-- User info --}}
             <div class="p-4 border-t border-white/10 bg-[#163375]/50">
                 <div class="flex items-center gap-3">
-                    <div class="w-9 h-9 rounded-full bg-white/20 flex items-center justify-center text-sm font-bold text-white shadow-inner">
+                    <div class="w-9 h-9 rounded-full bg-white/20 flex items-center justify-center text-sm font-bold text-white shadow-inner shrink-0">
                         {{ substr(auth()->user()->name, 0, 1) }}
                     </div>
-                    <div class="flex-1 min-w-0">
+                    <div x-show="sidebarExpanded" class="flex-1 min-w-0">
                         <p class="text-sm font-bold text-white truncate">{{ auth()->user()->name }}</p>
                         <p class="text-[11px] font-semibold text-white/70">Pegawai</p>
                     </div>
-                    <form method="POST" action="{{ route('logout') }}">
+                    <form method="POST" action="{{ route('logout') }}" x-show="sidebarExpanded">
                         @csrf
                         <button type="submit" title="Keluar" class="p-1.5 text-white/70 hover:text-white hover:bg-white/10 rounded-lg transition">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/></svg>
@@ -97,6 +99,9 @@
             {{-- Top Header --}}
             <header class="relative z-50 bg-white/70 backdrop-blur-2xl border-b border-white/80 px-4 sm:px-6 py-3.5 flex items-center justify-between shadow-[0_4px_20px_rgba(11,62,106,0.08)] lg:shadow-sm lg:shadow-black/5">
                 <div class="flex items-center gap-3 min-w-0">
+                    <button @click="sidebarExpanded = !sidebarExpanded" class="hidden lg:block text-slate-500 hover:text-slate-800 transition shrink-0">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+                    </button>
                     {{-- Logo kecil hanya di mobile --}}
                     <a href="{{ route('pegawai.dashboard') }}" class="flex items-center gap-2 lg:hidden hover:opacity-80 transition-opacity">
                         <img src="{{ asset('images/logo-kgb-system.png') }}" alt="Logo" class="w-7 h-7 object-contain rounded-lg bg-white p-1 shadow-md border border-gray-200/60 ring-1 ring-black/5">
