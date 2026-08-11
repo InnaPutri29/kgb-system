@@ -146,11 +146,9 @@
         @endif
     </div>
 
-    @if($gaji->hasPages())
-        <div class="mt-4">
-            {{ $gaji->links() }}
-        </div>
-    @endif
+    <div class="mt-4">
+        {{ $gaji->links() }}
+    </div>
 
     {{-- MODAL TAMBAH --}}
     <x-modal name="add-gaji" :show="$errors->has('golongan') && !old('id')" focusable>

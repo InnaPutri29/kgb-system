@@ -77,11 +77,9 @@
                 </tbody>
             </table>
         </div>
-        @if($users->hasPages())
-            <div class="px-4 py-3 border-t border-gray-200">
-                {{ $users->links() }}
-            </div>
-        @endif
+        <div class="px-4 py-3 border-t border-gray-200">
+            {{ $users->links() }}
+        </div>
     </div>
 </div>
 @endsection
