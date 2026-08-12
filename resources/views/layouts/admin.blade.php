@@ -79,11 +79,11 @@
 
                 <p x-show="sidebarExpanded || !isDesktop" class="px-3 pt-4 pb-1 text-[11px] font-bold text-white/70 uppercase tracking-widest">Manajemen</p>
 
-                <a href="{{ route('admin.pegawai.index') }}" title="Data Pegawai"
+                <a href="{{ route('admin.kgb.nominatif') }}" title="Proses KGB"
                    class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-semibold transition-all duration-200 group
-                          {{ request()->routeIs('admin.pegawai.*') ? 'bg-white/20 shadow-sm text-white border border-white/30' : 'text-white/70 hover:bg-white/10 hover:text-white' }}">
-                    <svg class="w-5 h-5 {{ request()->routeIs('admin.pegawai.*') ? 'text-white' : 'text-white/70' }}" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
-                    <span x-show="sidebarExpanded || !isDesktop">Data Pegawai</span>
+                          {{ request()->routeIs('admin.kgb.nominatif') ? 'bg-white/20 shadow-sm text-white border border-white/30' : 'text-white/70 hover:bg-white/10 hover:text-white' }}">
+                    <svg class="w-5 h-5 {{ request()->routeIs('admin.kgb.nominatif') ? 'text-white' : 'text-white/70' }}" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+                    <span x-show="sidebarExpanded || !isDesktop">Proses KGB</span>
                 </a>
 
                 <a href="{{ route('admin.kgb.index') }}" title="Riwayat KGB"
@@ -93,11 +93,11 @@
                     <span x-show="sidebarExpanded || !isDesktop">Riwayat KGB</span>
                 </a>
 
-                <a href="{{ route('admin.kgb.nominatif') }}" title="Proses KGB"
+                <a href="{{ route('admin.pegawai.index') }}" title="Data Pegawai"
                    class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-semibold transition-all duration-200 group
-                          {{ request()->routeIs('admin.kgb.nominatif') ? 'bg-white/20 shadow-sm text-white border border-white/30' : 'text-white/70 hover:bg-white/10 hover:text-white' }}">
-                    <svg class="w-5 h-5 {{ request()->routeIs('admin.kgb.nominatif') ? 'text-white' : 'text-white/70' }}" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
-                    <span x-show="sidebarExpanded || !isDesktop">Proses KGB</span>
+                          {{ request()->routeIs('admin.pegawai.*') ? 'bg-white/20 shadow-sm text-white border border-white/30' : 'text-white/70 hover:bg-white/10 hover:text-white' }}">
+                    <svg class="w-5 h-5 {{ request()->routeIs('admin.pegawai.*') ? 'text-white' : 'text-white/70' }}" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+                    <span x-show="sidebarExpanded || !isDesktop">Data Pegawai</span>
                 </a>
 
                 <a href="{{ route('admin.users.index') }}" title="Pengguna"

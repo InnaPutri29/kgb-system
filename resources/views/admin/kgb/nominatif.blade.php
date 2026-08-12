@@ -142,6 +142,14 @@
                     el._flatpickr.setDate(value || '', false);
                 }
             });
+        },
+        formatDate(dateStr) {
+            if (!dateStr) return '-';
+            const parts = dateStr.split('-');
+            if (parts.length === 3) {
+                return `${parts[2]}-${parts[1]}-${parts[0]}`;
+            }
+            return dateStr;
         }
     }" @open-modal-proses.window="openModal($event.detail)">
         <x-modal name="proses-kgb" focusable>
@@ -184,46 +192,36 @@
                     @csrf
 
                     {{-- Info Pegawai --}}
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-5">
-                        <div class="col-span-1 md:col-span-2">
-                            <x-input-label value="Nama Pegawai" />
-                            <div class="mt-1 w-full px-3 py-2 bg-white/50 backdrop-blur-md border border-white/80 rounded-lg text-sm text-gray-900 shadow-[inset_0_2px_4px_rgba(255,255,255,0.6)] flex items-center min-h-[38px]">
-                                <span x-text="dataModal.pegawai?.nama_lengkap"></span>
+                    <div class="bg-slate-50 border border-slate-100 rounded-xl p-4 mb-5 shadow-sm">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-3.5 text-sm">
+                            <div class="col-span-1 md:col-span-2 pb-2 border-b border-slate-200/60">
+                                <span class="text-xs font-semibold text-slate-500 uppercase tracking-wider block">Nama Pegawai</span>
+                                <span class="font-bold text-slate-800 text-base mt-0.5 block" x-text="dataModal.pegawai?.nama_lengkap"></span>
                             </div>
-                        </div>
-                        
-                        <div>
-                            <x-input-label value="Pangkat / Golongan" />
-                            <div class="mt-1 w-full px-3 py-2 bg-white/50 backdrop-blur-md border border-white/80 rounded-lg text-sm text-gray-900 shadow-[inset_0_2px_4px_rgba(255,255,255,0.6)] flex items-center min-h-[38px]">
-                                <span x-text="`${dataModal.pegawai?.pangkat || '-'} (${dataModal.pegawai?.golongan || '-'})`"></span>
+                            
+                            <div class="pb-2 border-b border-slate-100 md:border-b-0 md:pb-0">
+                                <span class="text-xs font-semibold text-slate-500 uppercase tracking-wider block">Pangkat / Golongan</span>
+                                <span class="font-semibold text-slate-800 mt-0.5 block" x-text="`${dataModal.pegawai?.pangkat || '-'} (${dataModal.pegawai?.golongan || '-'})`"></span>
                             </div>
-                        </div>
-                        
-                        <div>
-                            <x-input-label value="Masa Kerja Baru" />
-                            <div class="mt-1 w-full px-3 py-2 bg-white/50 backdrop-blur-md border border-white/80 rounded-lg text-sm text-gray-900 shadow-[inset_0_2px_4px_rgba(255,255,255,0.6)] flex items-center min-h-[38px]">
-                                <span x-text="`${dataModal.masa_kerja_tahun_baru || 0} Tahun ${dataModal.masa_kerja_bulan_baru || 0} Bulan`"></span>
+                            
+                            <div class="pb-2 border-b border-slate-100 md:border-b-0 md:pb-0">
+                                <span class="text-xs font-semibold text-slate-500 uppercase tracking-wider block">Masa Kerja Baru</span>
+                                <span class="font-semibold text-slate-800 mt-0.5 block" x-text="`${dataModal.masa_kerja_tahun_baru || 0} Tahun ${dataModal.masa_kerja_bulan_baru || 0} Bulan`"></span>
                             </div>
-                        </div>
-                        
-                        <div>
-                            <x-input-label value="TMT KGB Baru" />
-                            <div class="mt-1 w-full px-3 py-2 bg-white/50 backdrop-blur-md border border-white/80 rounded-lg text-sm text-gray-900 shadow-[inset_0_2px_4px_rgba(255,255,255,0.6)] flex items-center min-h-[38px]">
-                                <span x-text="dataModal.tmt_baru"></span>
+                            
+                            <div class="pb-2 border-b border-slate-100 md:border-b-0 md:pb-0">
+                                <span class="text-xs font-semibold text-slate-500 uppercase tracking-wider block">TMT KGB Baru</span>
+                                <span class="font-semibold text-slate-800 mt-0.5 block" x-text="dataModal.tmt_baru"></span>
                             </div>
-                        </div>
-                        
-                        <div>
-                            <x-input-label value="Gaji Pokok Lama" />
-                            <div class="mt-1 w-full px-3 py-2 bg-white/50 backdrop-blur-md border border-white/80 rounded-lg text-sm text-gray-900 shadow-[inset_0_2px_4px_rgba(255,255,255,0.6)] flex items-center min-h-[38px]">
-                                <span x-text="'Rp ' + (new Intl.NumberFormat('id-ID').format(dataModal.pegawai?.gaji_pokok_terakhir || 0))"></span>
+                            
+                            <div>
+                                <span class="text-xs font-semibold text-slate-500 uppercase tracking-wider block">Gaji Pokok Lama</span>
+                                <span class="font-semibold text-slate-700 mt-0.5 block" x-text="'Rp ' + (new Intl.NumberFormat('id-ID').format(dataModal.pegawai?.gaji_pokok_terakhir || 0))"></span>
                             </div>
-                        </div>
 
-                        <div class="col-span-1 md:col-span-2">
-                            <x-input-label value="Gaji Pokok Baru" class="!text-blue-700" />
-                            <div class="mt-1 w-full px-3 py-2 bg-blue-100/50 backdrop-blur-md border border-blue-200 rounded-lg text-sm font-semibold text-blue-800 shadow-[inset_0_2px_4px_rgba(255,255,255,0.8)] flex items-center min-h-[38px]">
-                                <span x-text="'Rp ' + (new Intl.NumberFormat('id-ID').format(dataModal.gaji_pokok_baru || 0))"></span>
+                            <div class="col-span-1 md:col-span-2 mt-1 pt-3 border-t border-slate-200/60 flex flex-col sm:flex-row sm:items-center justify-between bg-blue-50/60 p-3 rounded-lg border border-blue-100/50 gap-1.5">
+                                <span class="text-xs font-bold text-blue-700 uppercase tracking-wider">Estimasi Gaji Pokok Baru</span>
+                                <span class="font-bold text-blue-800 text-lg" x-text="'Rp ' + (new Intl.NumberFormat('id-ID').format(dataModal.gaji_pokok_baru || 0))"></span>
                             </div>
                         </div>
                     </div>
@@ -292,7 +290,7 @@
                         <div x-show="form.selectedPejabatText.toLowerCase().includes('direktur')" class="bg-blue-50 p-3 rounded-md border border-blue-200 mt-2 text-sm flex items-start justify-between" x-cloak>
                             <div class="text-blue-800">
                                 <strong>Saran:</strong> Pegawai ini memiliki data SK terakhir: <br>
-                                Tanggal: <span class="font-bold" x-text="dataModal.pegawai?.tanggal_sk_terakhir || '-'"></span> / 
+                                Tanggal: <span class="font-bold" x-text="formatDate(dataModal.pegawai?.tanggal_sk_terakhir)"></span> / 
                                 Nomor: <span class="font-bold font-mono" x-text="dataModal.pegawai?.nomor_sk_terakhir || '-'"></span>
                             </div>
                             <button type="button" @click="form.nomor_sk_terakhir = dataModal.pegawai?.nomor_sk_terakhir; form.tanggal_sk_terakhir = dataModal.pegawai?.tanggal_sk_terakhir" class="text-xs bg-blue-600 hover:bg-blue-700 text-white px-3 py-1.5 rounded transition whitespace-nowrap ml-3 shadow-sm font-medium">
@@ -304,11 +302,11 @@
                             <strong>⚠ Peringatan:</strong> Silakan ketik manual Tanggal dan Nomor SK Provinsi yang lama secara lengkap.
                         </div>
 
-                        <div x-show="form.master_pejabat_id" class="space-y-4 pt-2" x-transition x-cloak>
+                        <div x-show="form.master_pejabat_id" class="space-y-6 pt-4" x-transition x-cloak>
                             
                             {{-- B. Dasar SK Sebelumnya --}}
-                            <div class="p-4 bg-white/60 backdrop-blur-md border border-white/80 rounded-lg shadow-[inset_0_2px_4px_rgba(255,255,255,0.6)]">
-                                <h4 class="font-semibold text-gray-700 mb-3 text-sm">Dasar SK Sebelumnya</h4>
+                            <div class="space-y-3">
+                                <h4 class="font-bold text-gray-800 text-sm border-b border-gray-100 pb-1.5">Dasar SK Sebelumnya</h4>
                                 <div class="grid grid-cols-2 gap-4">
                                     <div>
                                         <x-input-label for="tanggal_sk_terakhir" value="Tanggal SK Sebelumnya *" />
@@ -322,8 +320,8 @@
                             </div>
 
                             {{-- C. SK Baru --}}
-                            <div class="p-4 bg-white/60 backdrop-blur-md border border-white/80 rounded-lg shadow-[inset_0_2px_4px_rgba(255,255,255,0.6)]">
-                                <h4 class="font-semibold text-gray-700 mb-3 text-sm">Pembuatan SK KGB Baru</h4>
+                            <div class="space-y-3">
+                                <h4 class="font-bold text-gray-800 text-sm border-b border-gray-100 pb-1.5">Pembuatan SK KGB Baru</h4>
                                 <div class="grid grid-cols-2 gap-4">
                                     <div>
                                         <x-input-label for="nomor_sk_baru" value="Nomor SK Baru *" />
