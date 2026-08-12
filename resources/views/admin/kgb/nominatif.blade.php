@@ -128,6 +128,20 @@
                     console.error(err);
                     this.loading = false;
                 });
+        },
+        init() {
+            this.$watch('form.tanggal_sk_terakhir', value => {
+                const el = document.getElementById('tanggal_sk_terakhir');
+                if (el && el._flatpickr) {
+                    el._flatpickr.setDate(value || '', false);
+                }
+            });
+            this.$watch('form.tanggal_ditetapkan', value => {
+                const el = document.getElementById('tanggal_ditetapkan');
+                if (el && el._flatpickr) {
+                    el._flatpickr.setDate(value || '', false);
+                }
+            });
         }
     }" @open-modal-proses.window="openModal($event.detail)">
         <x-modal name="proses-kgb" focusable>
@@ -318,7 +332,7 @@
                                                 class="flex-1 block w-full rounded-none rounded-l-md sm:text-sm border-gray-300 focus:border-indigo-500 focus:ring-indigo-500" 
                                                 x-model="form.nomor_sk_baru" required>
                                             <span class="inline-flex items-center px-3 rounded-r-md border border-l-0 border-gray-300 bg-white/20 text-gray-500 sm:text-sm whitespace-nowrap">
-                                                /KPG.14/Kepegumas/RSD
+                                                /KPG.14/Kepegumas/RSDS
                                             </span>
                                         </div>
                                     </div>
