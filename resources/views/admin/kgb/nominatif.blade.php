@@ -318,7 +318,7 @@
                                                 class="flex-1 block w-full rounded-none rounded-l-md sm:text-sm border-gray-300 focus:border-indigo-500 focus:ring-indigo-500" 
                                                 x-model="form.nomor_sk_baru" required>
                                             <span class="inline-flex items-center px-3 rounded-r-md border border-l-0 border-gray-300 bg-white/20 text-gray-500 sm:text-sm whitespace-nowrap">
-                                                /KPG.14/Kepegumas/RSP
+                                                /KPG.14/Kepegumas/RSD
                                             </span>
                                         </div>
                                     </div>
