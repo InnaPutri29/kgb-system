@@ -110,7 +110,17 @@ class KgbController extends Controller
     public function proses(Request $request, Pegawai $pegawai)
     {
         $request->validate([
-            'nomor_sk_baru'       => 'required|string|max:255',
+            'nomor_sk_baru'       => [
+                'required',
+                'string',
+                'max:255',
+                function ($attribute, $value, $fail) {
+                    $lengkap = trim($value) . '/KPG.14/Kepegumas/RSP';
+                    if (\App\Models\RiwayatKgb::where('nomor_sk_baru', $lengkap)->exists()) {
+                        $fail('Nomor SK Baru "' . $lengkap . '" sudah digunakan. Silakan gunakan nomor lain.');
+                    }
+                },
+            ],
             'nomor_sk_terakhir'   => 'required|string|max:255',
             'tanggal_sk_terakhir' => 'required|date',
             'tanggal_ditetapkan'  => 'required|date',
@@ -179,7 +189,7 @@ class KgbController extends Controller
         // Status otomatis Draf dari default database
         // Notifikasi ke Pegawai akan dikirim saat Admin mengunggah SK Final
 
-        return redirect()->route('admin.dashboard')
+        return redirect()->route('admin.kgb.index')
             ->with('success', "KGB {$pegawai->nama_lengkap} berhasil diproses. SK siap diunduh.");
     }
 
