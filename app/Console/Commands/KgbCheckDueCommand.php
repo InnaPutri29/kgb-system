@@ -59,6 +59,7 @@ class KgbCheckDueCommand extends Command
             $tmtBaru = Carbon::parse($pegawai->tmt_gaji_terakhir)->addYears(2);
             $selisihHari = max(0, $today->diffInDays($tmtBaru, false));
 
+            // Notifikasi ke masing-masing admin
             foreach ($admins as $admin) {
                 // Hindari duplikasi notifikasi untuk pegawai dan TMT yang sama
                 $exists = $admin->notifications()
@@ -72,9 +73,21 @@ class KgbCheckDueCommand extends Command
                     $count++;
                 }
             }
+
+            // Notifikasi juga dikirimkan langsung ke Pegawai yang bersangkutan
+            if ($pegawai->user) {
+                $existsPegawai = $pegawai->user->notifications()
+                    ->where('data->tmt_baru', $tmtBaru->format('Y-m-d'))
+                    ->where('data->type', 'kgb_due_pegawai')
+                    ->exists();
+
+                if (!$existsPegawai) {
+                    $pegawai->user->notify(new \App\Notifications\PegawaiKgbJatuhTempoNotification($selisihHari, $tmtBaru->format('Y-m-d')));
+                }
+            }
         }
 
-        $this->info("Sukses memproses scan. Mengirim {$count} notifikasi jatuh tempo KGB baru ke Admin.");
+        $this->info("Sukses memproses scan. Mengirim {$count} notifikasi jatuh tempo KGB baru ke Admin beserta Pegawai bersangkutan.");
         return 0;
     }
 }
