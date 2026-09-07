@@ -3,12 +3,15 @@
 
 @section('content')
 <div class="max-w-4xl mx-auto space-y-6">
-    <div class="flex items-center justify-between">
-        <h2 class="text-xl font-bold text-gray-800">Edit Data Pegawai: {{ $pegawai->nama_lengkap }}</h2>
+    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+        <div>
+            <h2 class="text-2xl font-bold text-gray-800">Edit Data Pegawai</h2>
+            <p class="text-sm text-gray-500">Perbarui informasi kepegawaian untuk <strong class="text-gray-700">{{ $pegawai->nama_lengkap }}</strong>.</p>
+        </div>
         <a href="{{ route('admin.pegawai.index') }}" class="inline-flex items-center gap-1 text-sm bg-white text-gray-700 hover:bg-gray-50 px-3 py-1.5 rounded-lg transition font-medium border border-gray-300">Kembali</a>
     </div>
 
-    <div class="bg-white rounded-xl border border-gray-200 shadow-sm p-6">
+    <div class="bg-white/50 backdrop-blur-3xl lg:bg-white lg:backdrop-blur-none rounded-[1.5rem] border border-white/80 border-t-white shadow-[0_8px_32px_0_rgba(31,38,135,0.07)] p-6 md:p-8">
         <form action="{{ route('admin.pegawai.update', $pegawai->id) }}" method="POST">
             @csrf
             @method('PUT')
@@ -19,7 +22,7 @@
                     <h3 class="font-semibold text-gray-700 border-b pb-2">Data Pribadi</h3>
                     <div>
                         <x-input-label for="nip" value="NIP *" />
-                        <x-text-input id="nip" name="nip" type="text" class="mt-1 block w-full bg-gray-50" :value="old('nip', $pegawai->nip)" required readonly title="NIP tidak dapat diubah dari sini. Hapus dan buat baru jika salah." />
+                        <x-text-input id="nip" name="nip" type="text" class="mt-1 block w-full" :value="old('nip', $pegawai->nip)" required minlength="18" maxlength="18" pattern="[0-9]{18}" title="NIP harus tepat 18 digit angka" />
                         <x-input-error :messages="$errors->get('nip')" class="mt-2" />
                     </div>
                     <div>

@@ -2,9 +2,12 @@
 @section('title', 'Detail Pegawai')
 
 @section('content')
-<div class="max-w-5xl mx-auto space-y-6">
-    <div class="flex items-center justify-between">
-        <h2 class="text-xl font-bold text-gray-800">Detail Data Pegawai</h2>
+<div class="space-y-6">
+    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+        <div>
+            <h2 class="text-2xl font-bold text-gray-800">Detail Data Pegawai</h2>
+            <p class="text-sm text-gray-500">Informasi lengkap, riwayat KGB, dan evaluasi PKP pegawai.</p>
+        </div>
         <div class="flex gap-2">
             <a href="{{ route('admin.pegawai.edit', $pegawai->id) }}" class="inline-flex items-center gap-1 text-sm bg-blue-50 text-blue-700 hover:bg-blue-100 px-3 py-1.5 rounded-lg transition font-medium border border-blue-200">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
@@ -16,8 +19,8 @@
         </div>
     </div>
 
-    <div class="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden relative">
-        <div class="h-3 bg-gradient-to-r from-blue-900 to-blue-800 relative"></div>
+    <div class="bg-white/50 backdrop-blur-3xl lg:bg-white lg:backdrop-blur-none rounded-[1.5rem] border border-white/80 border-t-white shadow-[0_8px_32px_0_rgba(31,38,135,0.07)] overflow-hidden relative mt-4">
+        <div class="h-3 bg-gradient-to-r from-[#0B3E6A] to-[#234A9F] relative"></div>
         <div class="px-6 pb-6 relative">
             <div class="pt-6 flex flex-col md:flex-row justify-between md:items-end gap-4">
                 <div>
@@ -25,10 +28,10 @@
                     <p class="text-blue-600 font-mono text-sm mt-1">{{ $pegawai->nip }}</p>
                 </div>
                 <div class="flex gap-3">
-                    <span class="inline-flex items-center px-2.5 py-1 rounded-md text-xs font-medium bg-gray-100 text-gray-800 border border-gray-200">
+                    <span class="inline-flex items-center px-2.5 py-1 rounded-md text-xs font-medium bg-gray-100 text-gray-800 border border-white/50">
                         {{ ($pegawai->pangkat ?? '-') . ' (' . ($pegawai->golongan ?? '-') . ')' }}
                     </span>
-                    <span class="inline-flex items-center px-2.5 py-1 rounded-md text-xs font-medium bg-blue-50 text-blue-700 border border-blue-100">
+                    <span class="inline-flex items-center px-2.5 py-1 rounded-md text-xs font-medium bg-blue-50 text-blue-700 border border-blue-100 lg:border-slate-100">
                         {{ $pegawai->jabatan ?? 'Jabatan -' }}
                     </span>
                 </div>
@@ -95,8 +98,8 @@
     </div>
 
     <!-- Riwayat SK KGB -->
-    <div class="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
-        <div class="px-6 py-4 border-b border-gray-100 bg-gray-50/50 flex justify-between items-center">
+    <div class="bg-white/50 backdrop-blur-3xl lg:bg-white lg:backdrop-blur-none rounded-[1.5rem] border border-white/80 border-t-white shadow-[0_8px_32px_0_rgba(31,38,135,0.07)] overflow-hidden">
+        <div class="px-6 py-4 border-b border-gray-100 bg-white/20/50 flex justify-between items-center">
             <h3 class="text-lg font-bold text-gray-800">Riwayat KGB Pegawai</h3>
             <span class="bg-blue-100 text-blue-800 text-xs font-semibold px-2.5 py-0.5 rounded-full">{{ $pegawai->riwayatKgb->count() }} Dokumen</span>
         </div>
@@ -109,7 +112,7 @@
         @else
             <div class="overflow-x-auto">
                 <table class="w-full text-sm">
-                    <thead class="bg-gray-50 text-xs text-gray-500 uppercase tracking-wider">
+                    <thead class="bg-blue-200/60 text-xs text-blue-900 uppercase tracking-wider">
                         <tr>
                             <th class="px-6 py-3 text-left">Nomor SK</th>
                             <th class="px-6 py-3 text-left">Tgl Ditetapkan</th>
@@ -122,13 +125,13 @@
                     </thead>
                     <tbody class="divide-y divide-gray-100">
                         @foreach($pegawai->riwayatKgb as $riwayat)
-                            <tr class="hover:bg-gray-50 transition">
+                            <tr class="hover:bg-white/40 transition">
                                 <td class="px-6 py-3 font-medium text-gray-800">{{ $riwayat->nomor_sk_baru }}</td>
                                 <td class="px-6 py-3 text-gray-600">{{ \Carbon\Carbon::parse($riwayat->tanggal_ditetapkan)->format('d/m/Y') }}</td>
                                 <td class="px-6 py-3 text-gray-600 font-medium">{{ \Carbon\Carbon::parse($riwayat->tmt_baru)->format('d/m/Y') }}</td>
                                 <td class="px-6 py-3 text-gray-600">{{ $riwayat->masa_kerja_tahun_baru }} Thn, {{ $riwayat->masa_kerja_bulan_baru }} Bln</td>
                                 <td class="px-6 py-3 text-gray-600">Rp {{ number_format($riwayat->gaji_pokok_baru, 0, ',', '.') }}</td>
-                                <td class="px-6 py-3 text-gray-600 text-xs">{{ \Carbon\Carbon::parse($riwayat->tmt_yad)->format('d/m/Y') }}</td>
+                                <td class="px-6 py-3 text-gray-600">{{ \Carbon\Carbon::parse($riwayat->tmt_yad)->format('d/m/Y') }}</td>
                                 <td class="px-6 py-3 text-right">
                                     <a href="{{ route('admin.kgb.download-pdf', $riwayat->id) }}" 
                                        onclick="window.dispatchEvent(new CustomEvent('show-toast', { detail: { message: 'Dokumen SK KGB pegawai berhasil digenerate dan sedang diunduh!', type: 'success' } }))"
@@ -145,41 +148,41 @@
         @endif
     </div>
 
-    {{-- SKP Evaluasi --}}
-    <div class="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden" x-data="{ openEdit: false, editSkp: {} }">
-        <div class="px-6 py-4 border-b border-gray-100 bg-gray-50/50 flex justify-between items-center">
+    {{-- PKP Evaluasi --}}
+    <div class="bg-white/50 backdrop-blur-3xl lg:bg-white lg:backdrop-blur-none rounded-[1.5rem] border border-white/80 border-t-white shadow-[0_8px_32px_0_rgba(31,38,135,0.07)] overflow-hidden" x-data="{ openEdit: false, editSkp: {} }">
+        <div class="px-6 py-4 border-b border-gray-100 bg-white/20/50 flex justify-between items-center">
             <div>
-                <h3 class="text-lg font-bold text-gray-800">Rekap SKP (Penilaian Kinerja)</h3>
+                <h3 class="text-lg font-bold text-gray-800">Rekap PKP (Penilaian Kinerja)</h3>
                 <p class="text-xs text-gray-400 mt-0.5">Syarat KGB: predikat minimal <strong>Baik</strong> selama 2 tahun berturut-turut.</p>
             </div>
             <button x-data @click="$dispatch('open-modal', 'add-skp')"
-                class="inline-flex items-center gap-1.5 text-sm bg-green-600 hover:bg-green-700 text-white px-3 py-1.5 rounded-lg transition font-medium">
+                class="inline-flex items-center gap-1.5 text-sm bg-blue-600 hover:bg-blue-700 text-white px-3 py-1.5 rounded-lg transition font-medium">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
-                Tambah SKP
+                Tambah PKP
             </button>
         </div>
 
-        @if($pegawai->skpEvaluasi->isEmpty())
+        @if($pegawai->pkpEvaluasi->isEmpty())
             <div class="p-8 text-center text-gray-400">
                 <svg class="w-12 h-12 mx-auto text-gray-300 mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>
-                <p class="font-medium">Belum ada data SKP</p>
+                <p class="font-medium">Belum ada data PKP</p>
                 <p class="text-sm">Tambahkan data penilaian kinerja tahunan untuk pegawai ini.</p>
             </div>
         @else
             <div class="overflow-x-auto">
                 <table class="w-full text-sm">
-                    <thead class="bg-gray-50 text-xs text-gray-500 uppercase tracking-wider border-b border-gray-100">
+                    <thead class="bg-blue-200/60 text-xs text-blue-900 uppercase tracking-wider border-b border-gray-100">
                         <tr>
                             <th class="px-6 py-3 text-left">Tahun Penilaian</th>
                             <th class="px-6 py-3 text-left">Predikat</th>
-                            <th class="px-6 py-3 text-left">Bukti SKP</th>
+                            <th class="px-6 py-3 text-left">Bukti PKP</th>
                             <th class="px-6 py-3 text-center">Aksi</th>
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-gray-100">
-                        @foreach($pegawai->skpEvaluasi as $skp)
-                        <tr class="hover:bg-gray-50 transition">
-                            <td class="px-6 py-3 font-bold text-gray-800">{{ $skp->tahun_penilaian }}</td>
+                        @foreach($pegawai->pkpEvaluasi as $pkp)
+                        <tr class="hover:bg-white/40 transition">
+                            <td class="px-6 py-3 font-bold text-gray-800">{{ $pkp->tahun_penilaian }}</td>
                             <td class="px-6 py-3">
                                 @php
                                     $colors = [
@@ -189,15 +192,15 @@
                                         'Kurang'      => 'bg-orange-100 text-orange-800',
                                         'Sangat Kurang' => 'bg-red-100 text-red-800',
                                     ];
-                                    $color = $colors[$skp->predikat] ?? 'bg-gray-100 text-gray-800';
+                                    $color = $colors[$pkp->predikat] ?? 'bg-gray-100 text-gray-800';
                                 @endphp
                                 <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold {{ $color }}">
-                                    {{ $skp->predikat }}
+                                    {{ $pkp->predikat }}
                                 </span>
                             </td>
                             <td class="px-6 py-3">
-                                @if($skp->file_bukti_skp)
-                                    <a href="{{ Storage::url($skp->file_bukti_skp) }}" target="_blank"
+                                @if($pkp->file_bukti_pkp)
+                                    <a href="{{ Storage::url($pkp->file_bukti_pkp) }}" target="_blank"
                                         class="inline-flex items-center gap-1 text-xs text-blue-600 hover:text-blue-800 hover:underline">
                                         <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13"/></svg>
                                         Lihat File
@@ -209,18 +212,18 @@
                             <td class="px-6 py-3">
                                 <div class="flex items-center justify-center gap-2">
                                     {{-- Edit --}}
-                                    <button @click="editSkp = {{ $skp->toJson() }}; openEdit = true"
-                                        class="p-1.5 text-gray-500 hover:text-green-600 hover:bg-green-50 rounded-md transition" title="Edit SKP">
+                                    <button @click="editSkp = {{ $pkp->toJson() }}; openEdit = true"
+                                        class="p-1.5 bg-emerald-500/10 text-emerald-600 hover:bg-emerald-600 hover:text-white rounded-md transition" title="Edit PKP">
                                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
                                     </button>
                                     {{-- Hapus --}}
                                     <button type="button" 
                                             @click="$dispatch('confirm-delete', {
-                                                action: '{{ route('admin.pegawai.skp.destroy', [$pegawai, $skp]) }}',
-                                                title: 'Hapus SKP',
-                                                description: 'Hapus data SKP tahun {{ $skp->tahun_penilaian }} permanen?'
+                                                action: '{{ route('admin.pegawai.pkp.destroy', [$pegawai, $pkp]) }}',
+                                                title: 'Hapus PKP',
+                                                description: 'Hapus data PKP tahun {{ $pkp->tahun_penilaian }} permanen?'
                                             })"
-                                            class="p-1.5 text-gray-500 hover:text-red-600 hover:bg-red-50 rounded-md transition" title="Hapus SKP">
+                                            class="p-1.5 bg-red-500/10 text-red-600 hover:bg-red-600 hover:text-white rounded-md transition" title="Hapus PKP">
                                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
                                     </button>
                                 </div>
@@ -232,12 +235,12 @@
             </div>
         @endif
 
-        {{-- MODAL EDIT SKP (inline Alpine) --}}
+        {{-- MODAL EDIT PKP (inline Alpine) --}}
         <div x-show="openEdit" x-cloak class="fixed inset-0 z-50 overflow-y-auto" x-transition>
             <div class="flex min-h-full items-center justify-center p-4">
                 <div class="fixed inset-0 bg-black/40" @click="openEdit = false"></div>
                 <div class="relative bg-white rounded-2xl shadow-xl w-full max-w-md p-6">
-                    <h2 class="text-lg font-bold text-gray-900 mb-4">Edit Data SKP</h2>
+                    <h2 class="text-lg font-bold text-gray-900 mb-4">Edit Data PKP</h2>
                     <form :action="`{{ url('admin/pegawai/'.$pegawai->id.'/skp') }}/${editSkp.id}`" method="POST" enctype="multipart/form-data">
                         @csrf @method('PUT')
                         <div class="space-y-4">
@@ -245,18 +248,47 @@
                                 <x-input-label for="edit_tahun" value="Tahun Penilaian *" />
                                 <x-text-input id="edit_tahun" name="tahun_penilaian" type="number" min="2000" :max="date('Y')" class="mt-1 block w-full" x-model="editSkp.tahun_penilaian" required />
                             </div>
-                            <div>
-                                <x-input-label for="edit_predikat" value="Predikat SKP *" />
-                                <select id="edit_predikat" name="predikat" class="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm mt-1 block w-full text-sm" x-model="editSkp.predikat" required>
-                                    <option value="">-- Pilih Predikat --</option>
+                            <div class="relative" x-data="{ open: false }">
+                                <x-input-label value="Predikat PKP *" />
+                                
+                                <select id="edit_predikat" name="predikat" x-model="editSkp.predikat" class="opacity-0 absolute inset-0 w-full h-full pointer-events-none" required>
+                                    <option value=""></option>
                                     @foreach(['Sangat Baik','Baik','Cukup','Kurang','Sangat Kurang'] as $p)
-                                        <option value="{{ $p }}">{{ $p }}</option>
+                                        <option value="{{ $p }}"></option>
                                     @endforeach
                                 </select>
+                                
+                                <button type="button" @click="open = !open" @click.away="open = false" 
+                                    class="mt-1 w-full flex items-center justify-between text-left px-3 py-2 border border-gray-300 rounded-md shadow-sm bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 text-sm transition-all">
+                                    <span x-text="editSkp.predikat || '-- Pilih Predikat --'" :class="!editSkp.predikat ? 'text-gray-500' : 'text-gray-900'" class="truncate pr-4"></span>
+                                    <svg class="w-4 h-4 text-gray-400 transition-transform shrink-0" :class="open ? 'rotate-180' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                                </button>
+                                
+                                <div x-show="open" 
+                                    x-transition:enter="transition ease-out duration-100"
+                                    x-transition:enter-start="opacity-0 scale-95"
+                                    x-transition:enter-end="opacity-100 scale-100"
+                                    x-transition:leave="transition ease-in duration-75"
+                                    x-transition:leave-start="opacity-100 scale-100"
+                                    x-transition:leave-end="opacity-0 scale-95"
+                                    class="absolute z-50 mt-1 w-full bg-white border border-gray-200 rounded-lg shadow-xl overflow-hidden" x-cloak>
+                                    <ul class="py-1">
+                                        <li @click="editSkp.predikat = ''; open = false" class="px-4 py-2 text-sm text-gray-500 hover:bg-gray-100 cursor-pointer">
+                                            -- Batal Pilih --
+                                        </li>
+                                        @foreach(['Sangat Baik','Baik','Cukup','Kurang','Sangat Kurang'] as $p)
+                                            <li @click="editSkp.predikat = '{{ $p }}'; open = false" 
+                                                class="px-4 py-2 text-sm hover:bg-indigo-50 cursor-pointer border-l-2 transition-colors"
+                                                :class="editSkp.predikat === '{{ $p }}' ? 'bg-indigo-50 border-indigo-500 font-medium text-indigo-900' : 'border-transparent text-gray-700'">
+                                                {{ $p }}
+                                            </li>
+                                        @endforeach
+                                    </ul>
+                                </div>
                             </div>
                             <div>
-                                <x-input-label for="edit_file_skp" value="Ganti File Bukti SKP (Opsional)" />
-                                <input id="edit_file_skp" name="file_bukti_skp" type="file" accept=".pdf,.jpg,.jpeg,.png"
+                                <x-input-label for="edit_file_skp" value="Ganti File Bukti PKP (Opsional)" />
+                                <input id="edit_file_skp" name="file_bukti_pkp" type="file" accept=".pdf,.jpg,.jpeg,.png"
                                     class="mt-1 block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-medium file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100" />
                                 <p class="text-xs text-gray-400 mt-1">Biarkan kosong jika tidak ingin mengganti file.</p>
                             </div>
@@ -271,33 +303,61 @@
         </div>
     </div>
 
-    {{-- MODAL TAMBAH SKP --}}
+    {{-- MODAL TAMBAH PKP --}}
     <x-modal name="add-skp" focusable>
-        <form method="POST" action="{{ route('admin.pegawai.skp.store', $pegawai) }}" enctype="multipart/form-data" class="p-6">
+        <form method="POST" action="{{ route('admin.pegawai.pkp.store', $pegawai) }}" enctype="multipart/form-data" class="p-6">
             @csrf
-            <h2 class="text-lg font-bold text-gray-900 mb-4">Tambah Data SKP</h2>
+            <h2 class="text-lg font-bold text-gray-900 mb-4">Tambah Data PKP</h2>
             <div class="space-y-4">
                 <div>
                     <x-input-label for="tahun_penilaian" value="Tahun Penilaian *" />
                     <x-text-input id="tahun_penilaian" name="tahun_penilaian" type="number" min="2000" max="{{ date('Y') }}" class="mt-1 block w-full" :value="old('tahun_penilaian', date('Y') - 1)" required />
                     <x-input-error :messages="$errors->get('tahun_penilaian')" class="mt-2" />
                 </div>
+                    <div x-data="{ open: false, selected: '{{ old('predikat') }}' }" class="relative">
+                        <x-input-label value="Predikat PKP *" />
+                        
+                        <select id="predikat" name="predikat" x-model="selected" class="opacity-0 absolute inset-0 w-full h-full pointer-events-none" required>
+                            <option value=""></option>
+                            @foreach(['Sangat Baik','Baik','Cukup','Kurang','Sangat Kurang'] as $p)
+                                <option value="{{ $p }}"></option>
+                            @endforeach
+                        </select>
+                        
+                        <button type="button" @click="open = !open" @click.away="open = false" 
+                            class="mt-1 w-full flex items-center justify-between text-left px-3 py-2 border border-gray-300 rounded-md shadow-sm bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 text-sm transition-all">
+                            <span x-text="selected || '-- Pilih Predikat --'" :class="!selected ? 'text-gray-500' : 'text-gray-900'" class="truncate pr-4"></span>
+                            <svg class="w-4 h-4 text-gray-400 transition-transform shrink-0" :class="open ? 'rotate-180' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                        </button>
+                        
+                        <div x-show="open" 
+                            x-transition:enter="transition ease-out duration-100"
+                            x-transition:enter-start="opacity-0 scale-95"
+                            x-transition:enter-end="opacity-100 scale-100"
+                            x-transition:leave="transition ease-in duration-75"
+                            x-transition:leave-start="opacity-100 scale-100"
+                            x-transition:leave-end="opacity-0 scale-95"
+                            class="absolute z-50 mt-1 w-full bg-white border border-gray-200 rounded-lg shadow-xl overflow-hidden" x-cloak>
+                            <ul class="py-1">
+                                <li @click="selected = ''; open = false" class="px-4 py-2 text-sm text-gray-500 hover:bg-gray-100 cursor-pointer">
+                                    -- Batal Pilih --
+                                </li>
+                                @foreach(['Sangat Baik','Baik','Cukup','Kurang','Sangat Kurang'] as $p)
+                                    <li @click="selected = '{{ $p }}'; open = false" 
+                                        class="px-4 py-2 text-sm hover:bg-indigo-50 cursor-pointer border-l-2 transition-colors"
+                                        :class="selected === '{{ $p }}' ? 'bg-indigo-50 border-indigo-500 font-medium text-indigo-900' : 'border-transparent text-gray-700'">
+                                        {{ $p }}
+                                    </li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    </div>
                 <div>
-                    <x-input-label for="predikat" value="Predikat SKP *" />
-                    <select id="predikat" name="predikat" class="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm mt-1 block w-full text-sm" required>
-                        <option value="">-- Pilih Predikat --</option>
-                        @foreach(['Sangat Baik','Baik','Cukup','Kurang','Sangat Kurang'] as $p)
-                            <option value="{{ $p }}" {{ old('predikat') == $p ? 'selected' : '' }}>{{ $p }}</option>
-                        @endforeach
-                    </select>
-                    <x-input-error :messages="$errors->get('predikat')" class="mt-2" />
-                </div>
-                <div>
-                    <x-input-label for="file_bukti_skp" value="File Bukti SKP (Opsional)" />
-                    <input id="file_bukti_skp" name="file_bukti_skp" type="file" accept=".pdf,.jpg,.jpeg,.png"
+                    <x-input-label for="file_bukti_pkp" value="File Bukti PKP (Opsional)" />
+                    <input id="file_bukti_pkp" name="file_bukti_pkp" type="file" accept=".pdf,.jpg,.jpeg,.png"
                         class="mt-1 block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-medium file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100" />
                     <p class="text-xs text-gray-400 mt-1">Maks. 5 MB. Format: PDF, JPG, PNG.</p>
-                    <x-input-error :messages="$errors->get('file_bukti_skp')" class="mt-2" />
+                    <x-input-error :messages="$errors->get('file_bukti_pkp')" class="mt-2" />
                 </div>
             </div>
             <div class="mt-6 flex justify-end gap-3">

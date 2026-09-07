@@ -6,10 +6,13 @@
 @section('title', 'Pengaturan Profil')
 
 @section('content')
-<div class="max-w-4xl mx-auto space-y-6">
+<div class="space-y-6">
 
     <div class="flex items-center justify-between">
-        <h2 class="text-xl font-bold text-gray-800">Pengaturan Profil</h2>
+        <div>
+            <h2 class="text-2xl font-bold text-gray-800">Pengaturan Profil</h2>
+            <p class="text-sm text-gray-500">Kelola nama, email, dan kata sandi akun Anda.</p>
+        </div>
     </div>
 
     {{-- Alert Success from Session --}}
@@ -21,12 +24,12 @@
         </div>
     @endif
 
-    <div class="bg-white rounded-xl border border-gray-200 shadow-sm p-6">
+    <div class="bg-white/50 backdrop-blur-3xl lg:bg-white lg:backdrop-blur-none rounded-[1.5rem] border border-blue-100 lg:border-slate-100 shadow-xl shadow-blue-500/10 lg:shadow-sm lg:shadow-black/5 p-6 md:p-8 transition hover:shadow-2xl hover:shadow-blue-500/20 lg:hover:shadow-md lg:hover:shadow-black/10">
         <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
             
             {{-- INFORMASI PROFIL --}}
             <div class="space-y-4">
-                <h3 class="font-semibold text-gray-700 border-b pb-2">Data Pribadi</h3>
+                <h3 class="font-semibold text-gray-700 border-b border-white/30 pb-2">Data Pribadi</h3>
                 
                 <form id="send-verification" method="post" action="{{ route('verification.send') }}">
                     @csrf
@@ -72,7 +75,7 @@
 
             {{-- UBAH KATA SANDI --}}
             <div class="space-y-4">
-                <h3 class="font-semibold text-gray-700 border-b pb-2">Ubah Kata Sandi</h3>
+                <h3 class="font-semibold text-gray-700 border-b border-white/30 pb-2">Ubah Kata Sandi</h3>
 
                 <form method="post" action="{{ route('password.update') }}" class="space-y-4">
                     @csrf

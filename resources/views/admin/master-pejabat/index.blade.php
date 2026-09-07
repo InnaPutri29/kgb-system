@@ -2,7 +2,7 @@
 @section('title', 'Master Pejabat Penetap SK Terdahulu')
 
 @section('content')
-<div class="space-y-6 max-w-5xl mx-auto">
+<div class="space-y-6">
     <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
             <h2 class="text-2xl font-bold text-gray-800">Master Pejabat</h2>
@@ -15,7 +15,7 @@
         </button>
     </div>
 
-    <div class="bg-white rounded-xl border border-gray-200 overflow-hidden">
+    <div class="bg-white/50 backdrop-blur-3xl lg:bg-white lg:backdrop-blur-none rounded-[1.5rem] border border-blue-100 lg:border-slate-100 shadow-xl shadow-blue-500/10 lg:shadow-sm lg:shadow-black/5 overflow-hidden transition hover:shadow-2xl hover:shadow-blue-500/20 lg:hover:shadow-md lg:hover:shadow-black/10">
         @if($pejabat->isEmpty())
             <div class="flex flex-col items-center justify-center py-16 text-gray-400">
                 <svg class="w-12 h-12 mb-3 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
@@ -25,7 +25,7 @@
         @else
             <div class="overflow-x-auto">
                 <table class="w-full text-sm">
-                    <thead class="bg-gray-50 text-xs text-gray-500 uppercase tracking-wider">
+                    <thead class="bg-blue-200/60 text-xs text-blue-900 uppercase tracking-wider border-b border-white/30">
                         <tr>
                             <th class="px-4 py-3 text-left">Nama Jabatan (Sesuai SK)</th>
                             <th class="px-4 py-3 text-left">Nama Lengkap & Gelar (Opsional)</th>
@@ -34,13 +34,13 @@
                     </thead>
                     <tbody class="divide-y divide-gray-100">
                         @foreach($pejabat as $p)
-                        <tr class="hover:bg-gray-50 transition">
+                        <tr class="hover:bg-white/40 transition">
                             <td class="px-4 py-3 font-medium text-gray-800">{{ $p->nama_jabatan }}</td>
                             <td class="px-4 py-3 text-gray-600">{{ $p->nama_pejabat ?? '-' }}</td>
                             <td class="px-4 py-3">
                                 <div class="flex items-center justify-center gap-2">
 
-                                    <button x-data @click="$dispatch('open-modal-edit', {{ $p->toJson() }})" class="p-1.5 bg-gray-50 text-gray-600 hover:text-green-600 hover:bg-green-50 rounded-md transition" title="Edit Pejabat">
+                                    <button x-data @click="$dispatch('open-modal-edit', {{ $p->toJson() }})" class="p-1.5 bg-emerald-500/10 text-emerald-600 hover:bg-emerald-600 hover:text-white rounded-md transition" title="Edit Pejabat">
                                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
                                     </button>
                                     <button type="button" 
@@ -49,7 +49,7 @@
                                                 title: 'Hapus Pejabat',
                                                 description: 'Hapus data pejabat {{ $p->nama_pejabat ?? $p->nama_jabatan }} permanen?'
                                             })"
-                                            class="p-1.5 bg-gray-50 text-gray-600 hover:text-red-600 hover:bg-red-50 rounded-md transition" title="Hapus Pejabat">
+                                            class="p-1.5 bg-red-500/10 text-red-600 hover:bg-red-600 hover:text-white rounded-md transition" title="Hapus Pejabat">
                                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
                                     </button>
                                 </div>

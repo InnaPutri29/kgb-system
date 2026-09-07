@@ -2,7 +2,7 @@
 @section('title', 'Master Gaji (PP No. 5 Tahun 2024)')
 
 @section('content')
-<div class="space-y-6 max-w-5xl mx-auto">
+<div class="space-y-6">
     <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
         <div>
             <h2 class="text-2xl font-bold text-gray-800">Master Tarif Gaji</h2>
@@ -16,22 +16,66 @@
     </div>
 
     {{-- Filter & Pencarian --}}
-    <div class="bg-white p-4 rounded-xl border border-gray-200">
+    <div class="relative z-20 bg-white/50 backdrop-blur-3xl lg:bg-white lg:backdrop-blur-none rounded-[1.5rem] p-5 border border-blue-100 lg:border-slate-100 shadow-xl shadow-blue-500/10 lg:shadow-sm lg:shadow-black/5 transition hover:shadow-2xl hover:shadow-blue-500/20 lg:hover:shadow-md lg:hover:shadow-black/10">
         <form method="GET" action="{{ route('admin.master-gaji.index') }}" class="flex flex-col sm:flex-row gap-3 items-end">
             <div class="w-full sm:w-auto flex-1">
                 <x-input-label for="search" value="Cari Data" class="mb-1" />
                 <x-text-input id="search" name="search" type="text" class="block w-full text-sm" placeholder="Cari Golongan / MKG / Nominal..." value="{{ request('search') }}" />
             </div>
             
-            <div class="w-full sm:w-48">
-                <x-input-label for="kategori" value="Kategori Golongan" class="mb-1" />
-                <select id="kategori" name="kategori" class="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm block w-full text-sm">
-                    <option value="">Semua Golongan</option>
-                    <option value="I" {{ request('kategori') == 'I' ? 'selected' : '' }}>Golongan I</option>
-                    <option value="II" {{ request('kategori') == 'II' ? 'selected' : '' }}>Golongan II</option>
-                    <option value="III" {{ request('kategori') == 'III' ? 'selected' : '' }}>Golongan III</option>
-                    <option value="IV" {{ request('kategori') == 'IV' ? 'selected' : '' }}>Golongan IV</option>
+            <div class="w-full sm:w-48 relative" x-data="{ open: false, selected: '{{ request('kategori') }}', label: '{{ request('kategori') ? 'Golongan ' . request('kategori') : '' }}' }">
+                <x-input-label value="Kategori Golongan" class="mb-1" />
+                
+                {{-- Native select hidden for form submission --}}
+                <select id="kategori" name="kategori" x-model="selected" class="opacity-0 absolute inset-0 w-full h-full pointer-events-none">
+                    <option value=""></option>
+                    <option value="I"></option>
+                    <option value="II"></option>
+                    <option value="III"></option>
+                    <option value="IV"></option>
+                    @foreach(['I/a','I/b','I/c','I/d','II/a','II/b','II/c','II/d','III/a','III/b','III/c','III/d','IV/a','IV/b','IV/c','IV/d','IV/e'] as $gol)
+                        <option value="{{ $gol }}"></option>
+                    @endforeach
                 </select>
+
+                <button type="button" @click="open = !open" @click.away="open = false" 
+                    class="w-full flex items-center justify-between text-left px-3 py-2 border border-gray-300 rounded-md shadow-sm bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 text-sm transition-all h-[38px]">
+                    <span x-text="label || 'Semua Golongan'" :class="!selected ? 'text-gray-500' : 'text-gray-900'" class="truncate pr-4"></span>
+                    <svg class="w-4 h-4 text-gray-400 transition-transform shrink-0" :class="open ? 'rotate-180' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                </button>
+
+                <div x-show="open" 
+                    x-transition:enter="transition ease-out duration-100"
+                    x-transition:enter-start="opacity-0 scale-95"
+                    x-transition:enter-end="opacity-100 scale-100"
+                    x-transition:leave="transition ease-in duration-75"
+                    x-transition:leave-start="opacity-100 scale-100"
+                    x-transition:leave-end="opacity-0 scale-95"
+                    class="absolute z-50 mt-1 w-full bg-white border border-gray-200 rounded-lg shadow-xl overflow-hidden" x-cloak>
+                    <ul class="max-h-60 overflow-y-auto py-1">
+                        <li @click="selected = ''; label = 'Semua Golongan'; open = false" class="px-4 py-2 text-sm text-gray-500 hover:bg-gray-100 cursor-pointer">
+                            Semua Golongan
+                        </li>
+                        
+                        <li class="px-4 py-1 mt-1 text-xs font-bold text-gray-400 uppercase tracking-wider bg-gray-50">Kategori Utama</li>
+                        @foreach(['I', 'II', 'III', 'IV'] as $g)
+                            <li @click="selected = '{{ $g }}'; label = 'Golongan {{ $g }}'; open = false" 
+                                class="px-4 py-2 text-sm hover:bg-indigo-50 cursor-pointer border-l-2 transition-colors"
+                                :class="selected === '{{ $g }}' ? 'bg-indigo-50 border-indigo-500 font-medium text-indigo-900' : 'border-transparent text-gray-700'">
+                                Golongan {{ $g }}
+                            </li>
+                        @endforeach
+                        
+                        <li class="px-4 py-1 mt-1 text-xs font-bold text-gray-400 uppercase tracking-wider bg-gray-50">Spesifik</li>
+                        @foreach(['I/a','I/b','I/c','I/d','II/a','II/b','II/c','II/d','III/a','III/b','III/c','III/d','IV/a','IV/b','IV/c','IV/d','IV/e'] as $gol)
+                            <li @click="selected = '{{ $gol }}'; label = 'Golongan {{ $gol }}'; open = false" 
+                                class="px-4 py-2 text-sm hover:bg-indigo-50 cursor-pointer border-l-2 transition-colors"
+                                :class="selected === '{{ $gol }}' ? 'bg-indigo-50 border-indigo-500 font-medium text-indigo-900' : 'border-transparent text-gray-700'">
+                                Golongan {{ $gol }}
+                            </li>
+                        @endforeach
+                    </ul>
+                </div>
             </div>
 
             <div class="flex gap-2 w-full sm:w-auto">
@@ -39,7 +83,7 @@
                     Filter
                 </button>
                 @if(request()->hasAny(['search', 'kategori']))
-                    <a href="{{ route('admin.master-gaji.index') }}" class="px-4 py-2 bg-gray-100 text-gray-600 text-sm font-medium rounded-lg hover:bg-gray-200 transition text-center w-full sm:w-auto">
+                    <a href="{{ route('admin.master-gaji.index') }}" class="px-4 py-2 bg-white text-gray-700 hover:bg-gray-50 text-sm font-medium rounded-lg border border-gray-300 shadow-sm transition text-center w-full sm:w-auto">
                         Reset
                     </a>
                 @endif
@@ -47,7 +91,7 @@
         </form>
     </div>
 
-    <div class="bg-white rounded-xl border border-gray-200 overflow-hidden">
+    <div class="bg-white/50 backdrop-blur-3xl lg:bg-white lg:backdrop-blur-none rounded-[1.5rem] border border-blue-100 lg:border-slate-100 shadow-xl shadow-blue-500/10 lg:shadow-sm lg:shadow-black/5 overflow-hidden transition hover:shadow-2xl hover:shadow-blue-500/20 lg:hover:shadow-md lg:hover:shadow-black/10">
         @if($gaji->isEmpty())
             <div class="flex flex-col items-center justify-center py-16 text-gray-400">
                 @if(request()->hasAny(['search', 'kategori']))
@@ -64,23 +108,23 @@
         @else
             <div class="overflow-x-auto">
                 <table class="w-full text-sm">
-                    <thead class="bg-gray-50 text-xs text-gray-500 uppercase tracking-wider border-b border-gray-200">
+                    <thead class="bg-blue-200/60 text-xs text-blue-900 uppercase tracking-wider border-b border-white/30">
                         <tr>
-                            <th class="px-6 py-4 text-left font-medium">Golongan Ruang</th>
+                            <th class="px-6 py-4 text-center font-medium">Golongan Ruang</th>
                             <th class="px-6 py-4 text-center font-medium">Masa Kerja Golongan (MKG)</th>
-                            <th class="px-6 py-4 text-right font-medium">Nominal Gaji Pokok (Rp)</th>
+                            <th class="px-6 py-4 text-center font-medium">Nominal Gaji Pokok (Rp)</th>
                             <th class="px-6 py-4 text-center font-medium">Aksi</th>
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-gray-100">
                         @foreach($gaji as $g)
-                        <tr class="hover:bg-gray-50 transition">
-                            <td class="px-6 py-3 font-semibold text-indigo-700 bg-indigo-50/30">{{ $g->golongan }}</td>
+                        <tr class="hover:bg-white/40 transition">
+                            <td class="px-6 py-3 font-semibold text-center text-indigo-700 bg-indigo-50/30">{{ $g->golongan }}</td>
                             <td class="px-6 py-3 text-center text-gray-600 font-medium">{{ $g->masa_kerja }} Tahun</td>
-                            <td class="px-6 py-3 text-right text-gray-800 font-mono font-medium">{{ number_format($g->nominal_gaji, 0, ',', '.') }}</td>
+                            <td class="px-6 py-3 text-center text-gray-800 font-mono font-medium">{{ number_format($g->nominal_gaji, 0, ',', '.') }}</td>
                             <td class="px-6 py-3">
                                 <div class="flex items-center justify-center gap-2">
-                                    <button x-data @click="$dispatch('open-modal-edit', {{ $g->toJson() }})" class="p-1.5 bg-gray-50 text-gray-600 hover:text-green-600 hover:bg-green-50 rounded-md transition" title="Edit Gaji">
+                                    <button x-data @click="$dispatch('open-modal-edit', {{ $g->toJson() }})" class="p-1.5 bg-emerald-500/10 text-emerald-600 hover:bg-emerald-600 hover:text-white rounded-md transition" title="Edit Gaji">
                                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
                                     </button>
                                     <button type="button" 
@@ -89,7 +133,7 @@
                                                 title: 'Hapus Gaji Pokok',
                                                 description: 'Hapus acuan gaji Golongan {{ $g->golongan }} MKG {{ $g->masa_kerja }} Tahun?'
                                             })"
-                                            class="p-1.5 bg-gray-50 text-gray-600 hover:text-red-600 hover:bg-red-50 rounded-md transition" title="Hapus Gaji">
+                                            class="p-1.5 bg-red-500/10 text-red-600 hover:bg-red-600 hover:text-white rounded-md transition" title="Hapus Gaji">
                                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
                                     </button>
                                 </div>
@@ -102,11 +146,9 @@
         @endif
     </div>
 
-    @if($gaji->hasPages())
-        <div class="mt-4">
-            {{ $gaji->links() }}
-        </div>
-    @endif
+    <div class="mt-4">
+        {{ $gaji->links() }}
+    </div>
 
     {{-- MODAL TAMBAH --}}
     <x-modal name="add-gaji" :show="$errors->has('golongan') && !old('id')" focusable>
@@ -153,11 +195,11 @@
                     <div class="grid grid-cols-2 gap-4">
                         <div>
                             <x-input-label for="edit_golongan" value="Golongan Ruang *" />
-                            <x-text-input id="edit_golongan" name="golongan" type="text" class="mt-1 block w-full bg-gray-50" x-model="gaji.golongan" required maxlength="5" />
+                            <x-text-input id="edit_golongan" name="golongan" type="text" class="mt-1 block w-full bg-white/20" x-model="gaji.golongan" required maxlength="5" />
                         </div>
                         <div>
                             <x-input-label for="edit_masa_kerja" value="Masa Kerja (Tahun) *" />
-                            <x-text-input id="edit_masa_kerja" name="masa_kerja" type="number" min="0" class="mt-1 block w-full bg-gray-50" x-model="gaji.masa_kerja" required />
+                            <x-text-input id="edit_masa_kerja" name="masa_kerja" type="number" min="0" class="mt-1 block w-full bg-white/20" x-model="gaji.masa_kerja" required />
                         </div>
                     </div>
                     <div>

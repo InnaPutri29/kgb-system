@@ -10,7 +10,7 @@
         </div>
         <div class="flex flex-wrap items-center gap-2 w-full sm:w-auto">
             <a href="{{ route('admin.pegawai.create') }}"
-               class="inline-flex items-center justify-center gap-1.5 text-sm bg-white border border-gray-300 hover:bg-gray-50 text-gray-700 px-4 py-2 rounded-lg transition font-medium shadow-sm flex-1 sm:flex-none">
+               class="inline-flex items-center justify-center gap-1.5 text-sm bg-blue-600 border border-transparent hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition font-medium shadow-sm flex-1 sm:flex-none">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
                 Tambah Data
             </a>
@@ -23,7 +23,7 @@
     </div>
 
     {{-- Pencarian & Filter --}}
-    <div class="bg-white p-4 rounded-xl border border-gray-200 shadow-sm">
+    <div class="relative z-20 bg-white/50 backdrop-blur-3xl lg:bg-white lg:backdrop-blur-none rounded-[1.5rem] p-5 border border-blue-100 lg:border-slate-100 shadow-xl shadow-blue-500/10 lg:shadow-sm lg:shadow-black/5 transition hover:shadow-2xl hover:shadow-blue-500/20 lg:hover:shadow-md lg:hover:shadow-black/10">
         <form method="GET" action="{{ route('admin.pegawai.index') }}" class="flex flex-col md:flex-row gap-3 items-end">
             <div class="w-full flex-1">
                 <x-input-label for="search" value="Cari Pegawai" class="mb-1" />
@@ -35,34 +35,104 @@
                 </div>
             </div>
             
-            <div class="w-full md:w-40">
-                <x-input-label for="golongan" value="Golongan" class="mb-1" />
-                <select id="golongan" name="golongan" class="border-gray-300 focus:border-blue-500 focus:ring-blue-500 rounded-lg shadow-sm block w-full text-sm">
-                    <option value="">Semua</option>
-                    <option value="I" {{ request('golongan') == 'I' ? 'selected' : '' }}>Gol. I</option>
-                    <option value="II" {{ request('golongan') == 'II' ? 'selected' : '' }}>Gol. II</option>
-                    <option value="III" {{ request('golongan') == 'III' ? 'selected' : '' }}>Gol. III</option>
-                    <option value="IV" {{ request('golongan') == 'IV' ? 'selected' : '' }}>Gol. IV</option>
+            <div class="w-full md:w-40 relative" x-data="{ open: false, selected: '{{ request('golongan') }}', label: '{{ request('golongan') ? (in_array(request('golongan'), ['I','II','III','IV']) ? 'Gol. ' . request('golongan') : request('golongan')) : '' }}' }">
+                <x-input-label value="Golongan" class="mb-1" />
+                
+                {{-- Native select hidden for form submission --}}
+                <select id="golongan" name="golongan" x-model="selected" class="opacity-0 absolute inset-0 w-full h-full pointer-events-none">
+                    <option value=""></option>
+                    <option value="I"></option>
+                    <option value="II"></option>
+                    <option value="III"></option>
+                    <option value="IV"></option>
                     @if(isset($golonganList))
-                        <optgroup label="Spesifik">
-                            @foreach($golonganList as $gol)
-                                <option value="{{ $gol }}" {{ request('golongan') == $gol ? 'selected' : '' }}>{{ $gol }}</option>
-                            @endforeach
-                        </optgroup>
-                    @endif
-                </select>
-            </div>
-
-            <div class="w-full md:w-32">
-                <x-input-label for="tahun_tmt" value="Tahun TMT" class="mb-1" />
-                <select id="tahun_tmt" name="tahun_tmt" class="border-gray-300 focus:border-blue-500 focus:ring-blue-500 rounded-lg shadow-sm block w-full text-sm">
-                    <option value="">Semua</option>
-                    @if(isset($tahunTmtList))
-                        @foreach($tahunTmtList as $thn)
-                            <option value="{{ $thn }}" {{ request('tahun_tmt') == $thn ? 'selected' : '' }}>{{ $thn }}</option>
+                        @foreach($golonganList as $gol)
+                            <option value="{{ $gol }}"></option>
                         @endforeach
                     @endif
                 </select>
+
+                <button type="button" @click="open = !open" @click.away="open = false" 
+                    class="w-full flex items-center justify-between text-left px-3 py-2 border border-gray-300 rounded-lg shadow-sm bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm transition-all h-[38px]">
+                    <span x-text="label || 'Semua'" :class="!selected ? 'text-gray-500' : 'text-gray-900'" class="truncate pr-4"></span>
+                    <svg class="w-4 h-4 text-gray-400 transition-transform shrink-0" :class="open ? 'rotate-180' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                </button>
+
+                <div x-show="open" 
+                    x-transition:enter="transition ease-out duration-100"
+                    x-transition:enter-start="opacity-0 scale-95"
+                    x-transition:enter-end="opacity-100 scale-100"
+                    x-transition:leave="transition ease-in duration-75"
+                    x-transition:leave-start="opacity-100 scale-100"
+                    x-transition:leave-end="opacity-0 scale-95"
+                    class="absolute z-50 mt-1 w-full bg-white border border-gray-200 rounded-lg shadow-xl overflow-hidden" x-cloak>
+                    <ul class="max-h-60 overflow-y-auto py-1">
+                        <li @click="selected = ''; label = 'Semua'; open = false" class="px-4 py-2 text-sm text-gray-500 hover:bg-gray-100 cursor-pointer">
+                            Semua
+                        </li>
+                        @foreach(['I', 'II', 'III', 'IV'] as $g)
+                            <li @click="selected = '{{ $g }}'; label = 'Gol. {{ $g }}'; open = false" 
+                                class="px-4 py-2 text-sm hover:bg-blue-50 cursor-pointer border-l-2 transition-colors"
+                                :class="selected === '{{ $g }}' ? 'bg-blue-50 border-blue-500 font-medium text-blue-900' : 'border-transparent text-gray-700'">
+                                Gol. {{ $g }}
+                            </li>
+                        @endforeach
+                        @if(isset($golonganList))
+                            <li class="px-4 py-1 mt-1 text-xs font-bold text-gray-400 uppercase tracking-wider bg-gray-50">Spesifik</li>
+                            @foreach($golonganList as $gol)
+                                <li @click="selected = '{{ $gol }}'; label = '{{ $gol }}'; open = false" 
+                                    class="px-4 py-2 text-sm hover:bg-blue-50 cursor-pointer border-l-2 transition-colors"
+                                    :class="selected === '{{ $gol }}' ? 'bg-blue-50 border-blue-500 font-medium text-blue-900' : 'border-transparent text-gray-700'">
+                                    {{ $gol }}
+                                </li>
+                            @endforeach
+                        @endif
+                    </ul>
+                </div>
+            </div>
+
+            <div class="w-full md:w-32 relative" x-data="{ open: false, selected: '{{ request('tahun_tmt') }}' }">
+                <x-input-label value="Tahun TMT" class="mb-1" />
+                
+                {{-- Native select hidden for form submission --}}
+                <select id="tahun_tmt" name="tahun_tmt" x-model="selected" class="opacity-0 absolute inset-0 w-full h-full pointer-events-none">
+                    <option value=""></option>
+                    @if(isset($tahunTmtList))
+                        @foreach($tahunTmtList as $thn)
+                            <option value="{{ $thn }}"></option>
+                        @endforeach
+                    @endif
+                </select>
+
+                <button type="button" @click="open = !open" @click.away="open = false" 
+                    class="w-full flex items-center justify-between text-left px-3 py-2 border border-gray-300 rounded-lg shadow-sm bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm transition-all h-[38px]">
+                    <span x-text="selected || 'Semua'" :class="!selected ? 'text-gray-500' : 'text-gray-900'" class="truncate pr-4"></span>
+                    <svg class="w-4 h-4 text-gray-400 transition-transform shrink-0" :class="open ? 'rotate-180' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                </button>
+
+                <div x-show="open" 
+                    x-transition:enter="transition ease-out duration-100"
+                    x-transition:enter-start="opacity-0 scale-95"
+                    x-transition:enter-end="opacity-100 scale-100"
+                    x-transition:leave="transition ease-in duration-75"
+                    x-transition:leave-start="opacity-100 scale-100"
+                    x-transition:leave-end="opacity-0 scale-95"
+                    class="absolute z-50 mt-1 w-full bg-white border border-gray-200 rounded-lg shadow-xl overflow-hidden" x-cloak>
+                    <ul class="max-h-60 overflow-y-auto py-1">
+                        <li @click="selected = ''; open = false" class="px-4 py-2 text-sm text-gray-500 hover:bg-gray-100 cursor-pointer">
+                            Semua
+                        </li>
+                        @if(isset($tahunTmtList))
+                            @foreach($tahunTmtList as $thn)
+                                <li @click="selected = '{{ $thn }}'; open = false" 
+                                    class="px-4 py-2 text-sm hover:bg-blue-50 cursor-pointer border-l-2 transition-colors"
+                                    :class="selected === '{{ $thn }}' ? 'bg-blue-50 border-blue-500 font-medium text-blue-900' : 'border-transparent text-gray-700'">
+                                    {{ $thn }}
+                                </li>
+                            @endforeach
+                        @endif
+                    </ul>
+                </div>
             </div>
 
             <div class="flex gap-2 w-full md:w-auto">
@@ -70,7 +140,7 @@
                     Filter
                 </button>
                 @if(request()->filled('search') || request()->filled('golongan') || request()->filled('tahun_tmt'))
-                    <a href="{{ route('admin.pegawai.index') }}" class="px-4 py-2 bg-gray-100 text-gray-600 text-sm font-medium rounded-lg hover:bg-gray-200 transition text-center w-full sm:w-auto">
+                    <a href="{{ route('admin.pegawai.index') }}" class="px-4 py-2 bg-white text-gray-700 hover:bg-gray-50 text-sm font-medium rounded-lg border border-gray-300 shadow-sm transition text-center w-full sm:w-auto">
                         Reset
                     </a>
                 @endif
@@ -78,7 +148,7 @@
         </form>
     </div>
 
-    <div class="bg-white rounded-xl border border-gray-200 overflow-hidden">
+    <div class="bg-white/50 backdrop-blur-3xl lg:bg-white lg:backdrop-blur-none rounded-[1.5rem] border border-blue-100 lg:border-slate-100 shadow-xl shadow-blue-500/10 lg:shadow-sm lg:shadow-black/5 overflow-hidden transition hover:shadow-2xl hover:shadow-blue-500/20 lg:hover:shadow-md lg:hover:shadow-black/10">
         @if($pegawai->isEmpty())
             <div class="flex flex-col items-center justify-center py-20 text-gray-400">
                 @if(request()->filled('search'))
@@ -96,36 +166,41 @@
         @else
             <div class="overflow-x-auto">
                 <table class="w-full text-sm">
-                    <thead class="bg-gray-50 text-xs text-gray-500 uppercase tracking-wider">
+                    <thead class="bg-blue-200/60 text-xs text-blue-900 uppercase tracking-wider border-b border-white/30">
                         <tr>
-                            <th class="px-4 py-3 text-left">NIP</th>
-                            <th class="px-4 py-3 text-left">Nama</th>
-                            <th class="px-4 py-3 text-left">Jabatan</th>
-                            <th class="px-4 py-3 text-left">Gol.</th>
-                            <th class="px-4 py-3 text-center">TMT Gaji Terakhir</th>
-                            <th class="px-4 py-3 text-center">Gaji Pokok</th>
-                            <th class="px-4 py-3 text-center">Aksi</th>
+                            <th class="px-3 py-3 text-center">No</th>
+                            <th class="px-3 py-3 text-left">NIP</th>
+                            <th class="px-3 py-3 text-left">Nama Pegawai</th>
+                            <th class="px-3 py-3 text-center">Gol.</th>
+                            <th class="px-3 py-3 text-center">TMT Gaji Terakhir</th>
+                            <th class="px-3 py-3 text-center">Gaji Pokok</th>
+                            <th class="px-3 py-3 text-center">Aksi</th>
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-gray-100">
-                        @foreach($pegawai as $p)
-                        <tr class="hover:bg-gray-50 transition">
-                            <td class="px-4 py-3 font-mono text-xs text-gray-600">{{ $p->nip }}</td>
-                            <td class="px-4 py-3 font-medium text-gray-800">{{ $p->nama_lengkap }}</td>
-                            <td class="px-4 py-3 text-gray-600">{{ $p->jabatan ?? '-' }}</td>
-                            <td class="px-4 py-3 text-gray-600">{{ $p->golongan ?? '-' }}</td>
-                            <td class="px-4 py-3 text-center text-gray-600">
+                        @foreach($pegawai as $index => $p)
+                        <tr class="hover:bg-white/40 transition">
+                            <td class="px-3 py-3 text-center text-gray-500 font-medium text-xs">{{ $pegawai->firstItem() + $index }}</td>
+                            <td class="px-3 py-3 font-mono text-xs text-gray-700">{{ $p->nip }}</td>
+                            <td class="px-3 py-3">
+                                <p class="font-medium text-gray-900">{{ $p->nama_lengkap }}</p>
+                                <p class="text-xs text-gray-600 mt-0.5">{{ $p->jabatan ?? '-' }}</p>
+                            </td>
+                            <td class="px-3 py-3 text-center">
+                                <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-gray-200 text-gray-800">{{ $p->golongan ?? '-' }}</span>
+                            </td>
+                            <td class="px-3 py-3 text-center text-gray-700">
                                 {{ $p->tmt_gaji_terakhir ? \Carbon\Carbon::parse($p->tmt_gaji_terakhir)->format('d/m/Y') : '-' }}
                             </td>
-                            <td class="px-4 py-3 text-gray-600">
+                            <td class="px-3 py-3 text-gray-700 font-medium text-center whitespace-nowrap">
                                 {{ $p->gaji_pokok_terakhir ? 'Rp ' . number_format($p->gaji_pokok_terakhir, 0, ',', '.') : '-' }}
                             </td>
-                            <td class="px-4 py-3">
-                                <div class="flex items-center gap-2">
-                                    <a href="{{ route('admin.pegawai.show', $p) }}" class="p-1.5 bg-gray-50 text-gray-600 hover:text-blue-600 hover:bg-blue-50 rounded-md transition" title="Detail Pegawai">
+                            <td class="px-3 py-3 text-center">
+                                <div class="flex items-center justify-center gap-2">
+                                    <a href="{{ route('admin.pegawai.show', $p) }}" class="p-1.5 bg-blue-500/10 text-blue-600 hover:bg-blue-600 hover:text-white rounded-md transition" title="Detail Pegawai">
                                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>
                                     </a>
-                                    <a href="{{ route('admin.pegawai.edit', $p) }}" class="p-1.5 bg-gray-50 text-gray-600 hover:text-green-600 hover:bg-green-50 rounded-md transition" title="Edit Pegawai">
+                                    <a href="{{ route('admin.pegawai.edit', $p) }}" class="p-1.5 bg-emerald-500/10 text-emerald-600 hover:bg-emerald-600 hover:text-white rounded-md transition" title="Edit Pegawai">
                                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
                                     </a>
                                     <button type="button" 
@@ -134,7 +209,7 @@
                                                 title: 'Hapus Pegawai',
                                                 description: 'Hapus data {{ $p->nama_lengkap }}? Akun login terkait juga akan ikut terhapus permanen.'
                                             })"
-                                            class="p-1.5 bg-gray-50 text-gray-600 hover:text-red-600 hover:bg-red-50 rounded-md transition" title="Hapus Pegawai">
+                                            class="p-1.5 bg-red-500/10 text-red-600 hover:bg-red-600 hover:text-white rounded-md transition" title="Hapus Pegawai">
                                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
                                     </button>
                                 </div>
@@ -144,7 +219,7 @@
                     </tbody>
                 </table>
             </div>
-            <div class="px-4 py-3 border-t border-gray-100">
+            <div class="px-4 py-3 border-t border-gray-200">
                 {{ $pegawai->links() }}
             </div>
         @endif

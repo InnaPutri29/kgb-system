@@ -2,15 +2,18 @@
 @section('title', 'Detail Pejabat')
 
 @section('content')
-<div class="max-w-4xl mx-auto space-y-6">
-    <div class="flex items-center justify-between">
-        <h2 class="text-xl font-bold text-gray-800">Detail Master Pejabat</h2>
+<div class="space-y-6">
+    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+        <div>
+            <h2 class="text-2xl font-bold text-gray-800">Detail Master Pejabat</h2>
+            <p class="text-sm text-gray-500">Profil pejabat penetap dan riwayat dokumen SK yang pernah ditandatangani.</p>
+        </div>
         <a href="{{ route('admin.master-pejabat.index') }}" class="inline-flex items-center gap-1 text-sm bg-white text-gray-700 hover:bg-gray-50 px-3 py-1.5 rounded-lg transition font-medium border border-gray-300">
             Kembali
         </a>
     </div>
 
-    <div class="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden relative">
+    <div class="bg-white/50 backdrop-blur-3xl lg:bg-white lg:backdrop-blur-none rounded-[1.5rem] border border-white/80 border-t-white shadow-[0_8px_32px_0_rgba(31,38,135,0.07)] overflow-hidden relative mt-10">
         <div class="h-24 bg-gradient-to-r from-blue-600 to-indigo-700"></div>
         <div class="px-6 pb-6 relative">
             <div class="w-20 h-20 bg-white rounded-2xl p-1 shadow-md absolute -top-10 left-6 flex items-center justify-center text-3xl font-bold text-blue-600 border border-gray-100">
@@ -30,7 +33,7 @@
 
             <div class="mt-8 border-t border-gray-100 pt-6">
                 <h4 class="text-sm font-bold text-gray-400 uppercase tracking-wider mb-4">Statistik Penandatanganan SK</h4>
-                <div class="bg-gray-50 p-5 rounded-xl border border-gray-200 flex items-center justify-between">
+                <div class="bg-white/20 p-5 rounded-xl border border-white/50 flex items-center justify-between">
                     <div>
                         <p class="text-sm text-gray-500 mb-1">Total SK KGB yang Telah Ditandatangani</p>
                         <p class="text-3xl font-bold text-gray-800">{{ $masterPejabat->riwayatKgb->count() }} <span class="text-lg font-medium text-gray-500">Dokumen SK</span></p>
@@ -45,13 +48,13 @@
 
     <!-- Riwayat Dokumen -->
     @if($masterPejabat->riwayatKgb->isNotEmpty())
-    <div class="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
-        <div class="px-6 py-4 border-b border-gray-100 bg-gray-50/50">
+    <div class="bg-white/50 backdrop-blur-3xl lg:bg-white lg:backdrop-blur-none rounded-[1.5rem] border border-white/80 border-t-white shadow-[0_8px_32px_0_rgba(31,38,135,0.07)] overflow-hidden">
+        <div class="px-6 py-4 border-b border-gray-100 bg-white/20/50">
             <h3 class="text-lg font-bold text-gray-800">Daftar Pegawai (SK Terakhir)</h3>
         </div>
         <div class="overflow-x-auto">
             <table class="w-full text-sm">
-                <thead class="bg-gray-50 text-xs text-gray-500 uppercase tracking-wider">
+                <thead class="bg-blue-200/60 text-xs text-blue-900 uppercase tracking-wider">
                     <tr>
                         <th class="px-6 py-3 text-left">Nomor SK Baru</th>
                         <th class="px-6 py-3 text-left">Tanggal SK</th>
@@ -61,7 +64,7 @@
                 </thead>
                 <tbody class="divide-y divide-gray-100">
                     @foreach($masterPejabat->riwayatKgb->take(10) as $riwayat)
-                        <tr class="hover:bg-gray-50 transition">
+                        <tr class="hover:bg-white/40 transition">
                             <td class="px-6 py-3 font-medium text-gray-800">{{ $riwayat->nomor_sk_baru }}</td>
                             <td class="px-6 py-3 text-gray-600">{{ \Carbon\Carbon::parse($riwayat->tanggal_ditetapkan)->format('d/m/Y') }}</td>
                             <td class="px-6 py-3 text-gray-800 font-medium">{{ $riwayat->pegawai->nama_lengkap ?? '-' }}</td>

@@ -2,7 +2,7 @@
 @section('title', 'Riwayat KGB')
 
 @section('content')
-<div class="max-w-7xl mx-auto space-y-6">
+<div class="space-y-6">
     <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
             <h2 class="text-2xl font-bold text-gray-800">Riwayat KGB</h2>
@@ -11,7 +11,7 @@
     </div>
 
     <!-- Export Section -->
-    <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-100 flex flex-col sm:flex-row items-center gap-4">
+    <div class="bg-white/50 backdrop-blur-3xl lg:bg-white lg:backdrop-blur-none rounded-[1.5rem] p-4 border border-blue-100 lg:border-slate-100 shadow-xl shadow-blue-500/10 lg:shadow-sm lg:shadow-black/5 flex flex-col sm:flex-row items-center gap-4 transition hover:shadow-2xl hover:shadow-blue-500/20 lg:hover:shadow-md lg:hover:shadow-black/10">
         <div class="text-sm font-medium text-gray-700">Ekspor Data (Excel):</div>
         <form action="{{ route('admin.kgb.export') }}" method="GET" class="flex flex-col sm:flex-row items-center gap-3 w-full sm:w-auto">
             <div class="flex items-center gap-2">
@@ -30,13 +30,13 @@
         </form>
     </div>
 
-    <div class="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
-        <div class="px-6 py-4 border-b border-gray-100 bg-gray-50/80 flex items-center justify-between">
+    <div class="bg-white/50 backdrop-blur-3xl lg:bg-white lg:backdrop-blur-none rounded-[1.5rem] border border-blue-100 lg:border-slate-100 shadow-xl shadow-blue-500/10 lg:shadow-sm lg:shadow-black/5 overflow-hidden transition hover:shadow-2xl hover:shadow-blue-500/20 lg:hover:shadow-md lg:hover:shadow-black/10">
+        <div class="px-4 sm:px-6 py-4 border-b border-white/30 flex flex-wrap items-center justify-between gap-2">
             <div>
-                <h3 class="text-lg font-semibold text-gray-800">Tabel Riwayat SK KGB</h3>
+                <h3 class="text-base sm:text-lg font-semibold text-gray-800">Tabel Riwayat SK KGB</h3>
                 <p class="text-sm text-gray-500">Menampilkan data terakhir berdasarkan tanggal penetapan SK.</p>
             </div>
-            <span class="inline-flex items-center px-3 py-1.5 rounded-full text-xs font-semibold bg-blue-100 text-blue-800">Total {{ $riwayatKgb->total() }} Dokumen</span>
+            <span class="inline-flex items-center px-3 py-1.5 rounded-full text-xs font-semibold bg-blue-100 border border-blue-200 text-blue-800">Total {{ $riwayatKgb->total() }} Dokumen</span>
         </div>
 
         @if($riwayatKgb->isEmpty())
@@ -48,38 +48,48 @@
         @else
             <div class="overflow-x-auto">
                 <table class="w-full text-sm text-left">
-                    <thead class="bg-gray-50 text-xs text-gray-500 uppercase tracking-wider">
+                    <thead class="bg-blue-200/60 text-xs text-blue-900 uppercase tracking-wider border-b border-white/30">
                         <tr>
-                            <th class="px-5 py-3 ">Nomor SK</th>
-                            <th class="px-5 py-3">Pegawai</th>
-                            <th class="px-5 py-3">Tgl Ditetapkan</th>
-                            <th class="px-5 py-3">TMT Baru</th>
-                            <th class="px-5 py-3">Gaji Lama</th>
-                            <th class="px-5 py-3">Gaji Baru</th>
-                            <th class="px-5 py-3">Masa Kerja</th>
-                            <th class="px-5 py-3">TMT YAD</th>
-                            <th class="px-5 py-3">Pejabat</th>
-                            <th class="px-5 py-3 text-center">Aksi</th>
+                            <th class="px-3 py-3 w-16 text-center">No</th>
+                            <th class="px-3 py-3 text-left">Nomor SK</th>
+                            <th class="px-3 py-3 text-left">Pegawai</th>
+                            <th class="px-3 py-3 text-center">TMT Baru</th>
+                            <th class="px-3 py-3 text-center">Gaji Baru</th>
+                            <th class="px-3 py-3 text-center">Status</th>
+                            <th class="px-3 py-3 text-center">Jatuh Tempo YAD</th>
+                            <th class="px-3 py-3 text-center">Aksi</th>
                         </tr>
                     </thead>
-                    <tbody class="divide-y divide-gray-100 bg-white">
-                        @foreach($riwayatKgb as $riwayat)
-                        <tr class="hover:bg-gray-50 transition">
-                            <td class="px-5 py-4 font-medium text-gray-800">{{ $riwayat->nomor_sk_baru }}</td>
-                            <td class="px-5 py-4 text-gray-600">{{ $riwayat->pegawai->nama_lengkap ?? '-' }}<br><span class="text-xs text-gray-400">{{ $riwayat->pegawai->nip ?? '-' }}</span></td>
-                            <td class="px-5 py-4 text-gray-600">{{ $riwayat->tanggal_ditetapkan?->format('d/m/Y') }}</td>
-                            <td class="px-5 py-4 text-gray-600">{{ $riwayat->tmt_baru?->format('d/m/Y') }}</td>
-                            <td class="px-5 py-4 text-gray-600">Rp {{ number_format($riwayat->gaji_pokok_lama, 0, ',', '.') }}</td>
-                            <td class="px-5 py-4 text-gray-600">Rp {{ number_format($riwayat->gaji_pokok_baru, 0, ',', '.') }}</td>
-                            <td class="px-5 py-4 text-gray-600">{{ $riwayat->masa_kerja_tahun_baru }} Thn, {{ $riwayat->masa_kerja_bulan_baru }} Bln</td>
-                            <td class="px-5 py-4 text-gray-600">{{ $riwayat->tmt_yad?->format('d/m/Y') }}</td>
-                            <td class="px-5 py-4 text-gray-600">{{ $riwayat->pejabat_penetap }}</td>
-                            <td class="px-5 py-4 text-right">
-                                <a href="{{ route('admin.kgb.download-pdf', $riwayat->id) }}" 
-                                   onclick="window.dispatchEvent(new CustomEvent('show-toast', { detail: { message: 'Dokumen SK KGB pegawai berhasil digenerate dan sedang diunduh!', type: 'success' } }))"
-                                   class="inline-flex items-center gap-2 text-xs bg-blue-600 hover:bg-blue-700 text-white px-3 py-1.5 rounded-lg transition">
-                                    Unduh PDF
-                                </a>
+                    <tbody class="divide-y divide-gray-100">
+                        @foreach($riwayatKgb as $index => $riwayat)
+                        <tr class="hover:bg-white/40 transition">
+                            <td class="px-3 py-3 text-center text-gray-500 font-medium text-xs">{{ $riwayatKgb->firstItem() + $index }}</td>
+                            <td class="px-3 py-3 font-medium text-gray-800">{{ $riwayat->nomor_sk_baru }}</td>
+                            <td class="px-3 py-3">
+                                <p class="font-medium text-gray-900">{{ $riwayat->pegawai->nama_lengkap ?? '-' }}</p>
+                                <p class="text-xs text-gray-600 mt-0.5">{{ $riwayat->pegawai->nip ?? '-' }}</p>
+                            </td>
+                            <td class="px-3 py-3 text-gray-700 text-center">{{ $riwayat->tmt_baru?->format('d/m/Y') }}</td>
+                            <td class="px-3 py-3 text-gray-700 text-center font-medium whitespace-nowrap">Rp {{ number_format($riwayat->gaji_pokok_baru, 0, ',', '.') }}</td>
+                            <td class="px-3 py-3 text-center">
+                                @if($riwayat->status === 'Final')
+                                    <span class="inline-flex items-center px-2 py-0.5 rounded text-[11px] font-medium bg-green-100 text-green-800">Final</span>
+                                @else
+                                    <span class="inline-flex items-center px-2 py-0.5 rounded text-[11px] font-medium bg-yellow-100 text-yellow-800">Draf</span>
+                                @endif
+                            </td>
+                            <td class="px-3 py-3 text-gray-700 text-center font-medium">{{ $riwayat->tmt_yad?->format('d/m/Y') }}</td>
+                            <td class="px-3 py-3 text-center">
+                                <div class="flex items-center justify-center gap-2">
+                                    <a href="{{ route('admin.kgb.show', $riwayat->id) }}" class="inline-flex justify-center items-center p-1.5 bg-blue-500/10 text-blue-600 hover:bg-blue-600 hover:text-white rounded-md transition" title="Detail Riwayat KGB">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>
+                                    </a>
+                                    <a href="{{ route('admin.kgb.download-pdf', $riwayat->id) }}" 
+                                       onclick="window.dispatchEvent(new CustomEvent('show-toast', { detail: { message: 'Dokumen SK KGB pegawai berhasil digenerate dan sedang diunduh!', type: 'success' } }))"
+                                       class="inline-flex justify-center items-center gap-1.5 text-xs font-medium bg-blue-600 hover:bg-blue-700 text-white px-3 py-1.5 rounded-md transition whitespace-nowrap">
+                                        Unduh PDF
+                                    </a>
+                                </div>
                             </td>
                         </tr>
                         @endforeach
@@ -87,10 +97,12 @@
                 </table>
             </div>
 
-            <div class="px-6 py-4 border-t border-gray-100 bg-gray-50">
+            <div class="px-6 py-4 border-t border-white/30">
                 {{ $riwayatKgb->links() }}
             </div>
         @endif
     </div>
+
+
 </div>
 @endsection
