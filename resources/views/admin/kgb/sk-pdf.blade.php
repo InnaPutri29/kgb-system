@@ -15,6 +15,7 @@
         }
         .header {
             width: 100%;
+            font-family: Arial, sans-serif;
         }
         .garis-kop {
             border-top: 3px solid black;
@@ -39,19 +40,20 @@
             text-align: center;
         }
         .header h1 {
-            font-size: 14pt;
+            font-size: 11pt;
             margin: 0;
             font-weight: normal;
         }
         .header h2 {
             font-size: 16pt;
             margin: 0;
-            font-weight: bold;
+            font-weight: normal;
             letter-spacing: 2px;
         }
         .header p {
-            font-size: 11pt;
+            font-size: 10pt;
             margin: 0;
+            margin-top: 2px;
         }
         table {
             width: 100%;
@@ -111,8 +113,8 @@
                 <td class="text-center">
                     <h1>PEMERINTAH DAERAH PROVINSI JAWA BARAT</h1>
                     <h2>D I N A S K E S E H A T A N</h2>
-                    <h2 style="font-size: 14pt; font-weight: bold;">{{ strtoupper($instansi->nama_instansi ?? 'RUMAH SAKIT DAERAH SIDAWANGI') }}</h2>
-                    <p>{!! $instansi->alamat ? nl2br(e($instansi->alamat)) : 'Jalan Pangeran Kejaksan Sumber Telepon (0231) 8330707 <i>Fax</i> : (0231) 8330747<br><i>Website</i>: www.rsp.jabarprov.go.id <i>e-mail</i> : rsp@jabarprov.go.id<br>C I R E B O N - 4 5 6 1 1' !!}</p>
+                    <h2 style="font-weight: bold; letter-spacing: normal;">{{ strtoupper($instansi?->nama_instansi ?? 'RUMAH SAKIT DAERAH SIDAWANGI') }}</h2>
+                    <p>{!! $instansi?->alamat ? nl2br(e($instansi->alamat)) : 'Jalan Pangeran Kejaksan Sumber Telepon (0231) 8330707 <i>Fax :</i> (0231) 8330747<br><i>Website:</i> www.rsp.jabarprov.go.id <i>e-mail:</i> rsp@jabarprov.go.id<br>C I R E B O N - 4 5 6 1 1' !!}</p>
                 </td>
             </tr>
         </table>
@@ -275,8 +277,9 @@
                         Ditandatangani secara elektronik oleh:<br>
                         DIREKTUR RUMAH SAKIT DAERAH<br>
                         SIDAWANGI PROVINSI JAWA BARAT,<br><br>
-                        <strong>{{ $instansi->nama_direktur ?? 'dr. YOGA PRAMADIA' }}</strong><br>
-                        {{ $instansi->pangkat_direktur ?? 'Pembina Tk.I' }}
+                        <strong>{{ $instansi?->nama_direktur ?? 'dr. YOGA PRAMADIA' }}</strong><br>
+                        {{ $instansi?->pangkat_direktur ?? 'Pembina Tk.I' }}<br>
+                        NIP. {{ $instansi?->nip_direktur ?? '196812042005011008' }}
                     </td>
                 </tr>
             </table>

@@ -29,9 +29,15 @@
                     <p class="text-blue-600 font-medium mt-1">{{ $riwayat->pegawai->nama_lengkap ?? '-' }} <span class="font-mono text-sm ml-1">({{ $riwayat->pegawai->nip ?? '-' }})</span></p>
                 </div>
                 <div class="flex gap-3">
-                    <span class="inline-flex items-center px-2.5 py-1 rounded-md text-xs font-medium bg-green-50 text-green-700 border border-green-100 lg:border-slate-100">
-                        Selesai Diproses
-                    </span>
+                    @if($riwayat->status === 'Final')
+                        <span class="inline-flex items-center px-2.5 py-1 rounded-md text-xs font-medium bg-green-50 text-green-700 border border-green-100 lg:border-slate-100">
+                            Selesai TTE (Final)
+                        </span>
+                    @else
+                        <span class="inline-flex items-center px-2.5 py-1 rounded-md text-xs font-medium bg-yellow-50 text-yellow-700 border border-yellow-100 lg:border-slate-100">
+                            Draf (Menunggu TTE)
+                        </span>
+                    @endif
                 </div>
             </div>
 
@@ -88,5 +94,38 @@
             </div>
         </div>
     </div>
+
+    @if($riwayat->status === 'Draf')
+    <div class="bg-white rounded-[1.5rem] border border-gray-200 shadow-sm overflow-hidden mt-6 p-6">
+        <h3 class="text-lg font-bold text-gray-800 mb-4">Unggah SK KGB Final (TTE)</h3>
+        <p class="text-sm text-gray-600 mb-6">Unggah dokumen SK KGB yang telah ditandatangani secara elektronik (TTE) melalui aplikasi SIDEBAR. Sistem otomatis akan merubah status dokumen menjadi Final dan mengirimkan notifikasi kepada Pegawai bersangkutan.</p>
+        
+        <form action="{{ route('admin.kgb.upload-final', $riwayat->id) }}" method="POST" enctype="multipart/form-data" class="flex flex-col sm:flex-row gap-4 items-end">
+            @csrf
+            <div class="flex-1 w-full">
+                <label for="file_sk_final" class="block text-sm font-medium text-gray-700 mb-1">File SK Final (PDF, Maks 5MB) <span class="text-red-500">*</span></label>
+                <input type="file" name="file_sk_final" id="file_sk_final" accept=".pdf" required class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 border border-gray-300 rounded-lg focus:outline-none">
+            </div>
+            <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white font-medium px-6 py-2.5 rounded-lg transition shadow-sm w-full sm:w-auto text-sm">
+                Unggah & Finalisasi
+            </button>
+        </form>
+        @error('file_sk_final')
+            <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
+        @enderror
+    </div>
+    @else
+    <div class="bg-green-50 rounded-[1.5rem] border border-green-200 shadow-sm overflow-hidden mt-6 p-6 flex justify-between items-center">
+        <div>
+            <h3 class="text-lg font-bold text-green-800 mb-1">SK KGB Final Tersedia</h3>
+            <p class="text-sm text-green-700">Dokumen SK KGB ini telah selesai di-TTE dan sudah diarsipkan. Pegawai juga telah menerima notifikasi.</p>
+        </div>
+        @if($riwayat->file_sk_final)
+            <a href="{{ Storage::url($riwayat->file_sk_final) }}" target="_blank" class="bg-green-600 hover:bg-green-700 text-white font-medium px-4 py-2 rounded-lg transition shadow-sm text-sm shrink-0">
+                Lihat File Final
+            </a>
+        @endif
+    </div>
+    @endif
 </div>
 @endsection

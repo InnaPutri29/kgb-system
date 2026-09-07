@@ -42,32 +42,42 @@
                     <thead class="bg-blue-200/60 text-xs text-blue-900 uppercase tracking-wider border-b border-gray-100">
                         <tr>
                             <th class="px-6 py-3 text-left whitespace-nowrap">Nomor SK</th>
-                            <th class="px-6 py-3 text-left whitespace-nowrap">Tgl Ditetapkan</th>
-                            <th class="px-6 py-3 text-left whitespace-nowrap">TMT Baru</th>
-                            <th class="px-6 py-3 text-left whitespace-nowrap">Masa Kerja</th>
-                            <th class="px-6 py-3 text-left whitespace-nowrap">Gaji Pokok Baru</th>
+                            <th class="px-6 py-3 text-center whitespace-nowrap">Tgl Ditetapkan</th>
+                            <th class="px-6 py-3 text-center whitespace-nowrap">TMT Baru</th>
+                            <th class="px-6 py-3 text-center whitespace-nowrap">Gaji Pokok Baru</th>
+                            <th class="px-6 py-3 text-center whitespace-nowrap">Status</th>
                             <th class="px-6 py-3 text-center whitespace-nowrap">Aksi</th>
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-gray-100">
                         @foreach($riwayatKgb as $index => $riwayat)
                             <tr class="hover:bg-white/40 transition">
-                                <td class="px-6 py-3 font-medium text-gray-800 whitespace-nowrap">
+                                <td class="px-6 py-3 font-medium text-gray-800 text-left whitespace-nowrap">
                                     {{ $riwayat->nomor_sk_baru }}
                                     @if($index === 0)
                                         <span class="ml-2 px-2 py-0.5 text-[9px] bg-green-100 text-green-700 rounded-md font-bold">Terbaru</span>
                                     @endif
                                 </td>
-                                <td class="px-6 py-3 text-gray-600 whitespace-nowrap">{{ \Carbon\Carbon::parse($riwayat->tanggal_ditetapkan)->format('d/m/Y') }}</td>
-                                <td class="px-6 py-3 text-gray-600 whitespace-nowrap">{{ \Carbon\Carbon::parse($riwayat->tmt_baru)->format('d/m/Y') }}</td>
-                                <td class="px-6 py-3 text-gray-600 whitespace-nowrap">{{ $riwayat->masa_kerja_tahun_baru }} Thn, {{ $riwayat->masa_kerja_bulan_baru }} Bln</td>
-                                <td class="px-6 py-3 text-gray-600 whitespace-nowrap">Rp {{ number_format($riwayat->gaji_pokok_baru, 0, ',', '.') }}</td>
+                                <td class="px-6 py-3 text-gray-600 text-center whitespace-nowrap">{{ \Carbon\Carbon::parse($riwayat->tanggal_ditetapkan)->format('d/m/Y') }}</td>
+                                <td class="px-6 py-3 text-gray-600 text-center whitespace-nowrap">{{ \Carbon\Carbon::parse($riwayat->tmt_baru)->format('d/m/Y') }}</td>
+                                <td class="px-6 py-3 text-gray-600 text-center whitespace-nowrap">Rp {{ number_format($riwayat->gaji_pokok_baru, 0, ',', '.') }}</td>
+                                <td class="px-6 py-3 text-gray-600 text-center whitespace-nowrap">
+                                    @if($riwayat->status === 'Final')
+                                        <span class="px-2 py-1 rounded-md text-xs font-medium bg-green-50 text-green-700 border border-green-100">Final (TTE)</span>
+                                    @else
+                                        <span class="px-2 py-1 rounded-md text-xs font-medium bg-yellow-50 text-yellow-700 border border-yellow-100">Draf / Proses TTE</span>
+                                    @endif
+                                </td>
                                 <td class="px-6 py-3 text-center whitespace-nowrap">
-                                    <a href="{{ route('pegawai.sk.download', $riwayat->id) }}" 
-                                       class="inline-flex items-center gap-1 text-xs bg-blue-600 hover:bg-blue-700 text-white px-3 py-1.5 rounded-lg transition font-medium">
-                                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
-                                        Unduh
-                                    </a>
+                                    @if($riwayat->status === 'Final' && $riwayat->file_sk_final)
+                                        <a href="{{ Storage::url($riwayat->file_sk_final) }}" target="_blank"
+                                           class="inline-flex items-center gap-1 text-xs bg-blue-600 hover:bg-blue-700 text-white px-3 py-1.5 rounded-lg transition font-medium">
+                                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+                                            Unduh Final
+                                        </a>
+                                    @else
+                                        <span class="text-xs text-gray-400 italic">Menunggu TTE</span>
+                                    @endif
                                 </td>
                             </tr>
                         @endforeach

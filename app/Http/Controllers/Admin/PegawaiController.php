@@ -112,7 +112,7 @@ class PegawaiController extends Controller
 
     public function show(Pegawai $pegawai)
     {
-        $pegawai->load(['riwayatKgb' => fn($q) => $q->orderByDesc('tmt_baru'), 'skpEvaluasi' => fn($q) => $q->orderByDesc('tahun_penilaian')]);
+        $pegawai->load(['riwayatKgb' => fn($q) => $q->orderByDesc('tmt_baru'), 'pkpEvaluasi' => fn($q) => $q->orderByDesc('tahun_penilaian')]);
         return view('admin.pegawai.show', compact('pegawai'));
     }
 

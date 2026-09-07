@@ -63,12 +63,12 @@ class DatabaseSeeder extends Seeder
             ]
         );
 
-        // Buat Dummy SKP 2 tahun terakhir
-        \App\Models\SkpEvaluasi::firstOrCreate(
+        // Buat Dummy PKP 2 tahun terakhir
+        \App\Models\PkpEvaluasi::firstOrCreate(
             ['pegawai_id' => $pegawai->id, 'tahun_penilaian' => now()->year - 1],
             ['predikat' => 'Baik']
         );
-        \App\Models\SkpEvaluasi::firstOrCreate(
+        \App\Models\PkpEvaluasi::firstOrCreate(
             ['pegawai_id' => $pegawai->id, 'tahun_penilaian' => now()->year - 2],
             ['predikat' => 'Sangat Baik']
         );

@@ -55,6 +55,7 @@
                             <th class="px-3 py-3 text-left">Pegawai</th>
                             <th class="px-3 py-3 text-center">TMT Baru</th>
                             <th class="px-3 py-3 text-center">Gaji Baru</th>
+                            <th class="px-3 py-3 text-center">Status</th>
                             <th class="px-3 py-3 text-center">Jatuh Tempo YAD</th>
                             <th class="px-3 py-3 text-center">Aksi</th>
                         </tr>
@@ -70,6 +71,13 @@
                             </td>
                             <td class="px-3 py-3 text-gray-700 text-center">{{ $riwayat->tmt_baru?->format('d/m/Y') }}</td>
                             <td class="px-3 py-3 text-gray-700 text-center font-medium whitespace-nowrap">Rp {{ number_format($riwayat->gaji_pokok_baru, 0, ',', '.') }}</td>
+                            <td class="px-3 py-3 text-center">
+                                @if($riwayat->status === 'Final')
+                                    <span class="inline-flex items-center px-2 py-0.5 rounded text-[11px] font-medium bg-green-100 text-green-800">Final</span>
+                                @else
+                                    <span class="inline-flex items-center px-2 py-0.5 rounded text-[11px] font-medium bg-yellow-100 text-yellow-800">Draf</span>
+                                @endif
+                            </td>
                             <td class="px-3 py-3 text-gray-700 text-center font-medium">{{ $riwayat->tmt_yad?->format('d/m/Y') }}</td>
                             <td class="px-3 py-3 text-center">
                                 <div class="flex items-center justify-center gap-2">

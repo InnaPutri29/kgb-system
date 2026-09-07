@@ -176,10 +176,8 @@ class KgbController extends Controller
         $filePath = $this->generateAndSavePdf($riwayat, $pegawai, $instansi, $pejabatTerdahulu);
         $riwayat->update(['file_pdf_path' => $filePath]);
 
-        // Kirim notifikasi in-app ke Pegawai PNS
-        if ($pegawai->user) {
-            $pegawai->user->notify(new \App\Notifications\KgbDiterbitkanNotification($riwayat));
-        }
+        // Status otomatis Draf dari default database
+        // Notifikasi ke Pegawai akan dikirim saat Admin mengunggah SK Final
 
         return redirect()->route('admin.dashboard')
             ->with('success', "KGB {$pegawai->nama_lengkap} berhasil diproses. SK siap diunduh.");
@@ -206,6 +204,47 @@ class KgbController extends Controller
         $filename = 'SK_KGB_' . $namaClean . '_' . $riwayat->pegawai->nip . '.pdf';
 
         return $pdf->download($filename);
+    }
+
+    /**
+     * Upload PDF SK KGB Final (Sudah di-TTE).
+     */
+    public function uploadFinal(Request $request, RiwayatKgb $riwayat)
+    {
+        $request->validate([
+            'file_sk_final' => 'required|mimes:pdf|max:5120', // max 5MB
+        ], [
+            'file_sk_final.required' => 'File SK Final wajib diunggah.',
+            'file_sk_final.mimes'    => 'File harus berupa PDF.',
+            'file_sk_final.max'      => 'Ukuran file maksimal 5MB.',
+        ]);
+
+        if ($request->hasFile('file_sk_final')) {
+            $file = $request->file('file_sk_final');
+            $dir = 'sk_kgb_final';
+            
+            $riwayat->load('pegawai');
+            $namaClean = trim(preg_replace('/_+/', '_', str_replace(' ', '_', preg_replace('/[^a-zA-Z0-9\s]/', '', $riwayat->pegawai->nama_lengkap))), '_');
+            $filename = "SK_KGB_FINAL_{$namaClean}_{$riwayat->pegawai->nip}_" . time() . ".pdf";
+            
+            // Simpan file
+            $path = $file->storeAs($dir, $filename, 'public');
+
+            // Update riwayat
+            $riwayat->update([
+                'status' => 'Final',
+                'file_sk_final' => $path
+            ]);
+
+            // Kirim notifikasi in-app ke Pegawai PNS
+            if ($riwayat->pegawai->user) {
+                $riwayat->pegawai->user->notify(new \App\Notifications\KgbDiterbitkanNotification($riwayat));
+            }
+
+            return redirect()->back()->with('success', 'SK KGB Final berhasil diunggah. Notifikasi telah dikirim ke Pegawai.');
+        }
+
+        return redirect()->back()->with('error', 'Gagal mengunggah file.');
     }
 
     // -----------------------------------------------------------------------
@@ -258,20 +297,20 @@ class KgbController extends Controller
         }
 
         $tahunSekarang = now()->year;
-        $skpList = $pegawai->skpEvaluasi()
+        $pkpList = $pegawai->pkpEvaluasi()
             ->whereIn('tahun_penilaian', [$tahunSekarang - 1, $tahunSekarang - 2])
             ->get();
 
-        if ($skpList->count() < 2) {
+        if ($pkpList->count() < 2) {
             $lolos    = false;
-            $alasan[] = 'Data SKP belum lengkap / belum diinput (minimal 2 tahun terakhir)';
+            $alasan[] = 'Data PKP belum lengkap / belum diinput (minimal 2 tahun terakhir)';
         }
 
         $nilaiTidakLulus = ['Cukup', 'Kurang', 'Sangat Kurang'];
-        foreach ($skpList as $skp) {
-            if (in_array($skp->predikat, $nilaiTidakLulus)) {
+        foreach ($pkpList as $pkp) {
+            if (in_array($pkp->predikat, $nilaiTidakLulus)) {
                 $lolos    = false;
-                $alasan[] = "Nilai SKP tahun {$skp->tahun_penilaian} adalah '{$skp->predikat}' (tidak memenuhi syarat)";
+                $alasan[] = "Nilai PKP tahun {$pkp->tahun_penilaian} adalah '{$pkp->predikat}' (tidak memenuhi syarat)";
                 break;
             }
         }

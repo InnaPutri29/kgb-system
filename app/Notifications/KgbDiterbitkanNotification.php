@@ -30,7 +30,7 @@ class KgbDiterbitkanNotification extends Notification
             'nomor_sk'        => $this->riwayat->nomor_sk_baru,
             'tmt_baru'        => $this->riwayat->tmt_baru,
             'gaji_pokok_baru' => $this->riwayat->gaji_pokok_baru,
-            'message'         => "Selamat! SK KGB Anda untuk TMT {$tmtFormat} telah berhasil diproses oleh Admin. Arsip digital kini siap diunduh.",
+            'message'         => "SK KGB Final (TTE) Anda untuk TMT {$tmtFormat} telah berhasil diunggah oleh Admin. Silakan unduh dokumen terbaru.",
             'type'            => 'kgb_issued',
         ];
     }

@@ -18,28 +18,28 @@
         </div>
     @else
         @php
-            // Cek Kelayakan KGB berdasarkan Hukuman Disiplin & Nilai SKP (2 tahun terakhir harus minimal "Baik")
+            // Cek Kelayakan KGB berdasarkan Hukuman Disiplin & Nilai PKP (2 tahun terakhir harus minimal "Baik")
             $bebasHukuman = !$pegawai->is_sedang_hukuman_disiplin;
             
-            $skpTerakhir = $skpEvaluasi->take(2);
-            $skpLayak = true;
-            $skpCount = $skpTerakhir->count();
+            $pkpTerakhir = $pkpEvaluasi->take(2);
+            $pkpLayak = true;
+            $pkpCount = $pkpTerakhir->count();
             
-            if ($skpCount < 2) {
-                $skpLayak = false;
-                $skpStatusMsg = "Data SKP 2 tahun terakhir tidak lengkap";
+            if ($pkpCount < 2) {
+                $pkpLayak = false;
+                $pkpStatusMsg = "Data PKP 2 tahun terakhir tidak lengkap";
             } else {
-                foreach ($skpTerakhir as $s) {
+                foreach ($pkpTerakhir as $s) {
                     if (!in_array($s->predikat, ['Baik', 'Sangat Baik'])) {
-                        $skpLayak = false;
+                        $pkpLayak = false;
                     }
                 }
-                $skpStatusMsg = $skpLayak 
-                    ? "Nilai SKP memenuhi syarat" 
-                    : "Ada nilai SKP di bawah 'Baik'";
+                $pkpStatusMsg = $pkpLayak 
+                    ? "Nilai PKP memenuhi syarat" 
+                    : "Ada nilai PKP di bawah 'Baik'";
             }
             
-            $isKgbEligible = $bebasHukuman && $skpLayak;
+            $isKgbEligible = $bebasHukuman && $pkpLayak;
 
             // Logika Timeline KGB
             $tmtGajiTerakhir = $pegawai->tmt_gaji_terakhir ? \Carbon\Carbon::parse($pegawai->tmt_gaji_terakhir) : null;
@@ -89,10 +89,10 @@
                 <p class="text-xs text-gray-400 mt-auto pt-2">TMT Terakhir: <span class="font-medium text-gray-600">{{ $tmtGajiTerakhir ? $tmtGajiTerakhir->translatedFormat('d F Y') : '-' }}</span></p>
             </div>
 
-            <!-- Predikat SKP Terakhir -->
+            <!-- Predikat PKP Terakhir -->
             <div class="bg-white/50 backdrop-blur-3xl lg:bg-white lg:backdrop-blur-none rounded-[1.5rem] border border-blue-100 lg:border-slate-100 shadow-xl shadow-blue-500/10 lg:shadow-sm lg:shadow-black/5 p-5 flex flex-col gap-1 transition hover:shadow-2xl hover:shadow-blue-500/20 lg:hover:shadow-md lg:hover:shadow-black/10 hover:-translate-y-0.5">
-                <p class="text-sm text-gray-500 font-semibold mb-1">Nilai SKP Terakhir</p>
-                @php $lastSkp = $skpTerakhir->first(); @endphp
+                <p class="text-sm text-gray-500 font-semibold mb-1">Nilai PKP Terakhir</p>
+                @php $lastSkp = $pkpTerakhir->first(); @endphp
                 @if($lastSkp)
                     <p class="text-2xl font-bold text-gray-800">{{ $lastSkp->predikat }}</p>
                     <p class="text-xs text-gray-400 mt-auto pt-2">Tahun Penilaian: <span class="font-medium text-gray-600">{{ $lastSkp->tahun_penilaian }}</span></p>
@@ -137,7 +137,7 @@
                 @else
                     <div class="w-16 h-16 bg-red-100/80 text-red-600 rounded-full flex items-center justify-center text-3xl mb-3 shadow-sm border border-red-200">✗</div>
                     <p class="text-lg font-bold text-red-700">Belum Memenuhi</p>
-                    <p class="text-xs text-gray-500 mt-1.5 leading-relaxed">Ada syarat yang kurang (Hukuman Disiplin atau nilai SKP).</p>
+                    <p class="text-xs text-gray-500 mt-1.5 leading-relaxed">Ada syarat yang kurang (Hukuman Disiplin atau nilai PKP).</p>
                 @endif
             </div>
         </div>
