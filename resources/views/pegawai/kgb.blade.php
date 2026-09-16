@@ -4,6 +4,25 @@
 @section('content')
 <div class="space-y-6">
 
+    {{-- TOAST NOTIFIKASI --}}
+    <div id="toast-success"
+         class="fixed bottom-6 right-6 z-50 hidden items-center gap-3 bg-white border border-green-200 text-green-800 shadow-lg rounded-xl px-4 py-3 transition-all duration-300">
+        <div class="w-8 h-8 rounded-full bg-green-100 flex items-center justify-center shrink-0">
+            <svg class="w-4 h-4 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/>
+            </svg>
+        </div>
+        <div>
+            <p class="text-sm font-semibold">Unduhan Berhasil</p>
+            <p class="text-xs text-green-600">SK KGB berhasil diunduh.</p>
+        </div>
+        <button onclick="hideToast()" class="ml-2 text-green-400 hover:text-green-600">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+            </svg>
+        </button>
+    </div>
+
     {{-- HEADER --}}
     <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
@@ -71,6 +90,7 @@
                                 <td class="px-6 py-3 text-center whitespace-nowrap">
                                     @if($riwayat->status === 'Final' && $riwayat->file_sk_final)
                                         <a href="{{ Storage::url($riwayat->file_sk_final) }}" target="_blank"
+                                           onclick="showToast()"
                                            class="inline-flex items-center gap-1 text-xs bg-blue-600 hover:bg-blue-700 text-white px-3 py-1.5 rounded-lg transition font-medium">
                                             <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
                                             Unduh Final
@@ -88,4 +108,19 @@
     </div>
     @endif
 </div>
+
+<script>
+    function showToast() {
+        const toast = document.getElementById('toast-success');
+        toast.classList.remove('hidden');
+        toast.classList.add('flex');
+        clearTimeout(window._toastTimer);
+        window._toastTimer = setTimeout(() => hideToast(), 4000);
+    }
+    function hideToast() {
+        const toast = document.getElementById('toast-success');
+        toast.classList.add('hidden');
+        toast.classList.remove('flex');
+    }
+</script>
 @endsection

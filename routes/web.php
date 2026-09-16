@@ -85,10 +85,9 @@ Route::middleware(['auth', 'password.changed'])->group(function () {
     // -----------------------------------------------------------------------
     // PEGAWAI ROUTES
     // -----------------------------------------------------------------------
-    Route::prefix('pegawai-portal')->name('pegawai.')->middleware('role:pegawai')->group(function () {
+    Route::prefix('pegawai')->name('pegawai.')->middleware('role:pegawai')->group(function () {
         Route::get('/dashboard', [\App\Http\Controllers\Pegawai\DashboardController::class, 'index'])->name('dashboard');
         Route::get('/kgb', [\App\Http\Controllers\Pegawai\DashboardController::class, 'kgb'])->name('kgb');
-        Route::get('/skp', [\App\Http\Controllers\Pegawai\DashboardController::class, 'skp'])->name('pkp');
         Route::get('/sk/{riwayat}/download', [\App\Http\Controllers\Pegawai\DashboardController::class, 'downloadSk'])->name('sk.download');
     });
 

@@ -73,11 +73,6 @@
                     <span x-show="sidebarExpanded">Riwayat KGB</span>
                 </a>
 
-                <a href="{{ route('pegawai.pkp') }}" title="Evaluasi PKP"
-                   class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-semibold transition-all duration-200 group {{ request()->routeIs('pegawai.pkp') ? 'bg-white/20 shadow-sm text-white border border-white/30' : 'text-white/70 hover:bg-white/10 hover:text-white' }}">
-                    <svg class="w-5 h-5 {{ request()->routeIs('pegawai.pkp') ? 'text-white' : 'text-white/70' }}" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
-                    <span x-show="sidebarExpanded">Evaluasi PKP</span>
-                </a>
 
                 <p x-show="sidebarExpanded" class="px-3 pt-4 pb-1 text-[11px] font-bold text-white/70 uppercase tracking-widest">Pengaturan</p>
 
@@ -263,18 +258,6 @@
                 <span class="text-[10px] font-semibold leading-none">KGB</span>
             </a>
 
-            {{-- Evaluasi PKP --}}
-            <a href="{{ route('pegawai.pkp') }}"
-               class="flex-1 flex flex-col items-center justify-center gap-1 relative transition-all duration-150
-                      {{ request()->routeIs('pegawai.pkp') ? 'text-white' : 'text-white/45 active:text-white/80' }}">
-                @if(request()->routeIs('pegawai.pkp'))
-                    <span class="absolute top-0 inset-x-3 h-0.5 bg-white rounded-full"></span>
-                @endif
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="{{ request()->routeIs('pegawai.pkp') ? '2.5' : '1.8' }}" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
-                </svg>
-                <span class="text-[10px] font-semibold leading-none">Evaluasi PKP</span>
-            </a>
 
             {{-- Profil --}}
             <a href="{{ route('profile.edit') }}"
