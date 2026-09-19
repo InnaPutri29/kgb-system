@@ -30,7 +30,7 @@ class PegawaiKgbJatuhTempoNotification extends Notification
      */
     public function via($notifiable)
     {
-        return ['database'];
+        return ['mail', 'database'];
     }
 
     /**
@@ -38,10 +38,16 @@ class PegawaiKgbJatuhTempoNotification extends Notification
      */
     public function toMail(object $notifiable): MailMessage
     {
+        $tmtFormat = \Carbon\Carbon::parse($this->tmtBaru)->translatedFormat('d F Y');
+
         return (new MailMessage)
-            ->line('The introduction to the notification.')
-            ->action('Notification Action', url('/'))
-            ->line('Thank you for using our application!');
+            ->subject('Pengingat: Jadwal KGB Akan Jatuh Tempo')
+            ->greeting('Halo, ' . $notifiable->name . '!')
+            ->line("Pengingat bahwa jadwal Kenaikan Gaji Berkala (KGB) Anda akan jatuh tempo dalam {$this->selisihHari} hari lagi.")
+            ->line("TMT KGB Baru: {$tmtFormat}")
+            ->action('Lihat Portal Kepegawaian', url('/pegawai/pkp'))
+            ->line('Admin kepegawaian akan memproses dokumen KGB Anda.')
+            ->salutation('Hormat kami, Tim Kepegawaian');
     }
 
     /**
