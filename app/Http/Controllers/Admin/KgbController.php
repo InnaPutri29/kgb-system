@@ -233,12 +233,19 @@ class KgbController extends Controller
             $file = $request->file('file_sk_final');
             $dir = 'sk_kgb_final';
             
+            // Hapus file lama jika ada (fitur ganti/edit SK)
+            if ($riwayat->file_sk_final && \Illuminate\Support\Facades\Storage::disk('public')->exists($riwayat->file_sk_final)) {
+                \Illuminate\Support\Facades\Storage::disk('public')->delete($riwayat->file_sk_final);
+            }
+
             $riwayat->load('pegawai');
             $namaClean = trim(preg_replace('/_+/', '_', str_replace(' ', '_', preg_replace('/[^a-zA-Z0-9\s]/', '', $riwayat->pegawai->nama_lengkap))), '_');
             $filename = "SK_KGB_FINAL_{$namaClean}_{$riwayat->pegawai->nip}_" . time() . ".pdf";
             
             // Simpan file
             $path = $file->storeAs($dir, $filename, 'public');
+
+            $isUpdate = $riwayat->status === 'Final';
 
             // Update riwayat
             $riwayat->update([
@@ -251,7 +258,8 @@ class KgbController extends Controller
                 $riwayat->pegawai->user->notify(new \App\Notifications\KgbDiterbitkanNotification($riwayat));
             }
 
-            return redirect()->back()->with('success', 'SK KGB Final berhasil diunggah. Notifikasi telah dikirim ke Pegawai.');
+            $msg = $isUpdate ? 'File SK KGB Final berhasil diperbarui.' : 'SK KGB Final berhasil diunggah. Notifikasi telah dikirim ke Pegawai.';
+            return redirect()->back()->with('success', $msg);
         }
 
         return redirect()->back()->with('error', 'Gagal mengunggah file.');

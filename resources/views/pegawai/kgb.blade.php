@@ -88,9 +88,9 @@
                                     @endif
                                 </td>
                                 <td class="px-6 py-3 text-center whitespace-nowrap">
-                                    @if($riwayat->status === 'Final' && $riwayat->file_sk_final)
+                                     @if($riwayat->status === 'Final' && $riwayat->file_sk_final)
                                         <a href="{{ Storage::url($riwayat->file_sk_final) }}" target="_blank"
-                                           onclick="showToast()"
+                                           onclick="window.dispatchEvent(new CustomEvent('show-toast', { detail: { message: 'Dokumen SK KGB Final berhasil diunduh!', type: 'success' } }))"
                                            class="inline-flex items-center gap-1 text-xs bg-blue-600 hover:bg-blue-700 text-white px-3 py-1.5 rounded-lg transition font-medium">
                                             <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
                                             Unduh Final
@@ -108,19 +108,4 @@
     </div>
     @endif
 </div>
-
-<script>
-    function showToast() {
-        const toast = document.getElementById('toast-success');
-        toast.classList.remove('hidden');
-        toast.classList.add('flex');
-        clearTimeout(window._toastTimer);
-        window._toastTimer = setTimeout(() => hideToast(), 4000);
-    }
-    function hideToast() {
-        const toast = document.getElementById('toast-success');
-        toast.classList.add('hidden');
-        toast.classList.remove('flex');
-    }
-</script>
 @endsection

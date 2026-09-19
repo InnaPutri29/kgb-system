@@ -115,16 +115,44 @@
         @enderror
     </div>
     @else
-    <div class="bg-green-50 rounded-[1.5rem] border border-green-200 shadow-sm overflow-hidden mt-6 p-6 flex justify-between items-center">
-        <div>
-            <h3 class="text-lg font-bold text-green-800 mb-1">SK KGB Final Tersedia</h3>
-            <p class="text-sm text-green-700">Dokumen SK KGB ini telah selesai di-TTE dan sudah diarsipkan. Pegawai juga telah menerima notifikasi.</p>
+    <div class="bg-green-50 rounded-[1.5rem] border border-green-200 shadow-sm overflow-hidden mt-6 p-6">
+        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+            <div>
+                <h3 class="text-lg font-bold text-green-800 mb-1">SK KGB Final Tersedia</h3>
+                <p class="text-sm text-green-700">Dokumen SK KGB ini telah selesai di-TTE dan sudah diarsipkan. Pegawai juga telah menerima notifikasi.</p>
+            </div>
+            <div class="flex items-center gap-2 shrink-0">
+                @if($riwayat->file_sk_final)
+                    <a href="{{ Storage::url($riwayat->file_sk_final) }}" target="_blank"
+                       onclick="window.dispatchEvent(new CustomEvent('show-toast', { detail: { message: 'Dokumen SK KGB Final berhasil dibuka / diunduh!', type: 'success' } }))"
+                       class="bg-green-600 hover:bg-green-700 text-white font-medium px-4 py-2 rounded-lg transition shadow-sm text-sm shrink-0 inline-flex items-center gap-1.5">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>
+                        Lihat File Final
+                    </a>
+                @endif
+                <button type="button" onclick="document.getElementById('reupload-form').classList.toggle('hidden')" class="bg-white hover:bg-green-100 text-green-800 font-medium px-4 py-2 rounded-lg transition border border-green-300 shadow-sm text-sm shrink-0 inline-flex items-center gap-1.5">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
+                    Ganti File SK
+                </button>
+            </div>
         </div>
-        @if($riwayat->file_sk_final)
-            <a href="{{ Storage::url($riwayat->file_sk_final) }}" target="_blank" class="bg-green-600 hover:bg-green-700 text-white font-medium px-4 py-2 rounded-lg transition shadow-sm text-sm shrink-0">
-                Lihat File Final
-            </a>
-        @endif
+
+        <!-- Form Edit / Re-upload File SK Final -->
+        <div id="reupload-form" class="hidden mt-6 pt-6 border-t border-green-200/80">
+            <h4 class="text-sm font-bold text-green-900 mb-1">Unggah Ulang / Ganti File SK Final (PDF)</h4>
+            <p class="text-xs text-green-700 mb-4">Jika ada revisi atau kesalahan unggah file, Anda dapat mengunggah file baru di bawah ini. File PDF lama akan otomatis digantikan.</p>
+            
+            <form action="{{ route('admin.kgb.upload-final', $riwayat->id) }}" method="POST" enctype="multipart/form-data" class="flex flex-col sm:flex-row gap-4 items-end">
+                @csrf
+                <div class="flex-1 w-full">
+                    <label for="file_sk_final_edit" class="block text-xs font-semibold text-green-800 mb-1">Pilih File SK Baru (PDF, Maks 5MB) <span class="text-red-500">*</span></label>
+                    <input type="file" name="file_sk_final" id="file_sk_final_edit" accept=".pdf" required class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-green-100 file:text-green-800 hover:file:bg-green-200 border border-green-300 bg-white rounded-lg focus:outline-none">
+                </div>
+                <button type="submit" class="bg-green-700 hover:bg-green-800 text-white font-medium px-5 py-2.5 rounded-lg transition shadow-sm w-full sm:w-auto text-sm shrink-0">
+                    Simpan & Perbarui File
+                </button>
+            </form>
+        </div>
     </div>
     @endif
 </div>
