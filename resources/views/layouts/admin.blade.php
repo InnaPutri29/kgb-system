@@ -88,8 +88,8 @@
 
                 <a href="{{ route('admin.kgb.index') }}" title="Riwayat KGB"
                    class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-semibold transition-all duration-200 group
-                          {{ request()->routeIs('admin.kgb.index') ? 'bg-white/20 shadow-sm text-white border border-white/30' : 'text-white/70 hover:bg-white/10 hover:text-white' }}">
-                    <svg class="w-5 h-5 {{ request()->routeIs('admin.kgb.index') ? 'text-white' : 'text-white/70' }}" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                          {{ request()->routeIs('admin.kgb.index') || request()->routeIs('admin.kgb.show') || request()->routeIs('admin.kgb.edit') ? 'bg-white/20 shadow-sm text-white border border-white/30' : 'text-white/70 hover:bg-white/10 hover:text-white' }}">
+                    <svg class="w-5 h-5 {{ request()->routeIs('admin.kgb.index') || request()->routeIs('admin.kgb.show') || request()->routeIs('admin.kgb.edit') ? 'text-white' : 'text-white/70' }}" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
                     <span x-show="sidebarExpanded || !isDesktop">Riwayat KGB</span>
                 </a>
 

@@ -43,13 +43,14 @@ Route::middleware(['auth', 'password.changed'])->group(function () {
             Route::get('/import/template', [PegawaiController::class, 'downloadTemplate'])->name('import.template');
             Route::get('/import', [PegawaiController::class, 'showImportForm'])->name('import');
             Route::post('/import', [PegawaiController::class, 'import'])->name('import.store');
-            Route::get('/{pegawai}', [PegawaiController::class, 'show'])->name('show');
+            Route::get('/{pegawai}/detail', [PegawaiController::class, 'show'])->name('show');
+            Route::get('/{pegawai}', [PegawaiController::class, 'show']);
             Route::get('/{pegawai}/edit', [PegawaiController::class, 'edit'])->name('edit');
             Route::put('/{pegawai}', [PegawaiController::class, 'update'])->name('update');
             Route::delete('/{pegawai}', [PegawaiController::class, 'destroy'])->name('destroy');
 
             // PKP Evaluasi (nested di bawah pegawai)
-            Route::prefix('/{pegawai}/skp')->name('skp.')->group(function () {
+            Route::prefix('/{pegawai}/skp')->name('pkp.')->group(function () {
                 Route::post('/', [\App\Http\Controllers\Admin\PkpEvaluasiController::class, 'store'])->name('store');
                 Route::put('/{pkp}', [\App\Http\Controllers\Admin\PkpEvaluasiController::class, 'update'])->name('update');
                 Route::delete('/{pkp}', [\App\Http\Controllers\Admin\PkpEvaluasiController::class, 'destroy'])->name('destroy');
