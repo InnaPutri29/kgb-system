@@ -84,10 +84,7 @@
             </div>
 
             <div class="mt-8 pt-5 border-t border-gray-100 flex justify-end">
-                <x-primary-button class="gap-2">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
-                    Simpan Perubahan
-                </x-primary-button>
+                <x-primary-button>Simpan Perubahan</x-primary-button>
             </div>
         </form>
     </div>
