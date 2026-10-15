@@ -24,12 +24,17 @@ class PegawaiController extends Controller
                 $q->where('nama_lengkap', 'like', "%{$search}%")
                   ->orWhere('nip', 'like', "%{$search}%")
                   ->orWhere('jabatan', 'like', "%{$search}%")
-                  ->orWhere('golongan', 'like', "%{$search}%")
+                  ->orWhere('golongan', 'like', "{$search}%")
                   ->orWhere('pangkat', 'like', "%{$search}%");
             });
         }
         if ($request->filled('golongan')) {
-            $query->where('golongan', 'like', $request->golongan . '%');
+            $golongan = $request->golongan;
+            if (str_contains($golongan, '/')) {
+                $query->where('golongan', $golongan);
+            } else {
+                $query->where('golongan', 'like', $golongan . '/%');
+            }
         }
 
         if ($request->filled('tahun_tmt')) {
@@ -50,7 +55,7 @@ class PegawaiController extends Controller
             ->orderBy('golongan')
             ->pluck('golongan');
 
-        $pegawai = $query->latest()->paginate(15)->withQueryString();
+        $pegawai = $query->latest()->paginate(request('per_page', 20))->withQueryString();
         return view('admin.pegawai.index', compact('pegawai', 'tahunTmtList', 'golonganList'));
     }
 
@@ -67,7 +72,7 @@ class PegawaiController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'nip' => 'required|string|max:50|unique:pegawai,nip',
+            'nip' => 'required|string|digits:18|unique:pegawai,nip',
             'nama_lengkap' => 'required|string|max:255',
             'email' => 'nullable|email|max:255|unique:users,email',
             'pangkat' => 'nullable|string|max:100',
@@ -107,7 +112,7 @@ class PegawaiController extends Controller
 
     public function show(Pegawai $pegawai)
     {
-        $pegawai->load(['riwayatKgb' => fn($q) => $q->orderByDesc('tmt_baru'), 'skpEvaluasi' => fn($q) => $q->orderByDesc('tahun_penilaian')]);
+        $pegawai->load(['riwayatKgb' => fn($q) => $q->orderByDesc('tmt_baru'), 'pkpEvaluasi' => fn($q) => $q->orderByDesc('tahun_penilaian')]);
         return view('admin.pegawai.show', compact('pegawai'));
     }
 
@@ -119,7 +124,7 @@ class PegawaiController extends Controller
     public function update(Request $request, Pegawai $pegawai)
     {
         $validated = $request->validate([
-            'nip' => ['required', 'string', 'max:50', Rule::unique('pegawai', 'nip')->ignore($pegawai->id)],
+            'nip' => ['required', 'string', 'digits:18', Rule::unique('pegawai', 'nip')->ignore($pegawai->id)],
             'nama_lengkap' => 'required|string|max:255',
             'email' => ['nullable', 'email', 'max:255', Rule::unique('users', 'email')->ignore($pegawai->user_id)],
             'pangkat' => 'nullable|string|max:100',

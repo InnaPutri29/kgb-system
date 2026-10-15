@@ -18,7 +18,7 @@ class DashboardController extends Controller
             'pegawai.riwayatKgb' => function ($query) {
                 $query->latest('tmt_baru');
             },
-            'pegawai.skpEvaluasi' => function ($query) {
+            'pegawai.pkpEvaluasi' => function ($query) {
                 $query->latest('tahun_penilaian');
             }
         ])->find(Auth::id());
@@ -33,10 +33,10 @@ class DashboardController extends Controller
         if (!$pegawai) return view('pegawai.dashboard', ['pegawai' => null]);
 
         $riwayatKgb = $pegawai->riwayatKgb;
-        $skpEvaluasi = $pegawai->skpEvaluasi;
+        $pkpEvaluasi = $pegawai->pkpEvaluasi;
         $tahunBerjalan = now()->year;
         
-        return view('pegawai.dashboard', compact('pegawai', 'riwayatKgb', 'skpEvaluasi', 'tahunBerjalan'));
+        return view('pegawai.dashboard', compact('pegawai', 'riwayatKgb', 'pkpEvaluasi', 'tahunBerjalan'));
     }
 
     public function kgb()
@@ -51,13 +51,13 @@ class DashboardController extends Controller
     public function skp()
     {
         $pegawai = $this->getPegawaiData();
-        if (!$pegawai) return view('pegawai.skp', ['pegawai' => null]);
+        if (!$pegawai) return view('pegawai.pkp', ['pegawai' => null]);
 
-        $skpEvaluasi = $pegawai->skpEvaluasi;
+        $pkpEvaluasi = $pegawai->pkpEvaluasi;
         $tahunBerjalan = now()->year;
-        $skpPeriodeBerjalan = $skpEvaluasi->where('tahun_penilaian', $tahunBerjalan)->first();
+        $pkpPeriodeBerjalan = $pkpEvaluasi->where('tahun_penilaian', $tahunBerjalan)->first();
 
-        return view('pegawai.skp', compact('pegawai', 'skpEvaluasi', 'skpPeriodeBerjalan', 'tahunBerjalan'));
+        return view('pegawai.pkp', compact('pegawai', 'pkpEvaluasi', 'pkpPeriodeBerjalan', 'tahunBerjalan'));
     }
 
     /**

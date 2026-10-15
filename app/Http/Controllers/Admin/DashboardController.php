@@ -28,7 +28,7 @@ class DashboardController extends Controller
             })
             ->with('riwayatKgb')
             ->orderByRaw('DATE_ADD(tmt_gaji_terakhir, INTERVAL 2 YEAR) ASC')
-            ->paginate(10);
+            ->paginate(request('per_page', 10))->withQueryString();
 
         // Sudah jatuh tempo hari ini
         $jatuhTempoHariIni = Pegawai::whereNotNull('tmt_gaji_terakhir')
