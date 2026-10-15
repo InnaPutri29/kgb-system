@@ -253,7 +253,7 @@
                                 
                                 <select id="edit_predikat" name="predikat" x-model="editSkp.predikat" class="opacity-0 absolute inset-0 w-full h-full pointer-events-none" required>
                                     <option value=""></option>
-                                    @foreach(['Sangat Baik','Baik','Cukup','Kurang','Sangat Kurang'] as $p)
+                                    @foreach(['Sangat Baik','Baik','Butuh Perbaikan','Cukup','Kurang','Sangat Kurang'] as $p)
                                         <option value="{{ $p }}"></option>
                                     @endforeach
                                 </select>
@@ -276,7 +276,7 @@
                                         <li @click="editSkp.predikat = ''; open = false" class="px-4 py-2 text-sm text-gray-500 hover:bg-gray-100 cursor-pointer">
                                             -- Batal Pilih --
                                         </li>
-                                        @foreach(['Sangat Baik','Baik','Cukup','Kurang','Sangat Kurang'] as $p)
+                                        @foreach(['Sangat Baik','Baik','Butuh Perbaikan','Cukup','Kurang','Sangat Kurang'] as $p)
                                             <li @click="editSkp.predikat = '{{ $p }}'; open = false" 
                                                 class="px-4 py-2 text-sm hover:bg-indigo-50 cursor-pointer border-l-2 transition-colors"
                                                 :class="editSkp.predikat === '{{ $p }}' ? 'bg-indigo-50 border-indigo-500 font-medium text-indigo-900' : 'border-transparent text-gray-700'">
@@ -319,7 +319,7 @@
                         
                         <select id="predikat" name="predikat" x-model="selected" class="opacity-0 absolute inset-0 w-full h-full pointer-events-none" required>
                             <option value=""></option>
-                            @foreach(['Sangat Baik','Baik','Cukup','Kurang','Sangat Kurang'] as $p)
+                            @foreach(['Sangat Baik','Baik','Butuh Perbaikan','Cukup','Kurang','Sangat Kurang'] as $p)
                                 <option value="{{ $p }}"></option>
                             @endforeach
                         </select>
@@ -342,7 +342,7 @@
                                 <li @click="selected = ''; open = false" class="px-4 py-2 text-sm text-gray-500 hover:bg-gray-100 cursor-pointer">
                                     -- Batal Pilih --
                                 </li>
-                                @foreach(['Sangat Baik','Baik','Cukup','Kurang','Sangat Kurang'] as $p)
+                                @foreach(['Sangat Baik','Baik','Butuh Perbaikan','Cukup','Kurang','Sangat Kurang'] as $p)
                                     <li @click="selected = '{{ $p }}'; open = false" 
                                         class="px-4 py-2 text-sm hover:bg-indigo-50 cursor-pointer border-l-2 transition-colors"
                                         :class="selected === '{{ $p }}' ? 'bg-indigo-50 border-indigo-500 font-medium text-indigo-900' : 'border-transparent text-gray-700'">
