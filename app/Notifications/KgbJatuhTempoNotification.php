@@ -4,6 +4,7 @@ namespace App\Notifications;
 
 use App\Models\Pegawai;
 use Illuminate\Bus\Queueable;
+use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
 class KgbJatuhTempoNotification extends Notification
@@ -23,7 +24,21 @@ class KgbJatuhTempoNotification extends Notification
 
     public function via($notifiable)
     {
-        return ['database'];
+        return ['mail', 'database'];
+    }
+
+    public function toMail(object $notifiable): MailMessage
+    {
+        $tmtFormat = \Carbon\Carbon::parse($this->tmtBaru)->translatedFormat('d F Y');
+
+        return (new MailMessage)
+            ->subject('Pemberitahuan Admin: KGB Pegawai Akan Jatuh Tempo')
+            ->greeting('Halo Admin, ' . $notifiable->name . '!')
+            ->line("Pegawai atas nama {$this->pegawai->nama_lengkap} (NIP: {$this->pegawai->nip}) akan jatuh tempo KGB dalam {$this->selisihHari} hari lagi.")
+            ->line("TMT KGB Baru: {$tmtFormat}")
+            ->action('Proses KGB Pegawai', url('/admin/kgb/nominatif'))
+            ->line('Silakan periksa daftar nominatif dan proses berkas KGB pegawai tersebut.')
+            ->salutation('Hormat kami, Sistem KGB');
     }
 
     public function toArray($notifiable)

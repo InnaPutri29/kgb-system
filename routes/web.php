@@ -43,16 +43,17 @@ Route::middleware(['auth', 'password.changed'])->group(function () {
             Route::get('/import/template', [PegawaiController::class, 'downloadTemplate'])->name('import.template');
             Route::get('/import', [PegawaiController::class, 'showImportForm'])->name('import');
             Route::post('/import', [PegawaiController::class, 'import'])->name('import.store');
-            Route::get('/{pegawai}', [PegawaiController::class, 'show'])->name('show');
+            Route::get('/{pegawai}/detail', [PegawaiController::class, 'show'])->name('show');
+            Route::get('/{pegawai}', [PegawaiController::class, 'show']);
             Route::get('/{pegawai}/edit', [PegawaiController::class, 'edit'])->name('edit');
             Route::put('/{pegawai}', [PegawaiController::class, 'update'])->name('update');
             Route::delete('/{pegawai}', [PegawaiController::class, 'destroy'])->name('destroy');
 
-            // SKP Evaluasi (nested di bawah pegawai)
-            Route::prefix('/{pegawai}/skp')->name('skp.')->group(function () {
-                Route::post('/', [\App\Http\Controllers\Admin\SkpEvaluasiController::class, 'store'])->name('store');
-                Route::put('/{skp}', [\App\Http\Controllers\Admin\SkpEvaluasiController::class, 'update'])->name('update');
-                Route::delete('/{skp}', [\App\Http\Controllers\Admin\SkpEvaluasiController::class, 'destroy'])->name('destroy');
+            // PKP Evaluasi (nested di bawah pegawai)
+            Route::prefix('/{pegawai}/skp')->name('pkp.')->group(function () {
+                Route::post('/', [\App\Http\Controllers\Admin\PkpEvaluasiController::class, 'store'])->name('store');
+                Route::put('/{pkp}', [\App\Http\Controllers\Admin\PkpEvaluasiController::class, 'update'])->name('update');
+                Route::delete('/{pkp}', [\App\Http\Controllers\Admin\PkpEvaluasiController::class, 'destroy'])->name('destroy');
             });
         });
 
@@ -63,7 +64,9 @@ Route::middleware(['auth', 'password.changed'])->group(function () {
             Route::get('/nominatif', [KgbController::class, 'nominatif'])->name('nominatif');
             Route::get('/{pegawai}/data-modal', [KgbController::class, 'getDataForModal'])->name('data-modal');
             Route::post('/{pegawai}/proses', [KgbController::class, 'proses'])->name('proses');
+            Route::get('/riwayat/{riwayat}', [KgbController::class, 'show'])->name('show');
             Route::get('/riwayat/{riwayat}/pdf', [KgbController::class, 'downloadPdf'])->name('download-pdf');
+            Route::post('/riwayat/{riwayat}/upload-final', [KgbController::class, 'uploadFinal'])->name('upload-final');
         });
 
         // Master Pejabat
@@ -75,15 +78,17 @@ Route::middleware(['auth', 'password.changed'])->group(function () {
         // Pengaturan Instansi
         Route::get('/pengaturan-instansi', [\App\Http\Controllers\Admin\PengaturanInstansiController::class, 'index'])->name('pengaturan-instansi.index');
         Route::post('/pengaturan-instansi', [\App\Http\Controllers\Admin\PengaturanInstansiController::class, 'update'])->name('pengaturan-instansi.update');
+        
+        // Manajemen Pengguna
+        Route::resource('pengguna', \App\Http\Controllers\Admin\UserController::class)->names('users');
     });
 
     // -----------------------------------------------------------------------
     // PEGAWAI ROUTES
     // -----------------------------------------------------------------------
-    Route::prefix('pegawai-portal')->name('pegawai.')->middleware('role:pegawai')->group(function () {
+    Route::prefix('pegawai')->name('pegawai.')->middleware('role:pegawai')->group(function () {
         Route::get('/dashboard', [\App\Http\Controllers\Pegawai\DashboardController::class, 'index'])->name('dashboard');
         Route::get('/kgb', [\App\Http\Controllers\Pegawai\DashboardController::class, 'kgb'])->name('kgb');
-        Route::get('/skp', [\App\Http\Controllers\Pegawai\DashboardController::class, 'skp'])->name('skp');
         Route::get('/sk/{riwayat}/download', [\App\Http\Controllers\Pegawai\DashboardController::class, 'downloadSk'])->name('sk.download');
     });
 

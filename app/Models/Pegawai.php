@@ -37,9 +37,9 @@ class Pegawai extends Model
         return $this->belongsTo(MasterPejabat::class, 'master_pejabat_id');
     }
 
-    public function skpEvaluasi()
+    public function pkpEvaluasi()
     {
-        return $this->hasMany(SkpEvaluasi::class, 'pegawai_id');
+        return $this->hasMany(PkpEvaluasi::class, 'pegawai_id');
     }
 
     public function riwayatKgb()

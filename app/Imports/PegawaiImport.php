@@ -4,7 +4,7 @@ namespace App\Imports;
 
 use App\Models\Pegawai;
 use App\Models\User;
-use App\Models\SkpEvaluasi;
+use App\Models\PkpEvaluasi;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use Maatwebsite\Excel\Concerns\ToModel;
@@ -95,16 +95,16 @@ class PegawaiImport implements ToModel, WithHeadingRow, SkipsOnError
             'is_sedang_hukuman_disiplin' => false,
         ]);
 
-        // Import data SKP jika ada
+        // Import data PKP jika ada
         if (!empty($row['skp_tahun_1']) && !empty($row['skp_predikat_1'])) {
-            SkpEvaluasi::create([
+            PkpEvaluasi::create([
                 'pegawai_id' => $pegawai->id,
                 'tahun_penilaian' => $row['skp_tahun_1'],
                 'predikat' => ucfirst(strtolower(trim($row['skp_predikat_1'])))
             ]);
         }
         if (!empty($row['skp_tahun_2']) && !empty($row['skp_predikat_2'])) {
-            SkpEvaluasi::create([
+            PkpEvaluasi::create([
                 'pegawai_id' => $pegawai->id,
                 'tahun_penilaian' => $row['skp_tahun_2'],
                 'predikat' => ucfirst(strtolower(trim($row['skp_predikat_2'])))

@@ -15,11 +15,11 @@ class PengaturanInstansiController extends Controller
         $pengaturan = PengaturanInstansi::firstOrCreate(
             ['id' => 1],
             [
-                'nama_instansi' => 'UOBK Rumah Sakit Paru Provinsi Jawa Barat',
-                'alamat' => 'Jl. Raya Sidawangi, Kec. Sumber, Kab. Cirebon',
-                'nama_direktur' => 'dr. Budi Santoso, M.Kes',
-                'nip_direktur' => '19700101 200003 1 001',
-                'pangkat_direktur' => 'Pembina Utama Muda (IV/c)'
+                'nama_instansi' => 'RUMAH SAKIT DAERAH SIDAWANGI',
+                'alamat' => "Jalan Pangeran Kejaksan Sumber Telepon (0231) 833070 Fax : (0231) 8330747\nWebsite: www.rsp.jabarprov.go.id e-mail : rsp@jabarprov.go.id\nC I R E B O N - 4 5 6 1 1",
+                'nama_direktur' => 'dr. YOGA PRAMADIA',
+                'nip_direktur' => '196812042005011008',
+                'pangkat_direktur' => 'Pembina Tk.I'
             ]
         );
 

@@ -24,6 +24,8 @@ class RiwayatKgb extends Model
         'tmt_yad',
         'pejabat_penetap',
         'file_pdf_path',
+        'status',
+        'file_sk_final',
     ];
 
     protected function casts(): array

@@ -11,12 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('skp_evaluasi', function (Blueprint $table) {
+        Schema::create('pkp_evaluasi', function (Blueprint $table) {
             $table->id();
             $table->foreignId('pegawai_id')->constrained('pegawai')->onDelete('cascade');
             $table->year('tahun_penilaian');
-            $table->enum('predikat', ['Sangat Baik', 'Baik', 'Cukup', 'Kurang', 'Sangat Kurang']);
-            $table->string('file_bukti_skp')->nullable();
+            $table->enum('predikat', ['Sangat Baik', 'Baik', 'Butuh Perbaikan', 'Kurang/Misconduct', 'Sangat Kurang']);
+            $table->string('file_bukti_pkp')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });
@@ -27,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('skp_evaluasi');
+        Schema::dropIfExists('pkp_evaluasi');
     }
 };

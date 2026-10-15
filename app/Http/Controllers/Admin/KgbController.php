@@ -15,8 +15,17 @@ use Illuminate\Support\Facades\Storage;
 use App\Exports\KgbExport;
 use Maatwebsite\Excel\Facades\Excel;
 
+use App\Services\KgbEligibilityService;
+
 class KgbController extends Controller
 {
+    protected $rulesService;
+
+    public function __construct(KgbEligibilityService $rulesService)
+    {
+        $this->rulesService = $rulesService;
+    }
+
     /**
      * Tampilkan data untuk modal proses KGB (JSON/partial).
      */
@@ -26,24 +35,20 @@ class KgbController extends Controller
             $query->latest('tmt_baru');
         }]);
 
-        $pejabatList     = MasterPejabat::orderBy('nama_jabatan')->get();
-        $tmtGajiTerakhir = Carbon::parse($pegawai->tmt_gaji_terakhir);
-        $tmtBaru         = $tmtGajiTerakhir->copy()->addYears(2);
+        $pejabatList = MasterPejabat::orderBy('nama_jabatan')->get();
+        $periode     = $this->rulesService->hitungPeriodeBaru($pegawai);
 
-        $masaKerjaTahunBaru = $pegawai->masa_kerja_tahun + 2;
-        $masaKerjaBulanBaru = $pegawai->masa_kerja_bulan;
-
-        $gajiPokokBaru = $this->lookupGaji($pegawai->golongan, $masaKerjaTahunBaru);
-        $validasi      = $this->validasiKgb($pegawai);
+        $gajiPokokBaru = $this->rulesService->lookupGaji($pegawai->golongan, $periode['masa_kerja_tahun_baru']);
+        $validasi      = $this->rulesService->validasiKgb($pegawai);
 
         $pegawaiArray = $pegawai->toArray();
         $pegawaiArray['tanggal_sk_terakhir'] = $pegawai->tanggal_sk_terakhir ? $pegawai->tanggal_sk_terakhir->format('Y-m-d') : null;
 
         return response()->json([
             'pegawai'               => $pegawaiArray,
-            'tmt_baru'              => $tmtBaru->format('Y-m-d'),
-            'masa_kerja_tahun_baru' => $masaKerjaTahunBaru,
-            'masa_kerja_bulan_baru' => $masaKerjaBulanBaru,
+            'tmt_baru'              => $periode['tmt_baru']->format('Y-m-d'),
+            'masa_kerja_tahun_baru' => $periode['masa_kerja_tahun_baru'],
+            'masa_kerja_bulan_baru' => $periode['masa_kerja_bulan_baru'],
             'gaji_pokok_baru'       => $gajiPokokBaru,
             'pejabat_list'          => $pejabatList,
             'validasi'              => $validasi,
@@ -57,9 +62,18 @@ class KgbController extends Controller
     {
         $riwayatKgb = RiwayatKgb::with('pegawai')
             ->latest()
-            ->paginate(20);
+            ->paginate(request('per_page', 20))->withQueryString();
 
         return view('admin.kgb.index', compact('riwayatKgb'));
+    }
+
+    /**
+     * Tampilkan detail riwayat KGB.
+     */
+    public function show(RiwayatKgb $riwayat)
+    {
+        $riwayat->load('pegawai');
+        return view('admin.kgb.show', compact('riwayat'));
     }
 
     /**
@@ -79,7 +93,7 @@ class KgbController extends Controller
             })
             ->with('riwayatKgb')
             ->orderByRaw('DATE_ADD(tmt_gaji_terakhir, INTERVAL 2 YEAR) ASC')
-            ->paginate(15);
+            ->get();
 
         // Hitung yang sudah jatuh tempo hari ini
         $jatuhTempoHariIni = Pegawai::whereNotNull('tmt_gaji_terakhir')
@@ -101,7 +115,17 @@ class KgbController extends Controller
     public function proses(Request $request, Pegawai $pegawai)
     {
         $request->validate([
-            'nomor_sk_baru'       => 'required|string|max:255',
+            'nomor_sk_baru'       => [
+                'required',
+                'string',
+                'max:255',
+                function ($attribute, $value, $fail) {
+                    $lengkap = trim($value) . '/KPG.14/Kepegumas/RSP';
+                    if (\App\Models\RiwayatKgb::where('nomor_sk_baru', $lengkap)->exists()) {
+                        $fail('Nomor SK Baru "' . $lengkap . '" sudah digunakan. Silakan gunakan nomor lain.');
+                    }
+                },
+            ],
             'nomor_sk_terakhir'   => 'required|string|max:255',
             'tanggal_sk_terakhir' => 'required|date',
             'tanggal_ditetapkan'  => 'required|date',
@@ -114,19 +138,20 @@ class KgbController extends Controller
             'master_pejabat_id.required'   => 'Pejabat penetap SK wajib dipilih.',
         ]);
 
-        // Validasi rule-based
-        $validasi = $this->validasiKgb($pegawai);
+        // Validasi rule-based via Service
+        $validasi = $this->rulesService->validasiKgb($pegawai);
         if (!$validasi['lolos']) {
             return back()->with('error', 'Pegawai tidak memenuhi syarat KGB: ' . implode(', ', $validasi['alasan']));
         }
 
-        // Kalkulasi
-        $tmtGajiTerakhir    = Carbon::parse($pegawai->tmt_gaji_terakhir);
-        $tmtBaru            = $tmtGajiTerakhir->copy()->addYears(2);
-        $tmtYad             = $tmtBaru->copy()->addYears(2);
-        $masaKerjaTahunBaru = $pegawai->masa_kerja_tahun + 2;
-        $masaKerjaBulanBaru = $pegawai->masa_kerja_bulan;
-        $gajiPokokBaru      = $this->lookupGaji($pegawai->golongan, $masaKerjaTahunBaru);
+        // Kalkulasi via Service
+        $periode            = $this->rulesService->hitungPeriodeBaru($pegawai);
+        $tmtBaru            = $periode['tmt_baru'];
+        $tmtYad             = $periode['tmt_yad'];
+        $masaKerjaTahunBaru = $periode['masa_kerja_tahun_baru'];
+        $masaKerjaBulanBaru = $periode['masa_kerja_bulan_baru'];
+
+        $gajiPokokBaru      = $this->rulesService->lookupGaji($pegawai->golongan, $masaKerjaTahunBaru);
         $gajiPokokLama      = (int) $pegawai->gaji_pokok_terakhir;
 
         // Snapshot pejabat penetap (Direktur saat ini)
@@ -167,12 +192,7 @@ class KgbController extends Controller
         $filePath = $this->generateAndSavePdf($riwayat, $pegawai, $instansi, $pejabatTerdahulu);
         $riwayat->update(['file_pdf_path' => $filePath]);
 
-        // Kirim notifikasi in-app ke Pegawai PNS
-        if ($pegawai->user) {
-            $pegawai->user->notify(new \App\Notifications\KgbDiterbitkanNotification($riwayat));
-        }
-
-        return redirect()->route('admin.dashboard')
+        return redirect()->route('admin.kgb.index')
             ->with('success', "KGB {$pegawai->nama_lengkap} berhasil diproses. SK siap diunduh.");
     }
 
@@ -199,6 +219,55 @@ class KgbController extends Controller
         return $pdf->download($filename);
     }
 
+    /**
+     * Upload PDF SK KGB Final (Sudah di-TTE).
+     */
+    public function uploadFinal(Request $request, RiwayatKgb $riwayat)
+    {
+        $request->validate([
+            'file_sk_final' => 'required|mimes:pdf|max:5120', // max 5MB
+        ], [
+            'file_sk_final.required' => 'File SK Final wajib diunggah.',
+            'file_sk_final.mimes'    => 'File harus berupa PDF.',
+            'file_sk_final.max'      => 'Ukuran file maksimal 5MB.',
+        ]);
+
+        if ($request->hasFile('file_sk_final')) {
+            $file = $request->file('file_sk_final');
+            $dir = 'sk_kgb_final';
+            
+            // Hapus file lama jika ada (fitur ganti/edit SK)
+            if ($riwayat->file_sk_final && \Illuminate\Support\Facades\Storage::disk('public')->exists($riwayat->file_sk_final)) {
+                \Illuminate\Support\Facades\Storage::disk('public')->delete($riwayat->file_sk_final);
+            }
+
+            $riwayat->load('pegawai');
+            $namaClean = trim(preg_replace('/_+/', '_', str_replace(' ', '_', preg_replace('/[^a-zA-Z0-9\s]/', '', $riwayat->pegawai->nama_lengkap))), '_');
+            $filename = "SK_KGB_FINAL_{$namaClean}_{$riwayat->pegawai->nip}_" . time() . ".pdf";
+            
+            // Simpan file
+            $path = $file->storeAs($dir, $filename, 'public');
+
+            $isUpdate = $riwayat->status === 'Final';
+
+            // Update riwayat
+            $riwayat->update([
+                'status' => 'Final',
+                'file_sk_final' => $path
+            ]);
+
+            // Kirim notifikasi in-app ke Pegawai PNS
+            if ($riwayat->pegawai->user) {
+                $riwayat->pegawai->user->notify(new \App\Notifications\KgbDiterbitkanNotification($riwayat));
+            }
+
+            $msg = $isUpdate ? 'File SK KGB Final berhasil diperbarui.' : 'SK KGB Final berhasil diunggah. Notifikasi telah dikirim ke Pegawai.';
+            return redirect()->back()->with('success', $msg);
+        }
+
+        return redirect()->back()->with('error', 'Gagal mengunggah file.');
+    }
+
     // -----------------------------------------------------------------------
     // EXPORT EXCEL
     // -----------------------------------------------------------------------
@@ -223,52 +292,6 @@ class KgbController extends Controller
     // -----------------------------------------------------------------------
     // PRIVATE HELPERS
     // -----------------------------------------------------------------------
-
-    private function lookupGaji(?string $golongan, int $masaKerjaTahun): int
-    {
-        if (empty($golongan)) {
-            return 0;
-        }
-
-        $row = MasterGaji::where('golongan', $golongan)
-            ->where('masa_kerja', '<=', $masaKerjaTahun)
-            ->orderBy('masa_kerja', 'desc')
-            ->first();
-
-        return $row ? (int) $row->nominal_gaji : 0;
-    }
-
-    private function validasiKgb(Pegawai $pegawai): array
-    {
-        $lolos  = true;
-        $alasan = [];
-
-        if ($pegawai->is_sedang_hukuman_disiplin) {
-            $lolos    = false;
-            $alasan[] = 'Sedang menjalani hukuman disiplin';
-        }
-
-        $tahunSekarang = now()->year;
-        $skpList = $pegawai->skpEvaluasi()
-            ->whereIn('tahun_penilaian', [$tahunSekarang - 1, $tahunSekarang - 2])
-            ->get();
-
-        if ($skpList->count() < 2) {
-            $lolos    = false;
-            $alasan[] = 'Data SKP belum lengkap / belum diinput (minimal 2 tahun terakhir)';
-        }
-
-        $nilaiTidakLulus = ['Cukup', 'Kurang', 'Sangat Kurang'];
-        foreach ($skpList as $skp) {
-            if (in_array($skp->predikat, $nilaiTidakLulus)) {
-                $lolos    = false;
-                $alasan[] = "Nilai SKP tahun {$skp->tahun_penilaian} adalah '{$skp->predikat}' (tidak memenuhi syarat)";
-                break;
-            }
-        }
-
-        return ['lolos' => $lolos, 'alasan' => $alasan];
-    }
 
     private function generateAndSavePdf(
         RiwayatKgb $riwayat,
