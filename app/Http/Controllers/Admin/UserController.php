@@ -16,8 +16,7 @@ class UserController extends Controller
 
     public function create()
     {
-        $roles = \Spatie\Permission\Models\Role::all();
-        return view('admin.users.create', compact('roles'));
+        return view('admin.users.create');
     }
 
     public function store(Request $request)
@@ -26,27 +25,27 @@ class UserController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:8|confirmed',
-            'role' => 'required|exists:roles,name',
             'nip' => 'nullable|string|max:255'
         ]);
 
+        // Akun yang dibuat dari menu Pengguna selalu Admin.
+        // Akun Pegawai dibuat otomatis melalui menu Data Pegawai / Impor Excel.
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => \Illuminate\Support\Facades\Hash::make($request->password),
             'nip' => $request->nip,
-            'is_first_login' => true,
+            'is_first_login' => false,
         ]);
 
-        $user->assignRole($request->role);
+        $user->assignRole('admin');
 
         return redirect()->route('admin.users.index')->with('success', 'Pengguna berhasil ditambahkan.');
     }
 
     public function edit(User $pengguna)
     {
-        $roles = \Spatie\Permission\Models\Role::all();
-        return view('admin.users.edit', ['user' => $pengguna, 'roles' => $roles]);
+        return view('admin.users.edit', ['user' => $pengguna]);
     }
 
     public function update(Request $request, User $pengguna)
@@ -54,7 +53,6 @@ class UserController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users,email,' . $pengguna->id,
-            'role' => 'required|exists:roles,name',
             'nip' => 'nullable|string|max:255'
         ]);
 
@@ -69,9 +67,9 @@ class UserController extends Controller
             $data['password'] = \Illuminate\Support\Facades\Hash::make($request->password);
         }
 
+        // Role tidak diubah di sini agar akun pegawai tidak kehilangan data
+        // dan admin tidak mengunci aksesnya sendiri.
         $pengguna->update($data);
-        
-        $pengguna->syncRoles([$request->role]);
 
         return redirect()->route('admin.users.index')->with('success', 'Data pengguna berhasil diperbarui.');
     }

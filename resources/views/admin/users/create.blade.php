@@ -33,7 +33,7 @@
                     </div>
                     
                     <div>
-                        <x-input-label for="nip" value="NIP (Opsional - Jika Pegawai)" />
+                        <x-input-label for="nip" value="NIP (Opsional)" />
                         <x-text-input id="nip" name="nip" type="text" class="mt-1 block w-full" :value="old('nip')" />
                         <x-input-error :messages="$errors->get('nip')" class="mt-2" />
                     </div>
@@ -41,46 +41,11 @@
 
                 <!-- Keamanan & Peran -->
                 <div class="space-y-4">
-                    <h3 class="font-semibold text-gray-700 border-b pb-2">Keamanan & Peran</h3>
-                    
-                    <div class="relative" x-data="{ open: false, selected: '{{ old('role') }}', label: '{{ old('role') ? ucfirst(old('role')) : '' }}' }">
-                        <x-input-label for="role" value="Role/Peran *" />
-                        
-                        <select id="role" name="role" x-model="selected" class="opacity-0 absolute inset-0 w-full h-full pointer-events-none" required>
-                            <option value=""></option>
-                            @foreach($roles as $role)
-                                <option value="{{ $role->name }}"></option>
-                            @endforeach
-                        </select>
+                    <h3 class="font-semibold text-gray-700 border-b pb-2">Keamanan</h3>
 
-                        <button type="button" @click="open = !open" @click.away="open = false" 
-                            class="mt-1 w-full flex items-center justify-between text-left px-3 py-2 border border-gray-300 rounded-md shadow-sm bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm transition-all h-[42px]">
-                            <span x-text="label || 'Pilih Role...'" :class="!selected ? 'text-gray-500' : 'text-gray-900'" class="truncate pr-4"></span>
-                            <svg class="w-4 h-4 text-gray-400 transition-transform shrink-0" :class="open ? 'rotate-180' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
-                        </button>
-
-                        <div x-show="open" 
-                            x-transition:enter="transition ease-out duration-100"
-                            x-transition:enter-start="opacity-0 scale-95"
-                            x-transition:enter-end="opacity-100 scale-100"
-                            x-transition:leave="transition ease-in duration-75"
-                            x-transition:leave-start="opacity-100 scale-100"
-                            x-transition:leave-end="opacity-0 scale-95"
-                            class="absolute z-50 mt-1 w-full bg-white border border-gray-200 rounded-lg shadow-xl overflow-hidden" x-cloak>
-                            <ul class="max-h-60 overflow-y-auto py-1">
-                                <li @click="selected = ''; label = 'Pilih Role...'; open = false" class="px-4 py-2 text-sm text-gray-500 hover:bg-gray-100 cursor-pointer">
-                                    Pilih Role...
-                                </li>
-                                @foreach($roles as $role)
-                                    <li @click="selected = '{{ $role->name }}'; label = '{{ ucfirst($role->name) }}'; open = false" 
-                                        class="px-4 py-2 text-sm hover:bg-blue-50 cursor-pointer border-l-2 transition-colors"
-                                        :class="selected === '{{ $role->name }}' ? 'bg-blue-50 border-blue-500 font-medium text-blue-900' : 'border-transparent text-gray-700'">
-                                        {{ ucfirst($role->name) }}
-                                    </li>
-                                @endforeach
-                            </ul>
-                        </div>
-                        <x-input-error :messages="$errors->get('role')" class="mt-2" />
+                    <div class="rounded-lg border border-blue-100 bg-blue-50 px-4 py-3 text-sm text-blue-800">
+                        Akun yang ditambahkan di sini otomatis berperan sebagai <strong>Admin</strong>.
+                        Akun <strong>Pegawai</strong> dibuat otomatis melalui menu Data Pegawai atau Impor Excel.
                     </div>
 
                     <div>
