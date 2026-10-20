@@ -30,8 +30,8 @@ class AuthenticatedSessionController extends Controller
 
         $user = Auth::user();
 
-        // Jika first login, paksa ganti password dulu
-        if ($user->is_first_login) {
+        // Jika pegawai login pertama kali, paksa ganti password dulu (Admin tidak diwajibkan)
+        if ($user->is_first_login && $user->hasRole('pegawai')) {
             return redirect()->route('password.change');
         }
 

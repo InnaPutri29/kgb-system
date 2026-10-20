@@ -6,7 +6,7 @@
     <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
             <h2 class="text-2xl font-bold text-gray-800">Edit Pengguna</h2>
-            <p class="text-sm text-gray-500">Ubah informasi pengguna dan role di bawah ini.</p>
+            <p class="text-sm text-gray-500">Ubah informasi akun dan password pengguna di bawah ini.</p>
         </div>
         <a href="{{ route('admin.users.index') }}" class="inline-flex items-center gap-1 text-sm bg-white text-gray-700 hover:bg-gray-50 px-3 py-1.5 rounded-lg transition font-medium border border-gray-300">Kembali</a>
     </div>
@@ -34,7 +34,7 @@
                     </div>
                     
                     <div>
-                        <x-input-label for="nip" value="NIP (Opsional - Jika Pegawai)" />
+                        <x-input-label for="nip" value="NIP (Opsional)" />
                         <x-text-input id="nip" name="nip" type="text" class="mt-1 block w-full" :value="old('nip', $user->nip)" />
                         <x-input-error :messages="$errors->get('nip')" class="mt-2" />
                     </div>
@@ -42,46 +42,14 @@
 
                 <!-- Keamanan & Peran -->
                 <div class="space-y-4">
-                    <h3 class="font-semibold text-gray-700 border-b pb-2">Keamanan & Peran</h3>
-                    
-                    <div class="relative" x-data="{ open: false, selected: '{{ old('role', $user->roles->first()?->name) }}', label: '{{ old('role', $user->roles->first()?->name) ? ucfirst(old('role', $user->roles->first()?->name)) : '' }}' }">
-                        <x-input-label for="role" value="Role/Peran *" />
-                        
-                        <select id="role" name="role" x-model="selected" class="opacity-0 absolute inset-0 w-full h-full pointer-events-none" required>
-                            <option value=""></option>
-                            @foreach($roles as $role)
-                                <option value="{{ $role->name }}"></option>
-                            @endforeach
-                        </select>
+                    <h3 class="font-semibold text-gray-700 border-b pb-2">Keamanan</h3>
 
-                        <button type="button" @click="open = !open" @click.away="open = false" 
-                            class="mt-1 w-full flex items-center justify-between text-left px-3 py-2 border border-gray-300 rounded-md shadow-sm bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm transition-all h-[42px]">
-                            <span x-text="label || 'Pilih Role...'" :class="!selected ? 'text-gray-500' : 'text-gray-900'" class="truncate pr-4"></span>
-                            <svg class="w-4 h-4 text-gray-400 transition-transform shrink-0" :class="open ? 'rotate-180' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
-                        </button>
-
-                        <div x-show="open" 
-                            x-transition:enter="transition ease-out duration-100"
-                            x-transition:enter-start="opacity-0 scale-95"
-                            x-transition:enter-end="opacity-100 scale-100"
-                            x-transition:leave="transition ease-in duration-75"
-                            x-transition:leave-start="opacity-100 scale-100"
-                            x-transition:leave-end="opacity-0 scale-95"
-                            class="absolute z-50 mt-1 w-full bg-white border border-gray-200 rounded-lg shadow-xl overflow-hidden" x-cloak>
-                            <ul class="max-h-60 overflow-y-auto py-1">
-                                <li @click="selected = ''; label = 'Pilih Role...'; open = false" class="px-4 py-2 text-sm text-gray-500 hover:bg-gray-100 cursor-pointer">
-                                    Pilih Role...
-                                </li>
-                                @foreach($roles as $role)
-                                    <li @click="selected = '{{ $role->name }}'; label = '{{ ucfirst($role->name) }}'; open = false" 
-                                        class="px-4 py-2 text-sm hover:bg-blue-50 cursor-pointer border-l-2 transition-colors"
-                                        :class="selected === '{{ $role->name }}' ? 'bg-blue-50 border-blue-500 font-medium text-blue-900' : 'border-transparent text-gray-700'">
-                                        {{ ucfirst($role->name) }}
-                                    </li>
-                                @endforeach
-                            </ul>
+                    <div>
+                        <x-input-label value="Role/Peran" />
+                        <div class="mt-1 w-full px-3 py-2 border border-gray-200 rounded-md bg-gray-50 text-sm text-gray-700 h-[42px] flex items-center">
+                            {{ ucfirst($user->roles->first()?->name ?? '-') }}
                         </div>
-                        <x-input-error :messages="$errors->get('role')" class="mt-2" />
+                        <p class="mt-1 text-xs text-gray-500">Role tidak dapat diubah.</p>
                     </div>
 
                     <div>
