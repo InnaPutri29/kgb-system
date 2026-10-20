@@ -47,7 +47,8 @@ class PegawaiImport implements ToModel, WithHeadingRow, SkipsOnError
         }
 
         if (empty($email)) {
-            $email = Str::slug($nip) . '@kgb.internal';
+            // Format sama dengan tambah pegawai manual (PegawaiController)
+            $email = strtolower(str_replace(' ', '', $nip)) . '@kgb.rsd-sidawangi.id';
         }
 
         // Cek apakah data Pegawai sudah ada

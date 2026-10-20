@@ -45,7 +45,7 @@ class PegawaiKgbJatuhTempoNotification extends Notification
             ->greeting('Halo, ' . $notifiable->name . '!')
             ->line("Pengingat bahwa jadwal Kenaikan Gaji Berkala (KGB) Anda akan jatuh tempo dalam {$this->selisihHari} hari lagi.")
             ->line("TMT KGB Baru: {$tmtFormat}")
-            ->action('Lihat Portal Kepegawaian', url('/pegawai/pkp'))
+            ->action('Lihat Portal Kepegawaian', url('/pegawai/dashboard'))
             ->line('Admin kepegawaian akan memproses dokumen KGB Anda.')
             ->salutation('Hormat kami, Tim Kepegawaian');
     }

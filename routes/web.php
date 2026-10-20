@@ -88,8 +88,7 @@ Route::middleware(['auth', 'password.changed'])->group(function () {
     // -----------------------------------------------------------------------
     Route::prefix('pegawai')->name('pegawai.')->middleware('role:pegawai')->group(function () {
         Route::get('/dashboard', [\App\Http\Controllers\Pegawai\DashboardController::class, 'index'])->name('dashboard');
-        Route::get('/kgb', [\App\Http\Controllers\Pegawai\DashboardController::class, 'kgb'])->name('kgb');
-        Route::get('/sk/{riwayat}/download', [\App\Http\Controllers\Pegawai\DashboardController::class, 'downloadSk'])->name('sk.download');
+        Route::get('/kgb', [\App\Http\Controllers\Pegawai\DashboardController::class, 'kgb'])->name('kgb');        Route::get('/sk/{riwayat}/download', [\App\Http\Controllers\Pegawai\DashboardController::class, 'downloadSk'])->name('sk.download');
     });
 
     // Profile (diakses oleh semua user yang sudah login)

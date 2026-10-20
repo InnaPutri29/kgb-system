@@ -7,7 +7,7 @@
     <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
             <h2 class="text-xl sm:text-2xl font-bold text-slate-800 drop-shadow-sm">Daftar Pengguna</h2>
-            <p class="text-sm text-slate-500 mt-1">Kelola data pengguna, role, dan email.</p>
+            <p class="text-sm text-slate-500 mt-1">Kelola akun pengguna, email, dan password.</p>
         </div>
         <a href="{{ route('admin.users.create') }}" class="inline-flex items-center justify-center gap-1.5 text-sm bg-blue-600 hover:bg-blue-700 border border-transparent text-white px-4 py-2 rounded-lg font-medium shadow-sm flex-1 sm:flex-none transition-all duration-300">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>

@@ -10,12 +10,13 @@ class EnsurePasswordChanged
 {
     /**
      * Paksa pegawai yang baru login pertama kali untuk ganti password.
+     * Admin tidak diwajibkan.
      */
     public function handle(Request $request, Closure $next): Response
     {
         $user = $request->user();
 
-        if ($user && $user->is_first_login) {
+        if ($user && $user->is_first_login && $user->hasRole('pegawai')) {
             // Jangan redirect kalau sudah di halaman ganti password
             if (!$request->routeIs('password.change') && !$request->routeIs('password.change.update')) {
                 return redirect()->route('password.change')

@@ -5,10 +5,8 @@ namespace App\Http\Controllers\Pegawai;
 use App\Http\Controllers\Controller;
 use App\Models\RiwayatKgb;
 use App\Models\User;
-use Barryvdh\DomPDF\Facade\Pdf;
-use Carbon\Carbon;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class DashboardController extends Controller
 {
@@ -48,43 +46,30 @@ class DashboardController extends Controller
         return view('pegawai.kgb', compact('pegawai', 'riwayatKgb'));
     }
 
-    public function skp()
-    {
-        $pegawai = $this->getPegawaiData();
-        if (!$pegawai) return view('pegawai.pkp', ['pegawai' => null]);
-
-        $pkpEvaluasi = $pegawai->pkpEvaluasi;
-        $tahunBerjalan = now()->year;
-        $pkpPeriodeBerjalan = $pkpEvaluasi->where('tahun_penilaian', $tahunBerjalan)->first();
-
-        return view('pegawai.pkp', compact('pegawai', 'pkpEvaluasi', 'pkpPeriodeBerjalan', 'tahunBerjalan'));
-    }
-
     /**
-     * Download PDF SK KGB milik pegawai sendiri.
+     * Download SK KGB Final (sudah ber-TTE) milik pegawai sendiri.
+     * Draf SK tidak bisa diunduh pegawai — hanya file final yang diunggah Admin.
      */
     public function downloadSk(RiwayatKgb $riwayat)
     {
-        // Pastikan SK yang didownload benar-benar milik pegawai yang login
+        // Pastikan SK yang diunduh benar-benar milik pegawai yang login
         $user = Auth::user();
         if (!$user->pegawai || $riwayat->pegawai_id !== $user->pegawai->id) {
             abort(403, 'Anda tidak diizinkan mengunduh dokumen ini.');
         }
 
+        if ($riwayat->status !== 'Final' || !$riwayat->file_sk_final) {
+            abort(404, 'SK KGB belum ditandatangani secara elektronik (TTE).');
+        }
+
+        if (!Storage::disk('public')->exists($riwayat->file_sk_final)) {
+            abort(404, 'File SK KGB Final tidak ditemukan.');
+        }
+
         $riwayat->load('pegawai');
-
-        $instansi = \App\Models\PengaturanInstansi::first();
-
-        $pdf = Pdf::loadView('admin.kgb.sk-pdf', [
-            'riwayat'          => $riwayat,
-            'pegawai'          => $riwayat->pegawai,
-            'instansi'         => $instansi,
-            'pejabatTerdahulu' => $riwayat->pegawai->masterPejabat,
-        ])->setPaper('f4', 'portrait');
-
         $namaClean = trim(preg_replace('/_+/', '_', str_replace(' ', '_', preg_replace('/[^a-zA-Z0-9\s]/', '', $riwayat->pegawai->nama_lengkap))), '_');
-        $filename = 'SK_KGB_' . $namaClean . '_' . $riwayat->pegawai->nip . '.pdf';
+        $filename = 'SK_KGB_FINAL_' . $namaClean . '_' . $riwayat->pegawai->nip . '.pdf';
 
-        return $pdf->download($filename);
+        return Storage::disk('public')->download($riwayat->file_sk_final, $filename);
     }
 }
