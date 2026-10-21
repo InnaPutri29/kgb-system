@@ -7,6 +7,7 @@ use App\Models\Pegawai;
 use App\Models\PkpEvaluasi;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Validation\Rule;
 
 class PkpEvaluasiController extends Controller
 {
@@ -14,7 +15,7 @@ class PkpEvaluasiController extends Controller
     {
         $request->validate([
             'tahun_penilaian' => ['required', 'integer', 'min:2000', 'max:' . now()->year],
-            'predikat'        => ['required', 'in:Sangat Baik,Baik,Cukup,Kurang,Sangat Kurang'],
+            'predikat'        => ['required', Rule::in(PkpEvaluasi::PREDIKAT)],
             'file_bukti_pkp'  => ['nullable', 'file', 'mimes:pdf,jpg,jpeg,png', 'max:5120'],
         ], [
             'tahun_penilaian.required' => 'Tahun penilaian wajib diisi.',
@@ -52,7 +53,7 @@ class PkpEvaluasiController extends Controller
     {
         $request->validate([
             'tahun_penilaian' => ['required', 'integer', 'min:2000', 'max:' . now()->year],
-            'predikat'        => ['required', 'in:Sangat Baik,Baik,Cukup,Kurang,Sangat Kurang'],
+            'predikat'        => ['required', Rule::in(PkpEvaluasi::PREDIKAT)],
             'file_bukti_pkp'  => ['nullable', 'file', 'mimes:pdf,jpg,jpeg,png', 'max:5120'],
         ]);
 

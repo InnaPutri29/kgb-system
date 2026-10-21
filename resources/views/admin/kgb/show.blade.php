@@ -31,7 +31,7 @@
                 <div class="flex gap-3">
                     @if($riwayat->status === 'Final')
                         <span class="inline-flex items-center px-2.5 py-1 rounded-md text-xs font-medium bg-green-50 text-green-700 border border-green-100 lg:border-slate-100">
-                            Selesai TTE (Final)
+                            Final (TTE)
                         </span>
                     @else
                         <span class="inline-flex items-center px-2.5 py-1 rounded-md text-xs font-medium bg-yellow-50 text-yellow-700 border border-yellow-100 lg:border-slate-100">

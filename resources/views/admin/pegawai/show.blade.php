@@ -188,8 +188,8 @@
                                     $colors = [
                                         'Sangat Baik' => 'bg-green-100 text-green-800',
                                         'Baik'        => 'bg-blue-100 text-blue-800',
-                                        'Cukup'       => 'bg-yellow-100 text-yellow-800',
-                                        'Kurang'      => 'bg-orange-100 text-orange-800',
+                                        'Butuh Perbaikan'   => 'bg-yellow-100 text-yellow-800',
+                                        'Kurang/Misconduct' => 'bg-orange-100 text-orange-800',
                                         'Sangat Kurang' => 'bg-red-100 text-red-800',
                                     ];
                                     $color = $colors[$pkp->predikat] ?? 'bg-gray-100 text-gray-800';
@@ -253,7 +253,7 @@
                                 
                                 <select id="edit_predikat" name="predikat" x-model="editSkp.predikat" class="opacity-0 absolute inset-0 w-full h-full pointer-events-none" required>
                                     <option value=""></option>
-                                    @foreach(['Sangat Baik','Baik','Butuh Perbaikan','Cukup','Kurang','Sangat Kurang'] as $p)
+                                    @foreach(\App\Models\PkpEvaluasi::PREDIKAT as $p)
                                         <option value="{{ $p }}"></option>
                                     @endforeach
                                 </select>
@@ -276,7 +276,7 @@
                                         <li @click="editSkp.predikat = ''; open = false" class="px-4 py-2 text-sm text-gray-500 hover:bg-gray-100 cursor-pointer">
                                             -- Batal Pilih --
                                         </li>
-                                        @foreach(['Sangat Baik','Baik','Butuh Perbaikan','Cukup','Kurang','Sangat Kurang'] as $p)
+                                        @foreach(\App\Models\PkpEvaluasi::PREDIKAT as $p)
                                             <li @click="editSkp.predikat = '{{ $p }}'; open = false" 
                                                 class="px-4 py-2 text-sm hover:bg-indigo-50 cursor-pointer border-l-2 transition-colors"
                                                 :class="editSkp.predikat === '{{ $p }}' ? 'bg-indigo-50 border-indigo-500 font-medium text-indigo-900' : 'border-transparent text-gray-700'">
@@ -319,7 +319,7 @@
                         
                         <select id="predikat" name="predikat" x-model="selected" class="opacity-0 absolute inset-0 w-full h-full pointer-events-none" required>
                             <option value=""></option>
-                            @foreach(['Sangat Baik','Baik','Butuh Perbaikan','Cukup','Kurang','Sangat Kurang'] as $p)
+                            @foreach(\App\Models\PkpEvaluasi::PREDIKAT as $p)
                                 <option value="{{ $p }}"></option>
                             @endforeach
                         </select>
@@ -342,7 +342,7 @@
                                 <li @click="selected = ''; open = false" class="px-4 py-2 text-sm text-gray-500 hover:bg-gray-100 cursor-pointer">
                                     -- Batal Pilih --
                                 </li>
-                                @foreach(['Sangat Baik','Baik','Butuh Perbaikan','Cukup','Kurang','Sangat Kurang'] as $p)
+                                @foreach(\App\Models\PkpEvaluasi::PREDIKAT as $p)
                                     <li @click="selected = '{{ $p }}'; open = false" 
                                         class="px-4 py-2 text-sm hover:bg-indigo-50 cursor-pointer border-l-2 transition-colors"
                                         :class="selected === '{{ $p }}' ? 'bg-indigo-50 border-indigo-500 font-medium text-indigo-900' : 'border-transparent text-gray-700'">
