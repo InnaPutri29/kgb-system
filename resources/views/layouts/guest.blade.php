@@ -23,7 +23,7 @@
         <!-- Background Image -->
         <div class="absolute inset-0 z-0 overflow-hidden">
             <!-- Gambar RS Sidawangi. Pastikan gambar di-rename menjadi bg-rs.jpg dan diletakkan di public/images/ -->
-            <img src="{{ asset('images/bg-rs.jpg') }}" alt="RS Paru Sidawangi" class="w-full h-full object-cover blur-[3px] scale-[1.02]" onerror="this.src='https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?q=80&w=2053&auto=format&fit=crop'"/>
+            <img src="{{ asset('images/bg-rs.jpg') }}" alt="RSD Sidawangi" class="w-full h-full object-cover blur-[3px] scale-[1.02]" onerror="this.src='https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?q=80&w=2053&auto=format&fit=crop'"/>
             
             <!-- Overlay gradasi biru -->
             <div class="absolute inset-0 bg-gradient-to-br from-[#0B3E6A]/90 via-[#163375]/80 to-[#234A9F]/70 mix-blend-multiply"></div>

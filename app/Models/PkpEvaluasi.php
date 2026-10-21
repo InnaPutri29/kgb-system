@@ -11,6 +11,12 @@ class PkpEvaluasi extends Model
     
     protected $table = 'pkp_evaluasi';
 
+    /**
+     * Daftar predikat kinerja sesuai PermenPAN-RB No. 6 Tahun 2022
+     * (sama dengan enum kolom `predikat` di database).
+     */
+    public const PREDIKAT = ['Sangat Baik', 'Baik', 'Butuh Perbaikan', 'Kurang/Misconduct', 'Sangat Kurang'];
+
     protected $fillable = [
         'pegawai_id',
         'tahun_penilaian',
