@@ -18,8 +18,11 @@ class MasterPejabat extends Model
         'nama_pejabat',
     ];
 
-    public function riwayatKgb()
+    /**
+     * Pegawai yang SK terakhirnya ditetapkan oleh pejabat ini.
+     */
+    public function pegawai()
     {
-        return $this->hasMany(RiwayatKgb::class, 'pejabat_id');
+        return $this->hasMany(Pegawai::class, 'master_pejabat_id');
     }
 }

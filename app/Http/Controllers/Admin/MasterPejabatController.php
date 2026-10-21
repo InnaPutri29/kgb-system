@@ -16,7 +16,7 @@ class MasterPejabatController extends Controller
 
     public function show(MasterPejabat $masterPejabat)
     {
-        $masterPejabat->load('riwayatKgb.pegawai');
+        $masterPejabat->load(['pegawai' => fn ($q) => $q->orderByDesc('tanggal_sk_terakhir')]);
         return view('admin.master-pejabat.show', compact('masterPejabat'));
     }
 

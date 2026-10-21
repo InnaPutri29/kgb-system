@@ -84,7 +84,7 @@
                                     @if($riwayat->status === 'Final')
                                         <span class="px-2 py-1 rounded-md text-xs font-medium bg-green-50 text-green-700 border border-green-100">Final (TTE)</span>
                                     @else
-                                        <span class="px-2 py-1 rounded-md text-xs font-medium bg-yellow-50 text-yellow-700 border border-yellow-100">Draf / Proses TTE</span>
+                                        <span class="px-2 py-1 rounded-md text-xs font-medium bg-yellow-50 text-yellow-700 border border-yellow-100">Draf (Menunggu TTE)</span>
                                     @endif
                                 </td>
                                 <td class="px-6 py-3 text-center whitespace-nowrap">
