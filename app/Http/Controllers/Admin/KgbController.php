@@ -7,11 +7,13 @@ use App\Models\MasterGaji;
 use App\Models\MasterPejabat;
 use App\Models\Pegawai;
 use App\Models\PengaturanInstansi;
+use App\Models\PkpEvaluasi;
 use App\Models\RiwayatKgb;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Validation\Rule;
 use App\Exports\KgbExport;
 use Maatwebsite\Excel\Facades\Excel;
 
@@ -31,6 +33,44 @@ class KgbController extends Controller
      */
     public function getDataForModal(Pegawai $pegawai)
     {
+        return response()->json($this->dataModal($pegawai));
+    }
+
+    /**
+     * Simpan PKP dua tahun terakhir yang belum diisi langsung dari pop-up Proses KGB,
+     * lalu kembalikan data pop-up dengan hasil validasi terbaru.
+     * Hanya mengisi tahun yang masih kosong; PKP yang sudah ada diubah lewat Detail Pegawai.
+     */
+    public function simpanPkpCepat(Request $request, Pegawai $pegawai)
+    {
+        $tahunWajib = [now()->year - 1, now()->year - 2];
+
+        $request->validate([
+            'pkp'            => ['required', 'array', 'min:1'],
+            'pkp.*.tahun'    => ['required', 'integer', Rule::in($tahunWajib)],
+            'pkp.*.predikat' => ['required', Rule::in(PkpEvaluasi::PREDIKAT)],
+        ], [
+            'pkp.required'            => 'Pilih predikat PKP terlebih dahulu.',
+            'pkp.*.predikat.required' => 'Predikat PKP wajib dipilih.',
+            'pkp.*.predikat.in'       => 'Predikat PKP tidak valid.',
+            'pkp.*.tahun.in'          => 'Tahun PKP harus dua tahun terakhir.',
+        ]);
+
+        foreach ($request->pkp as $item) {
+            PkpEvaluasi::firstOrCreate(
+                ['pegawai_id' => $pegawai->id, 'tahun_penilaian' => $item['tahun']],
+                ['predikat' => $item['predikat']]
+            );
+        }
+
+        return response()->json($this->dataModal($pegawai->fresh()));
+    }
+
+    /**
+     * Susun data untuk pop-up Proses KGB.
+     */
+    private function dataModal(Pegawai $pegawai): array
+    {
         $pegawai->load(['riwayatKgb' => function ($query) {
             $query->latest('tmt_baru');
         }]);
@@ -41,10 +81,19 @@ class KgbController extends Controller
         $gajiPokokBaru = $this->rulesService->lookupGaji($pegawai->golongan, $periode['masa_kerja_tahun_baru']);
         $validasi      = $this->rulesService->validasiKgb($pegawai);
 
+        // Status PKP dua tahun terakhir (predikat null = belum diisi)
+        $pkpAda = $pegawai->pkpEvaluasi()
+            ->whereIn('tahun_penilaian', [now()->year - 1, now()->year - 2])
+            ->pluck('predikat', 'tahun_penilaian');
+        $pkpDuaTahun = collect([now()->year - 1, now()->year - 2])->map(fn ($tahun) => [
+            'tahun'    => $tahun,
+            'predikat' => $pkpAda[$tahun] ?? null,
+        ])->values();
+
         $pegawaiArray = $pegawai->toArray();
         $pegawaiArray['tanggal_sk_terakhir'] = $pegawai->tanggal_sk_terakhir ? $pegawai->tanggal_sk_terakhir->format('Y-m-d') : null;
 
-        return response()->json([
+        return [
             'pegawai'               => $pegawaiArray,
             'tmt_baru'              => $periode['tmt_baru']->format('Y-m-d'),
             'masa_kerja_tahun_baru' => $periode['masa_kerja_tahun_baru'],
@@ -52,7 +101,9 @@ class KgbController extends Controller
             'gaji_pokok_baru'       => $gajiPokokBaru,
             'pejabat_list'          => $pejabatList,
             'validasi'              => $validasi,
-        ]);
+            'pkp_dua_tahun'         => $pkpDuaTahun,
+            'predikat_list'         => PkpEvaluasi::PREDIKAT,
+        ];
     }
 
     /**
