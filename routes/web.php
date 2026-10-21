@@ -63,6 +63,7 @@ Route::middleware(['auth', 'password.changed'])->group(function () {
             Route::get('/export', [KgbController::class, 'export'])->name('export');
             Route::get('/nominatif', [KgbController::class, 'nominatif'])->name('nominatif');
             Route::get('/{pegawai}/data-modal', [KgbController::class, 'getDataForModal'])->name('data-modal');
+            Route::post('/{pegawai}/pkp-cepat', [KgbController::class, 'simpanPkpCepat'])->name('pkp-cepat');
             Route::post('/{pegawai}/proses', [KgbController::class, 'proses'])->name('proses');
             Route::get('/riwayat/{riwayat}', [KgbController::class, 'show'])->name('show');
             Route::get('/riwayat/{riwayat}/pdf', [KgbController::class, 'downloadPdf'])->name('download-pdf');

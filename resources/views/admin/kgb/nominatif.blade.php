@@ -104,6 +104,51 @@
         loading: false,
         pegawai: null,
         dataModal: {},
+        pkpForm: {},
+        savingPkp: false,
+        pkpError: '',
+        get pkpKosong() {
+            return (this.dataModal.pkp_dua_tahun || []).filter(p => !p.predikat);
+        },
+        simpanPkp() {
+            const isian = this.pkpKosong
+                .filter(p => this.pkpForm[p.tahun])
+                .map(p => ({ tahun: p.tahun, predikat: this.pkpForm[p.tahun] }));
+            if (isian.length === 0) {
+                this.pkpError = 'Pilih predikat PKP terlebih dahulu.';
+                return;
+            }
+            this.savingPkp = true;
+            this.pkpError = '';
+            fetch(`/admin/kgb/${this.pegawai}/pkp-cepat`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                },
+                body: JSON.stringify({ pkp: isian })
+            })
+                .then(async res => {
+                    const data = await res.json();
+                    if (!res.ok) {
+                        const errors = data.errors ? Object.values(data.errors).flat() : [];
+                        throw new Error(errors[0] || data.message || 'Gagal menyimpan PKP.');
+                    }
+                    return data;
+                })
+                .then(data => {
+                    this.dataModal = data;
+                    this.pkpForm = {};
+                    Swal.fire({
+                        toast: true, position: 'top-end', timer: 2500, showConfirmButton: false,
+                        icon: data.validasi.lolos ? 'success' : 'info',
+                        title: data.validasi.lolos ? 'PKP tersimpan. Pegawai memenuhi syarat KGB.' : 'PKP tersimpan. Syarat KGB belum terpenuhi.'
+                    });
+                })
+                .catch(err => { this.pkpError = err.message; })
+                .finally(() => { this.savingPkp = false; });
+        },
         form: {
             nomor_sk_baru: '',
             nomor_sk_terakhir: '',
@@ -115,6 +160,8 @@
         openModal(id) {
             this.loading = true;
             this.pegawai = id;
+            this.pkpForm = {};
+            this.pkpError = '';
             this.form = { nomor_sk_baru: '', nomor_sk_terakhir: '', tanggal_sk_terakhir: '', tanggal_ditetapkan: '', master_pejabat_id: '', selectedPejabatText: '' };
             $dispatch('open-modal', 'proses-kgb');
             
@@ -168,6 +215,54 @@
                             <li x-text="alasan"></li>
                         </template>
                     </ul>
+
+                    {{-- Input cepat PKP untuk tahun yang belum diisi --}}
+                    <div x-show="pkpKosong.length > 0" class="mt-3 bg-white/70 border border-red-100 rounded-lg p-3">
+                        <p class="font-semibold text-gray-800 mb-2">Lengkapi PKP dua tahun terakhir:</p>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                            <template x-for="p in pkpKosong" :key="p.tahun">
+                                <div class="relative" x-data="{ open: false }">
+                                    <label class="block font-medium text-sm text-gray-700" x-text="'Predikat PKP Tahun ' + p.tahun"></label>
+
+                                    <button type="button" @click="open = !open" @click.away="open = false"
+                                        class="mt-1 w-full flex items-center justify-between text-left px-3 py-2 border border-gray-300 rounded-md shadow-sm bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 text-sm transition-all">
+                                        <span x-text="pkpForm[p.tahun] || '-- Pilih Predikat --'" :class="!pkpForm[p.tahun] ? 'text-gray-500' : 'text-gray-900'" class="truncate pr-4"></span>
+                                        <svg class="w-4 h-4 text-gray-400 transition-transform shrink-0" :class="open ? 'rotate-180' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                                    </button>
+
+                                    <div x-show="open"
+                                        x-transition:enter="transition ease-out duration-100"
+                                        x-transition:enter-start="opacity-0 scale-95"
+                                        x-transition:enter-end="opacity-100 scale-100"
+                                        x-transition:leave="transition ease-in duration-75"
+                                        x-transition:leave-start="opacity-100 scale-100"
+                                        x-transition:leave-end="opacity-0 scale-95"
+                                        class="absolute z-50 mt-1 w-full bg-white border border-gray-200 rounded-lg shadow-xl overflow-hidden" x-cloak>
+                                        <ul class="py-1">
+                                            <li @click="pkpForm[p.tahun] = ''; open = false" class="px-4 py-2 text-sm text-gray-500 hover:bg-gray-100 cursor-pointer">
+                                                -- Batal Pilih --
+                                            </li>
+                                            <template x-for="opsi in dataModal.predikat_list" :key="opsi">
+                                                <li @click="pkpForm[p.tahun] = opsi; open = false"
+                                                    class="px-4 py-2 text-sm hover:bg-indigo-50 cursor-pointer border-l-2 transition-colors"
+                                                    :class="pkpForm[p.tahun] === opsi ? 'bg-indigo-50 border-indigo-500 font-medium text-indigo-900' : 'border-transparent text-gray-700'"
+                                                    x-text="opsi">
+                                                </li>
+                                            </template>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </template>
+                        </div>
+                        <p x-show="pkpError" x-text="pkpError" class="text-xs text-red-600 mt-2"></p>
+                        <div class="mt-3 flex justify-end">
+                            <button type="button" @click="simpanPkp()" :disabled="savingPkp"
+                                class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-blue-600 hover:bg-blue-700 disabled:opacity-60 text-white text-xs font-semibold rounded-md transition-colors shadow-sm">
+                                <span x-text="savingPkp ? 'Menyimpan...' : 'Simpan PKP & Cek Ulang'"></span>
+                            </button>
+                        </div>
+                    </div>
+
                     <div class="mt-3">
                         <a :href="`/admin/pegawai/${pegawai}`" target="_blank" class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-red-100 hover:bg-red-200 text-red-700 text-xs font-semibold rounded-md transition-colors border border-red-200 shadow-sm">
                             <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
