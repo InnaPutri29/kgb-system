@@ -149,13 +149,13 @@
     </div>
 
     {{-- PKP Evaluasi --}}
-    <div class="bg-white/50 backdrop-blur-3xl lg:bg-white lg:backdrop-blur-none rounded-[1.5rem] border border-white/80 border-t-white shadow-[0_8px_32px_0_rgba(31,38,135,0.07)] overflow-hidden" x-data="{ openEdit: false, editSkp: {} }">
+    <div class="bg-white/50 backdrop-blur-3xl lg:bg-white lg:backdrop-blur-none rounded-[1.5rem] border border-white/80 border-t-white shadow-[0_8px_32px_0_rgba(31,38,135,0.07)] overflow-hidden" x-data="{ openEdit: false, editPkp: {} }">
         <div class="px-6 py-4 border-b border-gray-100 bg-white/20/50 flex justify-between items-center">
             <div>
                 <h3 class="text-lg font-bold text-gray-800">Rekap PKP (Penilaian Kinerja)</h3>
                 <p class="text-xs text-gray-400 mt-0.5">Syarat KGB: predikat minimal <strong>Baik</strong> selama 2 tahun berturut-turut.</p>
             </div>
-            <button x-data @click="$dispatch('open-modal', 'add-skp')"
+            <button x-data @click="$dispatch('open-modal', 'add-pkp')"
                 class="inline-flex items-center gap-1.5 text-sm bg-blue-600 hover:bg-blue-700 text-white px-3 py-1.5 rounded-lg transition font-medium">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
                 Tambah PKP
@@ -212,7 +212,7 @@
                             <td class="px-6 py-3">
                                 <div class="flex items-center justify-center gap-2">
                                     {{-- Edit --}}
-                                    <button @click="editSkp = {{ $pkp->toJson() }}; openEdit = true"
+                                    <button @click="editPkp = {{ $pkp->toJson() }}; openEdit = true"
                                         class="p-1.5 bg-emerald-500/10 text-emerald-600 hover:bg-emerald-600 hover:text-white rounded-md transition" title="Edit PKP">
                                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
                                     </button>
@@ -241,17 +241,17 @@
                 <div class="fixed inset-0 bg-black/40" @click="openEdit = false"></div>
                 <div class="relative bg-white rounded-2xl shadow-xl w-full max-w-md p-6">
                     <h2 class="text-lg font-bold text-gray-900 mb-4">Edit Data PKP</h2>
-                    <form :action="`{{ url('admin/pegawai/'.$pegawai->id.'/skp') }}/${editSkp.id}`" method="POST" enctype="multipart/form-data">
+                    <form :action="`{{ url('admin/pegawai/'.$pegawai->id.'/pkp') }}/${editPkp.id}`" method="POST" enctype="multipart/form-data">
                         @csrf @method('PUT')
                         <div class="space-y-4">
                             <div>
                                 <x-input-label for="edit_tahun" value="Tahun Penilaian *" />
-                                <x-text-input id="edit_tahun" name="tahun_penilaian" type="number" min="2000" :max="date('Y')" class="mt-1 block w-full" x-model="editSkp.tahun_penilaian" required />
+                                <x-text-input id="edit_tahun" name="tahun_penilaian" type="number" min="2000" :max="date('Y')" class="mt-1 block w-full" x-model="editPkp.tahun_penilaian" required />
                             </div>
                             <div class="relative" x-data="{ open: false }">
                                 <x-input-label value="Predikat PKP *" />
                                 
-                                <select id="edit_predikat" name="predikat" x-model="editSkp.predikat" class="opacity-0 absolute inset-0 w-full h-full pointer-events-none" required>
+                                <select id="edit_predikat" name="predikat" x-model="editPkp.predikat" class="opacity-0 absolute inset-0 w-full h-full pointer-events-none" required>
                                     <option value=""></option>
                                     @foreach(\App\Models\PkpEvaluasi::PREDIKAT as $p)
                                         <option value="{{ $p }}"></option>
@@ -260,7 +260,7 @@
                                 
                                 <button type="button" @click="open = !open" @click.away="open = false" 
                                     class="mt-1 w-full flex items-center justify-between text-left px-3 py-2 border border-gray-300 rounded-md shadow-sm bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 text-sm transition-all">
-                                    <span x-text="editSkp.predikat || '-- Pilih Predikat --'" :class="!editSkp.predikat ? 'text-gray-500' : 'text-gray-900'" class="truncate pr-4"></span>
+                                    <span x-text="editPkp.predikat || '-- Pilih Predikat --'" :class="!editPkp.predikat ? 'text-gray-500' : 'text-gray-900'" class="truncate pr-4"></span>
                                     <svg class="w-4 h-4 text-gray-400 transition-transform shrink-0" :class="open ? 'rotate-180' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
                                 </button>
                                 
@@ -273,13 +273,13 @@
                                     x-transition:leave-end="opacity-0 scale-95"
                                     class="absolute z-50 mt-1 w-full bg-white border border-gray-200 rounded-lg shadow-xl overflow-hidden" x-cloak>
                                     <ul class="py-1">
-                                        <li @click="editSkp.predikat = ''; open = false" class="px-4 py-2 text-sm text-gray-500 hover:bg-gray-100 cursor-pointer">
+                                        <li @click="editPkp.predikat = ''; open = false" class="px-4 py-2 text-sm text-gray-500 hover:bg-gray-100 cursor-pointer">
                                             -- Batal Pilih --
                                         </li>
                                         @foreach(\App\Models\PkpEvaluasi::PREDIKAT as $p)
-                                            <li @click="editSkp.predikat = '{{ $p }}'; open = false" 
+                                            <li @click="editPkp.predikat = '{{ $p }}'; open = false" 
                                                 class="px-4 py-2 text-sm hover:bg-indigo-50 cursor-pointer border-l-2 transition-colors"
-                                                :class="editSkp.predikat === '{{ $p }}' ? 'bg-indigo-50 border-indigo-500 font-medium text-indigo-900' : 'border-transparent text-gray-700'">
+                                                :class="editPkp.predikat === '{{ $p }}' ? 'bg-indigo-50 border-indigo-500 font-medium text-indigo-900' : 'border-transparent text-gray-700'">
                                                 {{ $p }}
                                             </li>
                                         @endforeach
@@ -287,8 +287,8 @@
                                 </div>
                             </div>
                             <div>
-                                <x-input-label for="edit_file_skp" value="Ganti File Bukti PKP (Opsional)" />
-                                <input id="edit_file_skp" name="file_bukti_pkp" type="file" accept=".pdf,.jpg,.jpeg,.png"
+                                <x-input-label for="edit_file_pkp" value="Ganti File Bukti PKP (Opsional)" />
+                                <input id="edit_file_pkp" name="file_bukti_pkp" type="file" accept=".pdf,.jpg,.jpeg,.png"
                                     class="mt-1 block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-medium file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100" />
                                 <p class="text-xs text-gray-400 mt-1">Biarkan kosong jika tidak ingin mengganti file.</p>
                             </div>
@@ -304,7 +304,7 @@
     </div>
 
     {{-- MODAL TAMBAH PKP --}}
-    <x-modal name="add-skp" focusable>
+    <x-modal name="add-pkp" focusable>
         <form method="POST" action="{{ route('admin.pegawai.pkp.store', $pegawai) }}" enctype="multipart/form-data" class="p-6">
             @csrf
             <h2 class="text-lg font-bold text-gray-900 mb-4">Tambah Data PKP</h2>

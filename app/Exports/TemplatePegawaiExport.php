@@ -26,10 +26,10 @@ class TemplatePegawaiExport implements FromArray, WithHeadings, ShouldAutoSize, 
             'gaji_pokok_terakhir',
             'nomor_sk_terakhir',
             'tanggal_sk_terakhir',
-            'skp_tahun_1',
-            'skp_predikat_1',
-            'skp_tahun_2',
-            'skp_predikat_2'
+            'pkp_tahun_1',
+            'pkp_predikat_1',
+            'pkp_tahun_2',
+            'pkp_predikat_2'
         ];
     }
 

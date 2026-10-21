@@ -18,29 +18,6 @@
         </div>
     @else
         @php
-            // Cek Kelayakan KGB berdasarkan Hukuman Disiplin & Nilai PKP (2 tahun terakhir harus minimal "Baik")
-            $bebasHukuman = !$pegawai->is_sedang_hukuman_disiplin;
-            
-            $pkpTerakhir = $pkpEvaluasi->take(2);
-            $pkpLayak = true;
-            $pkpCount = $pkpTerakhir->count();
-            
-            if ($pkpCount < 2) {
-                $pkpLayak = false;
-                $pkpStatusMsg = "Data PKP 2 tahun terakhir tidak lengkap";
-            } else {
-                foreach ($pkpTerakhir as $s) {
-                    if (!in_array($s->predikat, ['Baik', 'Sangat Baik'])) {
-                        $pkpLayak = false;
-                    }
-                }
-                $pkpStatusMsg = $pkpLayak 
-                    ? "Nilai PKP memenuhi syarat" 
-                    : "Ada nilai PKP di bawah 'Baik'";
-            }
-            
-            $isKgbEligible = $bebasHukuman && $pkpLayak;
-
             // Logika Timeline KGB
             $tmtGajiTerakhir = $pegawai->tmt_gaji_terakhir ? \Carbon\Carbon::parse($pegawai->tmt_gaji_terakhir) : null;
             $jatuhTempo = $tmtGajiTerakhir ? $tmtGajiTerakhir->copy()->addYears(2) : null;
