@@ -16,9 +16,6 @@ class DashboardController extends Controller
             'pegawai.riwayatKgb' => function ($query) {
                 $query->latest('tmt_baru');
             },
-            'pegawai.pkpEvaluasi' => function ($query) {
-                $query->latest('tahun_penilaian');
-            }
         ])->find(Auth::id());
 
         if (!$user) abort(403, 'Pengguna tidak ditemukan.');
@@ -30,11 +27,7 @@ class DashboardController extends Controller
         $pegawai = $this->getPegawaiData();
         if (!$pegawai) return view('pegawai.dashboard', ['pegawai' => null]);
 
-        $riwayatKgb = $pegawai->riwayatKgb;
-        $pkpEvaluasi = $pegawai->pkpEvaluasi;
-        $tahunBerjalan = now()->year;
-        
-        return view('pegawai.dashboard', compact('pegawai', 'riwayatKgb', 'pkpEvaluasi', 'tahunBerjalan'));
+        return view('pegawai.dashboard', compact('pegawai'));
     }
 
     public function kgb()

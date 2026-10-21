@@ -120,7 +120,7 @@ class KgbController extends Controller
                 'string',
                 'max:255',
                 function ($attribute, $value, $fail) {
-                    $lengkap = trim($value) . '/KPG.14/Kepegumas/RSP';
+                    $lengkap = trim($value) . '/KPG.14/Kepegumas/RSDS';
                     if (\App\Models\RiwayatKgb::where('nomor_sk_baru', $lengkap)->exists()) {
                         $fail('Nomor SK Baru "' . $lengkap . '" sudah digunakan. Silakan gunakan nomor lain.');
                     }
@@ -135,7 +135,7 @@ class KgbController extends Controller
             'nomor_sk_terakhir.required'   => 'Nomor SK Sebelumnya wajib diisi.',
             'tanggal_sk_terakhir.required' => 'Tanggal SK Sebelumnya wajib diisi.',
             'tanggal_ditetapkan.required'  => 'Tanggal penetapan SK Baru wajib diisi.',
-            'master_pejabat_id.required'   => 'Pejabat penetap SK wajib dipilih.',
+            'master_pejabat_id.required'   => 'Pejabat penetap SK sebelumnya wajib dipilih.',
         ]);
 
         // Validasi rule-based via Service
@@ -161,7 +161,7 @@ class KgbController extends Controller
         // Pejabat terdahulu (untuk referensi di PDF)
         $pejabatTerdahulu = MasterPejabat::find($request->master_pejabat_id);
 
-        $nomorSkBaruLengkap = $request->nomor_sk_baru . '/KPG.14/Kepegumas/RSP';
+        $nomorSkBaruLengkap = $request->nomor_sk_baru . '/KPG.14/Kepegumas/RSDS';
 
         // Simpan ke riwayat_kgb — snapshot mati (tidak akan berubah meski data pegawai diubah)
         $riwayat = RiwayatKgb::create([

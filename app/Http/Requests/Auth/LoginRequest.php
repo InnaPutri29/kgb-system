@@ -34,6 +34,17 @@ class LoginRequest extends FormRequest
     }
 
     /**
+     * Nama kolom pada pesan validasi halaman login.
+     */
+    public function attributes(): array
+    {
+        return [
+            'email'    => 'NIP/Email',
+            'password' => 'password',
+        ];
+    }
+
+    /**
      * Attempt to authenticate the request's credentials.
      *
      * @throws ValidationException
