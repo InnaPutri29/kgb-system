@@ -9,20 +9,19 @@ Aplikasi ini dibagi menjadi 2 hak akses utama: **Admin (Kepegawaian)** dan **Peg
 ### 👨‍💼 Fitur Admin
 *   **Dashboard Utama**: Statistik jumlah pegawai aktif, jumlah SK yang telah terbit, dan pengingat (reminder) jadwal KGB yang akan segera jatuh tempo.
 *   **Manajemen Pegawai**: Tambah, edit, hapus, serta impor data pegawai secara massal.
-*   **Manajemen Master Pejabat**: Mengelola data pejabat struktural yang berwenang untuk menandatangani SK KGB.
+*   **Manajemen Master Pejabat**: Mengelola data pejabat yang menetapkan SK KGB terakhir pegawai (SK sebelumnya).
 *   **Proses Nominatif KGB**: 
     *   Sistem secara otomatis mendeteksi pegawai yang sudah mendekati jatuh tempo KGB (2 tahun dari TMT Gaji Terakhir).
-    *   Filter kelayakan berdasarkan evaluasi SKP tahunan (minimal Berpredikat "Baik") dan status hukuman disiplin.
+    *   Filter kelayakan berdasarkan Predikat Kinerja Pegawai (PKP) dua tahun terakhir (minimal berpredikat "Baik") dan status hukuman disiplin.
 *   **Cetak SK KGB**: 
     *   Pembuatan otomatis SK KGB ke dalam format PDF yang siap diunduh atau dicetak.
     *   Menyimpan arsip SK KGB yang telah diterbitkan ke dalam riwayat pegawai.
-*   **Evaluasi SKP**: Rekapitulasi dokumen Sasaran Kinerja Pegawai tahunan untuk syarat pengajuan KGB.
+*   **Predikat Kinerja Pegawai (PKP)**: Pencatatan predikat kinerja tahunan beserta berkas bukti sebagai syarat kelayakan KGB.
 
 ### 👤 Fitur Pegawai
-*   **Dashboard Pegawai**: Tampilan profil ringkas beserta notifikasi/status kelayakan KGB saat ini.
+*   **Dashboard Pegawai**: Tampilan profil ringkas, gaji pokok saat ini, dan progres siklus KGB dua tahunan.
 *   **Estimasi Jadwal KGB**: Menampilkan *countdown* sisa hari menuju jatuh tempo KGB berikutnya.
-*   **Riwayat SK KGB**: Pegawai dapat melihat daftar riwayat KGB terdahulu dan mengunduh file PDF SK mereka masing-masing secara mandiri.
-*   **Evaluasi SKP**: Melacak status predikat SKP yang telah dinilai oleh atasan sebagai syarat kelayakan KGB.
+*   **Riwayat SK KGB**: Pegawai dapat melihat daftar riwayat KGB dan mengunduh SK KGB Final (TTE) miliknya secara mandiri.
 *   **Pengaturan Profil**: Mengelola data akun, alamat email, dan pembaruan kata sandi.
 
 ## 🛠️ Stack Teknologi

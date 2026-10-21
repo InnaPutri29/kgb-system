@@ -26,7 +26,7 @@
                 name="email"
                 :value="$isDummyEmail ? old('email') : Auth::user()->email"
                 required
-                placeholder="contoh: nama@gmail.com" />
+                placeholder="Masukkan email Anda" />
             <x-input-error :messages="$errors->get('email')" class="mt-2" />
             <p class="text-xs text-gray-400 mt-1">
                 Email ini digunakan untuk menerima notifikasi KGB.

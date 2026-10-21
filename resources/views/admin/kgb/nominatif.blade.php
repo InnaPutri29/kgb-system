@@ -229,8 +229,9 @@
                     {{-- Input Fields --}}
                     <div class="space-y-4">
                         <div x-data="{ open: false, search: '' }" class="relative">
-                            <x-input-label value="Pejabat Penetap SK Baru *" />
-                            
+                            <x-input-label value="Pejabat Penetap SK Sebelumnya *" />
+                            <p class="text-xs text-gray-500 mt-0.5">Pejabat yang menetapkan SK KGB terakhir pegawai. SK baru otomatis ditetapkan oleh Direktur.</p>
+
                             {{-- Native select hidden for form submission and validation --}}
                             <select id="master_pejabat_id" name="master_pejabat_id" 
                                 x-model="form.master_pejabat_id" 
