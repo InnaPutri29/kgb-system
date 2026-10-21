@@ -30,7 +30,7 @@ class PegawaiImport implements ToModel, WithHeadingRow, SkipsOnError
     * jabatan, kantor_tempat_kerja, tmt_gaji_terakhir,
     * masa_kerja_tahun, masa_kerja_bulan, gaji_pokok_terakhir,
     * nomor_sk_terakhir, tanggal_sk_terakhir,
-    * skp_tahun_1, skp_predikat_1, skp_tahun_2, skp_predikat_2
+    * pkp_tahun_1, pkp_predikat_1, pkp_tahun_2, pkp_predikat_2
     *
     * @param array $row
     * @return \Illuminate\Database\Eloquent\Model|null
@@ -97,19 +97,17 @@ class PegawaiImport implements ToModel, WithHeadingRow, SkipsOnError
         ]);
 
         // Import data PKP jika ada
-        if (!empty($row['skp_tahun_1']) && !empty($row['skp_predikat_1'])) {
-            PkpEvaluasi::create([
-                'pegawai_id' => $pegawai->id,
-                'tahun_penilaian' => $row['skp_tahun_1'],
-                'predikat' => ucfirst(strtolower(trim($row['skp_predikat_1'])))
-            ]);
-        }
-        if (!empty($row['skp_tahun_2']) && !empty($row['skp_predikat_2'])) {
-            PkpEvaluasi::create([
-                'pegawai_id' => $pegawai->id,
-                'tahun_penilaian' => $row['skp_tahun_2'],
-                'predikat' => ucfirst(strtolower(trim($row['skp_predikat_2'])))
-            ]);
+        foreach ([1, 2] as $i) {
+            $tahun    = $row["pkp_tahun_{$i}"] ?? null;
+            $predikat = $this->normalisasiPredikat($row["pkp_predikat_{$i}"] ?? null);
+
+            if (!empty($tahun) && $predikat) {
+                PkpEvaluasi::create([
+                    'pegawai_id'      => $pegawai->id,
+                    'tahun_penilaian' => $tahun,
+                    'predikat'        => $predikat,
+                ]);
+            }
         }
 
         $this->successCount++;
@@ -126,6 +124,24 @@ class PegawaiImport implements ToModel, WithHeadingRow, SkipsOnError
             'skipped' => $this->skippedCount,
             'invalid' => $this->invalidCount,
         ];
+    }
+
+    /**
+     * Samakan penulisan predikat dengan daftar resmi, tanpa memedulikan huruf besar/kecil.
+     * Contoh: "sangat baik" -> "Sangat Baik". Predikat yang tidak dikenal diabaikan (null).
+     */
+    private function normalisasiPredikat($value): ?string
+    {
+        if (empty($value)) return null;
+
+        $input = strtolower(trim((string) $value));
+        foreach (PkpEvaluasi::PREDIKAT as $predikat) {
+            if (strtolower($predikat) === $input) {
+                return $predikat;
+            }
+        }
+
+        return null;
     }
 
     /**

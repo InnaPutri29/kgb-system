@@ -50,7 +50,7 @@ Route::middleware(['auth', 'password.changed'])->group(function () {
             Route::delete('/{pegawai}', [PegawaiController::class, 'destroy'])->name('destroy');
 
             // PKP Evaluasi (nested di bawah pegawai)
-            Route::prefix('/{pegawai}/skp')->name('pkp.')->group(function () {
+            Route::prefix('/{pegawai}/pkp')->name('pkp.')->group(function () {
                 Route::post('/', [\App\Http\Controllers\Admin\PkpEvaluasiController::class, 'store'])->name('store');
                 Route::put('/{pkp}', [\App\Http\Controllers\Admin\PkpEvaluasiController::class, 'update'])->name('update');
                 Route::delete('/{pkp}', [\App\Http\Controllers\Admin\PkpEvaluasiController::class, 'destroy'])->name('destroy');

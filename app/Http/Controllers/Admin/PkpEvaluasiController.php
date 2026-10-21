@@ -36,7 +36,7 @@ class PkpEvaluasiController extends Controller
         $filePath = null;
         if ($request->hasFile('file_bukti_pkp')) {
             $filePath = $request->file('file_bukti_pkp')
-                ->store("skp/{$pegawai->nip}", 'public');
+                ->store("pkp/{$pegawai->nip}", 'public');
         }
 
         PkpEvaluasi::create([
@@ -74,7 +74,7 @@ class PkpEvaluasiController extends Controller
                 Storage::disk('public')->delete($filePath);
             }
             $filePath = $request->file('file_bukti_pkp')
-                ->store("skp/{$pegawai->nip}", 'public');
+                ->store("pkp/{$pegawai->nip}", 'public');
         }
 
         $pkp->update([
