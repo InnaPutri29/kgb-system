@@ -319,9 +319,7 @@ class KgbController extends Controller
         return redirect()->back()->with('error', 'Gagal mengunggah file.');
     }
 
-    // -----------------------------------------------------------------------
-    // EXPORT EXCEL
-    // -----------------------------------------------------------------------
+    // Ekspor rekap KGB ke Excel
     public function export(Request $request)
     {
         $request->validate([
@@ -340,9 +338,6 @@ class KgbController extends Controller
         return Excel::download(new KgbExport($tahunAwal, $tahunAkhir), $filename);
     }
 
-    // -----------------------------------------------------------------------
-    // PRIVATE HELPERS
-    // -----------------------------------------------------------------------
 
     private function generateAndSavePdf(
         RiwayatKgb $riwayat,

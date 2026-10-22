@@ -226,9 +226,7 @@
         </div>
     </div>
 
-    {{-- =============================================
-         BOTTOM NAVIGATION BAR — Mobile only (hidden lg+)
-         ============================================= --}}
+    {{-- Navigasi bawah (khusus tampilan HP) --}}
     <nav class="lg:hidden fixed bottom-0 inset-x-0 z-50 bg-gradient-to-r from-[#0B3E6A] to-[#1a3f8f] border-t border-white/10 shadow-[0_-4px_20px_rgba(11,62,106,0.4)]">
         <div class="flex h-16 safe-area-inset-bottom">
 
