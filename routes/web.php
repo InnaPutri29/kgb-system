@@ -22,14 +22,10 @@ Route::get('/dashboard', function () {
     return redirect()->route('pegawai.dashboard');
 })->middleware('auth')->name('dashboard');
 
-// -----------------------------------------------------------------------
-// ROUTES YANG BUTUH AUTH
-// -----------------------------------------------------------------------
+// Route yang membutuhkan login
 Route::middleware(['auth', 'password.changed'])->group(function () {
 
-    // -----------------------------------------------------------------------
-    // ADMIN ROUTES
-    // -----------------------------------------------------------------------
+    // Route Admin
     Route::prefix('admin')->name('admin.')->middleware('role:admin')->group(function () {
 
         // Dashboard Admin
@@ -84,9 +80,7 @@ Route::middleware(['auth', 'password.changed'])->group(function () {
         Route::resource('pengguna', \App\Http\Controllers\Admin\UserController::class)->names('users');
     });
 
-    // -----------------------------------------------------------------------
-    // PEGAWAI ROUTES
-    // -----------------------------------------------------------------------
+    // Route Pegawai
     Route::prefix('pegawai')->name('pegawai.')->middleware('role:pegawai')->group(function () {
         Route::get('/dashboard', [\App\Http\Controllers\Pegawai\DashboardController::class, 'index'])->name('dashboard');
         Route::get('/kgb', [\App\Http\Controllers\Pegawai\DashboardController::class, 'kgb'])->name('kgb');        Route::get('/sk/{riwayat}/download', [\App\Http\Controllers\Pegawai\DashboardController::class, 'downloadSk'])->name('sk.download');
@@ -106,9 +100,7 @@ Route::middleware(['auth', 'password.changed'])->group(function () {
     });
 });
 
-// -----------------------------------------------------------------------
-// FORCED PASSWORD CHANGE (tidak diblokir oleh middleware password.changed)
-// -----------------------------------------------------------------------
+// Ganti password login pertama (tidak diblokir middleware password.changed)
 Route::middleware('auth')->group(function () {
     Route::get('/password/change', [PasswordChangeController::class, 'show'])->name('password.change');
     Route::post('/password/change', [PasswordChangeController::class, 'update'])->name('password.change.update');
