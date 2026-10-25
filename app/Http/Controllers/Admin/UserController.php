@@ -25,7 +25,6 @@ class UserController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:8|confirmed',
-            'nip' => 'nullable|string|max:255'
         ]);
 
         // Akun yang dibuat dari menu Pengguna selalu Admin.
@@ -34,7 +33,6 @@ class UserController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'password' => \Illuminate\Support\Facades\Hash::make($request->password),
-            'nip' => $request->nip,
             'is_first_login' => false,
         ]);
 
@@ -53,14 +51,14 @@ class UserController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users,email,' . $pengguna->id,
-            'nip' => 'nullable|string|max:255'
         ]);
 
         $data = [
             'name' => $request->name,
             'email' => $request->email,
-            'nip' => $request->nip,
         ];
+
+        // NIP tidak diubah dari menu Pengguna. NIP pegawai dikelola melalui menu Data Pegawai.
 
         if ($request->filled('password')) {
             $request->validate(['password' => 'string|min:8|confirmed']);

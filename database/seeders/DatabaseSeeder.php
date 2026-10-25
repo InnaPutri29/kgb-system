@@ -23,7 +23,6 @@ class DatabaseSeeder extends Seeder
             ['email' => 'admin@kgb.com'],
             [
                 'name' => 'Administrator',
-                'nip' => '000000000000000000',
                 'password' => Hash::make('123qwe123'),
                 'is_first_login' => false,
             ]

@@ -33,11 +33,15 @@
                         <x-input-error :messages="$errors->get('email')" class="mt-2" />
                     </div>
                     
+                    @if($user->hasRole('pegawai'))
                     <div>
-                        <x-input-label for="nip" value="NIP (Opsional)" />
-                        <x-text-input id="nip" name="nip" type="text" class="mt-1 block w-full" :value="old('nip', $user->nip)" />
-                        <x-input-error :messages="$errors->get('nip')" class="mt-2" />
+                        <x-input-label value="NIP" />
+                        <div class="mt-1 w-full px-3 py-2 border border-gray-200 rounded-md bg-gray-50 text-sm text-gray-700 h-[42px] flex items-center">
+                            {{ $user->nip ?? '-' }}
+                        </div>
+                        <p class="text-xs text-gray-500 mt-1">NIP diubah melalui menu Data Pegawai.</p>
                     </div>
+                    @endif
                 </div>
 
                 <!-- Keamanan & Peran -->
