@@ -30,12 +30,7 @@
                         <x-input-label for="email" value="Email *" />
                         <x-text-input id="email" name="email" type="email" class="mt-1 block w-full" :value="old('email')" required />
                         <x-input-error :messages="$errors->get('email')" class="mt-2" />
-                    </div>
-                    
-                    <div>
-                        <x-input-label for="nip" value="NIP (Opsional)" />
-                        <x-text-input id="nip" name="nip" type="text" class="mt-1 block w-full" :value="old('nip')" />
-                        <x-input-error :messages="$errors->get('nip')" class="mt-2" />
+                        <p class="text-xs text-gray-500 mt-1">Admin masuk ke sistem menggunakan email ini.</p>
                     </div>
                 </div>
 
