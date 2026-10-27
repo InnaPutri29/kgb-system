@@ -119,8 +119,14 @@ class SiapkanDataUjiCommand extends Command
         ])->setPaper('f4', 'portrait')->output();
         $draf = "sk_kgb/SK_KGB_Pegawai_Uji_P7_{$p7->nip}.pdf";
         $final = "sk_kgb_final/SK_KGB_FINAL_Pegawai_Uji_P7_{$p7->nip}.pdf";
-        Storage::disk('public')->put($draf, $pdf);
-        Storage::disk('public')->put($final, $pdf);
+        // Ditulis langsung tanpa deteksi MIME, karena PHP CLI di hosting tidak memiliki ekstensi fileinfo
+        foreach ([$draf, $final] as $berkas) {
+            $lokasi = Storage::disk('public')->path($berkas);
+            if (!is_dir(dirname($lokasi))) {
+                mkdir(dirname($lokasi), 0755, true);
+            }
+            file_put_contents($lokasi, $pdf);
+        }
         $riwayat->update(['file_pdf_path' => $draf, 'file_sk_final' => $final]);
         $baris[] = ['P7', $p7->nama_lengkap, 'Sudah punya SK Final', $p7->user->email, substr($p7->nip, 0, 8), $tmtBaru->copy()->addYears(2)->format('d-m-Y')];
 
