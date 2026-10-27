@@ -14,7 +14,7 @@ use Carbon\Carbon;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\File;
 
 class SiapkanDataUjiCommand extends Command
 {
@@ -58,7 +58,7 @@ class SiapkanDataUjiCommand extends Command
             DB::table('notifications')->delete();
         });
         foreach (['sk_kgb', 'sk_kgb_final', 'pkp'] as $dir) {
-            Storage::disk('public')->deleteDirectory($dir);
+            File::deleteDirectory(storage_path("app/public/{$dir}"));
         }
 
         $direktur = MasterPejabat::where('nama_jabatan', 'like', '%direktur%')->first()
@@ -119,13 +119,10 @@ class SiapkanDataUjiCommand extends Command
         ])->setPaper('f4', 'portrait')->output();
         $draf = "sk_kgb/SK_KGB_Pegawai_Uji_P7_{$p7->nip}.pdf";
         $final = "sk_kgb_final/SK_KGB_FINAL_Pegawai_Uji_P7_{$p7->nip}.pdf";
-        // Ditulis langsung tanpa deteksi MIME, karena PHP CLI di hosting tidak memiliki ekstensi fileinfo
         foreach ([$draf, $final] as $berkas) {
-            $lokasi = Storage::disk('public')->path($berkas);
-            if (!is_dir(dirname($lokasi))) {
-                mkdir(dirname($lokasi), 0755, true);
-            }
-            file_put_contents($lokasi, $pdf);
+            $lokasi = storage_path("app/public/{$berkas}");
+            File::ensureDirectoryExists(dirname($lokasi));
+            File::put($lokasi, $pdf);
         }
         $riwayat->update(['file_pdf_path' => $draf, 'file_sk_final' => $final]);
         $baris[] = ['P7', $p7->nama_lengkap, 'Sudah punya SK Final', $p7->user->email, substr($p7->nip, 0, 8), $tmtBaru->copy()->addYears(2)->format('d-m-Y')];
