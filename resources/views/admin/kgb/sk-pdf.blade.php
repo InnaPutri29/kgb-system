@@ -34,12 +34,12 @@
         }
         /* Ukuran kop mengikuti kop surat resmi RSD Sidawangi */
         .header .logo {
-            width: 30mm;
+            width: 36mm;
             text-align: left;
-            padding-left: 1mm;
+            padding-left: 2mm;
         }
         .header .logo img {
-            height: 28mm;
+            height: 33mm;
             width: auto;
         }
         .header .text-center {
@@ -54,7 +54,7 @@
             font-size: 17pt;
             margin: 0;
             font-weight: normal;
-            letter-spacing: 3px;
+            letter-spacing: 1px;
         }
         .header h2.nama-instansi {
             font-size: 19pt;
@@ -125,7 +125,7 @@
                 </td>
                 <td class="text-center">
                     <h1>PEMERINTAH DAERAH PROVINSI JAWA BARAT</h1>
-                    <h2>D I N A S&nbsp;&nbsp;&nbsp;K E S E H A T A N</h2>
+                    <h2>D I N A S&nbsp;&nbsp;K E S E H A T A N</h2>
                     <h2 class="nama-instansi">{{ strtoupper($instansi?->nama_instansi ?? 'RUMAH SAKIT DAERAH SIDAWANGI') }}</h2>
                     <p>{!! $instansi?->alamat ? nl2br(e($instansi->alamat)) : 'Jalan Pangeran Kejaksan Sumber Telepon (0231) 8330707 <i>Fax :</i> (0231) 8330747<br><i>Website:</i> www.rsp.jabarprov.go.id <i>e-mail:</i> rsp@jabarprov.go.id<br>C I R E B O N - 4 5 6 1 1' !!}</p>
                 </td>
@@ -166,6 +166,8 @@
         </tr>
     </table>
 
+    {{-- Isi surat menjorok ke dalam dibanding blok Nomor/Lampiran/Perihal, seperti SK asli --}}
+    <div style="padding-left: 12mm;">
     <div class="text-justify mt-2 mb-2" style="margin-top: 20px;">
         Dengan ini kami beritahukan, bahwa berhubung dengan telah dipenuhinya masa kerja dan syarat-syarat lainnya kepada :
     </div>
@@ -272,6 +274,7 @@
 
     <div class="text-justify mt-2" style="margin-top: 15px;">
         Diharap agar sesuai dengan Peraturan Pemerintah RI. No. 5 Tahun 2024 kepada Pegawai tersebut dapat dibayarkan penghasilannya berdasarkan gaji pokok yang baru.
+    </div>
     </div>
 
 <div class="signature-box" style="float: right; width: 450px; margin-top: 15px; font-family: 'Times New Roman', Times, serif;">
