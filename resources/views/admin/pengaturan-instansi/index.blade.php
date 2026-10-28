@@ -28,17 +28,28 @@
                     <p class="text-sm font-semibold text-gray-700 text-center w-full">Logo</p>
                     
                     <div class="w-40 h-40 rounded-2xl border-2 border-dashed border-gray-300 flex items-center justify-center bg-white/20 overflow-hidden relative group">
-                        @if($pengaturan->logo)
-                            <img src="{{ asset('storage/' . $pengaturan->logo) }}" alt="Logo" class="w-full h-full object-contain p-2">
-                        @else
-                            <svg class="w-12 h-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
-                        @endif
+                        <img id="logo-preview" src="{{ $pengaturan->logo ? asset('storage/' . $pengaturan->logo) : '' }}" alt="Logo" class="w-full h-full object-contain p-2 {{ $pengaturan->logo ? '' : 'hidden' }}">
+                        @unless($pengaturan->logo)
+                            <svg id="logo-placeholder" class="w-12 h-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+                        @endunless
                         
                         <div class="absolute inset-0 bg-black/50 hidden group-hover:flex items-center justify-center transition-all cursor-pointer" onclick="document.getElementById('logo').click()">
                             <span class="text-white text-xs font-medium">Ubah Logo</span>
                         </div>
                     </div>
-                    <input type="file" id="logo" name="logo" class="hidden" accept="image/jpeg,image/png,image/jpg" onchange="document.getElementById('file-name').textContent = this.files[0]?.name">
+                    <input type="file" id="logo" name="logo" class="hidden" accept="image/jpeg,image/png,image/jpg" onchange="pratinjauLogo(this)">
+                    <script>
+                        // Tampilkan gambar yang dipilih sebelum disimpan
+                        function pratinjauLogo(input) {
+                            const file = input.files[0];
+                            document.getElementById('file-name').textContent = file ? file.name : '';
+                            if (!file) return;
+                            const img = document.getElementById('logo-preview');
+                            img.src = URL.createObjectURL(file);
+                            img.classList.remove('hidden');
+                            document.getElementById('logo-placeholder')?.classList.add('hidden');
+                        }
+                    </script>
                     <p id="file-name" class="text-xs text-center text-gray-500 truncate w-full px-4"></p>
                     <p class="text-xs text-gray-400 text-center">Format: JPG, PNG (Maks 2MB)</p>
                     <x-input-error :messages="$errors->get('logo')" class="mt-1" />
