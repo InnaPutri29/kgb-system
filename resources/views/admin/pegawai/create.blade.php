@@ -14,6 +14,11 @@
     <div class="bg-white/50 backdrop-blur-3xl lg:bg-white lg:backdrop-blur-none rounded-[1.5rem] border border-white/80 border-t-white shadow-[0_8px_32px_0_rgba(31,38,135,0.07)] p-6 md:p-8">
         <form action="{{ route('admin.pegawai.store') }}" method="POST">
             @csrf
+            @if ($errors->any())
+                <div class="mb-6 rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
+                    Data belum tersimpan. Periksa kembali isian yang ditandai merah di bawah.
+                </div>
+            @endif
             
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <!-- Data Pribadi -->
@@ -43,19 +48,23 @@
                         <div>
                             <x-input-label for="pangkat" value="Pangkat" />
                             <x-text-input id="pangkat" name="pangkat" type="text" class="mt-1 block w-full" :value="old('pangkat')" placeholder="Cth: Penata Tingkat I" />
+                            <x-input-error :messages="$errors->get('pangkat')" class="mt-2" />
                         </div>
                         <div>
                             <x-input-label for="golongan" value="Golongan" />
                             <x-text-input id="golongan" name="golongan" type="text" class="mt-1 block w-full" :value="old('golongan')" placeholder="Cth: IV/b" />
+                            <x-input-error :messages="$errors->get('golongan')" class="mt-2" />
                         </div>
                     </div>
                     <div>
                         <x-input-label for="jabatan" value="Jabatan" />
                         <x-text-input id="jabatan" name="jabatan" type="text" class="mt-1 block w-full" :value="old('jabatan')" />
+                        <x-input-error :messages="$errors->get('jabatan')" class="mt-2" />
                     </div>
                     <div>
                         <x-input-label for="kantor_tempat_kerja" value="Kantor Tempat Kerja" />
                         <x-text-input id="kantor_tempat_kerja" name="kantor_tempat_kerja" type="text" class="mt-1 block w-full" :value="old('kantor_tempat_kerja')" />
+                        <x-input-error :messages="$errors->get('kantor_tempat_kerja')" class="mt-2" />
                     </div>
                     
                 </div>
@@ -67,19 +76,23 @@
                         <div>
                             <x-input-label for="tmt_gaji_terakhir" value="TMT Gaji Terakhir" />
                             <x-text-input id="tmt_gaji_terakhir" name="tmt_gaji_terakhir" type="date" class="mt-1 block w-full" :value="old('tmt_gaji_terakhir')" />
+                            <x-input-error :messages="$errors->get('tmt_gaji_terakhir')" class="mt-2" />
                         </div>
                         <div>
                             <x-input-label for="gaji_pokok_terakhir" value="Gaji Pokok Terakhir (Rp)" />
                             <x-text-input id="gaji_pokok_terakhir" name="gaji_pokok_terakhir" type="number" class="mt-1 block w-full" :value="old('gaji_pokok_terakhir')" />
+                            <x-input-error :messages="$errors->get('gaji_pokok_terakhir')" class="mt-2" />
                         </div>
                         <div class="flex gap-2">
                             <div class="flex-1">
                                 <x-input-label for="masa_kerja_tahun" value="Masa Kerja (Thn) *" />
                                 <x-text-input id="masa_kerja_tahun" name="masa_kerja_tahun" type="number" class="mt-1 block w-full" :value="old('masa_kerja_tahun', 0)" required min="0" />
+                                <x-input-error :messages="$errors->get('masa_kerja_tahun')" class="mt-2" />
                             </div>
                             <div class="flex-1">
                                 <x-input-label for="masa_kerja_bulan" value="Bulan *" />
                                 <x-text-input id="masa_kerja_bulan" name="masa_kerja_bulan" type="number" class="mt-1 block w-full" :value="old('masa_kerja_bulan', 0)" required min="0" max="11" />
+                                <x-input-error :messages="$errors->get('masa_kerja_bulan')" class="mt-2" />
                             </div>
                         </div>
                     </div>
