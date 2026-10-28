@@ -62,4 +62,12 @@
             </button>
         </div>
     </form>
+
+    {{-- Keluar tanpa menyimpan, kembali ke halaman login --}}
+    <form method="POST" action="{{ route('logout') }}" class="mt-4 text-center">
+        @csrf
+        <button type="submit" class="text-sm text-gray-600 hover:text-blue-600 underline">
+            Kembali ke halaman login
+        </button>
+    </form>
 </x-guest-layout>
