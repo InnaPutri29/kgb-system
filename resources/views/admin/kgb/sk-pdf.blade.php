@@ -32,28 +32,40 @@
         .header td {
             vertical-align: middle;
         }
+        /* Ukuran kop mengikuti kop surat resmi RSD Sidawangi */
         .header .logo {
-            width: 80px;
+            width: 30mm;
             text-align: left;
+            padding-left: 1mm;
+        }
+        .header .logo img {
+            height: 28mm;
+            width: auto;
         }
         .header .text-center {
             text-align: center;
         }
         .header h1 {
-            font-size: 11pt;
+            font-size: 14pt;
             margin: 0;
             font-weight: normal;
         }
         .header h2 {
-            font-size: 16pt;
+            font-size: 17pt;
             margin: 0;
             font-weight: normal;
-            letter-spacing: 2px;
+            letter-spacing: 3px;
+        }
+        .header h2.nama-instansi {
+            font-size: 19pt;
+            font-weight: bold;
+            letter-spacing: normal;
         }
         .header p {
-            font-size: 10pt;
+            font-size: 10.5pt;
             margin: 0;
             margin-top: 2px;
+            line-height: 1.25;
         }
         table {
             width: 100%;
@@ -106,15 +118,15 @@
                 <td class="logo">
                     {{-- Logo Daerah di kiri --}}
                     @if($instansi && $instansi->logo)
-                        <img src="{{ public_path('storage/' . $instansi->logo) }}" alt="Logo" style="width: 80px; max-height: 100px;">
+                        <img src="{{ public_path('storage/' . $instansi->logo) }}" alt="Logo">
                     @else
                         <!-- Logo Placeholder jika tidak ada logo -->
                     @endif
                 </td>
                 <td class="text-center">
                     <h1>PEMERINTAH DAERAH PROVINSI JAWA BARAT</h1>
-                    <h2>D I N A S K E S E H A T A N</h2>
-                    <h2 style="font-weight: bold; letter-spacing: normal;">{{ strtoupper($instansi?->nama_instansi ?? 'RUMAH SAKIT DAERAH SIDAWANGI') }}</h2>
+                    <h2>D I N A S&nbsp;&nbsp;&nbsp;K E S E H A T A N</h2>
+                    <h2 class="nama-instansi">{{ strtoupper($instansi?->nama_instansi ?? 'RUMAH SAKIT DAERAH SIDAWANGI') }}</h2>
                     <p>{!! $instansi?->alamat ? nl2br(e($instansi->alamat)) : 'Jalan Pangeran Kejaksan Sumber Telepon (0231) 8330707 <i>Fax :</i> (0231) 8330747<br><i>Website:</i> www.rsp.jabarprov.go.id <i>e-mail:</i> rsp@jabarprov.go.id<br>C I R E B O N - 4 5 6 1 1' !!}</p>
                 </td>
             </tr>
@@ -124,7 +136,8 @@
 
     <table style="width: 100%; margin-top: 15px;">
         <tr>
-            <td style="width: 50%; vertical-align: top;">
+            {{-- Turun satu baris agar "Nomor" sejajar dengan "Kepada Yth," seperti SK asli --}}
+            <td style="width: 50%; vertical-align: top; padding-top: 14pt;">
                 <table>
                     <tr>
                         <td style="width: 65px;">Nomor</td>
@@ -261,7 +274,7 @@
         Diharap agar sesuai dengan Peraturan Pemerintah RI. No. 5 Tahun 2024 kepada Pegawai tersebut dapat dibayarkan penghasilannya berdasarkan gaji pokok yang baru.
     </div>
 
-<div class="signature-box" style="float: right; width: 450px; margin-top: 30px; font-family: 'Times New Roman', Times, serif;">
+<div class="signature-box" style="float: right; width: 450px; margin-top: 15px; font-family: 'Times New Roman', Times, serif;">
         <div style="text-align: center; font-size: 14pt; line-height: 1.2; margin-bottom: 15px;">
             DIREKTUR RUMAH SAKIT DAERAH SIDAWANGI<br>
             PROVINSI JAWA BARAT,
