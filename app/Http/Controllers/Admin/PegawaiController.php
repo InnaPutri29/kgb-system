@@ -71,6 +71,8 @@ class PegawaiController extends Controller
 
     public function store(Request $request)
     {
+        $this->rapikanAngka($request);
+
         $validated = $request->validate([
             'nip' => 'required|string|digits:18|unique:pegawai,nip',
             'nama_lengkap' => 'required|string|max:255',
@@ -123,6 +125,8 @@ class PegawaiController extends Controller
 
     public function update(Request $request, Pegawai $pegawai)
     {
+        $this->rapikanAngka($request);
+
         $validated = $request->validate([
             'nip' => ['required', 'string', 'digits:18', Rule::unique('pegawai', 'nip')->ignore($pegawai->id)],
             'nama_lengkap' => 'required|string|max:255',
@@ -224,5 +228,16 @@ class PegawaiController extends Controller
             $user->delete();
         }
         return back()->with('success', 'Data pegawai berhasil dihapus.');
+    }
+
+    // Angka berawalan nol seperti "02" dibaca sebagai 2, supaya lolos validasi angka bulat
+    private function rapikanAngka(Request $request): void
+    {
+        foreach (['masa_kerja_tahun', 'masa_kerja_bulan'] as $kolom) {
+            $nilai = trim((string) $request->input($kolom));
+            if ($nilai !== '' && ctype_digit($nilai)) {
+                $request->merge([$kolom => (int) $nilai]);
+            }
+        }
     }
 }
