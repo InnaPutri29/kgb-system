@@ -69,10 +69,11 @@
             vertical-align: top;
             padding: 2px 0;
         }
-        .number-col {
-            width: 5%;
+        /* Selektor dibuat lebih spesifik agar jarak tidak tertimpa padding .content-table td */
+        .content-table td.number-col {
+            width: 6%;
             text-align: right;
-            padding-right: 10px;
+            padding-right: 12px;
         }
         .label-col {
             width: 35%;
