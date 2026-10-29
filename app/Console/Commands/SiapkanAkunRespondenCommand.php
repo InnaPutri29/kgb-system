@@ -231,10 +231,10 @@ class SiapkanAkunRespondenCommand extends Command
                 return null;
             }
             $daftar[] = [
-                'nama' => $nama,
+                'nama' => Pegawai::rapikanNama($nama),
                 'nip' => $nip,
                 'golongan' => trim((string) $r[$kolom('golongan')]),
-                'jabatan' => $kolom('jabatan') !== false ? trim((string) $r[$kolom('jabatan')]) : null,
+                'jabatan' => $kolom('jabatan') !== false ? Pegawai::rapikanJabatan(trim((string) $r[$kolom('jabatan')])) : null,
                 'mk_tahun' => $kolom('masa_kerja_tahun') !== false ? (int) $r[$kolom('masa_kerja_tahun')] : 0,
                 'mk_bulan' => $kolom('masa_kerja_bulan') !== false ? (int) $r[$kolom('masa_kerja_bulan')] : 0,
                 'email' => "{$nip}@kgb.rsd-sidawangi.id",

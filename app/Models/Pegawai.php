@@ -37,6 +37,66 @@ class Pegawai extends Model
     ];
 
     /**
+     * Rapikan nama yang ditulis kapital semua agar layak dicantumkan di SK.
+     * Contoh: "dr. BUDI SANTOSO,S.Kep.Ners" menjadi "dr. Budi Santoso, S.Kep.Ners".
+     * Nama yang sudah memakai huruf kecil tidak diubah. Gelar di belakang koma dibiarkan apa adanya.
+     */
+    public static function rapikanNama(?string $nama): ?string
+    {
+        if ($nama === null || trim($nama) === '') {
+            return $nama;
+        }
+
+        $nama = trim(preg_replace('/\s+/', ' ', $nama));
+        [$inti, $gelar] = array_pad(explode(',', $nama, 2), 2, '');
+
+        $gelarDepan = ['dr.' => 'dr.', 'drg.' => 'drg.', 'dr' => 'dr.', 'drg' => 'drg.', 'hj.' => 'Hj.', 'h.' => 'H.', 'prof.' => 'Prof.', 'ir.' => 'Ir.', 'ns.' => 'Ns.'];
+        $kata = explode(' ', trim($inti));
+        $bukanGelar = array_filter($kata, fn ($k) => !isset($gelarDepan[mb_strtolower($k)]));
+        $semuaKapital = $bukanGelar && implode('', $bukanGelar) === mb_strtoupper(implode('', $bukanGelar));
+
+        if ($semuaKapital) {
+            $kata = array_map(fn ($k) => $gelarDepan[mb_strtolower($k)] ?? mb_convert_case(mb_strtolower($k), MB_CASE_TITLE), $kata);
+        }
+
+        $hasil = implode(' ', $kata);
+        $gelar = trim($gelar);
+
+        return $gelar !== '' ? "{$hasil}, {$gelar}" : $hasil;
+    }
+
+    /**
+     * Rapikan jabatan yang ditulis kapital semua, misalnya "PERAWAT AHLI MUDA" menjadi "Perawat Ahli Muda".
+     * Kata sambung ditulis kecil dan singkatan unit tetap kapital.
+     */
+    public static function rapikanJabatan(?string $jabatan): ?string
+    {
+        if ($jabatan === null || trim($jabatan) === '') {
+            return $jabatan;
+        }
+
+        $jabatan = trim(preg_replace('/\s+/', ' ', $jabatan));
+        if ($jabatan !== mb_strtoupper($jabatan)) {
+            return $jabatan;
+        }
+
+        $kataSambung = ['dan', 'di', 'pada', 'untuk', 'dengan', 'atau', 'yang', 'ke', 'dari', 'serta'];
+        $singkatan = ['IGD', 'ICU', 'ICCU', 'NICU', 'PICU', 'HCU', 'UGD', 'RS', 'RSD', 'RSUD', 'IT', 'SDM', 'K3', 'K3RS', 'PPI', 'IPSRS', 'CSSD', 'VK', 'OK', 'TU', 'UPT', 'BLUD', 'TTE'];
+
+        $kata = explode(' ', $jabatan);
+        foreach ($kata as $i => $k) {
+            $bersih = trim($k, ',.()');
+            if (in_array($bersih, $singkatan, true)) {
+                continue;
+            }
+            $kecil = mb_strtolower($k);
+            $kata[$i] = ($i > 0 && in_array($kecil, $kataSambung, true)) ? $kecil : mb_convert_case($kecil, MB_CASE_TITLE);
+        }
+
+        return implode(' ', $kata);
+    }
+
+    /**
      * Samakan penulisan golongan dengan daftar resmi, misalnya "iii/a" atau "III / A" menjadi "III/a".
      */
     public static function normalisasiGolongan(?string $golongan): ?string
