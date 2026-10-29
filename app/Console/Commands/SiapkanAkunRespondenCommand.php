@@ -98,7 +98,7 @@ class SiapkanAkunRespondenCommand extends Command
                 'pangkat' => Pegawai::GOLONGAN_PANGKAT[$golongan] ?? null,
                 'golongan' => $golongan,
                 'jabatan' => $r['jabatan'],
-                'kantor_tempat_kerja' => 'RSD Sidawangi',
+                'kantor_tempat_kerja' => 'Rumah Sakit Daerah Sidawangi',
                 'tmt_gaji_terakhir' => $tmtTerakhir,
                 'masa_kerja_tahun' => $mk,
                 'masa_kerja_bulan' => $r['mk_bulan'],
