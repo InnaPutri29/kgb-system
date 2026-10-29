@@ -65,7 +65,8 @@ class SiapkanAkunRespondenCommand extends Command
 
         $baris = [];
         foreach ($daftar as $i => $r) {
-            $kode = sprintf('%02d', $i + 1);
+            // Akun dummy memakai awalan "D" agar nomor SK simulasinya tidak bentrok dengan akun responden dari file
+            $kode = ($r['awalan'] ?? '') . sprintf('%02d', $i + 1);
 
             // NIP yang sudah dipakai pegawai lain (bukan buatan perintah ini) dilewati agar data asli tidak tertimpa
             if (Pegawai::withTrashed()->where('nip', $r['nip'])->exists() || User::where('nip', $r['nip'])->exists()) {
@@ -81,6 +82,10 @@ class SiapkanAkunRespondenCommand extends Command
 
             $jatuhTempo = $tanggal->copy()->addDays(15 + ($i % 40));   // H-15 sampai H-54
             $tmtTerakhir = $jatuhTempo->copy()->subYears(2);
+
+            // Satu akun dibuat dalam satu transaksi: jika ada langkah yang gagal, akun tidak tertinggal setengah jadi
+            DB::beginTransaction();
+            try {
 
             $user = User::create([
                 'name' => $r['nama'],
@@ -175,6 +180,12 @@ class SiapkanAkunRespondenCommand extends Command
                 ], null, true);
             }
 
+                DB::commit();
+            } catch (\Throwable $e) {
+                DB::rollBack();
+                throw $e;
+            }
+
             $baris[] = [$kode, $r['nama'], $r['login_pertama'] ? 'NIP (login pertama)' : $r['email'], substr($r['nip'], 0, 8) . ($r['login_pertama'] ? ' (8 digit awal NIP)' : ''), $jatuhTempo->format('d-m-Y')];
         }
 
@@ -199,6 +210,7 @@ class SiapkanAkunRespondenCommand extends Command
             'mk_bulan' => 0,
             'email' => sprintf('responden%02d@kgb-rsdsidawangi.biz.id', $i),
             'login_pertama' => false,
+            'awalan' => 'D',
         ], range(1, $jumlah));
     }
 
@@ -250,14 +262,17 @@ class SiapkanAkunRespondenCommand extends Command
         return $daftar;
     }
 
-    // Hanya menghapus pegawai yang punya riwayat SK bertanda UJI-IC (buatan perintah ini)
+    // Menghapus akun dari file yang punya riwayat SK bertanda UJI-IC, serta semua akun dummy (termasuk yang setengah jadi)
     private function hapusAkunResponden(array $nips): int
     {
         $pegawaiIds = RiwayatKgb::withTrashed()->where('nomor_sk_baru', 'like', '%/' . self::PENANDA_SK . '-%')->pluck('pegawai_id')->unique();
-        $pegawai = Pegawai::withTrashed()->whereIn('id', $pegawaiIds)
-            ->where(fn ($q) => $q->whereIn('nip', $nips)->orWhere('nip', 'like', self::AWALAN_NIP_DUMMY . '%'))
+        $pegawai = Pegawai::withTrashed()
+            ->where(fn ($q) => $q->where(fn ($q) => $q->whereIn('id', $pegawaiIds)->whereIn('nip', $nips))
+                ->orWhere('nip', 'like', self::AWALAN_NIP_DUMMY . '%'))
             ->get();
-        $userIds = $pegawai->pluck('user_id')->filter()->values();
+        $userIds = $pegawai->pluck('user_id')->filter()
+            ->merge(User::where('nip', 'like', self::AWALAN_NIP_DUMMY . '%')->pluck('id'))
+            ->unique()->values();
         $berkas = RiwayatKgb::withTrashed()->whereIn('pegawai_id', $pegawai->pluck('id'))->whereNotNull('file_sk_final')->pluck('file_sk_final');
 
         DB::transaction(function () use ($pegawai, $userIds) {
