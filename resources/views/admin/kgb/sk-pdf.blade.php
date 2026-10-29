@@ -6,7 +6,8 @@
     <style>
         @page {
             size: 215.9mm 330mm;
-            margin: 2cm;
+            /* Bawah 3,5 cm: ruang untuk kode QR dan keterangan BSrE yang ditempel otomatis saat TTE di SIDEBAR */
+            margin: 1.5cm 2cm 3.5cm 2cm;
         }
         body { 
             font-family: 'Times New Roman', Times, serif; 
@@ -79,7 +80,7 @@
         
         .content-table td {
             vertical-align: top;
-            padding: 2px 0;
+            padding: 1px 0;
         }
         /* Selektor dibuat lebih spesifik agar jarak tidak tertimpa padding .content-table td */
         .content-table td.number-col {
