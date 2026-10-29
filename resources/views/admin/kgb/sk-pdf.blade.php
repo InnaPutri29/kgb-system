@@ -3,6 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <title>SK KGB - {{ $pegawai->nama_lengkap }}</title>
+    @php
+        // Tingkat kerapatan: 0 = normal. Naik otomatis (lihat AppSupportSkPdf) jika isi SK melebihi satu halaman.
+        $k = max(0, min(3, (int) ($kompak ?? 0)));
+        $u = [
+            'huruf'  => [12, 11.5, 11, 10.5][$k],
+            'baris'  => [1.15, 1.1, 1.05, 1.0][$k],
+            'logo'   => [33, 30, 27, 24][$k],
+            'h1'     => [14, 13, 12.5, 12][$k],
+            'h2'     => [17, 16, 15, 14][$k],
+            'nama'   => [19, 18, 17, 16][$k],
+            'alamat' => [10.5, 10, 9.5, 9][$k],
+            'jarak'  => [15, 10, 6, 4][$k],
+            'kotak'  => [15, 12, 10, 8][$k],
+        ];
+    @endphp
     <style>
         @page {
             size: 215.9mm 330mm;
@@ -11,8 +26,8 @@
         }
         body { 
             font-family: 'Times New Roman', Times, serif; 
-            font-size: 12pt; 
-            line-height: 1.15; 
+            font-size: {{ $u['huruf'] }}pt; 
+            line-height: {{ $u['baris'] }}; 
         }
         .header {
             width: 100%;
@@ -40,30 +55,30 @@
             padding-left: 2mm;
         }
         .header .logo img {
-            height: 33mm;
+            height: {{ $u['logo'] }}mm;
             width: auto;
         }
         .header .text-center {
             text-align: center;
         }
         .header h1 {
-            font-size: 14pt;
+            font-size: {{ $u['h1'] }}pt;
             margin: 0;
             font-weight: normal;
         }
         .header h2 {
-            font-size: 17pt;
+            font-size: {{ $u['h2'] }}pt;
             margin: 0;
             font-weight: normal;
             letter-spacing: 1px;
         }
         .header h2.nama-instansi {
-            font-size: 19pt;
+            font-size: {{ $u['nama'] }}pt;
             font-weight: bold;
             letter-spacing: normal;
         }
         .header p {
-            font-size: 10.5pt;
+            font-size: {{ $u['alamat'] }}pt;
             margin: 0;
             margin-top: 2px;
             line-height: 1.25;
@@ -71,7 +86,7 @@
         table {
             width: 100%;
             border-collapse: collapse;
-            font-size: 12pt;
+            font-size: {{ $u['huruf'] }}pt;
         }
         .align-top { vertical-align: top; }
         .text-justify { text-align: justify; }
@@ -135,7 +150,7 @@
     </div>
     <div class="garis-kop"></div>
 
-    <table style="width: 100%; margin-top: 15px;">
+    <table style="width: 100%; margin-top: {{ $u['jarak'] }}px;">
         <tr>
             {{-- Turun satu baris agar "Nomor" sejajar dengan "Kepada Yth," seperti SK asli --}}
             <td style="width: 50%; vertical-align: top; padding-top: 14pt;">
@@ -169,7 +184,7 @@
 
     {{-- Isi surat menjorok ke dalam dibanding blok Nomor/Lampiran/Perihal, seperti SK asli --}}
     <div style="padding-left: 12mm;">
-    <div class="text-justify mt-2 mb-2" style="margin-top: 20px;">
+    <div class="text-justify mt-2 mb-2" style="margin-top: {{ $u['jarak'] + 5 }}px;">
         Dengan ini kami beritahukan, bahwa berhubung dengan telah dipenuhinya masa kerja dan syarat-syarat lainnya kepada :
     </div>
 
@@ -273,18 +288,18 @@
         </tr>
     </table>
 
-    <div class="text-justify mt-2" style="margin-top: 15px;">
+    <div class="text-justify mt-2" style="margin-top: {{ $u['jarak'] }}px;">
         Diharap agar sesuai dengan Peraturan Pemerintah RI. No. 5 Tahun 2024 kepada Pegawai tersebut dapat dibayarkan penghasilannya berdasarkan gaji pokok yang baru.
     </div>
     </div>
 
-<div class="signature-box" style="float: right; width: 450px; margin-top: 15px; font-family: 'Times New Roman', Times, serif;">
-        <div style="text-align: center; font-size: 14pt; line-height: 1.2; margin-bottom: 15px;">
+<div class="signature-box" style="float: right; width: 450px; margin-top: {{ $u['jarak'] }}px; font-family: 'Times New Roman', Times, serif;">
+        <div style="text-align: center; font-size: 14pt; line-height: 1.2; margin-bottom: {{ $u['jarak'] }}px;">
             DIREKTUR RUMAH SAKIT DAERAH SIDAWANGI<br>
             PROVINSI JAWA BARAT,
         </div>
         
-        <div class="signature-inner" style="border: 2px solid black; border-radius: 25px; padding: 15px; font-family: Arial, sans-serif;">
+        <div class="signature-inner" style="border: 2px solid black; border-radius: 25px; padding: {{ $u['kotak'] }}px; font-family: Arial, sans-serif;">
             <table style="width: 100%; border-collapse: collapse; border: none;">
                 <tr>
                     <td style="width: 90px; text-align: center; vertical-align: middle; padding-right: 15px;">

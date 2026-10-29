@@ -9,7 +9,7 @@ use App\Models\PkpEvaluasi;
 use App\Models\RiwayatKgb;
 use App\Models\User;
 use App\Services\KgbEligibilityService;
-use Barryvdh\DomPDF\Facade\Pdf;
+use App\Support\SkPdf;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
@@ -114,9 +114,9 @@ class SiapkanDataUjiCommand extends Command
             'pejabat_penetap' => $instansi?->nama_direktur ?? '-',
             'status' => 'Final',
         ]);
-        $pdf = Pdf::loadView('admin.kgb.sk-pdf', [
+        $pdf = SkPdf::buat([
             'riwayat' => $riwayat, 'pegawai' => $p7, 'instansi' => $instansi, 'pejabatTerdahulu' => $direktur,
-        ])->setPaper('f4', 'portrait')->output();
+        ]);
         $draf = "sk_kgb/SK_KGB_Pegawai_Uji_P7_{$p7->nip}.pdf";
         $final = "sk_kgb_final/SK_KGB_FINAL_Pegawai_Uji_P7_{$p7->nip}.pdf";
         foreach ([$draf, $final] as $berkas) {

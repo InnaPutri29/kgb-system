@@ -9,7 +9,7 @@ use App\Models\Pegawai;
 use App\Models\PengaturanInstansi;
 use App\Models\PkpEvaluasi;
 use App\Models\RiwayatKgb;
-use Barryvdh\DomPDF\Facade\Pdf;
+use App\Support\SkPdf;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -278,17 +278,20 @@ class KgbController extends Controller
         $instansi = PengaturanInstansi::first();
         $pejabatTerdahulu = $riwayat->pegawai->masterPejabat;
 
-        $pdf = Pdf::loadView('admin.kgb.sk-pdf', [
+        $isiPdf = SkPdf::buat([
             'riwayat'          => $riwayat,
             'pegawai'          => $riwayat->pegawai,
             'instansi'         => $instansi,
             'pejabatTerdahulu' => $pejabatTerdahulu,
-        ])->setPaper('f4', 'portrait');
+        ]);
 
         $namaClean = trim(preg_replace('/_+/', '_', str_replace(' ', '_', preg_replace('/[^a-zA-Z0-9\s]/', '', $riwayat->pegawai->nama_lengkap))), '_');
         $filename = 'SK_KGB_' . $namaClean . '_' . $riwayat->pegawai->nip . '.pdf';
 
-        return $pdf->download($filename);
+        return response($isiPdf, 200, [
+            'Content-Type'        => 'application/pdf',
+            'Content-Disposition' => 'attachment; filename="' . $filename . '"',
+        ]);
     }
 
     /**
@@ -366,19 +369,19 @@ class KgbController extends Controller
         ?PengaturanInstansi $instansi,
         ?MasterPejabat $pejabatTerdahulu
     ): string {
-        $pdf = Pdf::loadView('admin.kgb.sk-pdf', [
+        $isiPdf = SkPdf::buat([
             'riwayat'          => $riwayat,
             'pegawai'          => $pegawai,
             'instansi'         => $instansi,
             'pejabatTerdahulu' => $pejabatTerdahulu,
-        ])->setPaper('f4', 'portrait');
+        ]);
 
         $dir      = 'sk_kgb';
         $namaClean = trim(preg_replace('/_+/', '_', str_replace(' ', '_', preg_replace('/[^a-zA-Z0-9\s]/', '', $pegawai->nama_lengkap))), '_');
         $filename = "SK_KGB_{$namaClean}_{$pegawai->nip}.pdf";
         $fullPath = "{$dir}/{$filename}";
 
-        Storage::disk('public')->put($fullPath, $pdf->output());
+        Storage::disk('public')->put($fullPath, $isiPdf);
 
         return $fullPath;
     }
