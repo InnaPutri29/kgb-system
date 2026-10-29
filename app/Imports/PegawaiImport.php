@@ -39,6 +39,8 @@ class PegawaiImport implements ToModel, WithHeadingRow, SkipsOnError
     {
         $nip = isset($row['nip']) ? trim((string) $row['nip']) : '';
         $nama = isset($row['nama_lengkap']) ? trim((string) $row['nama_lengkap']) : (isset($row['nama']) ? trim((string) $row['nama']) : '');
+        // Nama yang ditulis kapital semua dirapikan agar layak dicantumkan di SK
+        $nama = Pegawai::rapikanNama($nama);
         $email = isset($row['email']) ? trim((string) $row['email']) : '';
 
         if (empty($nip) || empty($nama)) {
@@ -89,7 +91,7 @@ class PegawaiImport implements ToModel, WithHeadingRow, SkipsOnError
             'nama_lengkap' => $nama,
             'pangkat' => $pangkat,
             'golongan' => $golongan,
-            'jabatan' => $row['jabatan'] ?? null,
+            'jabatan' => Pegawai::rapikanJabatan($row['jabatan'] ?? null),
             'kantor_tempat_kerja' => ($row['kantor_tempat_kerja'] ?? null) ?: 'Rumah Sakit Daerah Sidawangi',
             'tmt_gaji_terakhir' => $this->parseDate($row['tmt_gaji_terakhir'] ?? null),
             'masa_kerja_tahun' => (int) ($row['masa_kerja_tahun'] ?? 0),

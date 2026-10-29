@@ -235,6 +235,12 @@ class PegawaiController extends Controller
     // Pangkat selalu mengikuti golongan yang dipilih, supaya keduanya tidak pernah bertentangan
     private function samakanPangkat(Request $request): void
     {
+        // Nama dan jabatan yang ditulis kapital semua dirapikan agar layak dicantumkan di SK
+        $request->merge([
+            'nama_lengkap' => Pegawai::rapikanNama($request->input('nama_lengkap')),
+            'jabatan' => Pegawai::rapikanJabatan($request->input('jabatan')),
+        ]);
+
         $golongan = $request->input('golongan');
         if ($golongan && isset(Pegawai::GOLONGAN_PANGKAT[$golongan])) {
             $request->merge(['pangkat' => Pegawai::GOLONGAN_PANGKAT[$golongan]]);
