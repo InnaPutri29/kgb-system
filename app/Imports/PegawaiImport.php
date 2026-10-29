@@ -90,7 +90,7 @@ class PegawaiImport implements ToModel, WithHeadingRow, SkipsOnError
             'pangkat' => $pangkat,
             'golongan' => $golongan,
             'jabatan' => $row['jabatan'] ?? null,
-            'kantor_tempat_kerja' => $row['kantor_tempat_kerja'] ?? null,
+            'kantor_tempat_kerja' => ($row['kantor_tempat_kerja'] ?? null) ?: 'Rumah Sakit Daerah Sidawangi',
             'tmt_gaji_terakhir' => $this->parseDate($row['tmt_gaji_terakhir'] ?? null),
             'masa_kerja_tahun' => (int) ($row['masa_kerja_tahun'] ?? 0),
             'masa_kerja_bulan' => (int) ($row['masa_kerja_bulan'] ?? 0),

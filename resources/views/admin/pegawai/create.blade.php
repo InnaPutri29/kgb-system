@@ -52,7 +52,7 @@
                     </div>
                     <div>
                         <x-input-label for="kantor_tempat_kerja" value="Kantor Tempat Kerja" />
-                        <x-text-input id="kantor_tempat_kerja" name="kantor_tempat_kerja" type="text" class="mt-1 block w-full" :value="old('kantor_tempat_kerja')" />
+                        <x-text-input id="kantor_tempat_kerja" name="kantor_tempat_kerja" type="text" class="mt-1 block w-full" :value="old('kantor_tempat_kerja', 'Rumah Sakit Daerah Sidawangi')" />
                         <x-input-error :messages="$errors->get('kantor_tempat_kerja')" class="mt-2" />
                     </div>
                     

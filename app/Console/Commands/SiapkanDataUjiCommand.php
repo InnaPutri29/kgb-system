@@ -163,7 +163,7 @@ class SiapkanDataUjiCommand extends Command
             'pangkat' => $pangkat,
             'golongan' => $gol,
             'jabatan' => 'Pelaksana',
-            'kantor_tempat_kerja' => 'RSD Sidawangi',
+            'kantor_tempat_kerja' => 'Rumah Sakit Daerah Sidawangi',
             'tmt_gaji_terakhir' => $tmt,
             'masa_kerja_tahun' => $mkg,
             'masa_kerja_bulan' => 0,
