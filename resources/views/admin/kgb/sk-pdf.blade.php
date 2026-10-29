@@ -185,7 +185,8 @@
     {{-- Isi surat menjorok ke dalam dibanding blok Nomor/Lampiran/Perihal, seperti SK asli --}}
     <div style="padding-left: 12mm;">
     <div class="text-justify mt-2 mb-2" style="margin-top: {{ $u['jarak'] + 5 }}px;">
-        Dengan ini kami beritahukan, bahwa berhubung dengan telah dipenuhinya masa kerja dan syarat-syarat lainnya kepada :
+        {{-- "syarat-syarat" tidak boleh terpotong di tanda hubung --}}
+        Dengan ini kami beritahukan, bahwa berhubung dengan telah dipenuhinya masa kerja dan <span style="white-space: nowrap;">syarat-syarat</span> lainnya kepada :
     </div>
 
     <table class="content-table">
