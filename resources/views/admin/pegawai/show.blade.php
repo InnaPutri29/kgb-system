@@ -111,7 +111,7 @@
             </div>
         @else
             <div class="overflow-x-auto">
-                <table class="w-full text-sm">
+                <table class="tabel-hp w-full text-sm">
                     <thead class="bg-blue-200/60 text-xs text-blue-900 uppercase tracking-wider">
                         <tr>
                             <th class="px-6 py-3 text-left">Nomor SK</th>
@@ -170,7 +170,7 @@
             </div>
         @else
             <div class="overflow-x-auto">
-                <table class="w-full text-sm">
+                <table class="tabel-hp w-full text-sm">
                     <thead class="bg-blue-200/60 text-xs text-blue-900 uppercase tracking-wider border-b border-gray-100">
                         <tr>
                             <th class="px-6 py-3 text-left">Tahun Penilaian</th>

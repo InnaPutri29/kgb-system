@@ -17,7 +17,7 @@
 
     <div class="bg-white/50 backdrop-blur-3xl lg:bg-white lg:backdrop-blur-none rounded-[1.5rem] border border-blue-100 lg:border-slate-100 shadow-xl shadow-blue-500/10 lg:shadow-sm lg:shadow-black/5 overflow-hidden transition hover:shadow-2xl hover:shadow-blue-500/20 lg:hover:shadow-md lg:hover:shadow-black/10">
         <div class="overflow-x-auto">
-            <table class="w-full text-sm">
+            <table class="tabel-hp w-full text-sm">
                 <thead class="bg-blue-200/60 text-xs text-blue-900 uppercase tracking-wider border-b border-white/30">
                     <tr>
                         <th class="px-3 py-3 text-left">Nama</th>

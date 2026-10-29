@@ -44,13 +44,15 @@
              x-cloak>
         </div>
 
+        {{-- Bayangan sidebar hanya saat terbuka di HP/tablet, agar tidak membayang di tepi kiri saat tertutup --}}
         <aside
-            class="fixed inset-y-0 left-0 z-40 flex flex-col bg-gradient-to-b from-[#0B3E6A]/95 to-[#234A9F]/95 backdrop-blur-2xl border-r border-white/10 shadow-[4px_0_24px_rgba(35,74,159,0.4)] lg:shadow-none text-blue-50 transition-all duration-300 shrink-0 overflow-hidden w-64 -translate-x-full lg:translate-x-0"
+            class="fixed inset-y-0 left-0 z-40 flex flex-col bg-gradient-to-b from-[#0B3E6A]/95 to-[#234A9F]/95 backdrop-blur-2xl border-r border-white/10 text-blue-50 transition-all duration-300 shrink-0 overflow-hidden w-64 -translate-x-full lg:translate-x-0"
             :class="{
                 'w-64': !isDesktop || sidebarExpanded,
                 'w-16': isDesktop && !sidebarExpanded,
                 'translate-x-0': isDesktop || sidebarOpen,
-                '-translate-x-full': !isDesktop && !sidebarOpen
+                '-translate-x-full': !isDesktop && !sidebarOpen,
+                'shadow-[4px_0_24px_rgba(35,74,159,0.4)]': !isDesktop && sidebarOpen
             }"
         >
             {{-- Logo --}}
@@ -263,6 +265,7 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     @stack('scripts')
     @include('partials.gaya-kaca')
+    @include('partials.tabel-hp')
     @include('partials.lihat-password')
     @include('partials.cegah-kirim-ganda')
 </body>

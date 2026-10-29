@@ -9,7 +9,7 @@
     $kelompok = collect($daftar)->groupBy(fn ($pkt, $gol) => strtok($gol, '/'), true);
 @endphp
 
-<div class="grid grid-cols-2 gap-4"
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-4"
      x-data="{
         peta: @js($daftar),
         golongan: @js($golonganAwal),
