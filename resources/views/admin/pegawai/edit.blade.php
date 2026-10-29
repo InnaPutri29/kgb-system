@@ -45,18 +45,7 @@
                 <!-- Kepegawaian -->
                 <div class="space-y-4">
                     <h3 class="font-semibold text-gray-700 border-b pb-2">Data Kepegawaian</h3>
-                    <div class="grid grid-cols-2 gap-4">
-                        <div>
-                            <x-input-label for="pangkat" value="Pangkat" />
-                            <x-text-input id="pangkat" name="pangkat" type="text" class="mt-1 block w-full" :value="old('pangkat', $pegawai->pangkat)" placeholder="Cth: Penata Tingkat I" />
-                            <x-input-error :messages="$errors->get('pangkat')" class="mt-2" />
-                        </div>
-                        <div>
-                            <x-input-label for="golongan" value="Golongan" />
-                            <x-text-input id="golongan" name="golongan" type="text" class="mt-1 block w-full" :value="old('golongan', $pegawai->golongan)" placeholder="Cth: IV/b" />
-                            <x-input-error :messages="$errors->get('golongan')" class="mt-2" />
-                        </div>
-                    </div>
+                    @include('admin.pegawai.partials.pangkat-golongan', ['pangkat' => $pegawai->pangkat, 'golongan' => $pegawai->golongan])
                     <div>
                         <x-input-label for="jabatan" value="Jabatan" />
                         <x-text-input id="jabatan" name="jabatan" type="text" class="mt-1 block w-full" :value="old('jabatan', $pegawai->jabatan)" />

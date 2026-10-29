@@ -51,8 +51,8 @@
                     x-transition:leave="transition ease-in duration-75"
                     x-transition:leave-start="opacity-100 scale-100"
                     x-transition:leave-end="opacity-0 scale-95"
-                    class="absolute z-50 mt-1 w-full bg-white border border-gray-200 rounded-lg shadow-xl overflow-hidden" x-cloak>
-                    <ul class="max-h-60 overflow-y-auto py-1">
+                    class="dropdown-kaca absolute z-50 mt-1 w-full rounded-lg overflow-hidden" x-cloak>
+                    <ul class="scroll-kaca max-h-60 overflow-y-auto py-1">
                         <li @click="selected = ''; label = 'Semua Golongan'; open = false" class="px-4 py-2 text-sm text-gray-500 hover:bg-gray-100 cursor-pointer">
                             Semua Golongan
                         </li>

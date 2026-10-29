@@ -156,7 +156,7 @@
                                     </form>
                                 @endif
                             </div>
-                            <div class="max-h-64 overflow-y-auto divide-y divide-gray-50">
+                            <div class="scroll-kaca max-h-64 overflow-y-auto divide-y divide-gray-50">
                                 @if(auth()->user()->notifications->isEmpty())
                                     <div class="px-4 py-6 text-center text-gray-400 text-xs">Tidak ada notifikasi.</div>
                                 @else
@@ -280,5 +280,7 @@
     <x-global-delete-modal />
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     @stack('scripts')
+    @include('partials.gaya-kaca')
+    @include('partials.cegah-kirim-ganda')
 </body>
 </html>
