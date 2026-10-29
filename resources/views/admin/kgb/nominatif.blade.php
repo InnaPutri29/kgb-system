@@ -8,16 +8,26 @@
     <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
             <h2 class="text-2xl font-bold text-gray-800">Daftar Nominatif KGB</h2>
-            <p class="text-sm text-gray-500 mt-1">Pegawai yang KGB-nya jatuh tempo dalam 60 hari ke depan</p>
+            <p class="text-sm text-gray-500 mt-1">
+                @if($filter30)
+                    Menampilkan pegawai yang KGB-nya jatuh tempo dalam 30 hari ke depan
+                    &middot; <a href="{{ route('admin.kgb.nominatif') }}" class="text-blue-600 hover:text-blue-700 font-medium underline">Tampilkan semua (60 hari)</a>
+                @else
+                    Pegawai yang KGB-nya jatuh tempo dalam 60 hari ke depan
+                @endif
+            </p>
         </div>
         <div class="flex flex-wrap items-center gap-2 w-full sm:w-auto">
+            {{-- Label merah bisa diklik untuk menyaring yang jatuh tempo <= 30 hari --}}
             @if($jatuhTempo30Hari > 0)
-                <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold bg-red-100 text-red-700 border border-red-200 flex-1 sm:flex-none justify-center">
+                <a href="{{ $filter30 ? route('admin.kgb.nominatif') : route('admin.kgb.nominatif', ['filter' => 30]) }}"
+                   title="{{ $filter30 ? 'Tampilkan semua pegawai nominatif' : 'Tampilkan hanya yang jatuh tempo ≤ 30 hari' }}"
+                   class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold bg-red-100 hover:bg-red-200 text-red-700 border border-red-200 transition flex-1 sm:flex-none justify-center {{ $filter30 ? 'ring-2' : '' }}">
                     🔴 {{ $jatuhTempo30Hari }} jatuh tempo ≤ 30 hari
-                </span>
+                </a>
             @endif
             <span class="inline-flex items-center px-3 py-1.5 rounded-full text-xs font-semibold bg-blue-100 text-blue-800 border border-blue-200 flex-1 sm:flex-none justify-center">
-                {{ $daftarNominatif->count() }} Pegawai Nominatif 
+                {{ $totalNominatif }} Pegawai Nominatif
             </span>
         </div>
     </div>
@@ -28,7 +38,7 @@
             <div class="flex flex-col items-center justify-center py-20 text-gray-400">
                 <svg class="w-16 h-16 mb-4 text-gray-200" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
                 <p class="font-semibold text-gray-500 text-lg">Semua Aman!</p>
-                <p class="text-sm mt-1">Tidak ada pegawai yang KGB-nya jatuh tempo dalam 60 hari ke depan.</p>
+                <p class="text-sm mt-1">Tidak ada pegawai yang KGB-nya jatuh tempo dalam {{ $filter30 ? 30 : 60 }} hari ke depan.</p>
             </div>
         @else
             <div class="overflow-x-auto">

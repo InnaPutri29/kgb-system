@@ -158,15 +158,25 @@ class KgbController extends Controller
 
         // Pegawai nominatif yang jatuh tempo dalam 30 hari ke depan (termasuk yang sudah terlewat)
         $batas30Hari = $today->copy()->addDays(30);
-        $jatuhTempo30Hari = $daftarNominatif
+        $daftar30Hari = $daftarNominatif
             ->filter(fn ($p) => Carbon::parse($p->tmt_gaji_terakhir)->addYears(2)->lte($batas30Hari))
-            ->count();
+            ->values();
+        $jatuhTempo30Hari = $daftar30Hari->count();
+        $totalNominatif = $daftarNominatif->count();
+
+        // Dari kartu "Jatuh Tempo (H+30)" di Dashboard, tampilkan hanya yang jatuh tempo <= 30 hari
+        $filter30 = request('filter') === '30';
+        if ($filter30) {
+            $daftarNominatif = $daftar30Hari;
+        }
 
         $pejabatList = MasterPejabat::orderBy('nama_jabatan')->get();
 
         return view('admin.kgb.nominatif', compact(
             'daftarNominatif',
             'jatuhTempo30Hari',
+            'totalNominatif',
+            'filter30',
             'pejabatList'
         ));
     }
