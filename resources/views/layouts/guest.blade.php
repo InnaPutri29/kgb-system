@@ -34,9 +34,10 @@
         <div class="hidden md:flex flex-col justify-center items-center w-full md:w-[50%] p-8 lg:p-12 xl:p-16 z-10 relative h-full">
 
             <div class="max-w-[700px] w-full text-center flex flex-col items-center lg:ml-8 xl:ml-12">
-                <h1 class="text-6xl lg:text-[4rem] xl:text-7xl font-extrabold tracking-tight mb-6 leading-tight drop-shadow-lg text-white flex flex-col gap-5 items-center">
+                {{-- Ukuran dibuat pas agar "di Sistem Informasi KGB" tetap satu baris di laptop --}}
+                <h1 class="text-4xl lg:text-[2.75rem] xl:text-[3.25rem] 2xl:text-6xl font-extrabold tracking-tight mb-6 leading-tight drop-shadow-lg text-white flex flex-col gap-4 items-center">
                     <span>Selamat Datang</span>
-                    <span class="text-blue-200">di Sistem KGB</span>
+                    <span class="text-blue-200 lg:whitespace-nowrap">di Sistem Informasi KGB</span>
                     <span>RSD Sidawangi</span>
                 </h1>
                 
