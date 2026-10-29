@@ -72,7 +72,7 @@
             </div>
         @else
             <div class="overflow-x-auto">
-                <table class="w-full text-sm text-left">
+                <table class="tabel-hp w-full text-sm text-left">
                     <thead class="bg-blue-200/60 text-xs text-blue-900 uppercase tracking-wider border-b border-white/30">
                         <tr>
                             <th class="px-3 py-3 w-16 text-center">No</th>

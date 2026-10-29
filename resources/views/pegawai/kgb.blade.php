@@ -57,7 +57,7 @@
             </div>
         @else
             <div class="overflow-x-auto">
-                <table class="w-full text-sm text-left">
+                <table class="tabel-hp w-full text-sm text-left">
                     <thead class="bg-blue-200/60 text-xs text-blue-900 uppercase tracking-wider border-b border-gray-100">
                         <tr>
                             <th class="px-6 py-3 text-left whitespace-nowrap">Nomor SK</th>
