@@ -111,7 +111,17 @@ class KgbController extends Controller
      */
     public function index()
     {
+        // Pencarian berdasarkan nama pegawai, NIP, atau nomor SK
+        $search = trim((string) request('search'));
+
         $riwayatKgb = RiwayatKgb::with('pegawai')
+            ->when($search !== '', function ($q) use ($search) {
+                $q->where(function ($q) use ($search) {
+                    $q->where('nomor_sk_baru', 'like', "%{$search}%")
+                      ->orWhereHas('pegawai', fn ($p) => $p->where('nama_lengkap', 'like', "%{$search}%")
+                          ->orWhere('nip', 'like', "%{$search}%"));
+                });
+            })
             ->latest()
             ->paginate(request('per_page', 20))->withQueryString();
 
@@ -146,16 +156,17 @@ class KgbController extends Controller
             ->orderByRaw('DATE_ADD(tmt_gaji_terakhir, INTERVAL 2 YEAR) ASC')
             ->get();
 
-        // Hitung yang sudah jatuh tempo hari ini
-        $jatuhTempoHariIni = Pegawai::whereNotNull('tmt_gaji_terakhir')
-            ->whereRaw('DATE_ADD(tmt_gaji_terakhir, INTERVAL 2 YEAR) = ?', [$today])
+        // Pegawai nominatif yang jatuh tempo dalam 30 hari ke depan (termasuk yang sudah terlewat)
+        $batas30Hari = $today->copy()->addDays(30);
+        $jatuhTempo30Hari = $daftarNominatif
+            ->filter(fn ($p) => Carbon::parse($p->tmt_gaji_terakhir)->addYears(2)->lte($batas30Hari))
             ->count();
 
         $pejabatList = MasterPejabat::orderBy('nama_jabatan')->get();
 
         return view('admin.kgb.nominatif', compact(
             'daftarNominatif',
-            'jatuhTempoHariIni',
+            'jatuhTempo30Hari',
             'pejabatList'
         ));
     }

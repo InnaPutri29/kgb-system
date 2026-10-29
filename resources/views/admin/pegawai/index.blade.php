@@ -65,8 +65,8 @@
                     x-transition:leave="transition ease-in duration-75"
                     x-transition:leave-start="opacity-100 scale-100"
                     x-transition:leave-end="opacity-0 scale-95"
-                    class="absolute z-50 mt-1 w-full bg-white border border-gray-200 rounded-lg shadow-xl overflow-hidden" x-cloak>
-                    <ul class="max-h-60 overflow-y-auto py-1">
+                    class="dropdown-kaca absolute z-50 mt-1 w-full rounded-lg overflow-hidden" x-cloak>
+                    <ul class="scroll-kaca max-h-60 overflow-y-auto py-1">
                         <li @click="selected = ''; label = 'Semua'; open = false" class="px-4 py-2 text-sm text-gray-500 hover:bg-gray-100 cursor-pointer">
                             Semua
                         </li>
@@ -117,8 +117,8 @@
                     x-transition:leave="transition ease-in duration-75"
                     x-transition:leave-start="opacity-100 scale-100"
                     x-transition:leave-end="opacity-0 scale-95"
-                    class="absolute z-50 mt-1 w-full bg-white border border-gray-200 rounded-lg shadow-xl overflow-hidden" x-cloak>
-                    <ul class="max-h-60 overflow-y-auto py-1">
+                    class="dropdown-kaca absolute z-50 mt-1 w-full rounded-lg overflow-hidden" x-cloak>
+                    <ul class="scroll-kaca max-h-60 overflow-y-auto py-1">
                         <li @click="selected = ''; open = false" class="px-4 py-2 text-sm text-gray-500 hover:bg-gray-100 cursor-pointer">
                             Semua
                         </li>
@@ -174,6 +174,7 @@
                             <th class="px-3 py-3 text-center">Gol.</th>
                             <th class="px-3 py-3 text-center">TMT Gaji Terakhir</th>
                             <th class="px-3 py-3 text-center">Gaji Pokok</th>
+                            <th class="px-3 py-3 text-center">Hukuman Disiplin</th>
                             <th class="px-3 py-3 text-center">Aksi</th>
                         </tr>
                     </thead>
@@ -194,6 +195,13 @@
                             </td>
                             <td class="px-3 py-3 text-gray-700 font-medium text-center whitespace-nowrap">
                                 {{ $p->gaji_pokok_terakhir ? 'Rp ' . number_format($p->gaji_pokok_terakhir, 0, ',', '.') : '-' }}
+                            </td>
+                            <td class="px-3 py-3 text-center">
+                                @if($p->is_sedang_hukuman_disiplin)
+                                    <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-semibold bg-red-100 text-red-700">Ya</span>
+                                @else
+                                    <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-emerald-100 text-emerald-700">Tidak</span>
+                                @endif
                             </td>
                             <td class="px-3 py-3 text-center">
                                 <div class="flex items-center justify-center gap-2">

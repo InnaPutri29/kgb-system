@@ -72,13 +72,14 @@ class PegawaiController extends Controller
     public function store(Request $request)
     {
         $this->rapikanAngka($request);
+        $this->samakanPangkat($request);
 
         $validated = $request->validate([
             'nip' => 'required|string|digits:18|unique:pegawai,nip',
             'nama_lengkap' => 'required|string|max:255',
             'email' => 'nullable|email|max:255|unique:users,email',
-            'pangkat' => 'nullable|string|max:100',
-            'golongan' => 'nullable|string|max:20',
+            'pangkat' => ['nullable', Rule::in(Pegawai::GOLONGAN_PANGKAT)],
+            'golongan' => ['nullable', Rule::in(array_keys(Pegawai::GOLONGAN_PANGKAT))],
             'jabatan' => 'nullable|string|max:255',
             'kantor_tempat_kerja' => 'nullable|string|max:255',
             'tmt_gaji_terakhir' => 'nullable|date',
@@ -126,13 +127,14 @@ class PegawaiController extends Controller
     public function update(Request $request, Pegawai $pegawai)
     {
         $this->rapikanAngka($request);
+        $this->samakanPangkat($request);
 
         $validated = $request->validate([
             'nip' => ['required', 'string', 'digits:18', Rule::unique('pegawai', 'nip')->ignore($pegawai->id)],
             'nama_lengkap' => 'required|string|max:255',
             'email' => ['nullable', 'email', 'max:255', Rule::unique('users', 'email')->ignore($pegawai->user_id)],
-            'pangkat' => 'nullable|string|max:100',
-            'golongan' => 'nullable|string|max:20',
+            'pangkat' => ['nullable', Rule::in(Pegawai::GOLONGAN_PANGKAT)],
+            'golongan' => ['nullable', Rule::in(array_keys(Pegawai::GOLONGAN_PANGKAT))],
             'jabatan' => 'nullable|string|max:255',
             'kantor_tempat_kerja' => 'nullable|string|max:255',
             'tmt_gaji_terakhir' => 'nullable|date',
@@ -228,6 +230,15 @@ class PegawaiController extends Controller
             $user->delete();
         }
         return back()->with('success', 'Data pegawai berhasil dihapus.');
+    }
+
+    // Pangkat selalu mengikuti golongan yang dipilih, supaya keduanya tidak pernah bertentangan
+    private function samakanPangkat(Request $request): void
+    {
+        $golongan = $request->input('golongan');
+        if ($golongan && isset(Pegawai::GOLONGAN_PANGKAT[$golongan])) {
+            $request->merge(['pangkat' => Pegawai::GOLONGAN_PANGKAT[$golongan]]);
+        }
     }
 
     // Angka berawalan nol seperti "02" dibaca sebagai 2, supaya lolos validasi angka bulat

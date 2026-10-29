@@ -39,11 +39,36 @@
             <span class="inline-flex items-center px-3 py-1.5 rounded-full text-xs font-semibold bg-blue-100 border border-blue-200 text-blue-800">Total {{ $riwayatKgb->total() }} Dokumen</span>
         </div>
 
+        {{-- Pencarian riwayat --}}
+        <form method="GET" action="{{ route('admin.kgb.index') }}" class="px-4 sm:px-6 py-3 border-b border-white/30 flex flex-col sm:flex-row gap-2">
+            <div class="relative flex-1">
+                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-400">
+                    <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+                </div>
+                <x-text-input name="search" type="text" class="block w-full pl-9 text-sm focus:border-blue-500 focus:ring-blue-500" placeholder="Cari nama pegawai, NIP, atau nomor SK..." value="{{ request('search') }}" />
+            </div>
+            <div class="flex gap-2">
+                <button type="submit" class="px-5 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium rounded-lg transition w-full sm:w-auto shadow-sm">
+                    Cari
+                </button>
+                @if(request()->filled('search'))
+                    <a href="{{ route('admin.kgb.index') }}" class="px-4 py-2 bg-white text-gray-700 hover:bg-gray-50 text-sm font-medium rounded-lg border border-gray-300 shadow-sm transition text-center w-full sm:w-auto">
+                        Reset
+                    </a>
+                @endif
+            </div>
+        </form>
+
         @if($riwayatKgb->isEmpty())
             <div class="p-8 text-center text-gray-500">
                 <svg class="w-12 h-12 mx-auto text-gray-300 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
-                <p class="font-medium">Belum ada riwayat SK KGB.</p>
-                <p class="text-sm text-gray-400">Data riwayat akan muncul setelah proses KGB disimpan.</p>
+                @if(request()->filled('search'))
+                    <p class="font-medium">Tidak ada riwayat yang cocok dengan &ldquo;{{ request('search') }}&rdquo;.</p>
+                    <p class="text-sm text-gray-400">Coba kata kunci lain, misalnya sebagian nama, NIP, atau nomor SK.</p>
+                @else
+                    <p class="font-medium">Belum ada riwayat SK KGB.</p>
+                    <p class="text-sm text-gray-400">Data riwayat akan muncul setelah proses KGB disimpan.</p>
+                @endif
             </div>
         @else
             <div class="overflow-x-auto">

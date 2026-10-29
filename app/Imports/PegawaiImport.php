@@ -78,13 +78,17 @@ class PegawaiImport implements ToModel, WithHeadingRow, SkipsOnError
             }
         }
 
+        // Golongan dirapikan sesuai daftar resmi, dan pangkat mengikuti golongan
+        $golongan = Pegawai::normalisasiGolongan($row['golongan'] ?? null) ?? ($row['golongan'] ?? null);
+        $pangkat = Pegawai::GOLONGAN_PANGKAT[$golongan] ?? ($row['pangkat'] ?? null);
+
         // Create pegawai record
         $pegawai = Pegawai::create([
             'user_id' => $user->id,
             'nip' => $nip,
             'nama_lengkap' => $nama,
-            'pangkat' => $row['pangkat'] ?? null,
-            'golongan' => $row['golongan'] ?? null,
+            'pangkat' => $pangkat,
+            'golongan' => $golongan,
             'jabatan' => $row['jabatan'] ?? null,
             'kantor_tempat_kerja' => $row['kantor_tempat_kerja'] ?? null,
             'tmt_gaji_terakhir' => $this->parseDate($row['tmt_gaji_terakhir'] ?? null),

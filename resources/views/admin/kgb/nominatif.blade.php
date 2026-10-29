@@ -11,9 +11,9 @@
             <p class="text-sm text-gray-500 mt-1">Pegawai yang KGB-nya jatuh tempo dalam 60 hari ke depan</p>
         </div>
         <div class="flex flex-wrap items-center gap-2 w-full sm:w-auto">
-            @if($jatuhTempoHariIni > 0)
+            @if($jatuhTempo30Hari > 0)
                 <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold bg-red-100 text-red-700 border border-red-200 flex-1 sm:flex-none justify-center">
-                    🔴 {{ $jatuhTempoHariIni }} jatuh tempo hari ini
+                    🔴 {{ $jatuhTempo30Hari }} jatuh tempo ≤ 30 hari
                 </span>
             @endif
             <span class="inline-flex items-center px-3 py-1.5 rounded-full text-xs font-semibold bg-blue-100 text-blue-800 border border-blue-200 flex-1 sm:flex-none justify-center">
@@ -200,8 +200,12 @@
         }
     }" @open-modal-proses.window="openModal($event.detail)">
         <x-modal name="proses-kgb" focusable>
-            <div class="p-6">
-                <h2 class="text-lg font-medium text-gray-900 mb-4">Proses Kenaikan Gaji Berkala (KGB)</h2>
+            {{-- Tinggi pop-up dibatasi setinggi layar; isi digulir, judul dan tombol tetap terlihat --}}
+            <div class="scroll-kaca overflow-y-auto rounded-2xl" style="max-height: calc(100vh - 3rem); max-height: calc(100dvh - 3rem);">
+                <div class="px-6 pt-6 pb-4 bg-white border-b border-gray-100" style="position: sticky; top: 0; z-index: 20;">
+                    <h2 class="text-lg font-medium text-gray-900">Proses Kenaikan Gaji Berkala (KGB)</h2>
+                </div>
+            <div class="px-6 pt-4">
 
                 <div x-show="loading" class="flex justify-center py-8">
                     <svg class="animate-spin h-8 w-8 text-blue-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
@@ -237,7 +241,7 @@
                                         x-transition:leave="transition ease-in duration-75"
                                         x-transition:leave-start="opacity-100 scale-100"
                                         x-transition:leave-end="opacity-0 scale-95"
-                                        class="absolute z-50 mt-1 w-full bg-white border border-gray-200 rounded-lg shadow-xl overflow-hidden" x-cloak>
+                                        class="dropdown-kaca absolute z-50 mt-1 w-full rounded-lg overflow-hidden" x-cloak>
                                         <ul class="py-1">
                                             <li @click="pkpForm[p.tahun] = ''; open = false" class="px-4 py-2 text-sm text-gray-500 hover:bg-gray-100 cursor-pointer">
                                                 -- Batal Pilih --
@@ -352,7 +356,7 @@
                                 x-transition:leave="transition ease-in duration-75"
                                 x-transition:leave-start="opacity-100 scale-100"
                                 x-transition:leave-end="opacity-0 scale-95"
-                                class="absolute z-50 mt-1 w-full bg-white border border-gray-200 rounded-lg shadow-xl overflow-hidden" x-cloak>
+                                class="dropdown-kaca absolute z-50 mt-1 w-full rounded-lg overflow-hidden" x-cloak>
                                 
                                 {{-- Search Input --}}
                                 <div class="p-2 bg-gray-50 border-b border-gray-100">
@@ -365,7 +369,7 @@
                                 </div>
                                 
                                 {{-- Options List --}}
-                                <ul class="max-h-60 overflow-y-auto py-1">
+                                <ul class="scroll-kaca max-h-60 overflow-y-auto py-1">
                                     <li @click="form.master_pejabat_id = ''; form.selectedPejabatText = '-- Pilih Pejabat --'; open = false" 
                                         class="px-4 py-2 text-sm text-gray-500 hover:bg-gray-100 cursor-pointer">
                                         -- Batal Pilih --
@@ -441,13 +445,14 @@
                         </div>
                     </div>
 
-                    <div class="mt-6 flex justify-end gap-3">
+                    <div class="mt-6 flex justify-end gap-3 bg-white border-t border-gray-100" style="position: sticky; bottom: 0; z-index: 20; margin: 1.5rem -1.5rem 0; padding: 1rem 1.5rem 1.5rem;">
                         <x-secondary-button x-on:click="$dispatch('close')">Batal</x-secondary-button>
                         <x-primary-button>
                             Proses & Cetak SK
                         </x-primary-button>
                     </div>
                 </form>
+            </div>
             </div>
         </x-modal>
     </div>
