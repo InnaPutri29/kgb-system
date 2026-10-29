@@ -6,27 +6,46 @@
     @php
         // Tingkat kerapatan: 0 = normal. Naik otomatis (lihat AppSupportSkPdf) jika isi SK melebihi satu halaman.
         $k = max(0, min(3, (int) ($kompak ?? 0)));
+        // Ukuran huruf mengikuti format SK resmi; yang dirapatkan lebih dulu adalah jarak dan logo.
+        // Hanya tingkat terakhir yang sedikit mengecilkan isi surat.
         $u = [
-            'huruf'  => [12, 11.5, 11, 10.5][$k],
+            'huruf'  => [12, 12, 12, 11.5][$k],
             'baris'  => [1.15, 1.1, 1.05, 1.0][$k],
             'logo'   => [33, 30, 27, 24][$k],
-            'h1'     => [14, 13, 12.5, 12][$k],
-            'h2'     => [17, 16, 15, 14][$k],
-            'nama'   => [19, 18, 17, 16][$k],
-            'alamat' => [10.5, 10, 9.5, 9][$k],
             'jarak'  => [15, 10, 6, 4][$k],
-            'kotak'  => [15, 12, 10, 8][$k],
+            'kotak'  => [12, 10, 8, 6][$k],
+            'ttd'    => [27, 22, 10, 6][$k], // jarak paragraf penutup ke jabatan penandatangan
         ];
+        // Book Antiqua dipakai bila berkas hurufnya ada di resources/fonts.
+        // Berkas itu tidak ikut repositori karena berlisensi Monotype; tanpa berkas, SK memakai Times New Roman.
+        $hurufAntiqua = array_filter([
+            ['BKANT.TTF', 'normal', 'normal'],
+            ['ANTQUAB.TTF', 'bold', 'normal'],
+            ['ANTQUAI.TTF', 'normal', 'italic'],
+            ['ANTQUABI.TTF', 'bold', 'italic'],
+        ], fn ($h) => is_file(resource_path('fonts/' . $h[0])));
+        $adaAntiqua = is_file(resource_path('fonts/BKANT.TTF'));
+        $hurufIsi = ($adaAntiqua ? "'Book Antiqua', " : '') . "'Times New Roman', Times, serif";
     @endphp
     <style>
+        @if($adaAntiqua)
+            @foreach($hurufAntiqua as [$berkas, $tebal, $gaya])
+        @font-face {
+            font-family: 'Book Antiqua';
+            src: url('{{ str_replace('\\', '/', resource_path('fonts/' . $berkas)) }}') format('truetype');
+            font-weight: {{ $tebal }};
+            font-style: {{ $gaya }};
+        }
+            @endforeach
+        @endif
         @page {
             size: 215.9mm 330mm;
-            /* Bawah 3,5 cm: ruang untuk kode QR dan keterangan BSrE yang ditempel otomatis saat TTE di SIDEBAR */
-            margin: 1.5cm 2cm 3.5cm 2cm;
+            /* Bawah 4,5 cm: ruang untuk kode QR dan keterangan BSrE yang ditempel otomatis saat TTE di SIDEBAR */
+            margin: 1.5cm 2cm 4.5cm 2cm;
         }
         body { 
-            font-family: 'Times New Roman', Times, serif; 
-            font-size: {{ $u['huruf'] }}pt; 
+            font-family: {!! $hurufIsi !!};
+            font-size: {{ $u['huruf'] }}pt;
             line-height: {{ $u['baris'] }}; 
         }
         .header {
@@ -50,9 +69,9 @@
         }
         /* Ukuran kop mengikuti kop surat resmi RSD Sidawangi */
         .header .logo {
-            width: 36mm;
+            width: 29mm;
             text-align: left;
-            padding-left: 2mm;
+            padding-left: 0;
         }
         .header .logo img {
             height: {{ $u['logo'] }}mm;
@@ -61,27 +80,28 @@
         .header .text-center {
             text-align: center;
         }
+        .header h1, .header h2 { line-height: 1.3; }
         .header h1 {
-            font-size: {{ $u['h1'] }}pt;
+            font-size: 14pt;
             margin: 0;
             font-weight: normal;
         }
         .header h2 {
-            font-size: {{ $u['h2'] }}pt;
+            font-size: 18pt;
             margin: 0;
             font-weight: normal;
             letter-spacing: 1px;
         }
         .header h2.nama-instansi {
-            font-size: {{ $u['nama'] }}pt;
+            font-size: 18pt;
             font-weight: bold;
             letter-spacing: normal;
         }
         .header p {
-            font-size: {{ $u['alamat'] }}pt;
+            font-size: 11pt;
             margin: 0;
             margin-top: 2px;
-            line-height: 1.25;
+            line-height: 1.35;
         }
         table {
             width: 100%;
@@ -99,18 +119,18 @@
         }
         /* Selektor dibuat lebih spesifik agar jarak tidak tertimpa padding .content-table td */
         .content-table td.number-col {
-            width: 6%;
+            width: 5.5%;
             text-align: right;
             padding-right: 12px;
         }
         .label-col {
-            width: 35%;
+            width: 37%;
         }
         .colon-col {
             width: 2%;
         }
         .value-col {
-            width: 58%;
+            width: 55.5%;
         }
         .signature-box {
             float: right;
@@ -123,6 +143,8 @@
             padding: 10px;
             font-size: 11pt;
         }
+        /* Pengganti <u>: garis bawah dompdf memotong huruf berekor (j, g) pada Book Antiqua */
+        .garis-bawah { display: inline-block; border-bottom: 1px solid black; line-height: 1.05; }
         .clear { clear: both; }
     </style>
 </head>
@@ -153,11 +175,11 @@
     <table style="width: 100%; margin-top: {{ $u['jarak'] }}px;">
         <tr>
             {{-- Turun satu baris agar "Nomor" sejajar dengan "Kepada Yth," seperti SK asli --}}
-            <td style="width: 50%; vertical-align: top; padding-top: 14pt;">
+            <td style="width: 55%; vertical-align: top; padding-top: 14pt;">
                 <table>
                     <tr>
-                        <td style="width: 65px;">Nomor</td>
-                        <td style="width: 10px;">:</td>
+                        <td style="width: 19.5mm;">Nomor</td>
+                        <td style="width: 2.5mm;">:</td>
                         <td>{{ $riwayat->nomor_sk_baru }}</td>
                     </tr>
                     <tr>
@@ -168,16 +190,16 @@
                     <tr>
                         <td>Perihal</td>
                         <td>:</td>
-                        <td><u>Kenaikan Gaji Berkala</u></td>
+                        <td><span class="garis-bawah">Kenaikan Gaji Berkala</span></td>
                     </tr>
                 </table>
             </td>
-            <td style="width: 50%; vertical-align: top;">
+            <td style="width: 45%; vertical-align: top;">
                 <div>Cirebon, {{ \Carbon\Carbon::parse($riwayat->tanggal_ditetapkan)->translatedFormat('d F Y') }}</div>
                 <div>Kepada Yth,</div>
                 <div>Kepala Badan Pengelolaan Keuangan dan Aset Daerah Provinsi Jawa Barat</div>
                 <div>di-</div>
-                <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<u>B a n d u n g</u></div>
+                <div style="margin-top: 3px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="garis-bawah">B a n d u n g</span></div>
             </td>
         </tr>
     </table>
@@ -294,10 +316,10 @@
     </div>
     </div>
 
-<div class="signature-box" style="float: right; width: 450px; margin-top: {{ $u['jarak'] }}px; font-family: 'Times New Roman', Times, serif;">
-        <div style="text-align: center; font-size: 14pt; line-height: 1.2; margin-bottom: {{ $u['jarak'] }}px;">
+<div class="signature-box" style="float: right; width: 450px; margin-top: {{ $u['ttd'] }}px; font-family: {!! $hurufIsi !!};">
+        <div style="text-align: center; font-size: 12pt; line-height: 1.2; margin-bottom: {{ $u['jarak'] }}px;">
             DIREKTUR RUMAH SAKIT DAERAH SIDAWANGI<br>
-            PROVINSI JAWA BARAT,
+            PROVINSI JAWA BARAT.
         </div>
         
         <div class="signature-inner" style="border: 2px solid black; border-radius: 25px; padding: {{ $u['kotak'] }}px; font-family: Arial, sans-serif;">
@@ -307,13 +329,12 @@
                         <img src="{{ public_path('images/tte_logo.png') }}" alt="TTE Logo" style="width: 85px;">
                     </td>
                     
-                    <td style="vertical-align: middle; font-size: 11pt; line-height: 1.3;">
+                    <td style="vertical-align: middle; font-size: 10pt; line-height: 1.3;">
                         Ditandatangani secara elektronik oleh:<br>
-                        DIREKTUR RUMAH SAKIT DAERAH<br>
-                        SIDAWANGI PROVINSI JAWA BARAT,<br><br>
-                        <strong>{{ $instansi?->nama_direktur ?? 'dr. YOGA PRAMADIA' }}</strong><br>
-                        {{ $instansi?->pangkat_direktur ?? 'Pembina Tk.I' }}<br>
-                        NIP. {{ $instansi?->nip_direktur ?? '196812042005011008' }}
+                        DIREKTUR RUMAH SAKIT DAERAH SIDAWANGI<br>
+                        PROVINSI JAWA BARAT,<br><br><br>
+                        {{ rtrim($instansi?->nama_direktur ?? 'dr. YOGA PRAMADIA', '.') }}.<br>
+                        {{ $instansi?->pangkat_direktur ?? 'Pembina Tk.I' }}
                     </td>
                 </tr>
             </table>

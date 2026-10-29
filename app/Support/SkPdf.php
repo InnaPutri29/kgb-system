@@ -13,6 +13,8 @@ class SkPdf
 {
     private const TINGKAT_MAKSIMAL = 3;
 
+    private const RASIO_TINGGI_ANTIQUA = 0.87;
+
     /**
      * @param  array  $data  Data untuk view admin.kgb.sk-pdf (riwayat, pegawai, instansi, pejabatTerdahulu)
      * @param  callable|null  $ubahHtml  Penyesuaian HTML sebelum dicetak, misalnya tanda SPESIMEN untuk data uji
@@ -26,7 +28,13 @@ class SkPdf
                 $html = $ubahHtml($html);
             }
 
-            $dompdf = Pdf::loadHTML($html)->setPaper('f4', 'portrait')->getDomPDF();
+            $pdf = Pdf::loadHTML($html)->setPaper('f4', 'portrait');
+            if (is_file(resource_path('fonts/BKANT.TTF'))) {
+                // Kotak huruf Book Antiqua lebih tinggi daripada Times, sehingga dompdf membuat jarak baris terlalu renggang.
+                // Rasio ini membuat spasi baris setara spasi tunggal di Word.
+                $pdf->setOption('fontHeightRatio', self::RASIO_TINGGI_ANTIQUA);
+            }
+            $dompdf = $pdf->getDomPDF();
             $dompdf->render();
 
             if ($dompdf->getCanvas()->get_page_count() <= 1 || $tingkat === self::TINGKAT_MAKSIMAL) {
