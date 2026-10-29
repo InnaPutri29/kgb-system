@@ -23,16 +23,21 @@
             </div>
         </div>
 
-        {{-- Jatuh tempo dalam 30 hari ke depan --}}
-        <div class="bg-white/50 backdrop-blur-3xl lg:bg-white lg:backdrop-blur-none rounded-[1.5rem] border border-blue-100 lg:border-slate-100 shadow-xl shadow-blue-500/10 lg:shadow-sm lg:shadow-black/5 p-5 flex items-center gap-4 transition hover:shadow-2xl hover:shadow-blue-500/20 lg:hover:shadow-md lg:hover:shadow-black/10">
+        {{-- Jatuh tempo dalam 30 hari ke depan - Clickable, membuka Daftar Nominatif yang tersaring --}}
+        <style>
+            .kartu-h30:hover { border-color: #fecaca; }
+            .kartu-h30:hover .panah-h30 { color: #ef4444; }
+        </style>
+        <a href="{{ route('admin.kgb.nominatif', ['filter' => 30]) }}" class="kartu-h30 bg-white/50 backdrop-blur-3xl lg:bg-white lg:backdrop-blur-none rounded-[1.5rem] border border-blue-100 lg:border-slate-100 shadow-xl shadow-blue-500/10 lg:shadow-sm lg:shadow-black/5 p-5 flex items-center gap-4 transition hover:shadow-2xl hover:shadow-blue-500/20 lg:hover:shadow-md lg:hover:shadow-black/10">
             <div class="w-12 h-12 rounded-xl bg-red-100 flex items-center justify-center text-red-600 shrink-0">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
             </div>
-            <div>
+            <div class="flex-1">
                 <p class="text-sm text-gray-500">Jatuh Tempo (H+30)</p>
                 <p class="text-2xl font-bold text-gray-800">{{ $jatuhTempo30Hari }}</p>
             </div>
-        </div>
+            <svg class="panah-h30 w-5 h-5 text-gray-300 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+        </a>
 
         {{-- Nominatif (60 hari) - Clickable --}}
         <a href="{{ route('admin.kgb.nominatif') }}" class="bg-white/50 backdrop-blur-3xl lg:bg-white lg:backdrop-blur-none rounded-[1.5rem] border border-blue-100 lg:border-slate-100 shadow-xl shadow-blue-500/10 lg:shadow-sm lg:shadow-black/5 p-5 flex items-center gap-4 transition hover:shadow-2xl hover:shadow-blue-500/20 lg:hover:shadow-md lg:hover:shadow-black/10 group hover:border-yellow-200">
