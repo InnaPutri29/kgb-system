@@ -9,7 +9,7 @@ use App\Models\PkpEvaluasi;
 use App\Models\RiwayatKgb;
 use App\Models\User;
 use App\Services\KgbEligibilityService;
-use Barryvdh\DomPDF\Facade\Pdf;
+use App\Support\SkPdf;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
@@ -292,15 +292,15 @@ class SiapkanAkunRespondenCommand extends Command
     // PDF diberi tanda SPESIMEN karena hanya untuk pengujian; ditulis tanpa Storage karena PHP CLI hosting tidak memiliki fileinfo
     private function simpanPdfSimulasi(string $berkas, RiwayatKgb $riwayat, Pegawai $pegawai, ?PengaturanInstansi $instansi, MasterPejabat $pejabat): void
     {
-        $html = view('admin.kgb.sk-pdf', [
-            'riwayat' => $riwayat, 'pegawai' => $pegawai, 'instansi' => $instansi, 'pejabatTerdahulu' => $pejabat,
-        ])->render();
         $tanda = '<div style="position: fixed; top: 38%; left: -5%; width: 110%; text-align: center; transform: rotate(-30deg); font-family: Arial, sans-serif; font-size: 54pt; font-weight: bold; color: rgba(200,0,0,0.13); z-index: -1;">SPESIMEN &ndash; SIMULASI</div>'
                . '<div style="position: fixed; bottom: -10px; left: 0; right: 0; text-align: center; font-family: Arial, sans-serif; font-size: 8pt; color: #b00000;">DOKUMEN SIMULASI UNTUK PENGUJIAN SISTEM INFORMASI KGB &ndash; BUKAN DOKUMEN SAH</div>';
-        $html = preg_replace('/<body[^>]*>/', '$0' . $tanda, $html, 1);
+        $isiPdf = SkPdf::buat(
+            ['riwayat' => $riwayat, 'pegawai' => $pegawai, 'instansi' => $instansi, 'pejabatTerdahulu' => $pejabat],
+            fn (string $html) => preg_replace('/<body[^>]*>/', '$0' . $tanda, $html, 1),
+        );
 
         $lokasi = storage_path("app/public/{$berkas}");
         File::ensureDirectoryExists(dirname($lokasi));
-        File::put($lokasi, Pdf::loadHTML($html)->setPaper('f4', 'portrait')->output());
+        File::put($lokasi, $isiPdf);
     }
 }

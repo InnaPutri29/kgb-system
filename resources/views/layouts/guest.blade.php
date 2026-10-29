@@ -88,6 +88,7 @@
         
     </div>
 
+    @include('partials.lihat-password')
     @include('partials.cegah-kirim-ganda')
 </body>
 </html>
