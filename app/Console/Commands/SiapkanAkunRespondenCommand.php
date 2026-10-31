@@ -64,9 +64,12 @@ class SiapkanAkunRespondenCommand extends Command
         $adminIds = User::role('admin')->pluck('id');
 
         $baris = [];
+        $urut = 0;
         foreach ($daftar as $i => $r) {
-            // Akun dummy memakai awalan "D" agar nomor SK simulasinya tidak bentrok dengan akun responden dari file
-            $kode = ($r['awalan'] ?? '') . sprintf('%02d', $i + 1);
+            // Akun dummy memakai awalan "D". Nomor yang sudah dipakai (misalnya oleh file responden sebelumnya) dilewati
+            do {
+                $kode = ($r['awalan'] ?? '') . sprintf('%02d', ++$urut);
+            } while (RiwayatKgb::withTrashed()->where('nomor_sk_baru', 'like', '800/' . self::PENANDA_SK . "-{$kode}_/%")->exists());
 
             // NIP yang sudah dipakai pegawai lain (bukan buatan perintah ini) dilewati agar data asli tidak tertimpa
             if (Pegawai::withTrashed()->where('nip', $r['nip'])->exists() || User::where('nip', $r['nip'])->exists()) {
