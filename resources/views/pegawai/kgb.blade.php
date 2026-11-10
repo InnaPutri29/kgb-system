@@ -48,7 +48,7 @@
     @else
 
     {{-- ARSIP SK KGB --}}
-    <div class="bg-white/50 backdrop-blur-3xl lg:bg-white lg:backdrop-blur-none rounded-[1.5rem] border border-blue-100 lg:border-slate-100 shadow-xl shadow-blue-500/10 lg:shadow-sm lg:shadow-black/5 overflow-hidden transition hover:shadow-2xl hover:shadow-blue-500/20 lg:hover:shadow-md lg:hover:shadow-black/10">
+    <div class="bg-white rounded-[1.5rem] border border-slate-100 shadow-sm shadow-black/5 overflow-hidden transition hover:shadow-md hover:shadow-black/10">
         @if($riwayatKgb->isEmpty())
             <div class="p-10 text-center text-gray-400 space-y-2">
                 <div class="text-3xl mb-2"></div>
@@ -60,34 +60,34 @@
                 <table class="tabel-hp w-full text-sm text-left">
                     <thead class="bg-blue-200/60 text-xs text-blue-900 uppercase tracking-wider border-b border-gray-100">
                         <tr>
-                            <th class="px-6 py-3 text-left whitespace-nowrap">Nomor SK</th>
-                            <th class="px-6 py-3 text-center whitespace-nowrap">Tgl Ditetapkan</th>
-                            <th class="px-6 py-3 text-center whitespace-nowrap">TMT Baru</th>
-                            <th class="px-6 py-3 text-center whitespace-nowrap">Gaji Pokok Baru</th>
-                            <th class="px-6 py-3 text-center whitespace-nowrap">Status</th>
-                            <th class="px-6 py-3 text-center whitespace-nowrap">Aksi</th>
+                            <th class="px-4 py-3 text-left whitespace-nowrap">Nomor SK</th>
+                            <th class="hidden xl:table-cell px-4 py-3 text-center whitespace-nowrap">Tgl Ditetapkan</th>
+                            <th class="px-4 py-3 text-center whitespace-nowrap">TMT Baru</th>
+                            <th class="px-4 py-3 text-center whitespace-nowrap">Gaji Pokok Baru</th>
+                            <th class="px-4 py-3 text-center whitespace-nowrap">Status</th>
+                            <th class="px-4 py-3 text-center whitespace-nowrap">Aksi</th>
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-gray-100">
                         @foreach($riwayatKgb as $index => $riwayat)
                             <tr class="hover:bg-white/40 transition">
-                                <td class="px-6 py-3 font-medium text-gray-800 text-left whitespace-nowrap">
+                                <td class="px-4 py-3 font-medium text-gray-800 text-left whitespace-nowrap">
                                     {{ $riwayat->nomor_sk_baru }}
                                     @if($index === 0)
-                                        <span class="ml-2 px-2 py-0.5 text-[9px] bg-green-100 text-green-700 rounded-md font-bold">Terbaru</span>
+                                        <span class="block w-fit mt-1 px-2 py-0.5 text-[9px] bg-green-100 text-green-700 rounded-md font-bold">Terbaru</span>
                                     @endif
                                 </td>
-                                <td class="px-6 py-3 text-gray-600 text-center whitespace-nowrap">{{ \Carbon\Carbon::parse($riwayat->tanggal_ditetapkan)->format('d/m/Y') }}</td>
-                                <td class="px-6 py-3 text-gray-600 text-center whitespace-nowrap">{{ \Carbon\Carbon::parse($riwayat->tmt_baru)->format('d/m/Y') }}</td>
-                                <td class="px-6 py-3 text-gray-600 text-center whitespace-nowrap">Rp {{ number_format($riwayat->gaji_pokok_baru, 0, ',', '.') }}</td>
-                                <td class="px-6 py-3 text-gray-600 text-center whitespace-nowrap">
+                                <td class="hidden xl:table-cell px-4 py-3 text-gray-600 text-center whitespace-nowrap">{{ \Carbon\Carbon::parse($riwayat->tanggal_ditetapkan)->format('d/m/Y') }}</td>
+                                <td class="px-4 py-3 text-gray-600 text-center whitespace-nowrap">{{ \Carbon\Carbon::parse($riwayat->tmt_baru)->format('d/m/Y') }}</td>
+                                <td class="px-4 py-3 text-gray-600 text-center whitespace-nowrap">Rp {{ number_format($riwayat->gaji_pokok_baru, 0, ',', '.') }}</td>
+                                <td class="px-4 py-3 text-gray-600 text-center whitespace-nowrap">
                                     @if($riwayat->status === 'Final')
                                         <span class="px-2 py-1 rounded-md text-xs font-medium bg-green-50 text-green-700 border border-green-100">Final (TTE)</span>
                                     @else
                                         <span class="px-2 py-1 rounded-md text-xs font-medium bg-yellow-50 text-yellow-700 border border-yellow-100">Draf (Menunggu TTE)</span>
                                     @endif
                                 </td>
-                                <td class="px-6 py-3 text-center whitespace-nowrap">
+                                <td class="px-4 py-3 text-center whitespace-nowrap">
                                      @if($riwayat->status === 'Final' && $riwayat->file_sk_final)
                                         <a href="{{ route('pegawai.sk.download', $riwayat) }}"
                                            onclick="window.dispatchEvent(new CustomEvent('show-toast', { detail: { message: 'Dokumen SK KGB Final berhasil diunduh!', type: 'success' } }))"

@@ -278,7 +278,7 @@
         document.addEventListener('alpine:init', () => {})
     </script>
     <x-global-delete-modal />
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.26.25/dist/sweetalert2.all.min.js" integrity="sha384-nLoOnA/BDh8A/jxqtckg4DumuCGOBYUnNJLZdQz/zfYNp3wcjGSoWTAzgko06G/2" crossorigin="anonymous"></script>
     @stack('scripts')
     @include('partials.gaya-kaca')
     @include('partials.tabel-hp')

@@ -47,7 +47,7 @@
         <!-- STATS CARDS -->
         <div class="grid grid-cols-1 md:grid-cols-2 gap-5 mt-4">
             <!-- Waktu Menuju KGB -->
-            <div class="bg-white/50 backdrop-blur-3xl lg:bg-white lg:backdrop-blur-none rounded-[1.5rem] border border-blue-100 lg:border-slate-100 shadow-xl shadow-blue-500/10 lg:shadow-sm lg:shadow-black/5 p-5 flex flex-col gap-1 transition hover:shadow-2xl hover:shadow-blue-500/20 lg:hover:shadow-md lg:hover:shadow-black/10 hover:-translate-y-0.5">
+            <div class="bg-white rounded-[1.5rem] border border-slate-100 shadow-sm shadow-black/5 p-5 flex flex-col gap-1 transition hover:shadow-md hover:shadow-black/10 hover:-translate-y-0.5">
                 <p class="text-sm text-gray-500 font-semibold mb-1">Sisa Waktu KGB</p>
                 @if($selisihHari === null)
                     <p class="text-2xl font-bold text-gray-800">-</p>
@@ -60,7 +60,7 @@
             </div>
 
             <!-- Gaji Pokok -->
-            <div class="bg-white/50 backdrop-blur-3xl lg:bg-white lg:backdrop-blur-none rounded-[1.5rem] border border-blue-100 lg:border-slate-100 shadow-xl shadow-blue-500/10 lg:shadow-sm lg:shadow-black/5 p-5 flex flex-col gap-1 transition hover:shadow-2xl hover:shadow-blue-500/20 lg:hover:shadow-md lg:hover:shadow-black/10 hover:-translate-y-0.5">
+            <div class="bg-white rounded-[1.5rem] border border-slate-100 shadow-sm shadow-black/5 p-5 flex flex-col gap-1 transition hover:shadow-md hover:shadow-black/10 hover:-translate-y-0.5">
                 <p class="text-sm text-gray-500 font-semibold mb-1">Gaji Pokok Saat Ini</p>
                 <p class="text-2xl font-bold text-emerald-600">Rp {{ number_format($pegawai->gaji_pokok_terakhir, 0, ',', '.') }}</p>
                 <p class="text-xs text-gray-400 mt-auto pt-2">TMT Terakhir: <span class="font-medium text-gray-600">{{ $tmtGajiTerakhir ? $tmtGajiTerakhir->translatedFormat('d F Y') : '-' }}</span></p>
@@ -69,7 +69,7 @@
         </div>
 
         <!-- PROGRESS BAR KGB -->
-        <div class="bg-white/50 backdrop-blur-3xl lg:bg-white lg:backdrop-blur-none rounded-[1.5rem] border border-blue-100 lg:border-slate-100 shadow-xl shadow-blue-500/10 lg:shadow-sm lg:shadow-black/5 p-6 transition hover:shadow-2xl hover:shadow-blue-500/20 lg:hover:shadow-md lg:hover:shadow-black/10">
+        <div class="bg-white rounded-[1.5rem] border border-slate-100 shadow-sm shadow-black/5 p-6 transition hover:shadow-md hover:shadow-black/10">
             <h3 class="font-semibold text-gray-800 mb-6">Progres Kenaikan Gaji Berkala (Siklus 2 Tahun)</h3>
                 @if($tmtGajiTerakhir)
                     <div class="relative w-full bg-blue-100/50 rounded-full h-4 mb-2 overflow-hidden shadow-inner border border-blue-200/30">
@@ -93,7 +93,7 @@
         </div>
 
         <!-- TABEL DATA PEGAWAI -->
-        <div class="bg-white/50 backdrop-blur-3xl lg:bg-white lg:backdrop-blur-none rounded-[1.5rem] border border-blue-100 lg:border-slate-100 shadow-xl shadow-blue-500/10 lg:shadow-sm lg:shadow-black/5 overflow-hidden mt-2 relative transition hover:shadow-2xl hover:shadow-blue-500/20 lg:hover:shadow-md lg:hover:shadow-black/10">
+        <div class="bg-white rounded-[1.5rem] border border-slate-100 shadow-sm shadow-black/5 overflow-hidden mt-2 relative transition hover:shadow-md hover:shadow-black/10">
             <div class="h-3 bg-gradient-to-r from-[#0B3E6A] to-[#234A9F] relative"></div>
             <div class="px-6 pb-6 relative">
                 <div class="pt-6 flex flex-col md:flex-row justify-between md:items-end gap-4">
@@ -105,7 +105,7 @@
                         <span class="inline-flex items-center px-2.5 py-1 rounded-md text-xs font-medium bg-gray-100 text-gray-800 border border-white/50">
                             {{ ($pegawai->pangkat ?? '-') . ' (' . ($pegawai->golongan ?? '-') . ')' }}
                         </span>
-                        <span class="inline-flex items-center px-2.5 py-1 rounded-md text-xs font-medium bg-blue-50 text-blue-700 border border-blue-100 lg:border-slate-100">
+                        <span class="inline-flex items-center px-2.5 py-1 rounded-md text-xs font-medium bg-blue-50 text-blue-700 border border-slate-100">
                             {{ $pegawai->jabatan ?? 'Jabatan -' }}
                         </span>
                     </div>

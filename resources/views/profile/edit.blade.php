@@ -24,7 +24,7 @@
         </div>
     @endif
 
-    <div class="bg-white/50 backdrop-blur-3xl lg:bg-white lg:backdrop-blur-none rounded-[1.5rem] border border-blue-100 lg:border-slate-100 shadow-xl shadow-blue-500/10 lg:shadow-sm lg:shadow-black/5 p-6 md:p-8 transition hover:shadow-2xl hover:shadow-blue-500/20 lg:hover:shadow-md lg:hover:shadow-black/10">
+    <div class="bg-white rounded-[1.5rem] border border-slate-100 shadow-sm shadow-black/5 p-6 md:p-8 transition hover:shadow-md hover:shadow-black/10">
         <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
             
             {{-- INFORMASI PROFIL --}}

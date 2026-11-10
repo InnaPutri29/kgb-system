@@ -11,7 +11,7 @@
         <a href="{{ route('admin.users.index') }}" class="inline-flex items-center gap-1 text-sm bg-white text-gray-700 hover:bg-gray-50 px-3 py-1.5 rounded-lg transition font-medium border border-gray-300">Kembali</a>
     </div>
 
-    <div class="bg-white/50 backdrop-blur-3xl lg:bg-white lg:backdrop-blur-none rounded-[1.5rem] border border-blue-100 lg:border-slate-100 shadow-xl shadow-blue-500/10 lg:shadow-sm lg:shadow-black/5 p-6 md:p-8">
+    <div class="bg-white rounded-[1.5rem] border border-slate-100 shadow-sm shadow-black/5 p-6 md:p-8">
         <form action="{{ route('admin.users.store') }}" method="POST">
             @csrf
             
