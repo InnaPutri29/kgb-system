@@ -20,7 +20,7 @@
         </div>
     </div>
 
-    <div class="bg-white/50 backdrop-blur-3xl lg:bg-white lg:backdrop-blur-none rounded-[1.5rem] border border-white/80 border-t-white shadow-[0_8px_32px_0_rgba(31,38,135,0.07)] overflow-hidden relative mt-4">
+    <div class="bg-white rounded-[1.5rem] border border-white/80 border-t-white shadow-[0_8px_32px_0_rgba(31,38,135,0.07)] overflow-hidden relative mt-4">
         <div class="h-3 bg-gradient-to-r from-[#0B3E6A] to-[#234A9F] relative"></div>
         <div class="px-6 pb-6 relative">
             <div class="pt-6 flex flex-col md:flex-row justify-between md:items-end gap-4">

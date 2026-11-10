@@ -11,7 +11,7 @@
                 <svg class="w-5 h-5 shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/></svg>
                 Petunjuk Import Excel
             </h3>
-            <a href="{{ route('admin.pegawai.import.template') }}" class="inline-flex items-center gap-2 bg-white/40 backdrop-blur-xl border border-blue-300 text-blue-700 hover:bg-blue-100 hover:text-blue-800 px-3 py-1.5 rounded-lg text-sm font-medium transition shadow-sm shrink-0">
+            <a href="{{ route('admin.pegawai.import.template') }}" class="inline-flex items-center gap-2 bg-white border border-blue-300 text-blue-700 hover:bg-blue-100 hover:text-blue-800 px-3 py-1.5 rounded-lg text-sm font-medium transition shadow-sm shrink-0">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
                 Unduh Template Excel
             </a>
@@ -26,7 +26,7 @@
     </div>
 
     {{-- Kolom yang Diharapkan --}}
-    <div class="bg-white/40 backdrop-blur-xl rounded-xl border border-white/50 p-5">
+    <div class="bg-white rounded-[1.5rem] border border-slate-100 shadow-sm shadow-black/5 p-5">
         <h3 class="font-semibold text-gray-700 mb-3">Kolom yang Diharapkan pada File Excel</h3>
         <div class="grid grid-cols-2 gap-2 text-sm">
             @foreach(['nip','nama','email','pangkat','golongan','jabatan','kantor_tempat_kerja','tmt_gaji_terakhir','masa_kerja_tahun','masa_kerja_bulan','gaji_pokok_terakhir','nomor_sk_terakhir','tanggal_sk_terakhir', 'pkp_tahun_1', 'pkp_predikat_1', 'pkp_tahun_2', 'pkp_predikat_2'] as $col)
@@ -40,7 +40,7 @@
     </div>
 
     {{-- Form Upload --}}
-    <div class="bg-white/40 backdrop-blur-xl rounded-xl border border-white/50 p-6">
+    <div class="bg-white rounded-[1.5rem] border border-slate-100 shadow-sm shadow-black/5 p-6">
         <h2 class="font-semibold text-gray-800 mb-5">Unggah File Excel</h2>
 
         <form action="{{ route('admin.pegawai.import.store') }}" method="POST" enctype="multipart/form-data" x-data="{ loading: false, fileName: '' }" @submit="if(fileName) { loading = true }">

@@ -33,7 +33,7 @@
     </div>
 
     {{-- TABEL NOMINATIF --}}
-    <div class="bg-white/50 backdrop-blur-3xl lg:bg-white lg:backdrop-blur-none rounded-[1.5rem] border border-blue-100 lg:border-slate-100 shadow-xl shadow-blue-500/10 lg:shadow-sm lg:shadow-black/5 overflow-hidden transition hover:shadow-2xl hover:shadow-blue-500/20 lg:hover:shadow-md lg:hover:shadow-black/10">
+    <div class="bg-white rounded-[1.5rem] border border-slate-100 shadow-sm shadow-black/5 overflow-hidden transition hover:shadow-md hover:shadow-black/10">
         @if($daftarNominatif->isEmpty())
             <div class="flex flex-col items-center justify-center py-20 text-gray-400">
                 <svg class="w-16 h-16 mb-4 text-gray-200" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
@@ -384,7 +384,7 @@
                                         class="px-4 py-2 text-sm text-gray-500 hover:bg-gray-100 cursor-pointer">
                                         -- Batal Pilih --
                                     </li>
-                                    <template x-for="p in dataModal.pejabat_list.filter(i => (i.nama_pejabat || '').toLowerCase().includes(search.toLowerCase()) || (i.nama_jabatan || '').toLowerCase().includes(search.toLowerCase()))" :key="p.id">
+                                    <template x-for="p in (dataModal.pejabat_list || []).filter(i => (i.nama_pejabat || '').toLowerCase().includes(search.toLowerCase()) || (i.nama_jabatan || '').toLowerCase().includes(search.toLowerCase()))" :key="p.id">
                                         <li @click="form.master_pejabat_id = p.id; form.selectedPejabatText = `${p.nama_pejabat} (${p.nama_jabatan})`; open = false" 
                                             class="px-4 py-2 text-sm hover:bg-indigo-50 cursor-pointer flex flex-col gap-0.5 border-l-2 transition-colors"
                                             :class="form.master_pejabat_id == p.id ? 'bg-indigo-50 border-indigo-500' : 'border-transparent'">
